@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>Tags - 标签 - Lvsj&#39;s blog</title>
-    <link>http://localhost/tags/</link>
+    <link>/website/tags/</link>
     <description>Tags - 标签 - Lvsj&#39;s blog</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 22 Nov 2022 18:06:28 &#43;0800</lastBuildDate><atom:link href="http://localhost/tags/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 22 Nov 2022 18:06:28 &#43;0800</lastBuildDate><atom:link href="/website/tags/" rel="self" type="application/rss+xml" /><item>
   <title>draft</title>
-  <link>http://localhost/tags/draft/</link>
+  <link>/website/tags/draft/</link>
   <pubDate>Tue, 22 Nov 2022 18:06:28 &#43;0800</pubDate>
   <author>作者</author>
-  <guid>http://localhost/tags/draft/</guid>
+  <guid>/website/tags/draft/</guid>
   <description><![CDATA[]]></description>
 </item>
 </channel>
