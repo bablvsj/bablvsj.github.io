@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ES5中的严格模式 - Lvsj&#39;s blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行" /><meta name="keywords" content='Hugo, FixIt' /><meta itemprop="name" content="ES5中的严格模式">
+<meta itemprop="description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行"><meta itemprop="datePublished" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="dateModified" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="wordCount" content="1165">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="ES5中的严格模式" />
+<meta property="og:description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-22T17:11:35+08:00" />
+<meta property="article:modified_time" content="2022-11-22T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ES5中的严格模式"/>
+<meta name="twitter:description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" /><link rel="prev" href="http://localhost/posts/04-es6%E5%8F%98%E9%87%8F-letconst-%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/" /><link rel="next" href="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ES5中的严格模式",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost\/posts\/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F\/"
+    },"genre": "posts","wordcount":  1165 ,
+    "url": "http:\/\/localhost\/posts\/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F\/","datePublished": "2022-11-22T17:11:35+08:00","dateModified": "2022-11-22T17:11:35+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="Lvsj&#39;s blog"
+    title="Lvsj&#39;s blog"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              >文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="/fixit.min.svg"
+    title="/fixit.min.svg"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                >文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX">
+        <span>ES5中的严格模式</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span></div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;17:11:35><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 1165 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 3 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#es-的几个重要版本">ES 的几个重要版本</a></li>
+    <li><a href="#严格模式的理解">严格模式的理解</a>
+      <ul>
+        <li><a href="#概念">概念</a></li>
+        <li><a href="#使用">使用</a></li>
+        <li><a href="#语法和行为改变">语法和行为改变</a></li>
+      </ul>
+    </li>
+    <li><a href="#严格模式和普通模式的区别">严格模式和普通模式的区别</a>
+      <ul>
+        <li><a href="#全局变量显式声明">全局变量显式声明</a></li>
+        <li><a href="#禁止-this-关键字指向全局对象">禁止 this 关键字指向全局对象：</a></li>
+        <li><a href="#创设-eval-作用域">创设 eval 作用域</a></li>
+        <li><a href="#禁止使用-with-语句">禁止使用 with 语句</a></li>
+        <li><a href="#构造函数必须通过-new-实例化对象">构造函数必须通过 new 实例化对象</a></li>
+        <li><a href="#为了让代码更安全禁止函数内部遍历调用栈">为了让代码更安全，禁止函数内部遍历调用栈</a></li>
+        <li><a href="#严格模式下无法删除变量">严格模式下无法删除变量</a></li>
+        <li><a href="#属性相关">属性相关</a></li>
+        <li><a href="#函数必须声明在顶层">函数必须声明在顶层</a></li>
+        <li><a href="#新增关键字">新增关键字</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="es-的几个重要版本">ES 的几个重要版本</h2>
+<ul>
+<li>
+<p>ES5 : 09 年发布。</p>
+</li>
+<li>
+<p>ES6(ES2015) : 2015 年发布，也称为 ECMA2015。</p>
+</li>
+<li>
+<p>ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。</p>
+</li>
+</ul>
+<h2 id="严格模式的理解">严格模式的理解</h2>
+<h3 id="概念">概念</h3>
+<p><strong>理解</strong>：除了正常运行模式(混杂模式)，ES5 添加了第二种运行模式：&ldquo;严格模式&rdquo;（strict mode）。</p>
+<p>顾名思义，这种模式使得 Javascript 在更严格的语法条件下运行。</p>
+<p><strong>目的</strong>：</p>
+<ul>
+<li>
+<p>消除 Javascript 语法的一些不合理、不严谨之处，减少一些怪异行为</p>
+</li>
+<li>
+<p>消除代码运行的一些不安全之处，为代码的安全运行保驾护航</p>
+</li>
+<li>
+<p>为未来新版本的 Javascript 做好铺垫</p>
+</li>
+</ul>
+<h3 id="使用">使用</h3>
+<ul>
+<li>
+<p>针对整个脚本文件：将<code>use strict</code>放在脚本文件的第一行，则整个脚本文件将以严格模式运行。</p>
+</li>
+<li>
+<p>针对单个函数：将<code>use strict</code>放在函数体的第一行，则整个函数以严格模式运行。</p>
+</li>
+</ul>
+<p>PS：如果浏览器不支持，则这句话只解析为一条简单的语句, 没有任何副作用。</p>
+<p>脚本文件的变通写法：因为第一种调用方法不利于文件合并，所以更好的做法是，借用第二种方法，将整个脚本文件放在一个立即执行的匿名函数之中。</p>
+<h3 id="语法和行为改变">语法和行为改变</h3>
+<ul>
+<li>
+<p>必须用 var 声明变量</p>
+</li>
+<li>
+<p>禁止自定义的函数中的 this 指向 window</p>
+</li>
+<li>
+<p>创建 eval 作用域</p>
+</li>
+<li>
+<p>对象不能有重名的属性</p>
+</li>
+</ul>
+<h2 id="严格模式和普通模式的区别">严格模式和普通模式的区别</h2>
+<blockquote>
+<p>下面列举几条严格模式的内容。</p>
+</blockquote>
+<h3 id="全局变量显式声明">全局变量显式声明</h3>
+<p>在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。严格模式禁止这种用法，全局变量必须显式声明。</p>
+<h3 id="禁止-this-关键字指向全局对象">禁止 this 关键字指向全局对象：</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span><span class="p">();</span>
+</span></span></code></pre></div><p>上方代码中，普通模式打印的是 window。严格模式下打印的是 undefined。</p>
+<h3 id="创设-eval-作用域">创设 eval 作用域</h3>
+<h3 id="禁止使用-with-语句">禁止使用 with 语句</h3>
+<p>因为 with 语句无法在编译时就确定，属性到底归属哪个对象。</p>
+<h3 id="构造函数必须通过-new-实例化对象">构造函数必须通过 new 实例化对象</h3>
+<p>构造函数必须通过 new 实例化对象，否则报错。因为 this 为 undefined，此时无法设置属性。</p>
+<p>比如说：</p>
+<pre tabindex="0"><code>        var Cat = function (name) {
+            this.name = name;
+        }
+
+        Cat(&#39;haha&#39;);
+</code></pre><p>上方代码中，如果在严格模式下，则会报错。</p>
+<h3 id="为了让代码更安全禁止函数内部遍历调用栈">为了让代码更安全，禁止函数内部遍历调用栈</h3>
+<h3 id="严格模式下无法删除变量">严格模式下无法删除变量</h3>
+<h3 id="属性相关">属性相关</h3>
+<p>普通模式下，对一个对象的只读属性进行赋值，不会报错，只会默默地失败。严格模式下，将报错。</p>
+<p>严格模式下，对禁止扩展的对象添加新属性，会报错。</p>
+<p>普通模式下，如果对象有多个重名属性，最后赋值的那个属性会覆盖前面的值。严格模式下，这属于语法错误。</p>
+<p>普通模式下，如果函数有多个重名的参数，可以用 arguments[i]读取。严格模式下，多个重名的参数属于语法错误。</p>
+<p>比如下面这样的代码：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;smyh&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;vae&#39;</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span></code></pre></div><p>上面的代码，在严格模式下属于语法错误，因为有重名的属性。</p>
+<h3 id="函数必须声明在顶层">函数必须声明在顶层</h3>
+<p>将来 Javascript 的新版本会引入&quot;块级作用域&quot;。为了与新版本接轨，严格模式只允许在全局作用域或函数作用域的顶层声明函数。也就是说，不允许在非函数的代码块内声明函数。</p>
+<h3 id="新增关键字">新增关键字</h3>
+<p>为了向将来 Javascript 的新版本过渡，严格模式新增了一些保留字：implements, interface, let, package, private, protected, public, static, yield。</p>
+<h2 id="总结">总结</h2>
+<p>至少要能答出四五条。</p>
+<p>参考链接：</p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html"target="_blank" rel="external nofollow noopener noreferrer">阮一峰 | Javascript 严格模式详解</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-11-22&#32;17:11:35>更新于 2022-11-22&nbsp;</span>
+      </div><div class="post-info-license">
+          <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+        </div></div>
+    <div class="post-info-line">
+      <div class="post-info-md"></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" data-title="ES5中的严格模式"><i class="fa-brands fa-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" data-title="ES5中的严格模式"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/04-es6%E5%8F%98%E9%87%8F-letconst-%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="post-nav-item" rel="prev" title="let、const和块级作用域"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>let、const和块级作用域</a>
+      <a href="/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" class="post-nav-item" rel="next" title="ES5的一些扩展">ES5的一些扩展<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.106.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.2.17-RC"><img class="fixit-icon" src="/fixit.min.svg" alt="FixIt logo" />&nbsp;FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":30}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

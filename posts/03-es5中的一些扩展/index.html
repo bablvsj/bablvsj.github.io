@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ES5的一些扩展 - Lvsj&#39;s blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="JSON 对象 1、js对象(数组) &ndash;&gt; json对象(数组)： JSON.stringify(obj/arr) 2、json对象(数组) &ndash;&gt; js对象(数组)： JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要记住" /><meta name="keywords" content='Hugo, FixIt' /><meta itemprop="name" content="ES5的一些扩展">
+<meta itemprop="description" content="JSON 对象 1、js对象(数组) &ndash;&gt; json对象(数组)： JSON.stringify(obj/arr) 2、json对象(数组) &ndash;&gt; js对象(数组)： JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要记住"><meta itemprop="datePublished" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="dateModified" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="wordCount" content="1550">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="ES5的一些扩展" />
+<meta property="og:description" content="JSON 对象 1、js对象(数组) &ndash;&gt; json对象(数组)： JSON.stringify(obj/arr) 2、json对象(数组) &ndash;&gt; js对象(数组)： JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要记住" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-22T17:11:35+08:00" />
+<meta property="article:modified_time" content="2022-11-22T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ES5的一些扩展"/>
+<meta name="twitter:description" content="JSON 对象 1、js对象(数组) &ndash;&gt; json对象(数组)： JSON.stringify(obj/arr) 2、json对象(数组) &ndash;&gt; js对象(数组)： JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要记住"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" /><link rel="prev" href="http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" /><link rel="next" href="http://localhost/posts/first/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ES5的一些扩展",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost\/posts\/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95\/"
+    },"genre": "posts","wordcount":  1550 ,
+    "url": "http:\/\/localhost\/posts\/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95\/","datePublished": "2022-11-22T17:11:35+08:00","dateModified": "2022-11-22T17:11:35+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="Lvsj&#39;s blog"
+    title="Lvsj&#39;s blog"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              >文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="/fixit.min.svg"
+    title="/fixit.min.svg"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                >文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX">
+        <span>ES5的一些扩展</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      Anonymous</span></span></div>
+      <div class="post-meta-line"><span title=2022-11-22&#32;17:11:35><i class="fa-regular fa-calendar-alt fa-fw" aria-hidden="true"></i>&nbsp;<time datetime="2022-11-22">2022-11-22</time></span>&nbsp;<span><i class="fa-solid fa-pencil-alt fa-fw" aria-hidden="true"></i> 约 1550 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw" aria-hidden="true"></i> 预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#json-对象">JSON 对象</a></li>
+    <li><a href="#object的扩展">Object的扩展</a>
+      <ul>
+        <li><a href="#方法一">方法一</a></li>
+        <li><a href="#方法二">方法二</a></li>
+      </ul>
+    </li>
+    <li><a href="#object的扩展二">Object的扩展（二）</a></li>
+    <li><a href="#数组的扩展">数组的扩展</a></li>
+    <li><a href="#函数function的扩展bind">函数function的扩展：bind()</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="json-对象">JSON 对象</h2>
+<p>1、js对象(数组) &ndash;&gt; json对象(数组)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">obj</span><span class="o">/</span><span class="nx">arr</span><span class="p">)</span>
+</span></span></code></pre></div><p>2、json对象(数组) &ndash;&gt; js对象(数组)：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json</span><span class="p">)</span>
+</span></span></code></pre></div><p>上面这两个方法是ES5中提供的。</p>
+<p>我们要记住，我们通常说的“json字符串”，只有两种：<strong>json对象、json数组</strong>。</p>
+<p><code>typeof json字符串</code>的返回结果是string。</p>
+<h2 id="object的扩展">Object的扩展</h2>
+<p>ES5给Object扩展了一些静态方法，常用的有2个，我们接下来讲解。</p>
+<h3 id="方法一">方法一</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">[</span><span class="nx">descriptors</span><span class="p">])</span>
+</span></span></code></pre></div><p>作用: 以指定对象为原型，创建新的对象。同时，第二个参数可以为为新的对象添加新的属性，并对此属性进行描述。</p>
+<p><strong>举例1</strong>：（没有第二个参数时）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;smyhvae&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span> <span class="mi">26</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span><span class="nx">address</span><span class="o">:</span><span class="s1">&#39;shenzhen&#39;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">obj2</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">obj1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">);</span>
+</span></span></code></pre></div><p>打印结果：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20180401_2150.png"
+    data-srcset="http://img.smyhvae.com/20180401_2150.png, http://img.smyhvae.com/20180401_2150.png 1.5x, http://img.smyhvae.com/20180401_2150.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20180401_2150.png"
+    title="http://img.smyhvae.com/20180401_2150.png"/></p>
+<p>我们发现，obj1成为了obj2的原型。</p>
+<p><strong>举例2</strong>：（有第二个参数时）</p>
+<p>第二个参数可以给新的对象添加新的属性。我们修改上面的代码，尝试给obj2添加新属性<code>sex</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj1</span> <span class="o">=</span> <span class="p">{</span><span class="nx">username</span><span class="o">:</span> <span class="s1">&#39;smyhvae&#39;</span><span class="p">,</span> <span class="nx">age</span><span class="o">:</span> <span class="mi">26</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span><span class="nx">address</span><span class="o">:</span> <span class="s1">&#39;shenzhen&#39;</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">obj2</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">obj1</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">sex</span><span class="o">:</span> <span class="p">{</span><span class="c1">//给obj2添加新的属性`sex`。注意，这一行的冒号不要漏掉
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;男&#39;</span><span class="p">,</span>  <span class="c1">//通过value关键字设置sex的属性值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nx">writable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">);</span>
+</span></span></code></pre></div><p>上方代码中，我们通过第5行的sex给obj2设置了一个新的属性<code>sex</code>，但是要通过<code>value</code>来设置属性值（第6行）。</p>
+<p>设置完属性值后，这个属性值默认是不可修改的，要通过<code>writable</code>来设置。总而言之，这几个关键字的解释如下：</p>
+<ul>
+<li>
+<p><code>value</code>：设置属性值。</p>
+</li>
+<li>
+<p><code>writable</code>：标识当前属性值是否可修改。如果不写的话，默认为false，不可修改。</p>
+</li>
+<li>
+<p><code>configurable</code>：标识当前属性是否可以被删除。默认为false，不可删除。</p>
+</li>
+<li>
+<p><code>enumerable</code>：标识当前属性是否能用 for in 枚举。 默认为false，不可。</p>
+</li>
+</ul>
+<h3 id="方法二">方法二</h3>
+<blockquote>
+<p>这个方法有点难理解。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">descriptors</span><span class="p">)</span>
+</span></span></code></pre></div><p><strong>作用</strong>：为指定对象定义扩展多个属性。</p>
+<p>代码举例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj2</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">firstName</span> <span class="o">:</span> <span class="s1">&#39;smyh&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">lastName</span> <span class="o">:</span> <span class="s1">&#39;vae&#39;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperties</span><span class="p">(</span><span class="nx">obj2</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">fullName</span> <span class="o">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">get</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span>
+</span></span><span class="line"><span class="cl">            <span class="p">},</span>
+</span></span><span class="line"><span class="cl">            <span class="nx">set</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">//监听扩展属性，当扩展属性发生变化的时候自动调用，自动调用后将变化的值作为实参注入到set函数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>                <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">names</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">names</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">.</span><span class="nx">fullName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">obj2</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="s1">&#39;tim&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">obj2</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="s1">&#39;duncan&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">.</span><span class="nx">fullName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">obj2</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="s1">&#39;kobe-bryant&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj2</span><span class="p">.</span><span class="nx">fullName</span><span class="p">);</span>
+</span></span></code></pre></div><ul>
+<li>
+<p>get ：用来获取当前属性值的回调函数</p>
+</li>
+<li>
+<p>set ：修改当前属性值得触发的回调函数，并且实参即为修改后的值</p>
+</li>
+</ul>
+<p>存取器属性：setter,getter一个用来存值，一个用来取值。</p>
+<h2 id="object的扩展二">Object的扩展（二）</h2>
+<p>obj对象本身就自带了两个方法。格式如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">get</span> <span class="nx">属性名</span><span class="p">(){}</span> <span class="nx">用来得到当前属性值的回调函数</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">set</span> <span class="nx">属性名</span><span class="p">(){}</span> <span class="nx">用来监视当前属性值变化的回调函数</span>
+</span></span></code></pre></div><p>举例如下：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">firstName</span> <span class="o">:</span> <span class="s1">&#39;kobe&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">lastName</span> <span class="o">:</span> <span class="s1">&#39;bryant&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">get</span> <span class="nx">fullName</span><span class="p">(){</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span>
+</span></span><span class="line"><span class="cl">        <span class="p">},</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">set</span> <span class="nx">fullName</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">            <span class="kd">var</span> <span class="nx">names</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">firstName</span> <span class="o">=</span> <span class="nx">names</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">this</span><span class="p">.</span><span class="nx">lastName</span> <span class="o">=</span> <span class="nx">names</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">fullName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">obj</span><span class="p">.</span><span class="nx">fullName</span> <span class="o">=</span> <span class="s1">&#39;curry stephen&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">fullName</span><span class="p">);</span>
+</span></span></code></pre></div><h2 id="数组的扩展">数组的扩展</h2>
+<blockquote>
+<p>下面讲的这几个方法，都是给数组的实例用的。</p>
+</blockquote>
+<blockquote>
+<p>下面提到的数组的这五个方法，更详细的内容，可以看《03-JavaScript基础/15-数组的常见方法.md》</p>
+</blockquote>
+<p><strong>方法1</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+</span></span></code></pre></div><p>作用：获取 value 在数组中的第一个下标。</p>
+<p><strong>方法2</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span>
+</span></span></code></pre></div><p>作用：获取 value 在数组中的最后一个下标。</p>
+<p><strong>方法3</strong>：遍历数组</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">){})</span>
+</span></span></code></pre></div><p><strong>方法4</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">){})</span>
+</span></span></code></pre></div><p>作用：遍历数组返回一个新的数组，返回的是<strong>加工之后</strong>的新数组。</p>
+<p><strong>方法5</strong>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">){})</span>
+</span></span></code></pre></div><p>作用：遍历过滤出一个新的子数组，返回条件为true的值。</p>
+<h2 id="函数function的扩展bind">函数function的扩展：bind()</h2>
+<blockquote>
+<p>ES5中新增了<code>bind()</code>函数来改变this的指向。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl">	<span class="nb">Function</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">obj</span><span class="p">)</span>
+</span></span></code></pre></div><p>作用：将函数内的this绑定为obj, 并将函数返回。</p>
+<p><strong>面试题</strong>: call()、apply()和bind()的区别：</p>
+<ul>
+<li>
+<p>都能改变this的指向</p>
+</li>
+<li>
+<p>call()/apply()是<strong>立即调用函数</strong></p>
+</li>
+<li>
+<p>bind()：绑定完this后，不会立即调用当前函数，而是<strong>将函数返回</strong>，因此后面还需要再加<code>()</code>才能调用。</p>
+</li>
+</ul>
+<p>PS：bind()传参的方式和call()一样。</p>
+<p><strong>分析</strong>：</p>
+<p>为什么ES5中要加入bind()方法来改变this的指向呢？因为bind()不会立即调用当前函数。</p>
+<p>bind()通常使用在回调函数中，因为回调函数并不会立即调用。如果你希望在回调函数中改变this，不妨使用bind()。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-11-22&#32;17:11:35>更新于 2022-11-22&nbsp;</span>
+      </div><div class="post-info-license">
+          <span><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+        </div></div>
+    <div class="post-info-line">
+      <div class="post-info-md"></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" data-title="ES5的一些扩展"><i class="fa-brands fa-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/" data-title="ES5的一些扩展"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/" class="post-nav-item" rel="prev" title="ES5中的严格模式"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>ES5中的严格模式</a>
+      <a href="/posts/first/" class="post-nav-item" rel="next" title="First">First<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.106.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.2.17-RC"><img class="fixit-icon" src="/fixit.min.svg" alt="FixIt logo" />&nbsp;FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":30}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

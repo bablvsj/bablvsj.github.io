@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ES^的介绍和环境配置 - Lvsj&#39;s blog</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（" /><meta name="keywords" content='Hugo, FixIt' /><meta itemprop="name" content="ES^的介绍和环境配置">
+<meta itemprop="description" content="前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（"><meta itemprop="datePublished" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="dateModified" content="2022-11-22T17:11:35+08:00" />
+<meta itemprop="wordCount" content="2043">
+<meta itemprop="keywords" content="" /><meta property="og:title" content="ES^的介绍和环境配置" />
+<meta property="og:description" content="前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://localhost/01-es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" /><meta property="article:section" content="" />
+<meta property="article:published_time" content="2022-11-22T17:11:35+08:00" />
+<meta property="article:modified_time" content="2022-11-22T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ES^的介绍和环境配置"/>
+<meta name="twitter:description" content="前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost/01-es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ES^的介绍和环境配置",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "http:\/\/localhost\/01-es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE\/"
+    },"genre": "page","wordcount":  2043 ,
+    "url": "http:\/\/localhost\/01-es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE\/","datePublished": "2022-11-22T17:11:35+08:00","dateModified": "2022-11-22T17:11:35+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "作者"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="Lvsj&#39;s blog"
+    title="Lvsj&#39;s blog"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/posts/"
+                
+                
+              >文章</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/categories/"
+                
+                
+              ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/tags/"
+                
+                
+              ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="Lvsj&#39;s blog"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/fixit.min.svg"
+    data-srcset="/fixit.min.svg, /fixit.min.svg 1.5x, /fixit.min.svg 2x"
+    data-sizes="auto"
+    alt="/fixit.min.svg"
+    title="/fixit.min.svg"/><span class="header-title-text">Lvsj&#39;s blog</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/posts/"
+                  
+                  
+                >文章</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/categories/"
+                  
+                  
+                ><i class="fa-solid fa-th fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/tags/"
+                  
+                  
+                ><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container" data-page-style="normal"><article class="page single special">
+    <div class="header"><h1 class="single-title animate__animated animate__pulse animate__faster">ES^的介绍和环境配置</h1></div><div
+      class="content"
+      id="content"
+      
+      
+    ><h2 id="前言">前言</h2>
+<h3 id="ecmascript-简介">ECMAScript 简介</h3>
+<p>ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套<strong>脚本语言的标准化规范</strong>。</p>
+<p>详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（Technical Committee 39，简称 TC39）负责制订 ECMAScript 标准，成员包括 Microsoft、Mozilla、Google 等公司。</p>
+<p>PS：简单来说，ECMAScript 是 JS 的语言标准。当然，ECMAScript 还包括其他脚本语言的语言标准。</p>
+<h3 id="ecmascript-版本发布记录">ECMAScript 版本发布记录</h3>
+<ul>
+<li>
+<p>1995 年：ECMAScript 诞生。</p>
+</li>
+<li>
+<p>1997 年：ECMAScript 标准确立。ECMA 发布 ECMA-262 标准，推出浏览器标准语言 ECMAScript 1.0。</p>
+</li>
+<li>
+<p>1999 年：发布 ES3；与此同时，IE5 风靡一时。</p>
+</li>
+<li>
+<p>2009 年：发布 ECMAScript 5.0（简称 ES5）。例如 foreach、Object.keys、Object.create 和 json 标准。</p>
+</li>
+<li>
+<p>2011 年：发布 ECMAScript5.1，成为 ISO 国际标准，从而推动所有浏览器都支持。</p>
+</li>
+<li>
+<p>2015 年 6 月：发布 ECMAScript 6（简称 ES6），即 ECMAScript 2015。（注意，<strong>前者是按版本号区分，后者是按年份区分</strong>。ES 的后续的版本，请尽量用<strong>年份</strong>来命名。）</p>
+</li>
+<li>
+<p>2016 年 6 月：发布 ECMAScript 7，即 ECMAScript 2016。</p>
+</li>
+<li>
+<p>2017 年 6 月：发布 ECMAScript 8，即 ECMAScript 2017。</p>
+</li>
+<li>
+<p>2018 年 6 月：发布 ECMAScript 9，即 ECMAScript 2018。</p>
+</li>
+<li>
+<p>2019 年 6 月：发布 ECMAScript 10，即 ECMAScript 2019。</p>
+</li>
+<li>
+<p>2020 年 6 月：发布 ECMAScript 11，即 ECMAScript 2020。</p>
+</li>
+<li>
+<p>&hellip;&hellip;</p>
+</li>
+</ul>
+<ul>
+<li>此后，每年更新一版。</li>
+</ul>
+<h3 id="es6-简介">ES6 简介</h3>
+<p>从上面的 ES 的版本记录可以看出：2015 年 6 月，ES6 正式发布。如果用年份来命名版本号，也可以称之为 ES2015。</p>
+<p>ES6 是新的 JS 语法标准。<strong>ES6 实际上是一个泛指，泛指 ES 2015 及后续的版本</strong>。</p>
+<p>很多人在做业务选型的时候，会倾向于选 jQuery。其实 jQuery 的语法是偏向于 ES3 的。而现在主流的框架 Vue.js 和 React.js 的默认语法，都是用的 ES6。</p>
+<p>ES6 的改进如下：</p>
+<ul>
+<li>
+<p>ES6 之前的变量提升，会导致程序在运行时有一些不可预测性。而 ES6 中通过 let、const 变量优化了这一点。</p>
+</li>
+<li>
+<p>ES6 增加了很多功能，比如：<strong>常量、作用域、对象代理、异步处理、类、继承</strong>等。这些在 ES5 中想实现，比较复杂，但是 ES6 对它们进行了封装。</p>
+</li>
+<li>
+<p>ES6 之前的语法过于松散，实现相同的功能，不同的人可能会写出不同的代码。</p>
+</li>
+</ul>
+<p>ES6 的目标是：让 JS 语言可以编写复杂的大型应用程序，成为企业级开发语言。</p>
+<h2 id="es6-的环境配置为了兼容-es5">ES6 的环境配置（为了兼容 ES5）</h2>
+<p>掌握 ES6 之后，如果要考虑 ES5 的兼容性，可以这样做：写 ES6 语法的 js 代码，然后通过 <code>Babel</code>将 ES6 转换为 ES5。</p>
+<p>babel 的作用是将 ES6 语法转为 ES5 语法，支持低端浏览器。</p>
+<p>但是，在这之前，我们需要配置一下相关的环境。</p>
+<h3 id="建立工程目录">建立工程目录</h3>
+<p>（1）先建立一个空的工程目录 <code>ES6Demo</code>，并在目录下建立两个文件夹 <code>src</code>和 <code>dist</code>：</p>
+<ul>
+<li>
+<p><code>src</code>：书写 ES6 代码，我们写的 js 程序都放在这里。</p>
+</li>
+<li>
+<p><code>dist</code>：利用 Babel 编译生成的 ES5 代码。<strong>我们在 HTML 页面需要引入 dist 里的 js 文件</strong>。</p>
+</li>
+</ul>
+<p>（2）在 src 里新建文件 <code>index.html</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-html" data-lang="html"><span class="line"><span class="cl"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">&#34;en&#34;</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&#34;UTF-8&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&#34;viewport&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;width=device-width, initial-scale=1.0&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">&#34;X-UA-Compatible&#34;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#34;ie=edge&#34;</span> <span class="p">/&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Document<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="c">&lt;!-- 我们引入 ES5 中的 js 文件，而不是引入 ES6 中的 js 文件。 --&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&#34;./dist/index.js&#34;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></span></code></pre></div><p><strong>注意</strong>，上方代码中，我们引入的是<code>dist</code>目录下的 js 文件。</p>
+<p>然后我们新建文件 <code>src/index.js</code>：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;smyhvae&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+</span></span></code></pre></div><p>这个文件是一个 ES6 语法 的 js 文件，稍后，我们尝试把这个 ES6 语法的 js 文件转化为 ES5 的 js 文件。</p>
+<p>PS：我们在写代码时，能用单引号尽量用单引号，而不是双引号，前者在压缩之后，程序执行会更快。</p>
+<h3 id="全局安装-babel-cli">全局安装 Babel-cli</h3>
+<p>（1）初始化项目：</p>
+<p>在安装 Babel 之前，需要先用 npm init 先初始化我们的项目。打开终端或者通过 cmd 打开命令行工具，进入项目目录，输入如下命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">	npm init -y
+</span></span></code></pre></div><p>上方代码中，<code>-y</code> 代表全部默认同意，就不用一次次按回车了（稍后再根据需要，在文件中手动修改）。命令执行完成后，会在项目的根目录下生成 package.json 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;es6demo&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;1.0.0&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;main&#34;</span><span class="p">:</span> <span class="s2">&#34;index.js&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;scripts&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nt">&#34;test&#34;</span><span class="p">:</span> <span class="s2">&#34;echo \&#34;Error: no test specified\&#34; &amp;&amp; exit 1&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;author&#34;</span><span class="p">:</span> <span class="s2">&#34;smyhvae&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;license&#34;</span><span class="p">:</span> <span class="s2">&#34;ISC&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>PS：VS Code 里打开终端的快捷键是：<code>Contol + ~</code>。</p>
+<p>（2）全局安装 Babel-cli：</p>
+<p>在终端中输入以下命令：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">	npm install -g babel-cli
+</span></span></code></pre></div><p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20180304_1305.png"
+    data-srcset="http://img.smyhvae.com/20180304_1305.png, http://img.smyhvae.com/20180304_1305.png 1.5x, http://img.smyhvae.com/20180304_1305.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20180304_1305.png"
+    title="http://img.smyhvae.com/20180304_1305.png"/></p>
+<p>如果安装比较慢的话，Mac 下可以使用<code>cnpm</code>进行安装 ，windows 下可以使用<code>nrm</code>切换到 taobao 的镜像。</p>
+<p>（3）本地安装 babel-preset-es2015 和 babel-cli：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">	npm install --save-dev babel-preset-es2015 babel-cli
+</span></span></code></pre></div><p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20180304_1307.png"
+    data-srcset="http://img.smyhvae.com/20180304_1307.png, http://img.smyhvae.com/20180304_1307.png 1.5x, http://img.smyhvae.com/20180304_1307.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20180304_1307.png"
+    title="http://img.smyhvae.com/20180304_1307.png"/></p>
+<p>安装完成后，会发现<code>package.json</code>文件，已经多了 devDependencies 选项：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20180304_1308.png"
+    data-srcset="http://img.smyhvae.com/20180304_1308.png, http://img.smyhvae.com/20180304_1308.png 1.5x, http://img.smyhvae.com/20180304_1308.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20180304_1308.png"
+    title="http://img.smyhvae.com/20180304_1308.png"/></p>
+<p>（4）新建.babelrc：</p>
+<p>在根目录下新建文件<code>.babelrc</code>，输入如下内容：</p>
+<pre tabindex="0"><code>{
+    &#34;presets&#34;:[
+        &#34;es2015&#34;
+    ],
+    &#34;plugins&#34;:[]
+}
+</code></pre><p>（5）开始转换：</p>
+<p>现在，我们应该可以将 ES6 的文件转化为 ES5 的文件了，命令如下：（此命令略显复杂）</p>
+<pre tabindex="0"><code>	babel src/index.js -o dist/index.js
+</code></pre><p>我们可以将上面这个命令进行简化一下。操作如下：</p>
+<p>在文件 <code>package.json</code> 中修改键 <code>scripts</code>中的内容：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl">  <span class="s2">&#34;scripts&#34;</span><span class="err">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;build&#34;</span><span class="p">:</span> <span class="s2">&#34;babel src/index.js -o dist/index.js&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span><span class="err">,</span>
+</span></span></code></pre></div><p>修改后的效果如下：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20180304_1315.png"
+    data-srcset="http://img.smyhvae.com/20180304_1315.png, http://img.smyhvae.com/20180304_1315.png 1.5x, http://img.smyhvae.com/20180304_1315.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20180304_1315.png"
+    title="http://img.smyhvae.com/20180304_1315.png"/></p>
+<p>目前为止，环境配置好了。以后，我们执行如下命令，即可将<code>src/index.js</code>这个 ES6 文件转化为 <code>dist/index.js</code>这个 ES5 文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">	npm run build
+</span></span></code></pre></div><p>我们执行上面的命令之后，会发现， dist 目录下会生成 ES5 的 js 文件：</p>
+<p>index.js：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;smyhvae&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+</span></span></code></pre></div><p>当我们打开网页后，就可以在浏览器的控制台，看到代码的输出结果。</p>
+<p>本段内容的参考链接：<a href="http://jspang.com/2017/06/03/es6/"target="_blank" rel="external nofollow noopener noreferrer">http://jspang.com/2017/06/03/es6/</a></p>
+<h2 id="我的公众号">我的公众号</h2>
+<p>想学习<strong>代码之外的技能</strong>？不妨关注我的微信公众号：<strong>千古壹号</strong>。</p>
+<p>扫一扫，你将发现另一个全新的世界，而这将是一场美丽的意外：</p>
+<p><img
+    class="lazyload"
+    src="/svg/loading.min.svg"
+    data-src="http://img.smyhvae.com/20200101.png"
+    data-srcset="http://img.smyhvae.com/20200101.png, http://img.smyhvae.com/20200101.png 1.5x, http://img.smyhvae.com/20200101.png 2x"
+    data-sizes="auto"
+    alt="http://img.smyhvae.com/20200101.png"
+    title="http://img.smyhvae.com/20200101.png"/></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.106.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.2.17-RC"><img class="fixit-icon" src="/fixit.min.svg" alt="FixIt logo" />&nbsp;FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a href="/"></a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">FixIt 主题在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/lunr/lunr.min.js" defer></script><script src="/lib/lunr/lunr.stemmer.support.min.js" defer></script><script src="/lib/lunr/lunr.zh.min.js" defer></script><script src="/lib/lazysizes/lazysizes.min.js" async defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrLanguageCode":"zh","lunrSegmentitURL":"/lib/lunr/lunr.segmentit.js","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":30}};</script><script src="/js/theme.min.js" defer></script></body>
+</html>

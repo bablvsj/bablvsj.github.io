@@ -1,0 +1,55 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>所有文章 - Lvsj&#39;s blog</title>
+    <link>http://localhost/posts/</link>
+    <description>所有文章 | Lvsj&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 22 Nov 2022 18:06:28 &#43;0800</lastBuildDate><atom:link href="http://localhost/posts/" rel="self" type="application/rss+xml" /><item>
+  <title>First_post</title>
+  <link>http://localhost/posts/first_post/</link>
+  <pubDate>Tue, 22 Nov 2022 18:06:28 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/first_post/</guid>
+  <description><![CDATA[]]></description>
+</item>
+<item>
+  <title>First</title>
+  <link>http://localhost/posts/first/</link>
+  <pubDate>Tue, 22 Nov 2022 17:16:34 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/first/</guid>
+  <description><![CDATA[hello world]]></description>
+</item>
+<item>
+  <title>ES5的一些扩展</title>
+  <link>http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/</link>
+  <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/</guid>
+  <description><![CDATA[JSON 对象 1、js对象(数组) &ndash;&gt; json对象(数组)： JSON.stringify(obj/arr) 2、json对象(数组) &ndash;&gt; js对象(数组)： JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要记住]]></description>
+</item>
+<item>
+  <title>ES5中的严格模式</title>
+  <link>http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/</link>
+  <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/02-es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F/</guid>
+  <description><![CDATA[ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行]]></description>
+</item>
+<item>
+  <title>let、const和块级作用域</title>
+  <link>http://localhost/posts/04-es6%E5%8F%98%E9%87%8F-letconst-%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</link>
+  <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/04-es6%E5%8F%98%E9%87%8F-letconst-%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</guid>
+  <description><![CDATA[ES6 的变量声明 ES5 中，使用 var 定义全局变量（ var 是 variable 的简写）。 ES6 中，新增了 let 和 const 来定义变量： let：定义局部变量，替代 var。 const：定义常量（]]></description>
+</item>
+<item>
+  <title>变量的解构赋值</title>
+  <link>http://localhost/posts/05-es6%E5%8F%98%E9%87%8F%E7%9A%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/</link>
+  <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+  <author>作者</author>
+  <guid>http://localhost/posts/05-es6%E5%8F%98%E9%87%8F%E7%9A%84%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/</guid>
+  <description><![CDATA[解构赋值的概念 解构赋值：ES6 允许我们，按照一一对应的方式，从数组或者对象中提取值，再将提取出来的值赋值给变量。 解构：分解数据结构；赋值：给]]></description>
+</item>
+</channel>
+</rss>
