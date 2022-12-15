@@ -370,21 +370,28 @@ header .header-item .autoMenu li:last-child {
   margin-top: 12px;
 }
 
+.autoMenu{
+  position: fixed;
+  left: 10%;
+  top: 100px;
+  width: 300px !important;
+}
+
 .post-header {
-  display: none;
+  /* display: none; */
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #d7d7d7;
 }
 
 .posts-line {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }
 
 .posts-line .posts-title {
-  width: 100%;
+  /* width: 100%; */
   font-size: 1.2rem;
   transition: all 0.1s linear;
   border-radius: 4px;
@@ -394,7 +401,7 @@ header .header-item .autoMenu li:last-child {
 }
 .posts-line .posts-title span {
   font-weight: 600;
-  font-size: 24px;
+  font-size: 22px;
 }
 .posts-line .posts-title:hover {
   color: #24282d;
