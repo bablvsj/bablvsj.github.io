@@ -8,8 +8,8 @@
   <meta name="toTop" content="true">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://lvsijun.gitee.io/website/tags/" />
-  <link rel="canonical" href="https://lvsijun.gitee.io/website/tags/" /><link rel="apple-touch-icon" href="https://cdn.zburu.com/favicon.ico" />
+  <meta property="og:url" content="https://lvsijun.gitee.io/website/search/" />
+  <link rel="canonical" href="https://lvsijun.gitee.io/website/search/" /><link rel="apple-touch-icon" href="https://cdn.zburu.com/favicon.ico" />
   <link rel="icon" href="https://cdn.zburu.com/favicon.ico" />
   <link rel="shortcut" href="https://cdn.zburu.com/favicon.ico" /><link rel="alternate" type="application/atom+xml" href="https://lvsijun.gitee.io/websiteindex.xml" title="Lvsj&#39;s blog">
 
@@ -21,9 +21,9 @@
            "@type": "WebPage",
            "@id": "https:\/\/lvsijun.gitee.io\/website"
       },
-      "articleSection" : "tags",
-      "name" : "Tags",
-      "headline" : "Tags",
+      "articleSection" : "",
+      "name" : "搜索",
+      "headline" : "搜索",
       "description" : "",
       "inLanguage" : "en-US",
       "author" : "",
@@ -34,11 +34,11 @@
       "copyrightYear" : "0001",
       "datePublished": "0001-01-01 00:00:00 \u002b0000 UTC",
       "dateModified" : "0001-01-01 00:00:00 \u002b0000 UTC",
-      "url" : "https:\/\/lvsijun.gitee.io\/website\/tags\/",
+      "url" : "https:\/\/lvsijun.gitee.io\/website\/search\/",
       "keywords" : [  ]
   }
-</script><title>Tags - Lvsj&#39;s blog</title>
-  <meta property="og:title" content="Tags" />
+</script><title>搜索 - Lvsj&#39;s blog</title>
+  <meta property="og:title" content="搜索" />
   <meta property="og:type" content="article" />
   <meta property="og:description" content="" />
   <meta name="description" content="" />
@@ -92,15 +92,34 @@
     </div>
   </header>
   <article>
-    <div class="post-header">
-      <h1 class="post-title">Tags</h1>
-    </div>
-    
-    
-    <div id="posts-list" class="markdown-body">
-      
-    </div>
+    <div class="post-box">
+      <div class="post-header">
+        <h1 class="post-title">搜索</h1>
+      </div>
 
+      <section class="resume-section markdown-body">
+        <div class="my-auto">
+          <form action="https://lvsijun.gitee.io/website/%20search">
+            <input autocomplete="off" id="search-query" name="s" />
+          </form>
+          <div id="search-results">
+            <h3>Matching pages</h3>
+          </div>
+        </div>
+      </section>
+      <script id="search-result-template" type="text/x-js-template">
+            <div class="search-list" id="search-list-${key}">
+              <a href="${link}">
+                <h4>${title}</h4>
+                <p class="summary">${snippet}</p>
+                ${ isset tags }<p>Tags: ${tags}</p>${ end }
+                ${ isset categories }<p>Categories: ${categories}</p>${ end }
+              </a>
+            </div>
+        </script>
+
+
+    </div>
     <div class="footer">
   <div>
     © 2022-<span id="year"></span> 
@@ -127,10 +146,20 @@
 </script>
   </article>
 
+
   <script src="/website/js/jquery3.6.0.min.js"></script>
 <script src="/website/js/toc.js"></script>
 <script src="/website/js/simplebox.min.js"></script>
 <script src="/website/js/main.js"></script>
+  
+  <script src="/website/js/fuse.min.js"></script>
+  <script src="/website/js/jquery.mark.min.js"></script>
+  <script src="https://lvsijun.gitee.io/website/js/search.js"></script>
+  <script>
+    $(function () {
+      $('#search-query').focus();
+    })
+  </script>
 </body>
 
 </html>

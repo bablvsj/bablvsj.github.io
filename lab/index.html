@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
@@ -8,8 +8,8 @@
   <meta name="toTop" content="true">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://lvsijun.gitee.io/website/tags/" />
-  <link rel="canonical" href="https://lvsijun.gitee.io/website/tags/" /><link rel="apple-touch-icon" href="https://cdn.zburu.com/favicon.ico" />
+  <meta property="og:url" content="https://lvsijun.gitee.io/website/lab/" />
+  <link rel="canonical" href="https://lvsijun.gitee.io/website/lab/" /><link rel="apple-touch-icon" href="https://cdn.zburu.com/favicon.ico" />
   <link rel="icon" href="https://cdn.zburu.com/favicon.ico" />
   <link rel="shortcut" href="https://cdn.zburu.com/favicon.ico" /><link rel="alternate" type="application/atom+xml" href="https://lvsijun.gitee.io/websiteindex.xml" title="Lvsj&#39;s blog">
 
@@ -21,9 +21,9 @@
            "@type": "WebPage",
            "@id": "https:\/\/lvsijun.gitee.io\/website"
       },
-      "articleSection" : "tags",
-      "name" : "Tags",
-      "headline" : "Tags",
+      "articleSection" : "",
+      "name" : "实验室",
+      "headline" : "实验室",
       "description" : "",
       "inLanguage" : "en-US",
       "author" : "",
@@ -34,11 +34,11 @@
       "copyrightYear" : "0001",
       "datePublished": "0001-01-01 00:00:00 \u002b0000 UTC",
       "dateModified" : "0001-01-01 00:00:00 \u002b0000 UTC",
-      "url" : "https:\/\/lvsijun.gitee.io\/website\/tags\/",
+      "url" : "https:\/\/lvsijun.gitee.io\/website\/lab\/",
       "keywords" : [  ]
   }
-</script><title>Tags - Lvsj&#39;s blog</title>
-  <meta property="og:title" content="Tags" />
+</script><title>实验室 - Lvsj&#39;s blog</title>
+  <meta property="og:title" content="实验室" />
   <meta property="og:type" content="article" />
   <meta property="og:description" content="" />
   <meta name="description" content="" />
@@ -92,15 +92,86 @@
     </div>
   </header>
   <article>
-    <div class="post-header">
-      <h1 class="post-title">Tags</h1>
-    </div>
-    
-    
-    <div id="posts-list" class="markdown-body">
-      
-    </div>
+    <div class="post-box">
+      <div class="post-header">
+        <h1 class="post-title">实验室</h1>
+      </div>
 
+      <style>
+        .lab-list {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
+
+        .lab-list .item {
+          width: 49%;
+          margin-bottom: 20px;
+        }
+
+        .lab-list .item a {
+          display: inline-flex;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          box-sizing: border-box;
+          box-shadow: 1px 2px 10px rgba(0, 0, 0, .1);
+          overflow: hidden;
+          border-radius: 6px;
+          transition: all 0.1s linear;
+          text-decoration: none;
+        }
+
+        .lab-list .item a:hover {
+          box-shadow: 1px 2px 10px rgba(0, 0, 0, .2);
+        }
+
+        .lab-list img {
+          margin: 0;
+          padding: 0;
+          box-shadow: none;
+          width: 100%;
+        }
+
+        .lab-list .icon {
+          width: 50px;
+        }
+
+        .lab-list .info {
+          flex: 1;
+          padding-left: 15px;
+        }
+
+        .lab-list span {
+          font-size: 18px;
+          color: #000;
+        }
+
+        .lab-list p {
+          margin: 0;
+          padding-top: 6px;
+          color: #777;
+          font-size: 15px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+        }
+
+        @media (max-width: 600px) {
+          .lab-list .item {
+            width: 100%;
+          }
+        }
+      </style>
+
+      <div class="post-content markdown-body">
+        
+        
+        <div class="lab-list"></div>
+      </div>
+    </div>
     <div class="footer">
   <div>
     © 2022-<span id="year"></span> 
@@ -131,6 +202,39 @@
 <script src="/website/js/toc.js"></script>
 <script src="/website/js/simplebox.min.js"></script>
 <script src="/website/js/main.js"></script>
+  <script>
+    function picShow() {
+      var str = '';
+      $.ajax({
+        url: '/lab.json',
+        type: 'get',
+        dataType: 'json',
+        success: function (data) {
+          $.each(data, function (i, item) {
+            list = "<div class='item'>"
+              + "<a target='_blank' href='" + item.url + "'>"
+              + "<div class='icon'><img src='" + item.icon + "'></div>"
+              + "<div class='info'>"
+              + " <span>" + item.name + "</span>"
+              + " <p>" + item.des + "</p>"
+              + "</div>"
+              + "</a>"
+              + "</div>"
+
+            str += list;
+          }),
+            $(".lab-list").html(str);
+
+        },
+        error: function () {
+          console.log('error')
+        }
+      })
+    }
+    picShow();
+  </script>
+  
+
 </body>
 
 </html>

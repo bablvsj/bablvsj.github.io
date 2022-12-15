@@ -8,8 +8,10 @@
   <meta name="toTop" content="true">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="author" content="" />
-  <meta property="og:url" content="https://lvsijun.gitee.io/archives/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html/" />
-  <link rel="canonical" href="https://lvsijun.gitee.io/archives/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html/" /><link rel="alternate" type="application/atom+xml" href="https://lvsijun.gitee.io/index.xml" title="Lvsj&#39;s blog">
+  <meta property="og:url" content="https://lvsijun.gitee.io/website/archives/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html/" />
+  <link rel="canonical" href="https://lvsijun.gitee.io/website/archives/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html/" /><link rel="apple-touch-icon" href="https://cdn.zburu.com/favicon.ico" />
+  <link rel="icon" href="https://cdn.zburu.com/favicon.ico" />
+  <link rel="shortcut" href="https://cdn.zburu.com/favicon.ico" /><link rel="alternate" type="application/atom+xml" href="https://lvsijun.gitee.io/websiteindex.xml" title="Lvsj&#39;s blog">
 
   <script type="application/ld+json">
   {
@@ -17,7 +19,7 @@
       "@type" : "BlogPosting",
       "mainEntityOfPage": {
            "@type": "WebPage",
-           "@id": "https:\/\/lvsijun.gitee.io\/"
+           "@id": "https:\/\/lvsijun.gitee.io\/website"
       },
       "articleSection" : "posts",
       "name" : "ES5中的严格模式",
@@ -32,7 +34,7 @@
       "copyrightYear" : "2022",
       "datePublished": "2022-11-22 17:11:35 \u002b0800 CST",
       "dateModified" : "2022-11-22 17:11:35 \u002b0800 CST",
-      "url" : "https:\/\/lvsijun.gitee.io\/archives\/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html\/",
+      "url" : "https:\/\/lvsijun.gitee.io\/website\/archives\/es5%E4%B8%AD%E7%9A%84%E4%B8%A5%E6%A0%BC%E6%A8%A1%E5%BC%8F.html\/",
       "keywords" : [  ]
   }
 </script><title>ES5中的严格模式 - Lvsj&#39;s blog</title>
@@ -40,12 +42,12 @@
   <meta property="og:type" content="article" />
   <meta property="og:description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行" />
   <meta name="description" content="ES 的几个重要版本 ES5 : 09 年发布。 ES6(ES2015) : 2015 年发布，也称为 ECMA2015。 ES7(ES2016) : 2016 年发布，也称为 ECMA2016 (变化不大)。 严格模式的理解 概念 理解：除了正常运行" />
-  <meta property="og:locale" content="zh-CN" /><meta property="og:image" content="" />
+  <meta property="og:locale" content="zh-CN" /><meta property="og:image" content="https://cdn.zburu.com/favicon.ico" />
   
 
-  <link rel="stylesheet" href="/css/simplebox.min.css">
-  <link rel="stylesheet" href="/css/index.css">
-  <link href="/index.xml" rel="alternate" type="application/rss+xml"
+  <link rel="stylesheet" href="/website/css/simplebox.min.css">
+  <link rel="stylesheet" href="/website/css/index.css">
+  <link href="/website/index.xml" rel="alternate" type="application/rss+xml"
     title="Lvsj&#39;s blog">
   <script src="https://hm.baidu.com/hm.js?5f4839173d00c8b0d3dd40533d14450d"></script>
 </head>
@@ -55,7 +57,7 @@
     <div class="header-item">
       <a href="/" class="header-title">
         <img src="https://cdn.zburu.com/author.png" alt="logo">
-        <span></span>
+        <span>Lvsj&#39; blog</span>
       </a>
       <div class="header-subtitle">等风来，不如追云去。</div>
     </div>
@@ -208,10 +210,8 @@
   </div>
   <div class="footer">
   <div>
-    © 2020-<span id="year"></span> ·
-    <a href="https://beian.miit.gov.cn/" target="_blank">
-      <span></span>
-    </a>
+    © 2022-<span id="year"></span> 
+    
     · 网站运行: <span id="days">0</span> 天
   </div>
   <div class="utool">
@@ -221,7 +221,7 @@
   </div>
 </div>
 <script>
-  var s0 = '';
+  var s0 = '2022-12-15';
   s1 = new Date(s0.replace(/-/g, "/"));
   s2 = new Date();
   var days = s2.getTime() - s1.getTime();
@@ -234,10 +234,10 @@
 </script>
 </article>
 
-<script src="/js/jquery3.6.0.min.js"></script>
-<script src="/js/toc.js"></script>
-<script src="/js/simplebox.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="/website/js/jquery3.6.0.min.js"></script>
+<script src="/website/js/toc.js"></script>
+<script src="/website/js/simplebox.min.js"></script>
+<script src="/website/js/main.js"></script>
 
 
 </body>
