@@ -63,7 +63,7 @@ hr {
 html {
   overflow-y: scroll;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  background: #111;
+  background: #fff;
 }
 
 @font-face {
@@ -79,13 +79,13 @@ html {
 body {
   font-family: "OPPOSans";
   -webkit-font-smoothing: antialiased;
-  padding: 0 4vw;
-  background: #fff;
+  padding:0 4vw;
+  /* background: #111; */
   max-width: 880px;
   position: relative;
-  margin: 4vw auto;
-  border-radius: 24px;
-  min-height: 80vh;
+  margin: 20px auto;
+  min-height:60vh;
+  box-shadow: 1px 1px 5px 5px rgb(109, 105, 105);
 }
 
 .opacity {
@@ -371,20 +371,30 @@ header .header-item .autoMenu li:last-child {
 }
 
 .post-header {
-  display: none;
   margin-bottom: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #d7d7d7;
 }
 
+.autoMenu{
+  position: fixed;
+  left: 2%;
+  top: 100px;
+  width: 300px !important;
+}
+
+.autoMenu ul {
+  list-style: none;
+}
+
 .posts-line {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }
 
 .posts-line .posts-title {
-  width: 100%;
+  /* width: 100%; */
   font-size: 1.2rem;
   transition: all 0.1s linear;
   border-radius: 4px;
@@ -394,7 +404,7 @@ header .header-item .autoMenu li:last-child {
 }
 .posts-line .posts-title span {
   font-weight: 600;
-  font-size: 24px;
+  font-size: 22px;
 }
 .posts-line .posts-title:hover {
   color: #24282d;
