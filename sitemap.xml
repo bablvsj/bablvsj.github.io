@@ -2,15 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://lvsijun.gitee.io/website/home/</loc>
-    <lastmod>2022-12-16T14:12:35+08:00</lastmod>
-  </url><url>
-    <loc>https://lvsijun.gitee.io/website/</loc>
-    <lastmod>2022-12-16T14:12:35+08:00</lastmod>
-  </url><url>
-    <loc>https://lvsijun.gitee.io/website/home/%E4%B8%80%E4%BA%9B%E5%80%BC%E5%BE%97%E4%B8%80%E7%9C%8B%E7%9A%84%E7%94%B5%E5%BD%B1/</loc>
-    <lastmod>2022-12-16T14:12:35+08:00</lastmod>
-  </url><url>
     <loc>https://lvsijun.gitee.io/website/home/12-es7async%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</loc>
     <lastmod>2022-11-22T17:11:35+08:00</lastmod>
   </url><url>
@@ -26,7 +17,13 @@
     <loc>https://lvsijun.gitee.io/website/home/helloworld/</loc>
     <lastmod>2022-11-22T17:11:35+08:00</lastmod>
   </url><url>
+    <loc>https://lvsijun.gitee.io/website/home/</loc>
+    <lastmod>2022-11-22T17:11:35+08:00</lastmod>
+  </url><url>
     <loc>https://lvsijun.gitee.io/website/archives/letconst%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.html/</loc>
+    <lastmod>2022-11-22T17:11:35+08:00</lastmod>
+  </url><url>
+    <loc>https://lvsijun.gitee.io/website/</loc>
     <lastmod>2022-11-22T17:11:35+08:00</lastmod>
   </url><url>
     <loc>https://lvsijun.gitee.io/website/posts/</loc>
