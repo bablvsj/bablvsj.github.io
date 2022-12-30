@@ -1,0 +1,15 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>tag3 - 标签 - Lvsj&#39;s blog</title>
+        <link>https://bablvsj.github.io/tags/tag3/</link>
+        <description>tag3 - 标签 - Lvsj&#39;s blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/tag3/" rel="self" type="application/rss+xml" /><item>
+    <title>let、const和块级作用域</title>
+    <link>https://bablvsj.github.io/archives/letconst%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.html/</link>
+    <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bablvsj.github.io/archives/letconst%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.html/</guid>
+    <description><![CDATA[ES6 的变量声明 ES5 中，使用 var 定义全局变量（ var 是 variable 的简写）。 ES6 中，新增了 let 和 const 来定义变量： let：定义局部变量，替代 var。 const：定义常量（]]></description>
+</item>
+</channel>
+</rss>
