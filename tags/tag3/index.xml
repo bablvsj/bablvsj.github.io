@@ -4,6 +4,14 @@
         <link>https://bablvsj.github.io/tags/tag3/</link>
         <description>tag3 - 标签 - Lvsj&#39;s blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/tag3/" rel="self" type="application/rss+xml" /><item>
+    <title>Es6的介绍和环境配置</title>
+    <link>https://bablvsj.github.io/archives/es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.html/</link>
+    <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
+    <author>作者</author>
+    <guid>https://bablvsj.github.io/archives/es6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.html/</guid>
+    <description><![CDATA[前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（]]></description>
+</item>
+<item>
     <title>let、const和块级作用域</title>
     <link>https://bablvsj.github.io/archives/letconst%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F.html/</link>
     <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
