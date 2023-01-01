@@ -110,10 +110,21 @@
     </div><main class="main">
                 <div class="container"><div class="page single special"><h1 class="single-title">搜索</h1><div class="content" id="content"></div></div></div>
             </main><footer class="footer">
-        <div class="footer-container"><div class="footer-line">由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.108.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden="true"></i> LoveIt</a>
-                </div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank"></a></span></div>
+        <div class="footer-container"><div class="footer-line">网站</div><div class="footer-line" itemscope itemtype="http://schema.org/CreativeWork"><i class="far fa-copyright fa-fw" aria-hidden="true"></i><span itemprop="copyrightYear">2022 - 2023</span>· 网站运行: <span id="days">0</span> 天</div>
         </div>
-    </footer></div>
+    </footer><script>
+    var s0 = '2022\/12\/16';
+    s1 = new Date(s0.replace(/-/g, "/"));
+    s2 = new Date();
+    var days = s2.getTime() - s1.getTime();
+    var number_of_days = parseInt(days / (1000 * 60 * 60 * 24));
+    document.getElementById('days').innerHTML = number_of_days;
+  
+    var date = new Date;
+    var year = date.getFullYear();
+    document.getElementById('year').innerHTML = year;
+</script>
+</div>
 
         <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
                 <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i>
