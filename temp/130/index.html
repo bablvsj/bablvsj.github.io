@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>宝塔自动备份网站到邮箱教程 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="宝塔, 备份, 邮箱">
+<meta name="description" content="前言 网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/130/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="宝塔自动备份网站到邮箱教程" />
+<meta property="og:description" content="前言 网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/130/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2022-05-25T17:27:00+00:00" />
+<meta property="article:modified_time" content="2022-05-25T17:27:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="宝塔自动备份网站到邮箱教程"/>
+<meta name="twitter:description" content="前言 网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "宝塔自动备份网站到邮箱教程",
+      "item": "https://bablvsj.github.io/temp/130/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "宝塔自动备份网站到邮箱教程",
+  "name": "宝塔自动备份网站到邮箱教程",
+  "description": "前言 网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样",
+  "keywords": [
+    "宝塔", "备份", "邮箱"
+  ],
+  "articleBody": "前言 网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样的意外情况，避免自己的网站付诸东流，做好网站备份是非常有必要的。\n现在邮箱接收都支持附件文件，将网站文件和数据库文件备份到我们自己的邮箱也是一种很好地备份方式，也防止备份文件丢失。\n邮箱接收附件文件大小，取决于使用的邮箱服务。一般来说个人博客网站源文件，数据库文件不大，常见邮箱服务都是可以使用的。\n下面开始教程，宝塔安装教程可去宝塔官网查看安装教程。\n系统环境：CentOS 7.9.2009 x86_64（其他系统可参考方式，命令安装自行解决）\n宝塔面板：7.9.0\n安装mailx 浏览器登录进入宝塔面板，左侧-》终端。首次使用宝塔终端，需要登录服务器，填写root用户密码后登录。\n在终端中输入以下mailx安装命令，回车安装。\n1  yum install -y mailx   编辑配置文件 安装完成后，编辑邮箱服务的相关配置文件。 在终端输入以下命令，然后回车进入编辑文件界面。\n1  vim /etc/mail.rc   使用键盘上下键，找到大约69行位置，按‘i’键输入，添加以下配置。\n1 2 3 4 5 6 7  set from=发件人@qq.com #发送邮件后显示的邮件发送方 需要修改 set smtp=smtps://smtp.qq.com:465 #SMTP服务器的网址及端口 需要修改 set smtp-auth-user=发件人@qq.com #发送邮箱 需要修改 set smtp-auth-password=邮箱密码/SMTP授权码 #设置的邮箱密码，SMTP授权密码 需要修改 set smtp-auth=login #动作、登录 无需修改 set ssl-verify=ignore #ssl验证忽略 无需修改 set nss-config-dir=/etc/pki/nssdb #证书存放目录 无需修改   请将配置按要求修改为自己所使用的邮箱服务配置。服务器需要开启465端口。\n配置修改完成后，按Esc键，输入:wq回车保存退出编辑界面。\n测试发送邮件 在终端输入发送测试邮件命令，需要修改收件人邮箱，回车执行。\n1  echo \"这是一封测试邮件\" | mail -s \"邮件主题\" 收件人@qq.com   查看邮箱是否收到测试邮件。\n如果发现终端报以下错误（但没有影响收件），没有错误请跳过。\nError in certificate: Peer's certificate issuer has been marked as not trusted by the.\nCtrl+C结束命令后，修改邮箱服务配置文件，将set ssl-verify=ignore修改为set ssl-verify=strict后保存退出（编辑方法同上）。\n修改完成后在终端输入以下命令。\n获取邮件服务器证书\n1  echo -n \" \" | openssl s_client -connect smtp.qq.com:465 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFIICATE-/p'  /etc/pki/nssdb/qq.crt   把证书添加到受信任表\n1  certutil -A -n 'yeah' -t \"P,P,P\" -d /etc/pki/nssdb -i /etc/pki/nssdb/qq.crt   注：如果是163或者其他邮箱服务器请将smtp.qq.com改为smtp.163.com，qq.crt改为163.crt 以此类推。\n命令执行完成后，重新执行发送测试邮件命令，不在报错。\n宝塔定时任务 左侧-》计划任务\n首先按自己需求（计划任务执行时间，保留文件数量等）添加网站和数据库源文件备份任务。\n然后添加shell脚本任务，在脚本内容中添加以下脚本命令，修改收件人为自己的邮箱。\n1 2 3 4 5 6 7  #!/bin/bash cd /www/backup/site for file in $(ls *) do  str=\"${str}-a ${file}\" done echo \"主人，今天的网站备份又到了哦，请注意查收！\" | mail -s \"网站备份\" $str 2502393029@qq.com   执行时间可按需求，晚于网站，数据库备份任务执行时间。\n数据库备份和网站备份一样需要再添加一次计划任务，将cd /www/backup/site 修改为cd /www/backup/database数据库备份文件所在目录即可，参考改一下邮件主题，和内容信息。\n计划任务添加完成后，可先执行网站，数据库源文件备份任务，再执行网站，数据库邮箱shell脚本备份任务，然后前往邮箱查看文件是否收到，文件过大，邮件会有延迟。\n注：如果有报错或收不到邮件情况，请仔细检查命令，配置文件是否有误，或者查看脚本执行日志进行排查。\n 转载自梦繁星博客: https://blog.emoao.com/13.html\n 如果问题请在评论区留言。\n",
+  "wordCount" : "1511",
+  "inLanguage": "en",
+  "datePublished": "2022-05-25T17:27:00Z",
+  "dateModified": "2022-05-25T17:27:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/130/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      宝塔自动备份网站到邮箱教程
+    </h1>
+    <div class="post-meta">
+      <span title='2022-05-25 17:27:00 +0000 UTC'>2022/05/25</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/">宝塔</a>
+    <a href="https://bablvsj.github.io/tags/%E5%A4%87%E4%BB%BD/"> · 备份</a>
+    <a href="https://bablvsj.github.io/tags/%E9%82%AE%E7%AE%B1/"> · 邮箱</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%89%8d%e8%a8%80" aria-label="前言">前言</a></li>
+                <li>
+                    <a href="#%e5%ae%89%e8%a3%85mailx" aria-label="安装mailx">安装mailx</a></li>
+                <li>
+                    <a href="#%e7%bc%96%e8%be%91%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="编辑配置文件">编辑配置文件</a></li>
+                <li>
+                    <a href="#%e6%b5%8b%e8%af%95%e5%8f%91%e9%80%81%e9%82%ae%e4%bb%b6" aria-label="测试发送邮件">测试发送邮件</a></li>
+                <li>
+                    <a href="#%e5%ae%9d%e5%a1%94%e5%ae%9a%e6%97%b6%e4%bb%bb%e5%8a%a1" aria-label="宝塔定时任务">宝塔定时任务</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h3 id="前言">前言<a hidden class="anchor" aria-hidden="true" href="#前言">#</a></h3>
+<p>网站经常备份好处就是遇到问题以后可以迅速的恢复，不那么被动，防止信息丢失，操作性很大。虽然搭建一个网站非常容易，但为了应对网络上各种各样的意外情况，避免自己的网站付诸东流，做好网站备份是非常有必要的。</p>
+<p>现在邮箱接收都支持附件文件，将网站文件和数据库文件备份到我们自己的邮箱也是一种很好地备份方式，也防止备份文件丢失。</p>
+<p>邮箱接收附件文件大小，取决于使用的邮箱服务。一般来说个人博客网站源文件，数据库文件不大，常见邮箱服务都是可以使用的。</p>
+<p>下面开始教程，宝塔安装教程可去<a href="https://bt.cn/new/product.html">宝塔官网</a>查看安装教程。</p>
+<p>系统环境：CentOS 7.9.2009 x86_64（其他系统可参考方式，命令安装自行解决）</p>
+<p>宝塔面板：7.9.0</p>
+<h3 id="安装mailx">安装mailx<a hidden class="anchor" aria-hidden="true" href="#安装mailx">#</a></h3>
+<p>浏览器登录进入宝塔面板，左侧-》<strong>终端</strong>。首次使用宝塔终端，需要登录服务器，填写root用户密码后登录。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/53c6eca1cfb4eef40e63c916a59fa44b.webp" alt="13-1.webp"  />
+</p>
+<p>在终端中输入以下mailx安装命令，回车安装。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y mailx
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/30bec003dc2046e71c18494c305b21cc.webp" alt="13-2.webp"  />
+</p>
+<h3 id="编辑配置文件">编辑配置文件<a hidden class="anchor" aria-hidden="true" href="#编辑配置文件">#</a></h3>
+<p>安装完成后，编辑邮箱服务的相关配置文件。
+在终端输入以下命令，然后回车进入编辑文件界面。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/mail.rc
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/56989b03520d4abd7823fe5283d2b519.webp" alt="13-3.webp"  />
+</p>
+<p>使用键盘上下键，找到大约69行位置，按‘i’键输入，添加以下配置。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> from=发件人@qq.com <span style="color:#007f7f">#发送邮件后显示的邮件发送方 需要修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> smtp=smtps://smtp.qq.com:465 <span style="color:#007f7f">#SMTP服务器的网址及端口 需要修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> smtp-auth-user=发件人@qq.com <span style="color:#007f7f">#发送邮箱 需要修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> smtp-auth-password=邮箱密码/SMTP授权码 <span style="color:#007f7f">#设置的邮箱密码，SMTP授权密码 需要修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> smtp-auth=login <span style="color:#007f7f">#动作、登录 无需修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> ssl-verify=ignore <span style="color:#007f7f">#ssl验证忽略 无需修改</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">set</span> nss-config-dir=/etc/pki/nssdb <span style="color:#007f7f">#证书存放目录 无需修改</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>请将配置按要求修改为自己所使用的邮箱服务配置。服务器需要开启465端口。</strong></p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/e7c11a400bb3d30c2a81293f732d84fe.webp" alt="13-4.webp"  />
+</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/acde4506e7a574d1baf6588f7f5b178d.webp" alt="13-5.webp"  />
+</p>
+<p>配置修改完成后，按Esc键，输入<code>:wq</code>回车保存退出编辑界面。</p>
+<h3 id="测试发送邮件">测试发送邮件<a hidden class="anchor" aria-hidden="true" href="#测试发送邮件">#</a></h3>
+<p>在终端输入发送测试邮件命令，需要修改收件人邮箱，回车执行。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;这是一封测试邮件&#34;</span> | mail -s <span style="color:#0ff;font-weight:bold">&#34;邮件主题&#34;</span> 收件人@qq.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/e5192c7240feebf85e2f8dc5e4858e5e.webp" alt="13-6.webp"  />
+</p>
+<p>查看邮箱是否收到测试邮件。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/47dcafa9c8b6307406aec0f12712872b.webp" alt="13-7.webp"  />
+</p>
+<p>如果发现终端报以下错误（但没有影响收件），没有错误请跳过。</p>
+<p><code>Error in certificate: Peer's certificate issuer has been marked as not trusted by the.</code></p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/8db1d9c84d292df3841c535ef8ad724b.webp" alt="13-8.webp"  />
+</p>
+<p><code>Ctrl+C</code>结束命令后，修改邮箱服务配置文件，将<code>set ssl-verify=ignore</code>修改为<code>set ssl-verify=strict</code>后保存退出（编辑方法同上）。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/c12d5ffecf4e6e48061bdc495d7570ff.webp" alt="13-9.webp"  />
+</p>
+<p>修改完成后在终端输入以下命令。</p>
+<p>获取邮件服务器证书</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span>   -n <span style="color:#0ff;font-weight:bold">&#34; &#34;</span> |  openssl s_client -connect smtp.qq.com:465 | sed -ne  <span style="color:#0ff;font-weight:bold">&#39;/-BEGIN CERTIFICATE-/,/-END CERTIFIICATE-/p&#39;</span>  &gt;  /etc/pki/nssdb/qq.crt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>把证书添加到受信任表</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certutil    -A    -n   <span style="color:#0ff;font-weight:bold">&#39;yeah&#39;</span>    -t    <span style="color:#0ff;font-weight:bold">&#34;P,P,P&#34;</span>    -d    /etc/pki/nssdb    -i    /etc/pki/nssdb/qq.crt
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>注：如果是163或者其他邮箱服务器请将<code>smtp.qq.com</code>改为<code>smtp.163.com</code>，<code>qq.crt</code>改为<code>163.crt</code> 以此类推。</strong></p>
+<p>命令执行完成后，重新执行发送测试邮件命令，不在报错。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/3252062ac53690690f832dd73d0863aa.webp" alt="13-10.webp"  />
+</p>
+<h3 id="宝塔定时任务">宝塔定时任务<a hidden class="anchor" aria-hidden="true" href="#宝塔定时任务">#</a></h3>
+<p>左侧-》<strong>计划任务</strong></p>
+<p>首先按自己需求（计划任务执行时间，保留文件数量等）添加网站和数据库源文件备份任务。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/4968cb73cd43ee6ece060bb011feef8d.webp" alt="13-11.webp"  />
+</p>
+<p><strong>然后添加</strong><code>shell</code>脚本任务，在脚本内容中添加以下脚本命令，修改收件人为自己的邮箱。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">#!/bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold"></span><span style="color:#fff;font-weight:bold">cd</span> /www/backup/site
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">for</span> file in <span style="color:#fff;font-weight:bold">$(</span>ls *<span style="color:#fff;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">do</span>
+</span></span><span style="display:flex;"><span>  str=<span style="color:#0ff;font-weight:bold">&#34;</span><span style="color:#0ff;font-weight:bold">${</span>str<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold"> -a </span><span style="color:#0ff;font-weight:bold">${</span>file<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">echo</span> <span style="color:#0ff;font-weight:bold">&#34;主人，今天的网站备份又到了哦，请注意查收！&#34;</span> | mail -s <span style="color:#0ff;font-weight:bold">&#34;网站备份&#34;</span> $str 2502393029@qq.com
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/89e2ce5cfc848ae5688021f650415776.webp" alt="13-12.webp"  />
+</p>
+<p>执行时间可按需求，晚于网站，数据库备份任务执行时间。</p>
+<p>数据库备份和网站备份一样需要再添加一次计划任务，将<code>cd /www/backup/site </code>修改为<code>cd /www/backup/database</code>数据库备份文件所在目录即可，参考改一下邮件主题，和内容信息。</p>
+<p>计划任务添加完成后，可先执行网站，数据库源文件备份任务，再执行网站，数据库邮箱<code>shell</code>脚本备份任务，然后前往邮箱查看文件是否收到，文件过大，邮件会有延迟。</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/deb9c05584f5bc00013188daa3e758b0.webp" alt="13-13.webp"  />
+</p>
+<p><img loading="lazy" src="https://img.emoao.com/post-img/2022-05-13/1564dc76c2f6b94299a153d25d9d15d9.webp" alt="13-14.webp"  />
+</p>
+<p><strong>注：如果有报错或收不到邮件情况，请仔细检查命令，配置文件是否有误，或者查看脚本执行日志进行排查。</strong></p>
+<blockquote>
+<p>转载自梦繁星博客: <a href="https://blog.emoao.com/13.html">https://blog.emoao.com/13.html</a></p>
+</blockquote>
+<p>如果问题请在评论区留言。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/">宝塔</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E5%A4%87%E4%BB%BD/">备份</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E9%82%AE%E7%AE%B1/">邮箱</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/131/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>随想录 (5)</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/106/">
+    <span class="title">Next »</span>
+    <br>
+    <span>一个优雅的字体压缩解决方案 ---fonttools</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

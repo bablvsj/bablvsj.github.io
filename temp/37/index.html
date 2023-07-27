@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>React －－万物皆可组件 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="react, 组件">
+<meta name="description" content="一、React 组件是什么？ 组件，从概念上类似于 javascript 函数，他接受任意入参（props），并返回作用于描述页面展示内容的 React 元素。 组件允许你将 UI 拆分">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/37/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="React －－万物皆可组件" />
+<meta property="og:description" content="一、React 组件是什么？ 组件，从概念上类似于 javascript 函数，他接受任意入参（props），并返回作用于描述页面展示内容的 React 元素。 组件允许你将 UI 拆分" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/37/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2020-12-21T13:19:00+00:00" />
+<meta property="article:modified_time" content="2020-12-21T13:19:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="React －－万物皆可组件"/>
+<meta name="twitter:description" content="一、React 组件是什么？ 组件，从概念上类似于 javascript 函数，他接受任意入参（props），并返回作用于描述页面展示内容的 React 元素。 组件允许你将 UI 拆分"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "React －－万物皆可组件",
+      "item": "https://bablvsj.github.io/temp/37/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "React －－万物皆可组件",
+  "name": "React －－万物皆可组件",
+  "description": "一、React 组件是什么？ 组件，从概念上类似于 javascript 函数，他接受任意入参（props），并返回作用于描述页面展示内容的 React 元素。 组件允许你将 UI 拆分",
+  "keywords": [
+    "react", "组件"
+  ],
+  "articleBody": "一、React 组件是什么？  组件，从概念上类似于 javascript 函数，他接受任意入参（props），并返回作用于描述页面展示内容的 React 元素。\n 组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思。\n1.创建一个组件 1 2 3 4 5 6 7 8 9 10 11  // 函数组件 function Welcome(props) {  return Hello, {props.name}/h1; }  // class组件 class Welcome extends React.Component {  render() {  return Hello, {this.props.name}/h1;  } }   2.渲染组件 1 2 3 4 5 6 7 8 9 10  class Welcome extends React.Component {  render() {  return Hello, {this.props.name}/h1;  } }  ReactDOM.render(  ,  document.getElementById('root') );   3.组件 React的基础原则有三条，分别是：\n React 界面完全由数据驱动 React 中一切都是组件 props 是 React 组件之间通讯的基本方式  给组件输入一个参数，最终返回一个 React Element,React Element 就是在页面上展示的内容，相当于一个 DOM 节点\nReact 一大核心就是－－万物皆可组件\n 用户界面就是组件 组件可以嵌套包装组成复杂功能 组件可以用来实现副作用  一个复杂的界面可以分割很很多简单的组件，每个简单的组件又可以分割成很多小组件\n 有些类似于类和对象的概念\n 二、组件的划分   **无状态组件：**无状态组件(Stateless Component)是最基础的组件形式，由于没有状态的影响所以就是纯静态展示的作用。基本组成结构就是属性（props）加上一个渲染函数（render）。由于不涉及到状态的更新，所以这种组件的复用性也最强。例如在各UI库中开发的按钮、输入框、图标等等。\n  **有状态组件：**组件内部包含状态（state）且状态随着事件或者外部的消息而发生改变的时候，这就构成了有状态组件（Stateful Component）。有状态组件通常会带有生命周期(lifecycle)，用以在不同的时刻触发状态的更新。在写业务逻辑时常用到，不同场景所用的状态和生命周期也会不同。\n  **容器组件：**为使组件的职责更加单一，耦合性进一步地降低，引入了容器组件(Container Component)的概念。重要负责对数据获取以及处理的逻辑。下文的设计模式也会提到。\n  高阶组件：“高阶组件（HoC）”也算是种组件设计模式。做为一个高阶组件，可以在原有组件的基础上，对其增加新的功能和行为。如打印日志，获取数据和校验数据等和展示无关的逻辑的时候，抽象出一个高阶组件，用以给基础的组件增加这些功能，减少公共的代码。\n  **Render Callback组件：**组件模式是在组件中使用渲染回调的方式，将组件中的渲染逻辑委托给其子组件。也是种重用组件逻辑的方式，也叫render props 模式。\n  三、设计原则 React 的组件其实是软件设计中的模块，其设计原则也需遵从通用的组件设计原则，简单说来，就是要减少组件之间的耦合性（Coupling)，让组件简单，这样才能让整体系统易于理解、易于维护。\n即，设计原则：\n 接口小，props 数量少； 划分组件，充分利用组合（composition）； 把 state 往上层组件提取，让下层组件只需要实现为纯函数。  就像搭积木，复杂的应用和组件都是由简单的界面和组件组成的。划分组件也没有绝对的方法，选择在当下场景合适的方式划分，充分利用组合即可。实际编写代码也是逐步精进的过程，努力做到：\n 功能正常； 代码整洁； 高性能。  ",
+  "wordCount" : "1230",
+  "inLanguage": "en",
+  "datePublished": "2020-12-21T13:19:00Z",
+  "dateModified": "2020-12-21T13:19:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/37/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      React －－万物皆可组件
+    </h1>
+    <div class="post-meta">
+      <span title='2020-12-21 13:19:00 +0000 UTC'>2020/12/21</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/react/">react</a>
+    <a href="https://bablvsj.github.io/tags/%E7%BB%84%E4%BB%B6/"> · 组件</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e4%b8%80react-%e7%bb%84%e4%bb%b6%e6%98%af%e4%bb%80%e4%b9%88" aria-label="一、React 组件是什么？">一、React 组件是什么？</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%bb%84%e4%bb%b6" aria-label="1.创建一个组件">1.创建一个组件</a></li>
+                <li>
+                    <a href="#2%e6%b8%b2%e6%9f%93%e7%bb%84%e4%bb%b6" aria-label="2.渲染组件">2.渲染组件</a></li>
+                <li>
+                    <a href="#3%e7%bb%84%e4%bb%b6" aria-label="3.组件">3.组件</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%ba%8c%e7%bb%84%e4%bb%b6%e7%9a%84%e5%88%92%e5%88%86" aria-label="二、组件的划分">二、组件的划分</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e8%ae%be%e8%ae%a1%e5%8e%9f%e5%88%99" aria-label="三、设计原则">三、设计原则</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="一react-组件是什么">一、React 组件是什么？<a hidden class="anchor" aria-hidden="true" href="#一react-组件是什么">#</a></h2>
+<blockquote>
+<p>组件，从概念上类似于 javascript 函数，他接受任意入参<code>（props）</code>，并返回作用于描述页面展示内容的 React 元素。</p>
+</blockquote>
+<p>组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思。</p>
+<!-- more -->
+<h3 id="1创建一个组件">1.创建一个组件<a hidden class="anchor" aria-hidden="true" href="#1创建一个组件">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// 函数组件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">function</span> Welcome(props) {
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">return</span> &lt;h1&gt;Hello, {props.name}&lt;<span style="color:#f00">/h1&gt;;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// class组件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">class</span> Welcome <span style="color:#fff;font-weight:bold">extends</span> React.Component {
+</span></span><span style="display:flex;"><span>  render() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> &lt;h1&gt;Hello, {<span style="color:#fff;font-weight:bold">this</span>.props.name}&lt;<span style="color:#f00">/h1&gt;;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2渲染组件">2.渲染组件<a hidden class="anchor" aria-hidden="true" href="#2渲染组件">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> Welcome <span style="color:#fff;font-weight:bold">extends</span> React.Component {
+</span></span><span style="display:flex;"><span>  render() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> &lt;h1&gt;Hello, {<span style="color:#fff;font-weight:bold">this</span>.props.name}&lt;<span style="color:#f00">/h1&gt;;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ReactDOM.render(
+</span></span><span style="display:flex;"><span>  &lt;Welcome /&gt;,
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">document</span>.getElementById(<span style="color:#0ff;font-weight:bold">&#39;root&#39;</span>)
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3组件">3.组件<a hidden class="anchor" aria-hidden="true" href="#3组件">#</a></h3>
+<p><strong>React的基础原则有三条，分别是：</strong></p>
+<ol>
+<li>React 界面完全由数据驱动</li>
+<li>React 中一切都是组件</li>
+<li>props 是 React 组件之间通讯的基本方式</li>
+</ol>
+<p>给组件输入一个参数，最终返回一个 React Element,React Element 就是在页面上展示的内容，相当于一个 DOM 节点</p>
+<p>React 一大核心就是－－万物皆可组件</p>
+<ul>
+<li>用户界面就是组件</li>
+<li>组件可以嵌套包装组成复杂功能</li>
+<li>组件可以用来实现副作用</li>
+</ul>
+<p>一个复杂的界面可以分割很很多简单的组件，每个简单的组件又可以分割成很多小组件</p>
+<blockquote>
+<p>有些类似于<a href="https://imhan.cn/post/45">类和对象的概念</a></p>
+</blockquote>
+<h2 id="二组件的划分">二、组件的划分<a hidden class="anchor" aria-hidden="true" href="#二组件的划分">#</a></h2>
+<ol>
+<li>
+<p>**无状态组件：**无状态组件(Stateless Component)是最基础的组件形式，由于没有状态的影响所以就是纯静态展示的作用。基本组成结构就是属性（props）加上一个渲染函数（render）。由于不涉及到状态的更新，所以这种组件的复用性也最强。例如在各UI库中开发的按钮、输入框、图标等等。</p>
+</li>
+<li>
+<p>**有状态组件：**组件内部包含状态（state）且状态随着事件或者外部的消息而发生改变的时候，这就构成了有状态组件（Stateful Component）。有状态组件通常会带有生命周期(lifecycle)，用以在不同的时刻触发状态的更新。在写业务逻辑时常用到，不同场景所用的状态和生命周期也会不同。</p>
+</li>
+<li>
+<p>**容器组件：**为使组件的职责更加单一，耦合性进一步地降低，引入了容器组件(Container Component)的概念。重要负责对数据获取以及处理的逻辑。下文的设计模式也会提到。</p>
+</li>
+<li>
+<p><strong>高阶组件：</strong>“高阶组件（HoC）”也算是种组件设计模式。做为一个高阶组件，可以在原有组件的基础上，对其增加新的功能和行为。如打印日志，获取数据和校验数据等和展示无关的逻辑的时候，抽象出一个高阶组件，用以给基础的组件增加这些功能，减少公共的代码。</p>
+</li>
+<li>
+<p>**Render Callback组件：**组件模式是在组件中使用渲染回调的方式，将组件中的渲染逻辑委托给其子组件。也是种重用组件逻辑的方式，也叫render props 模式。</p>
+</li>
+</ol>
+<h2 id="三设计原则">三、设计原则<a hidden class="anchor" aria-hidden="true" href="#三设计原则">#</a></h2>
+<p>React 的组件其实是软件设计中的模块，其设计原则也需遵从通用的组件设计原则，简单说来，就是要减少组件之间的耦合性（Coupling)，让组件简单，这样才能让整体系统易于理解、易于维护。</p>
+<p>即，设计原则：</p>
+<ul>
+<li>接口小，props 数量少；</li>
+<li>划分组件，充分利用组合（composition）；</li>
+<li>把 state 往上层组件提取，让下层组件只需要实现为纯函数。</li>
+</ul>
+<p>就像搭积木，复杂的应用和组件都是由简单的界面和组件组成的。划分组件也没有绝对的方法，选择在当下场景合适的方式划分，充分利用组合即可。实际编写代码也是逐步精进的过程，努力做到：</p>
+<ul>
+<li>功能正常；</li>
+<li>代码整洁；</li>
+<li>高性能。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/react/">react</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E7%BB%84%E4%BB%B6/">组件</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/38/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>2020年度总结</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/36/">
+    <span class="title">Next »</span>
+    <br>
+    <span>javascript 进阶问题</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

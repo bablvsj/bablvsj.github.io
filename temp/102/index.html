@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Nuxt.js如何部署Artalk和遇到的问题 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="博客, 评论">
+<meta name="description" content="花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/102/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Nuxt.js如何部署Artalk和遇到的问题" />
+<meta property="og:description" content="花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/102/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2022-02-18T13:48:00+00:00" />
+<meta property="article:modified_time" content="2022-02-18T13:48:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nuxt.js如何部署Artalk和遇到的问题"/>
+<meta name="twitter:description" content="花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Nuxt.js如何部署Artalk和遇到的问题",
+      "item": "https://bablvsj.github.io/temp/102/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Nuxt.js如何部署Artalk和遇到的问题",
+  "name": "Nuxt.js如何部署Artalk和遇到的问题",
+  "description": "花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题",
+  "keywords": [
+    "博客", "评论"
+  ],
+  "articleBody": "花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题，将它记录一下，以便之后研究，顺便对使用 Nuxt.js 搭建博客的伙伴提供一些参考价值。\nArtalk 地址: https://artalk.js.org/\n这篇文章我将分为三个部分，后端部署、前端部署、问题研究。\n1.后端部署 官方有两个版本，注意分辨，php 和 go，对应的是不同的仓库，目前官方文档写的默认都是 go 语言开发的。\nArtalkGo仓库:https://github.com/ArtalkJS/ArtalkGo\n我使用的也是 go 版本，功能和优化都比较好。\n docker构建+宝塔 我的服务器是 Ubuntu 20.04，其他版本类似，没有很大不同。\n首先，使用ssh连接服务器。\n1 2 3 4 5 6 7 8 9 10 11 12  sudo su # 启用sudo模式  cd /www/wwwroot/ # 进入站点目录  mkdir ArtalkGo cd ArtalkGo # 为 ArtalkGo 创建一个目录  curl -L https://raw.githubusercontent.com/ArtalkJS/ArtalkGo/master/artalk-go.example.yml  conf.yml # 下载配置文件模版    到这里之后，官方说的是用 vim conf.yml 进入配置文件，修改参数然后配置。我不是很建议，因为用着并不是那么顺手（因为我菜），我建议直接到达 /www/wwwroot/ArtalkGo 目录下修改 conf.yml 文件，文本模式操作起来更顺手。\n里面的配置基本都是站点名称，管理员，邮箱等设置，没什么大问题。除此之外，端口等参数都不用碰，不然会报错。\n配置完文件之后直接保存就行了。\n 在宝塔插件里面下载 Docker管理器，点击镜像管理。\n然后在镜像名称输入 artalk/artalk-go 点击获取镜像即可，大概两分钟就下载结束了。\n然后回到 ssh 连接，新建 docker 容器。\n1 2 3 4 5 6  docker run -d \\  --name artalk-go \\  -p 0.0.0.0:8080:23366 \\  -v $(pwd)/conf.yml:/conf.yml \\  -v $(pwd)/data:/data \\  artalk/artalk-go   将上面的命令行在命令行，直接回车就行了。\n这个时候需要去你的服务器厂商那里放行端口 8080 ，如果之前放行过不用管，没有放行的话需要去设置一下。\n然后在浏览器输入 http://ip地址:8080 。\n如果出现现在这个页面，说明你部署成功了，如果打不开或者是其他情况，请检查是否成功执行上面的步骤。\n 如果之后修改配置文件了，一定要注意在修改之后执行命令，需要重启服务才能生效。\n1  docker restart artalk-go    反向代理 这个如果使用宝塔太简单，就不细说了。\nhttps://artalk.js.org/guide/backend/reverse-proxy.html#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF\n文档已经说得很详细，如果出现操作失败的情况可以在下面评论。\n 2.前端部署 博客使用 vue + nuxt 开发。\n我使用的是通过cdn引入的，npm我目前发现和我博客有些冲突，暂时不使用该方式。\n先在 /components 目录下新建一个组件名为 Comments.vue\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19    template  div class=\"wrapper\" \tlink href=\"https://cdn.jsdelivr.net/npm/artalk@2.1.4/dist/Artalk.css\" rel=\"stylesheet\" \tscript src=\"https://cdn.jsdelivr.net/npm/artalk@2.1.4/dist/Artalk.js\"script \tdiv id=\"Comments\"div  div template  script export default {  name: 'Comments', } script  style lang=\"scss\" scoped \t-- css代码 -- style    配置代码我单独放在 /static/main.js ，然后在 nuxt.config.js 引入。\n1 2 3 4 5 6 7 8 9 10 11  // nuxt.config.js  head: {  title: '子舒的博客 | imhan.cn',  meta: [  // ...  ]  script: [  { src: '/js/main.js' },  ]  },    在 main.js 中配置 Artick。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20  new Artalk({ \tel: \"#Comments\", \tserver: 'https://域名/api', \tsite: \"子舒的博客\", \tplaceholder: '说点什么...', \tgravatar: { \tmirror: 'https://sdn.geekzu.org/avatar/', \tdefault: 'mp', \t}, \tpagination: { \tpageSize: 15, // 每页评论数 \treadMore: true, // 加载更多 or 分页条 \tautoLoad: true, // 自动加载 (加载更多) \t}, \theightLimit: { \tcontent: 200, // 评论内容限高 \tchildren: 300, // 子评论区域限高 \t}, \tversionCheck: true, // 前端版本检测 });   还有一个方案就是将文件放在服务器或者github，将它引入，不过有些舍本逐末了，不是很建议。\n 3.问题研究 1. 关于评论路径问题\n提交评论之后会在管理后台生成一个列表，表示哪个路径产生了评论，\n如果想把某个页面评论转到其他页面，可以直接修改页面的url，点击KEY变更。\nArtalk 的路径判断很严格，包括 https://example.com/1 和 https://example.com/1/ 的评论就属于两个页面。\n问过作者，觉得他的说法很有道理\n qwqcode: https://example.com/1 和 https://example.com/1/ 本来就不属于相同路径，后者等价于 https://example.com/1/index.html (和 web 服务器配置有关)\n 所以我直接在我博客里把路径然后默认加一个 / 符号，不管打开哪个页面都会跳转到带有 / 的url，也是非常简单粗暴的解决了这个问题。\n1  path: `/posts/${key.replace('.md', '').replace('./', '')}/`    2. localhost:3000 和域名\n由此引发的另一个问题就是我在本地构建 localhost:3000 是不会显示域名后的评论，这个问题也不是大问题，我研究过 Artalk 文档，因为他是一个后端，可以多个前端使用，如果仅仅判断二级目录会造成一个很大的问题。\nhttps://a.com/1 和 https://b.com/1 这两个页面使用了同一套评论数据，所以为了避免这个情况，在判断路径时直接加上域名，这样的话，域名下的评论自然不会同步到 localhost:3000 。\n这对我开发博客来说没有什么影响，所以就不打算解决了。\n 这是我目前遇到的问题，我会在后续的使用中持续更新本文，以作留存。\n",
+  "wordCount" : "1692",
+  "inLanguage": "en",
+  "datePublished": "2022-02-18T13:48:00Z",
+  "dateModified": "2022-02-18T13:48:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/102/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Nuxt.js如何部署Artalk和遇到的问题
+    </h1>
+    <div class="post-meta">
+      <span title='2022-02-18 13:48:00 +0000 UTC'>2022/02/18</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+    <a href="https://bablvsj.github.io/tags/%E8%AF%84%E8%AE%BA/"> · 评论</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1%e5%90%8e%e7%ab%af%e9%83%a8%e7%bd%b2" aria-label="1.后端部署">1.后端部署</a><ul>
+                        
+                <li>
+                    <a href="#docker%e6%9e%84%e5%bb%ba%e5%ae%9d%e5%a1%94" aria-label="docker构建&#43;宝塔">docker构建+宝塔</a></li>
+                <li>
+                    <a href="#%e5%8f%8d%e5%90%91%e4%bb%a3%e7%90%86" aria-label="反向代理">反向代理</a></li></ul>
+                </li>
+                <li>
+                    <a href="#2%e5%89%8d%e7%ab%af%e9%83%a8%e7%bd%b2" aria-label="2.前端部署">2.前端部署</a></li>
+                <li>
+                    <a href="#3%e9%97%ae%e9%a2%98%e7%a0%94%e7%a9%b6" aria-label="3.问题研究">3.问题研究</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>花了两天时间，终于把 Artalk 部署好了，一款数据自托管带后端的评论程序，非常适合我。这篇文章就介绍一下我部署的流程，以及我在部署过程中遇到的一些问题，将它记录一下，以便之后研究，顺便对使用 Nuxt.js 搭建博客的伙伴提供一些参考价值。</p>
+<!-- more -->
+<p>Artalk 地址: <a href="https://artalk.js.org/">https://artalk.js.org/</a></p>
+<p>这篇文章我将分为三个部分，后端部署、前端部署、问题研究。</p>
+<h2 id="1后端部署">1.后端部署<a hidden class="anchor" aria-hidden="true" href="#1后端部署">#</a></h2>
+<p>官方有两个版本，注意分辨，php 和 go，对应的是不同的仓库，目前官方文档写的默认都是 go 语言开发的。</p>
+<p>ArtalkGo仓库:<a href="https://github.com/ArtalkJS/ArtalkGo">https://github.com/ArtalkJS/ArtalkGo</a></p>
+<p>我使用的也是 go 版本，功能和优化都比较好。</p>
+<hr>
+<h3 id="docker构建宝塔">docker构建+宝塔<a hidden class="anchor" aria-hidden="true" href="#docker构建宝塔">#</a></h3>
+<p>我的服务器是 Ubuntu 20.04，其他版本类似，没有很大不同。</p>
+<p>首先，使用ssh连接服务器。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo su 
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 启用sudo模式</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> /www/wwwroot/
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 进入站点目录</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>mkdir ArtalkGo
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> ArtalkGo
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 为 ArtalkGo 创建一个目录</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -L https://raw.githubusercontent.com/ArtalkJS/ArtalkGo/master/artalk-go.example.yml &gt; conf.yml
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 下载配置文件模版</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>到这里之后，官方说的是用 <code>vim conf.yml</code> 进入配置文件，修改参数然后配置。我不是很建议，因为用着并不是那么顺手（因为我菜），我建议直接到达 <code>/www/wwwroot/ArtalkGo</code> 目录下修改 <code>conf.yml</code> 文件，文本模式操作起来更顺手。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/02/18/1861474b101c0fb69d42e7f922a52fea.png" alt=""  />
+</p>
+<p>里面的配置基本都是站点名称，管理员，邮箱等设置，没什么大问题。除此之外，端口等参数都不用碰，不然会报错。</p>
+<p>配置完文件之后直接保存就行了。</p>
+<hr>
+<p>在宝塔插件里面下载 Docker管理器，点击镜像管理。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/02/18/d2d1227986b852267f027bd6f815b7e9.png" alt=""  />
+</p>
+<p>然后在镜像名称输入 <code>artalk/artalk-go</code> 点击获取镜像即可，大概两分钟就下载结束了。</p>
+<p>然后回到 ssh 连接，新建 docker 容器。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -d <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>   --name artalk-go <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>   -p 0.0.0.0:8080:23366 <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>   -v <span style="color:#fff;font-weight:bold">$(</span><span style="color:#fff;font-weight:bold">pwd</span><span style="color:#fff;font-weight:bold">)</span>/conf.yml:/conf.yml <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>   -v <span style="color:#fff;font-weight:bold">$(</span><span style="color:#fff;font-weight:bold">pwd</span><span style="color:#fff;font-weight:bold">)</span>/data:/data <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>   artalk/artalk-go
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将上面的命令行在命令行，直接回车就行了。</p>
+<p>这个时候需要去你的服务器厂商那里放行端口 <code>8080</code> ，如果之前放行过不用管，没有放行的话需要去设置一下。</p>
+<p>然后在浏览器输入 <code>http://ip地址:8080</code> 。</p>
+<p>如果出现现在这个页面，说明你部署成功了，如果打不开或者是其他情况，请检查是否成功执行上面的步骤。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/02/18/571d246b4aa2e9574a2a543364a965d2.png" alt=""  />
+</p>
+<hr>
+<p>如果之后修改配置文件了，一定要注意在修改之后执行命令，需要重启服务才能生效。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker restart artalk-go
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h3 id="反向代理">反向代理<a hidden class="anchor" aria-hidden="true" href="#反向代理">#</a></h3>
+<p>这个如果使用宝塔太简单，就不细说了。</p>
+<p><a href="https://artalk.js.org/guide/backend/reverse-proxy.html#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF">https://artalk.js.org/guide/backend/reverse-proxy.html#%E5%AE%9D%E5%A1%94%E9%9D%A2%E6%9D%BF</a></p>
+<p>文档已经说得很详细，如果出现操作失败的情况可以在下面评论。</p>
+<hr>
+<h2 id="2前端部署">2.前端部署<a hidden class="anchor" aria-hidden="true" href="#2前端部署">#</a></h2>
+<p>博客使用 vue + nuxt 开发。</p>
+<p>我使用的是通过cdn引入的，npm我目前发现和我博客有些冲突，暂时不使用该方式。</p>
+<p>先在 <code>/components</code> 目录下新建一个组件名为 <code>Comments.vue</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#007f7f">&lt;!-- Comments.vue --&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="font-weight:bold">div</span> <span style="color:#007f7f">class</span>=<span style="color:#0ff;font-weight:bold">&#34;wrapper&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="font-weight:bold">link</span> <span style="color:#007f7f">href</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cdn.jsdelivr.net/npm/artalk@2.1.4/dist/Artalk.css&#34;</span> <span style="color:#007f7f">rel</span>=<span style="color:#0ff;font-weight:bold">&#34;stylesheet&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cdn.jsdelivr.net/npm/artalk@2.1.4/dist/Artalk.js&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;<span style="font-weight:bold">div</span> <span style="color:#007f7f">id</span>=<span style="color:#0ff;font-weight:bold">&#34;Comments&#34;</span>&gt;&lt;/<span style="font-weight:bold">div</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="font-weight:bold">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">export</span> <span style="color:#fff;font-weight:bold">default</span> {
+</span></span><span style="display:flex;"><span>  name: <span style="color:#0ff;font-weight:bold">&#39;Comments&#39;</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">style</span> <span style="color:#007f7f">lang</span>=<span style="color:#0ff;font-weight:bold">&#34;scss&#34;</span> <span style="color:#007f7f">scoped</span>&gt;
+</span></span><span style="display:flex;"><span>	&lt;!<span style="font-weight:bold">--</span> <span style="font-weight:bold">css代码</span> <span style="font-weight:bold">--</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">style</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>配置代码我单独放在 <code>/static/main.js</code> ，然后在 <code>nuxt.config.js</code> 引入。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// nuxt.config.js
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>head: {
+</span></span><span style="display:flex;"><span>    title: <span style="color:#0ff;font-weight:bold">&#39;子舒的博客 | imhan.cn&#39;</span>,
+</span></span><span style="display:flex;"><span>    meta: [
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    ]
+</span></span><span style="display:flex;"><span>    script: [
+</span></span><span style="display:flex;"><span>      { src: <span style="color:#0ff;font-weight:bold">&#39;/js/main.js&#39;</span> },
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  },
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p>在 <code>main.js</code> 中配置 Artick。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">new</span> Artalk({
+</span></span><span style="display:flex;"><span>	el: <span style="color:#0ff;font-weight:bold">&#34;#Comments&#34;</span>,
+</span></span><span style="display:flex;"><span>	server: <span style="color:#0ff;font-weight:bold">&#39;https://域名/api&#39;</span>,
+</span></span><span style="display:flex;"><span>	site: <span style="color:#0ff;font-weight:bold">&#34;子舒的博客&#34;</span>,
+</span></span><span style="display:flex;"><span>	placeholder: <span style="color:#0ff;font-weight:bold">&#39;说点什么...&#39;</span>,
+</span></span><span style="display:flex;"><span>	gravatar: {
+</span></span><span style="display:flex;"><span>	  mirror: <span style="color:#0ff;font-weight:bold">&#39;https://sdn.geekzu.org/avatar/&#39;</span>,
+</span></span><span style="display:flex;"><span>	  <span style="color:#fff;font-weight:bold">default</span>: <span style="color:#0ff;font-weight:bold">&#39;mp&#39;</span>,
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	pagination: {
+</span></span><span style="display:flex;"><span>	  pageSize: <span style="color:#ff0;font-weight:bold">15</span>,   <span style="color:#007f7f">// 每页评论数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	  readMore: <span style="color:#fff;font-weight:bold">true</span>, <span style="color:#007f7f">// 加载更多 or 分页条
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	  autoLoad: <span style="color:#fff;font-weight:bold">true</span>, <span style="color:#007f7f">// 自动加载 (加载更多)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	},
+</span></span><span style="display:flex;"><span>	heightLimit: {
+</span></span><span style="display:flex;"><span>	  content: <span style="color:#ff0;font-weight:bold">200</span>, <span style="color:#007f7f">// 评论内容限高
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	  children: <span style="color:#ff0;font-weight:bold">300</span>, <span style="color:#007f7f">// 子评论区域限高
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>	},
+</span></span><span style="display:flex;"><span>	versionCheck: <span style="color:#fff;font-weight:bold">true</span>, <span style="color:#007f7f">// 前端版本检测
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>还有一个方案就是将文件放在服务器或者github，将它引入，不过有些舍本逐末了，不是很建议。</p>
+<hr>
+<h2 id="3问题研究">3.问题研究<a hidden class="anchor" aria-hidden="true" href="#3问题研究">#</a></h2>
+<p><strong>1. 关于评论路径问题</strong></p>
+<p>提交评论之后会在管理后台生成一个列表，表示哪个路径产生了评论，</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/02/18/5bb72fd1a3427c31aaaf91c8637435c8.png" alt=""  />
+</p>
+<p>如果想把某个页面评论转到其他页面，可以直接修改页面的url，<code>点击KEY变更</code>。</p>
+<p>Artalk 的路径判断很严格，包括 <code>https://example.com/1</code> 和 <code>https://example.com/1/</code> 的评论就属于两个页面。</p>
+<p>问过作者，觉得他的说法很有道理</p>
+<blockquote>
+<p>qwqcode: <a href="https://example.com/1">https://example.com/1</a> 和 <a href="https://example.com/1/">https://example.com/1/</a> 本来就不属于相同路径，后者等价于 <a href="https://example.com/1/index.html">https://example.com/1/index.html</a> (和 web 服务器配置有关)</p>
+</blockquote>
+<p>所以我直接在我博客里把路径然后默认加一个 <code>/</code> 符号，不管打开哪个页面都会跳转到带有 <code>/</code> 的url，也是非常简单粗暴的解决了这个问题。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>path: <span style="color:#0ff;font-weight:bold">`/posts/</span><span style="color:#0ff;font-weight:bold">${</span>key.replace(<span style="color:#0ff;font-weight:bold">&#39;.md&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;&#39;</span>).replace(<span style="color:#0ff;font-weight:bold">&#39;./&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;&#39;</span>)<span style="color:#0ff;font-weight:bold">}</span><span style="color:#0ff;font-weight:bold">/`</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<p><strong>2. localhost:3000 和域名</strong></p>
+<p>由此引发的另一个问题就是我在本地构建 <code>localhost:3000</code> 是不会显示域名后的评论，这个问题也不是大问题，我研究过 Artalk 文档，因为他是一个后端，可以多个前端使用，如果仅仅判断二级目录会造成一个很大的问题。</p>
+<p><a href="https://a.com/1">https://a.com/1</a> 和 <a href="https://b.com/1">https://b.com/1</a>  这两个页面使用了同一套评论数据，所以为了避免这个情况，在判断路径时直接加上域名，这样的话，域名下的评论自然不会同步到 <code>localhost:3000</code> 。</p>
+<p>这对我开发博客来说没有什么影响，所以就不打算解决了。</p>
+<hr>
+<p>这是我目前遇到的问题，我会在后续的使用中持续更新本文，以作留存。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E5%8D%9A%E5%AE%A2/">博客</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E8%AF%84%E8%AE%BA/">评论</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/103/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>【笔记】使用php写接口文件调用数据</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/99/">
+    <span class="title">Next »</span>
+    <br>
+    <span>2022新春快乐</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

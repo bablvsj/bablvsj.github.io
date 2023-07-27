@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>javascript——函数、变量和方法 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="笔记">
+<meta name="description" content="当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，j">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/13/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="javascript——函数、变量和方法" />
+<meta property="og:description" content="当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，j" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/13/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2020-11-04T21:12:00+00:00" />
+<meta property="article:modified_time" content="2020-11-04T21:12:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="javascript——函数、变量和方法"/>
+<meta name="twitter:description" content="当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，j"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "javascript——函数、变量和方法",
+      "item": "https://bablvsj.github.io/temp/13/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "javascript——函数、变量和方法",
+  "name": "javascript——函数、变量和方法",
+  "description": "当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，j",
+  "keywords": [
+    "笔记"
+  ],
+  "articleBody": "当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，javascript也不例外，它可以像变量一样被使用，方便且强大，因此本文对js函数进行系统的学习，并在学习过程中做了详细的笔记以及样例。\n一、函数的定义和调用 1.定义函数 1 2 3 4 5 6 7  function abs(x) {  if(x = 0) {  return x;  } else {  return -x;  } }    function()指出这是一个函数定义 abs是函数的代码 (x)里面的内容是函数的参数 {...}的内容是函数体，可以包括若干语句，甚至可以没有任何语句   函数体中，必须以return结尾，才可以把结果返回，如果不用return结尾的话，就会返回undefined\n 也可以直接定义一个对象，这个对象也可以写成函数的方式\n1 2 3 4 5 6 7  var abs = function (x) {  if (x=0) {  return x  }else {  return -x  } }；   function(x)就是一个匿名函数，这个函数被赋值给了变量abs，所以可以直接通过abs调用该函数\n 这两种定义函数的方式完全一致，，但是用变量定义的时候需要注意，要用;结尾，代表函数语句结束\n 2.调用函数 调用函数时，直接传参即可 abs(10)，根据函数定义，将10代入进去即可，返回的结果是x , 即10\n3.检查参数 可以对参数进行检查，看看是否是自己想要的参数对类型\n如果传入对参数abs(x)中非数字，控制台返回结果this is not number，如果传参为数字，则进行条件判断\n1 2 3 4 5 6 7 8 9 10 11 12  function abs(x) {  // 检查参数x是否为数字  if (typeof x !== 'number') {  console.log('this is not number')  }else{  if (x = 0) {  return x  }else {  return -x  }  } }   4.arguments 利用arguments，可以获得调用者传入的所有参数\narguments代表传入的参数，arguments.length代表传入参数的长度\n1 2  console.log(arguments.length) // 这行代码写在函数中，控制台就可以输出出来   先写一个循环，把参数输出的函数方法，函数写完之后，传入参数，控制台随之打印出传入的参数\n1 2 3 4 5 6 7 8 9 10 11 12  function str() {  var s  for(var i = 0; i // 返回传入的参数  console.log(arguments[i]);  s += arguments[i] + \",\";  }  return s; }; // 传入参数 str(\"name\", \"age\"); //控制台输出：name, age   5.return 返回true时，点击链接直接跳转，返回false时，会忽略a链接的地址，跳转到window.location.href后的地址\n1 2 3 4 5 6 7 8 9 10 11  \"https:www.baidu.com\" onclick=\"return myfun()\"baidu/a \"text\" id=\"test\" value=\"click\"   function myfun() {  window.location.href = 'https://www.bilibili.com';  var test = document.getElementById('test').value;  console.log(test);   return false; } /script    return需要注意的地方：函数会自动在行尾添加;，所以在写return的时候一定要注意，不要单纯的拆分为两行，很容易报错\n 1 2 3 4 5 6 7 8 9 10  return  { name: 'foo' } // 上面这种写法就是有问题的，js的机制会自动将其渲染为 return; //return undefined  { naem: 'foo' };  // 正确的写法应该是： return {  name: 'foo' };   6.rest 把传入的参数，多余的部分，以数组的形式保存起来，为了获得额外的参数，需要i = 2开始，把已有的a,b排除掉\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  function arr(a, b) {  var i, rest = [];  if (arguments.length  2) {   for (i = 2; i rest.push(arguments[i]);  }  }  console.log('a = ' + a);  console.log('b = ' + b);  console.log(rest); };  arr(1,2,3,4);   控制台打印：\n可以看到多余的部分被打印到Array中了\n这种写法略显麻烦，下面是更简单的写法\n直接在在函数里定义参数rest，并且在前面加上...标识，多余的参数直接以数组的形式交给变量rest，不需要arguments就可以获取全部参数\n如果传参数量还没有超过定义参数的数量，函数就会返回一个空数组\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  function foo(a, b, ...rest) {  console.log('a = ' + a);  console.log('b = ' + b);  console.log(rest) }  foo(1,2,3,4) // a = 1 // b = 2 // Array [3,4]  foo(1) // a = 1 // b = undefined // Array [ ]   7.计算 对传入的参数求和\n1 2 3 4 5 6 7 8 9 10 11 12  // forEach可以返回数组中所有的元素  function sum(...rest) {  var sum = 0;  rest.forEach(function(x) {  sum += x;  });  return sum; };  //sum(1,2) //控制台输出 3。求和成功   计算圆的面积\n1 2 3 4 5 6 7 8 9 10 11 12  // r 表示圆的半径 // pi 如果没有参数，默认为3.14 function area_of_circle(r, pi){  var area;  if(arguments.length == 1) {  // 当传入的参数只有一位时，计算3.14*r的平方  area = 3.14*r*r;  }else{  area = pi*r*r;  }  return area; }   二、变量和作用域 1.声明变量 在js中，通常使用var来生声明变量，而声明的变量实际上是有作用域的\n 在函数体内声明的变量，只能在函数体内生效，在函数体外是无法识别的  1 2 3 4  function fun() {  var a = 1; }; a = a + 1; // err 这行代码直接报错，因为全局中没有a这个变量    如果两个函数体中各自声明了变量a，互不干扰，在自己的函数体内可以正常作用，出了函数体都没有作用了\n  js函数可以嵌套，内部函数可以访问外部函数，外部函数不能访问内部函数\n  1 2 3 4 5 6 7  function par() {  var x = 1;  function son() {  var y = x + 1;  };  var z = x + y; // Error: }   所以var z = x + y会报错，因为变量y在son()中，根据函数外部无法访问函数内部，y无法被访问，因此var z = x + y报错\n两个嵌套的函数体，各有一个重名变量，js函数在查找变量的时候，优先从自身开始，如果自身有这个变量就获取，如果没有，有内向外，由下层到上层的查找  1 2 3 4 5 6 7 8 9 10  function par() {  var num = 1;  function son() {  var num = 2;  console.log(\"son() = \" + num);  };  console.log(\"par() = \" + num);  son(); }; par();    函数必须经过调用之后才能生效 son()和par()\n 2.变量提升 JavaScript的函数定义有个特点，它会先扫描整个函数体的语句，把所有申明的变量“提升”到函数顶部，但是并不会将赋值一起提升，很容易产生代码的报错\n因此，针对这一问题，我们在声明变量的时候，要将其统一放置在函数的起始位置，严格遵守在函数内部首先声明所有变量的原则\n3.全局作用域 不再任何函数内部定义的变量就叫做全局变量，也就是window下，他也被称作全局作用域，全局作用域下的变量实际上被绑定到window\n1 2 3  var course = 'learn js'; console.log(course); // learn js console.log(window.course) // learn js   直接访问全局变量或者在前面加上window，结果都是一样的\n整个js文件只有一个全局作用域，就是window，如果在某一个函数作用域内查找变量，没有查找到，就会由内到外一层层查找，如果最后在全局作用域中也没有查找到，就会ReferenceError 报错\n4.局部作用域 在函数内部就是局部作用域，这个代码的名字只在函数的内部起作用\n在for循环等语句中，无法定义具有局部作用域的变量\n5.全局变量和局部变量的区别   全局变量：在任何一个地方都可以使用，全局变量只有在浏览器关闭的时候才会销毁，比较占用内存资源\n  局部变量：只能在函数内部使用，当其所在代码块被执行时，会被初始化；当代码块执行完毕就会销毁，因此更节省节约内存空间\n  当在函数作用域中操作一个变量的时候，会先在自身作用域中查找，如果有就直接使用，如果没有就向上级作用域中寻找。如果全局作用域中也没有，那么就报错\n  6.常量 var和let声明的是一个变量，在ES6之间，用大写的变量名，表示定义一个常量\n1 2  // ES5 var NAME = 'xiaoming'   ES6新增一个关键字const来定义常量\n1 2  // ES6 const name = 'xiaoming'   三、解构赋值 1.可以把一个数组的元素分别赋值给不同的变量\n1 2 3 4 5 6 7 8  var array = ['hello', 'javascript', 'ES6']; var x = array[0]; var y = array[1]; var z = array[2];  // x = 'hello' // y = 'javascript' // z = 'ES6'   2.如果数组本身还有嵌套，也可以进行解构赋值，但是要注意嵌套的层次和数组保持一致\n1 2 3 4 5  let [x, [y, z]] = ['hello', ['JavaScript', 'ES6']];  x; // 'hello' y; // 'JavaScript' z; // 'ES6'   3.解构赋值时可以忽略元素\n1 2 3  let [, , z] = ['hello', 'JavaScript', 'ES6'];  z; // ES6   4.还可以对对象进行解构赋值\n1 2 3 4 5 6 7 8 9 10  var person = {  name: 'xiaoming',  age: 22,  gender: 'male',  email: 'zsh981109@163.com',  school: 'zyg' } // 定义了三个变量，分别对应三个属性 var {name, age, email} = person; console.log(name, age, email);   控制台就可以打印出我们想要的内容了\n 对对象进行解构赋值时，也可以进行嵌套\n 5.可以通过属性名赋值的时候，重新定义一个变量名\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  var person = {  name: '小明',  age: 20,  gender: 'male',  passport: 'G-12345678',  school: 'No.4 middle school' };  // 把passport属性赋值给变量id: let {name, passport:id} = person; console.log(name); console.log(age); console.log(id); console.log(email);   控制台输出结果：\n可以看到，name,age,id都打印出来了，而email报错，因为email的内容赋值给了新变量id，而email没有任何内容，所以报错\n6.可以使用默认值true，避免不存在的属性返回undefined\n1 2 3 4 5 6 7 8 9 10 11  var person = {  name: '小明',  age: 20,  gender: 'male',  passport: 'G-12345678' };  // 如果person对象没有single属性，默认赋值为true: var {name, single=true} = person; name; // '小明' single; // true    要注意，赋值的时候不能以{开头，避免js将其渲染失败\n 1 2 3 4 5 6 7 8 9 10 11 12  var person = {  name: '小明',  age: 20,  gender: 'male',  passport: 'G-12345678' }; // 声明变量 var x; var y;  // 解构赋值 {x, y} = { name: '小明', x: 100, y: 200} // Error:   在这里 {x, y} = person会报一个错误，=不合法，所以正确的写法是，在赋值语句外部包裹一层()小括号\n1  ({x, y} = { name: '小明', x: 100, y: 200});   7.解构赋值的使用场景\n交换两个变量的值\n1 2 3  var a = 1; var b = 2; [a, b] = [b, a]   四、对象的方法  绑定到对象上的函数被称为方法\n 在一个对象中绑定函数，称为这个对象的方法\n1.this 下面段代码返回的是（今年的年份－出生年份）\n1 2 3 4 5 6 7 8 9 10  var xm = {  name: 'xiaoming',  birth: 1998,  age: function() {  var year = new Date().getFullYear();  return year - this.birth  } }; // 在对象xm中，调用方法age() xm.age(); // 22   这里引入了一个新的关键词this\n在方法内部，this是一个特殊的变量，它始终指向当前对象，也就是xm这个变量\n所以this.birth指的就是变量xm的birth属性\n this存在于方法中，想在方法中调用对象的属性，必须通过this\n 如果在方法写在对象外部时，this的指向问题就要好好分析了，比如：\n1 2 3 4 5 6 7 8 9 10  function getage() {  var year = new Date().getFullYear();  return year - this.birth; }  var xiaoming = {  name: '小明',  birth: 1990,  age: getage };   单独调用getage()的时候，这时的getage()指的是一个方法，同时这个方法处于全局作用域下，此时this指向的是全局对象window，所以返回NaN\n只有xiaoming.age()调用的才是对象xiaoming下面的方法getage()\n 因此：要保证this的指向正确，必须使用obj.xxx()的形式调用 如果没有使用这种方法，全部报错，如果是在’use strict’模式下，this会指向undefined\n 2.that 如果在对象里面的方法，又套了一层事件，此时this指向又有问题了，它指向第一层方法，而不是方法对应的对象\n所以，在写方法的时候，直接先声明一个var that = this，这个that指向对象里面的属性，接下来，在方法里面调用属性的时候，直接在前面加上that.即可，它直接指向到对象下面的属性\n1 2 3 4 5 6 7 8 9 10 11 12 13 14  var xm = {  name: 'xiaoming',  birth: 1998,  age: function() {  var that = this;  function getbirthage() {  var y = new Date().getFullYear();  return y - that.birth;  }  return getbirthage();  } };  // xm.age();   可以看到，通过定义var that = this，然后在方法里面使用that.指向属性，不管套了几层方法，都不会报错，直接指向对象下面的属性\n通过var that = this，可以放心的在方法里面定义其他函数，不用担心获取不到对象属性的问题\n 但是有一个需要注意的地方，每个方法结束后，都要返回一下结果，return getbirthage()\n 3.apply 除了var that = this，还可以通过apply属性控制this的指向\napply是函数本身的方法，它拥有两个参数\n1 2 3 4 5 6 7 8 9 10 11 12 13  function getage() {  var y = new Date().getFullYear();  return y - this.birth; }  var xm = {  name: 'xiaoming',  birth: 1998,  age: getage }  // xm.age(); // getage.apply(xm, []);   写法就是getage.apply(xm, [])，apply的第一个参数代表this指向，即对象，第二个参数，表示函数本身的参数\n4.apply( ) 和 call( ) call()是与apply类似的方法，区别是：\n apply()将参数打包成Array call()直接将参数按顺序传入  调用math.max(1,2,3)，分别采用两种方式\n1 2  math.max.apply(null, [1,2,3]); // 3 math.max.call(null, [1,2,3]); // 3   两者的结果是一样的，调用普通函数时，把this绑定为null\n",
+  "wordCount" : "4551",
+  "inLanguage": "en",
+  "datePublished": "2020-11-04T21:12:00Z",
+  "dateModified": "2020-11-04T21:12:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/13/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      javascript——函数、变量和方法
+    </h1>
+    <div class="post-meta">
+      <span title='2020-11-04 21:12:00 +0000 UTC'>2020/11/04</span>&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e4%b8%80%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9a%e4%b9%89%e5%92%8c%e8%b0%83%e7%94%a8" aria-label="一、函数的定义和调用">一、函数的定义和调用</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%ae%9a%e4%b9%89%e5%87%bd%e6%95%b0" aria-label="1.定义函数">1.定义函数</a></li>
+                <li>
+                    <a href="#2%e8%b0%83%e7%94%a8%e5%87%bd%e6%95%b0" aria-label="2.调用函数">2.调用函数</a></li>
+                <li>
+                    <a href="#3%e6%a3%80%e6%9f%a5%e5%8f%82%e6%95%b0" aria-label="3.检查参数">3.检查参数</a></li>
+                <li>
+                    <a href="#4arguments" aria-label="4.arguments">4.arguments</a></li>
+                <li>
+                    <a href="#5return" aria-label="5.return">5.return</a></li>
+                <li>
+                    <a href="#6rest" aria-label="6.rest">6.rest</a></li>
+                <li>
+                    <a href="#7%e8%ae%a1%e7%ae%97" aria-label="7.计算">7.计算</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%ba%8c%e5%8f%98%e9%87%8f%e5%92%8c%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="二、变量和作用域">二、变量和作用域</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%a3%b0%e6%98%8e%e5%8f%98%e9%87%8f" aria-label="1.声明变量">1.声明变量</a></li>
+                <li>
+                    <a href="#2%e5%8f%98%e9%87%8f%e6%8f%90%e5%8d%87" aria-label="2.变量提升">2.变量提升</a></li>
+                <li>
+                    <a href="#3%e5%85%a8%e5%b1%80%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="3.全局作用域">3.全局作用域</a></li>
+                <li>
+                    <a href="#4%e5%b1%80%e9%83%a8%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="4.局部作用域">4.局部作用域</a></li>
+                <li>
+                    <a href="#5%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%e5%92%8c%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e7%9a%84%e5%8c%ba%e5%88%ab" aria-label="5.全局变量和局部变量的区别">5.全局变量和局部变量的区别</a></li>
+                <li>
+                    <a href="#6%e5%b8%b8%e9%87%8f" aria-label="6.常量">6.常量</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%b8%89%e8%a7%a3%e6%9e%84%e8%b5%8b%e5%80%bc" aria-label="三、解构赋值">三、解构赋值</a></li>
+                <li>
+                    <a href="#%e5%9b%9b%e5%af%b9%e8%b1%a1%e7%9a%84%e6%96%b9%e6%b3%95" aria-label="四、对象的方法">四、对象的方法</a><ul>
+                        
+                <li>
+                    <a href="#1this" aria-label="1.this">1.this</a></li>
+                <li>
+                    <a href="#2that" aria-label="2.that">2.that</a></li>
+                <li>
+                    <a href="#3apply" aria-label="3.apply">3.apply</a></li>
+                <li>
+                    <a href="#4apply--%e5%92%8c-call-" aria-label="4.apply( ) 和 call( )">4.apply( ) 和 call( )</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>当代码出现有规律的重复之后，可以利用函数，定义变量，调用方法，不用去重复的改动代码，只需要进行函数的修改。基本上所有的高级语言都支持函数，javascript也不例外，它可以像变量一样被使用，方便且强大，因此本文对js函数进行系统的学习，并在学习过程中做了详细的笔记以及样例。</p>
+<!-- more -->
+<h2 id="一函数的定义和调用">一、函数的定义和调用<a hidden class="anchor" aria-hidden="true" href="#一函数的定义和调用">#</a></h2>
+<h3 id="1定义函数">1.定义函数<a hidden class="anchor" aria-hidden="true" href="#1定义函数">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> abs(x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span>(x = <span style="color:#ff0;font-weight:bold">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> x;
+</span></span><span style="display:flex;"><span>    } <span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> -x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol>
+<li><code>function()</code>指出这是一个函数定义</li>
+<li><code>abs</code>是函数的代码</li>
+<li><code>(x)</code>里面的内容是函数的参数</li>
+<li><code>{...}</code>的内容是函数体，可以包括若干语句，甚至可以没有任何语句</li>
+</ol>
+<blockquote>
+<p>函数体中，必须以<code>return</code>结尾，才可以把结果返回，如果不用return结尾的话，就会返回undefined</p>
+</blockquote>
+<p>也可以直接定义一个对象，这个对象也可以写成函数的方式</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> abs = <span style="color:#fff;font-weight:bold">function</span> (x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (x&gt;=<span style="color:#ff0;font-weight:bold">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> x
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> -x
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}<span style="color:#f00">；</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>function(x)</code>就是一个匿名函数，这个函数被赋值给了<code>变量abs</code>，所以可以直接通过<code>abs</code>调用该函数</p>
+<blockquote>
+<p>这两种定义函数的方式完全一致，，但是用变量定义的时候需要注意，要用<code>;</code>结尾，代表函数语句结束</p>
+</blockquote>
+<h3 id="2调用函数">2.调用函数<a hidden class="anchor" aria-hidden="true" href="#2调用函数">#</a></h3>
+<p>调用函数时，直接传参即可
+abs(10)，根据函数定义，将10代入进去即可，返回的结果是x , 即10</p>
+<h3 id="3检查参数">3.检查参数<a hidden class="anchor" aria-hidden="true" href="#3检查参数">#</a></h3>
+<p>可以对参数进行检查，看看是否是自己想要的参数对类型</p>
+<p>如果传入对参数<code>abs(x)</code>中非数字，控制台返回结果<code>this is not number</code>，如果传参为数字，则进行条件判断</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> abs(x) {
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 检查参数x是否为数字
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">if</span> (<span style="color:#fff;font-weight:bold">typeof</span> x !== <span style="color:#0ff;font-weight:bold">&#39;number&#39;</span>) {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#0ff;font-weight:bold">&#39;this is not number&#39;</span>)
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">if</span> (x &gt;= <span style="color:#ff0;font-weight:bold">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> x
+</span></span><span style="display:flex;"><span>        }<span style="color:#fff;font-weight:bold">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> -x
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4arguments">4.arguments<a hidden class="anchor" aria-hidden="true" href="#4arguments">#</a></h3>
+<p>利用<code>arguments</code>，可以获得调用者传入的所有参数</p>
+<p><code>arguments</code>代表传入的参数，<code>arguments.length</code>代表传入参数的长度</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>console.log(arguments.length)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 这行代码写在函数中，控制台就可以输出出来
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>先写一个循环，把参数输出的函数方法，函数写完之后，传入参数，控制台随之打印出传入的参数</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> str() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> s
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">for</span>(<span style="color:#fff;font-weight:bold">var</span> i = <span style="color:#ff0;font-weight:bold">0</span>; i&lt;arguments.length; i++) {
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 返回传入的参数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        console.log(arguments[i]);
+</span></span><span style="display:flex;"><span>        s += arguments[i] + <span style="color:#0ff;font-weight:bold">&#34;,&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> s;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 传入参数
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>str(<span style="color:#0ff;font-weight:bold">&#34;name&#34;</span>, <span style="color:#0ff;font-weight:bold">&#34;age&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//控制台输出：name, age
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="5return">5.return<a hidden class="anchor" aria-hidden="true" href="#5return">#</a></h3>
+<p>返回true时，点击链接直接跳转，返回false时，会忽略a链接的地址，跳转到window.location.href后的地址</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>&lt;a href=<span style="color:#0ff;font-weight:bold">&#34;https:www.baidu.com&#34;</span> onclick=<span style="color:#0ff;font-weight:bold">&#34;return myfun()&#34;</span>&gt;baidu&lt;<span style="color:#f00">/a&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;input type=<span style="color:#0ff;font-weight:bold">&#34;text&#34;</span> id=<span style="color:#0ff;font-weight:bold">&#34;test&#34;</span> value=<span style="color:#0ff;font-weight:bold">&#34;click&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;script&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">function</span> myfun() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">window</span>.location.href = <span style="color:#0ff;font-weight:bold">&#39;https://www.bilibili.com&#39;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> test = <span style="color:#fff;font-weight:bold">document</span>.getElementById(<span style="color:#0ff;font-weight:bold">&#39;test&#39;</span>).value;
+</span></span><span style="display:flex;"><span>    console.log(test);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> <span style="color:#fff;font-weight:bold">false</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f00">/script&gt;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>return需要注意的地方：函数会自动在行尾添加<code>;</code>，所以在写return的时候一定要注意，不要单纯的拆分为两行，很容易报错</p>
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">return</span> 
+</span></span><span style="display:flex;"><span>    { name: <span style="color:#0ff;font-weight:bold">&#39;foo&#39;</span> }
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 上面这种写法就是有问题的，js的机制会自动将其渲染为
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">return</span>;     <span style="color:#007f7f">//return undefined
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    { naem: <span style="color:#0ff;font-weight:bold">&#39;foo&#39;</span> };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 正确的写法应该是：
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">return</span> {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;foo&#39;</span>
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="6rest">6.rest<a hidden class="anchor" aria-hidden="true" href="#6rest">#</a></h3>
+<p>把传入的参数，多余的部分，以数组的形式保存起来，为了获得额外的参数，需要i = 2开始，把已有的a,b排除掉</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> arr(a, b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> i, rest = [];
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span> (arguments.length &gt; <span style="color:#ff0;font-weight:bold">2</span>) {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">for</span> (i = <span style="color:#ff0;font-weight:bold">2</span>; i&lt;arguments.length; i++) {
+</span></span><span style="display:flex;"><span>            rest.push(arguments[i]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">&#39;a = &#39;</span> + a);
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">&#39;b = &#39;</span> + b);
+</span></span><span style="display:flex;"><span>    console.log(rest);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>arr(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>控制台打印：</p>
+<p>可以看到多余的部分被打印到<code>Array</code>中了</p>
+<p><green>这种写法略显麻烦，下面是更简单的写法</green></p>
+<p>直接在在函数里定义参数<code>rest</code>，并且在前面加上<code>...</code>标识，多余的参数直接以数组的形式交给变量<code>rest</code>，不需要<code>arguments</code>就可以获取全部参数</p>
+<p>如果传参数量还没有超过定义参数的数量，函数就会返回一个空数组</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> foo(a, b, ...rest) {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">&#39;a = &#39;</span> + a);
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">&#39;b = &#39;</span> + b);
+</span></span><span style="display:flex;"><span>    console.log(rest)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>foo(<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>,<span style="color:#ff0;font-weight:bold">4</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// a = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// b = 2
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// Array [3,4]
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span>foo(<span style="color:#ff0;font-weight:bold">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// a = 1
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// b = undefined
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// Array [ ] 
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="7计算">7.计算<a hidden class="anchor" aria-hidden="true" href="#7计算">#</a></h3>
+<p><strong>对传入的参数求和</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// forEach可以返回数组中所有的元素
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> sum(...rest) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> sum = <span style="color:#ff0;font-weight:bold">0</span>;
+</span></span><span style="display:flex;"><span>    rest.forEach(<span style="color:#fff;font-weight:bold">function</span>(x) {
+</span></span><span style="display:flex;"><span>        sum += x;
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> sum;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">//sum(1,2)
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">//控制台输出 3。求和成功
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>计算圆的面积</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// r 表示圆的半径
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// pi 如果没有参数，默认为3.14
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">function</span> area_of_circle(r, pi){
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> area;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">if</span>(arguments.length == <span style="color:#ff0;font-weight:bold">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 当传入的参数只有一位时，计算3.14*r的平方
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        area = <span style="color:#ff0;font-weight:bold">3.14</span>*r*r;
+</span></span><span style="display:flex;"><span>    }<span style="color:#fff;font-weight:bold">else</span>{
+</span></span><span style="display:flex;"><span>        area = pi*r*r;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> area;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二变量和作用域">二、变量和作用域<a hidden class="anchor" aria-hidden="true" href="#二变量和作用域">#</a></h2>
+<h3 id="1声明变量">1.声明变量<a hidden class="anchor" aria-hidden="true" href="#1声明变量">#</a></h3>
+<p>在js中，通常使用<code>var</code>来生声明变量，而声明的变量实际上是有作用域的</p>
+<ol>
+<li>在函数体内声明的变量，只能在函数体内生效，在函数体外是无法识别的</li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> fun() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> a = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>a = a + <span style="color:#ff0;font-weight:bold">1</span>;  <span style="color:#007f7f">// err  这行代码直接报错，因为全局中没有a这个变量
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>
+<p>如果两个函数体中各自声明了<code>变量a</code>，互不干扰，在自己的函数体内可以正常作用，出了函数体都没有作用了</p>
+</li>
+<li>
+<p>js函数可以嵌套，内部函数可以访问外部函数，外部函数不能访问内部函数</p>
+</li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> par() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> x = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">function</span> son() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">var</span> y = x + <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> z = x + y;      <span style="color:#007f7f">// Error:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>所以<code>var z = x + y</code>会报错，因为<code>变量y</code>在<code>son()</code>中，根据<code>函数外部无法访问函数内部</code>，<code>y</code>无法被访问，因此<code>var z = x + y</code>报错</p>
+<ol start="4">
+<li>两个嵌套的函数体，各有一个重名变量，js函数在查找变量的时候，优先从自身开始，如果自身有这个变量就获取，如果没有，有内向外，由下层到上层的查找</li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> par() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> num = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">function</span> son() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">var</span> num = <span style="color:#ff0;font-weight:bold">2</span>;
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#0ff;font-weight:bold">&#34;son() = &#34;</span> + num);
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#0ff;font-weight:bold">&#34;par() = &#34;</span> + num);
+</span></span><span style="display:flex;"><span>    son();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>par();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>函数必须经过调用之后才能生效  <code>son()</code>和<code>par()</code></p>
+</blockquote>
+<h3 id="2变量提升">2.变量提升<a hidden class="anchor" aria-hidden="true" href="#2变量提升">#</a></h3>
+<p>JavaScript的函数定义有个特点，它会先扫描整个函数体的语句，把所有申明的变量“提升”到函数顶部，但是并不会将赋值一起提升，很容易产生代码的报错</p>
+<p>因此，针对这一问题，我们在声明变量的时候，要将其统一放置在函数的起始位置，严格遵守<code>在函数内部首先声明所有变量</code>的原则</p>
+<h3 id="3全局作用域">3.全局作用域<a hidden class="anchor" aria-hidden="true" href="#3全局作用域">#</a></h3>
+<p>不再任何函数内部定义的变量就叫做全局变量，也就是<code>window下</code>，他也被称作<code>全局作用域</code>，全局作用域下的变量实际上被绑定到<code>window</code></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> course = <span style="color:#0ff;font-weight:bold">&#39;learn js&#39;</span>;
+</span></span><span style="display:flex;"><span>console.log(course);        <span style="color:#007f7f">// learn js
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>console.log(<span style="color:#fff;font-weight:bold">window</span>.course)  <span style="color:#007f7f">// learn js
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>直接访问全局变量或者在前面加上<code>window</code>，结果都是一样的</p>
+<p>整个js文件只有一个全局作用域，就是<code>window</code>，如果在某一个函数作用域内查找变量，没有查找到，就会由内到外一层层查找，如果最后在全局作用域中也没有查找到，就会<code>ReferenceError</code> 报错</p>
+<h3 id="4局部作用域">4.局部作用域<a hidden class="anchor" aria-hidden="true" href="#4局部作用域">#</a></h3>
+<p>在函数内部就是局部作用域，这个代码的名字只在函数的内部起作用</p>
+<p>在<code>for循环</code>等语句中，无法定义具有局部作用域的变量</p>
+<h3 id="5全局变量和局部变量的区别">5.全局变量和局部变量的区别<a hidden class="anchor" aria-hidden="true" href="#5全局变量和局部变量的区别">#</a></h3>
+<ol>
+<li>
+<p>全局变量：在任何一个地方都可以使用，全局变量只有在浏览器关闭的时候才会销毁，比较占用内存资源</p>
+</li>
+<li>
+<p>局部变量：只能在函数内部使用，当其所在代码块被执行时，会被初始化；当代码块执行完毕就会销毁，因此更节省节约内存空间</p>
+</li>
+<li>
+<p>当在函数作用域中操作一个变量的时候，会先在自身作用域中查找，如果有就直接使用，如果没有就向上级作用域中寻找。如果全局作用域中也没有，那么就报错</p>
+</li>
+</ol>
+<h3 id="6常量">6.常量<a hidden class="anchor" aria-hidden="true" href="#6常量">#</a></h3>
+<p><code>var</code>和<code>let</code>声明的是一个变量，在ES6之间，用大写的变量名，表示定义一个常量</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// ES5
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">var</span> NAME = <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ES6新增一个关键字<code>const</code>来定义常量</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// ES6
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">const</span> name = <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="三解构赋值">三、解构赋值<a hidden class="anchor" aria-hidden="true" href="#三解构赋值">#</a></h2>
+<p><strong>1.可以把一个数组的元素分别赋值给不同的变量</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> array = [<span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;javascript&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;ES6&#39;</span>];
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> x = array[<span style="color:#ff0;font-weight:bold">0</span>];
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> y = array[<span style="color:#ff0;font-weight:bold">1</span>];
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> z = array[<span style="color:#ff0;font-weight:bold">2</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// x = &#39;hello&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// y = &#39;javascript&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// z = &#39;ES6&#39;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>2.如果数组本身还有嵌套，也可以进行解构赋值，但是要注意嵌套的层次和数组保持一致</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> [x, [y, z]] = [<span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span>, [<span style="color:#0ff;font-weight:bold">&#39;JavaScript&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;ES6&#39;</span>]];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x; <span style="color:#007f7f">// &#39;hello&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>y; <span style="color:#007f7f">// &#39;JavaScript&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>z; <span style="color:#007f7f">// &#39;ES6&#39;
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>3.解构赋值时可以忽略元素</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">let</span> [, , z] = [<span style="color:#0ff;font-weight:bold">&#39;hello&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;JavaScript&#39;</span>, <span style="color:#0ff;font-weight:bold">&#39;ES6&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>z;  <span style="color:#007f7f">// ES6 
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>4.还可以对<code>对象</code>进行解构赋值</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> person = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#ff0;font-weight:bold">22</span>,
+</span></span><span style="display:flex;"><span>    gender: <span style="color:#0ff;font-weight:bold">&#39;male&#39;</span>,
+</span></span><span style="display:flex;"><span>    email: <span style="color:#0ff;font-weight:bold">&#39;zsh981109@163.com&#39;</span>,
+</span></span><span style="display:flex;"><span>    school: <span style="color:#0ff;font-weight:bold">&#39;zyg&#39;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 定义了三个变量，分别对应三个属性
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">var</span> {name, age, email} = person;
+</span></span><span style="display:flex;"><span>console.log(name, age, email);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>控制台就可以打印出我们想要的内容了</p>
+<blockquote>
+<p>对对象进行解构赋值时，也可以进行嵌套</p>
+</blockquote>
+<p><strong>5.可以通过属性名赋值的时候，重新定义一个变量名</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> person = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    gender: <span style="color:#0ff;font-weight:bold">&#39;male&#39;</span>,
+</span></span><span style="display:flex;"><span>    passport: <span style="color:#0ff;font-weight:bold">&#39;G-12345678&#39;</span>,
+</span></span><span style="display:flex;"><span>    school: <span style="color:#0ff;font-weight:bold">&#39;No.4 middle school&#39;</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 把passport属性赋值给变量id:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">let</span> {name, passport:id} = person;
+</span></span><span style="display:flex;"><span>console.log(name);
+</span></span><span style="display:flex;"><span>console.log(age);
+</span></span><span style="display:flex;"><span>console.log(id);
+</span></span><span style="display:flex;"><span>console.log(email);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>控制台输出结果：</p>
+<p>可以看到，name,age,id都打印出来了，而email报错，因为email的内容赋值给了新变量<code>id</code>，而<code>email</code>没有任何内容，所以报错</p>
+<p><strong>6.可以使用默认值true，避免不存在的属性返回undefined</strong></p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> person = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    gender: <span style="color:#0ff;font-weight:bold">&#39;male&#39;</span>,
+</span></span><span style="display:flex;"><span>    passport: <span style="color:#0ff;font-weight:bold">&#39;G-12345678&#39;</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 如果person对象没有single属性，默认赋值为true:
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">var</span> {name, single=<span style="color:#fff;font-weight:bold">true</span>} = person;
+</span></span><span style="display:flex;"><span>name;   <span style="color:#007f7f">// &#39;小明&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>single; <span style="color:#007f7f">// true
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>要注意，赋值的时候不能以<code>{</code>开头，避免js将其渲染失败</p>
+</blockquote>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> person = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>    gender: <span style="color:#0ff;font-weight:bold">&#39;male&#39;</span>,
+</span></span><span style="display:flex;"><span>    passport: <span style="color:#0ff;font-weight:bold">&#39;G-12345678&#39;</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 声明变量
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">var</span> x;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> y;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 解构赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>{x, y} = { name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>, x: <span style="color:#ff0;font-weight:bold">100</span>, y: <span style="color:#ff0;font-weight:bold">200</span>} <span style="color:#007f7f">// Error:
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这里 <code>{x, y} = person</code>会报一个错误，<code>=</code>不合法，所以正确的写法是，在赋值语句外部包裹一层<code>()</code>小括号</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>({x, y} = { name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>, x: <span style="color:#ff0;font-weight:bold">100</span>, y: <span style="color:#ff0;font-weight:bold">200</span>});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>7.解构赋值的使用场景</strong></p>
+<p>交换两个变量的值</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> a = <span style="color:#ff0;font-weight:bold">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> b = <span style="color:#ff0;font-weight:bold">2</span>;
+</span></span><span style="display:flex;"><span>[a, b] = [b, a]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="四对象的方法">四、对象的方法<a hidden class="anchor" aria-hidden="true" href="#四对象的方法">#</a></h2>
+<blockquote>
+<p>绑定到对象上的函数被称为方法</p>
+</blockquote>
+<p>在一个对象中绑定函数，称为这个对象的方法</p>
+<h3 id="1this">1.this<a hidden class="anchor" aria-hidden="true" href="#1this">#</a></h3>
+<p>下面段代码返回的是（今年的年份－出生年份）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> xm = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>,
+</span></span><span style="display:flex;"><span>    birth: <span style="color:#ff0;font-weight:bold">1998</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">function</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">var</span> year = <span style="color:#fff;font-weight:bold">new</span> <span style="color:#fff;font-weight:bold">Date</span>().getFullYear();
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> year - <span style="color:#fff;font-weight:bold">this</span>.birth
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// 在对象xm中，调用方法age()
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>xm.age();   <span style="color:#007f7f">// 22
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><red>这里引入了一个新的关键词<code>this</code></red></p>
+<p>在方法内部，<code>this</code>是一个特殊的变量，它始终指向当前对象，也就是<code>xm</code>这个变量</p>
+<p>所以<code>this.birth</code>指的就是<code>变量xm的birth属性</code></p>
+<blockquote>
+<p><code>this</code>存在于方法中，想在方法中调用对象的属性，必须通过<code>this</code></p>
+</blockquote>
+<p>如果在方法写在对象外部时，<code>this</code>的指向问题就要好好分析了，比如：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> getage() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> year = <span style="color:#fff;font-weight:bold">new</span> <span style="color:#fff;font-weight:bold">Date</span>().getFullYear();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> year - <span style="color:#fff;font-weight:bold">this</span>.birth;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> xiaoming = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;小明&#39;</span>,
+</span></span><span style="display:flex;"><span>    birth: <span style="color:#ff0;font-weight:bold">1990</span>,
+</span></span><span style="display:flex;"><span>    age: getage
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>单独调用<code>getage()</code>的时候，这时的<code>getage()</code>指的是一个方法，同时这个方法处于全局作用域下，此时<code>this</code>指向的是全局对象<code>window</code>，所以返回<code>NaN</code></p>
+<p>只有<code>xiaoming.age()</code>调用的才是对象<code>xiaoming</code>下面的方法<code>getage()</code></p>
+<blockquote>
+<p>因此：要保证<code>this</code>的指向正确，必须使用<code>obj.xxx()</code>的形式调用
+如果没有使用这种方法，全部报错，如果是在&rsquo;use strict&rsquo;模式下，<code>this</code>会指向undefined</p>
+</blockquote>
+<h3 id="2that">2.that<a hidden class="anchor" aria-hidden="true" href="#2that">#</a></h3>
+<p>如果在对象里面的方法，又套了一层事件，此时<code>this</code>指向又有问题了，它指向第一层方法，而不是方法对应的对象</p>
+<p>所以，在写方法的时候，直接先声明一个<code>var that = this</code>，这个<code>that</code>指向对象里面的属性，接下来，在方法里面调用属性的时候，直接在前面加上<code>that.</code>即可，它直接指向到对象下面的属性</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> xm = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>,
+</span></span><span style="display:flex;"><span>    birth: <span style="color:#ff0;font-weight:bold">1998</span>,
+</span></span><span style="display:flex;"><span>    age: <span style="color:#fff;font-weight:bold">function</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">var</span> that = <span style="color:#fff;font-weight:bold">this</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">function</span> getbirthage() {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">var</span> y = <span style="color:#fff;font-weight:bold">new</span> <span style="color:#fff;font-weight:bold">Date</span>().getFullYear();
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">return</span> y - that.birth;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">return</span> getbirthage();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// xm.age();
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到，通过定义<code>var that = this</code>，然后在方法里面使用<code>that.</code>指向属性，不管套了几层方法，都不会报错，直接指向对象下面的属性</p>
+<p>通过<code>var that = this</code>，可以放心的在方法里面定义其他函数，不用担心获取不到对象属性的问题</p>
+<blockquote>
+<p>但是有一个需要注意的地方，每个方法结束后，都要返回一下结果，<code>return getbirthage()</code></p>
+</blockquote>
+<h3 id="3apply">3.apply<a hidden class="anchor" aria-hidden="true" href="#3apply">#</a></h3>
+<p>除了<code>var that = this</code>，还可以通过<code>apply</code>属性控制<code>this</code>的指向</p>
+<p><code>apply</code>是函数本身的方法，它拥有两个参数</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">function</span> getage() {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">var</span> y = <span style="color:#fff;font-weight:bold">new</span> <span style="color:#fff;font-weight:bold">Date</span>().getFullYear();
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> y - <span style="color:#fff;font-weight:bold">this</span>.birth;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">var</span> xm = {
+</span></span><span style="display:flex;"><span>    name: <span style="color:#0ff;font-weight:bold">&#39;xiaoming&#39;</span>,
+</span></span><span style="display:flex;"><span>    birth: <span style="color:#ff0;font-weight:bold">1998</span>,
+</span></span><span style="display:flex;"><span>    age: getage
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// xm.age();
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// getage.apply(xm, []);
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>写法就是<code>getage.apply(xm, [])</code>，<code>apply</code>的第一个参数代表<code>this指向</code>，即对象，第二个参数，表示函数本身的参数</p>
+<h3 id="4apply--和-call-">4.apply( ) 和 call( )<a hidden class="anchor" aria-hidden="true" href="#4apply--和-call-">#</a></h3>
+<p><code>call()</code>是与<code>apply</code>类似的方法，区别是：</p>
+<ol>
+<li><code>apply()</code>将参数打包成<code>Array</code></li>
+<li><code>call()</code>直接将参数按顺序传入</li>
+</ol>
+<p>调用<code>math.max(1,2,3)</code>，分别采用两种方式</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>math.max.apply(<span style="color:#fff;font-weight:bold">null</span>, [<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>]);  <span style="color:#007f7f">// 3
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>math.max.call(<span style="color:#fff;font-weight:bold">null</span>, [<span style="color:#ff0;font-weight:bold">1</span>,<span style="color:#ff0;font-weight:bold">2</span>,<span style="color:#ff0;font-weight:bold">3</span>]);   <span style="color:#007f7f">// 3
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>两者的结果是一样的，调用普通函数时，把<code>this</code>绑定为<code>null</code></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E7%AC%94%E8%AE%B0/">笔记</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/14/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>小张厨房日记（更新中...）</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/12/">
+    <span class="title">Next »</span>
+    <br>
+    <span>HTML事件属性--DOM</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

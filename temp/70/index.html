@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>宝塔如何实现进程守护？ | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="服务器, 网站, 宝塔">
+<meta name="description" content="为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令 1 base run.sh 不然就访问不了端口">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/70/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="宝塔如何实现进程守护？" />
+<meta property="og:description" content="为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令 1 base run.sh 不然就访问不了端口" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/70/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2021-05-30T11:37:00+00:00" />
+<meta property="article:modified_time" content="2021-05-30T11:37:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="宝塔如何实现进程守护？"/>
+<meta name="twitter:description" content="为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令 1 base run.sh 不然就访问不了端口"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "宝塔如何实现进程守护？",
+      "item": "https://bablvsj.github.io/temp/70/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "宝塔如何实现进程守护？",
+  "name": "宝塔如何实现进程守护？",
+  "description": "为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令 1 base run.sh 不然就访问不了端口",
+  "keywords": [
+    "服务器", "网站", "宝塔"
+  ],
+  "articleBody": "为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令\n1  base run.sh   不然就访问不了端口，我也不可能时刻在终端保持指令运行，所以就需要把指令放在服务器后台，让它自己保持运行，刚好有这么一插件 Supervisor管理器 2.2 。\n是一款免费的Python插件，点击下载即可，然后进入设置。\n点击添加进程守护。\n把进程环境目录和启动命令都填好，名称就随便写个自己能分辨出来的就行，最后点击确定。\n让它一直保持启动状态就可以，其他的不用动，以后就不用打开服务器终端输入指令了，直接在浏览器访问端口，就可以访问网页。\n如果为了更方便，做个反代处理即可。\n",
+  "wordCount" : "290",
+  "inLanguage": "en",
+  "datePublished": "2021-05-30T11:37:00Z",
+  "dateModified": "2021-05-30T11:37:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/70/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      宝塔如何实现进程守护？
+    </h1>
+    <div class="post-meta">
+      <span title='2021-05-30 11:37:00 +0000 UTC'>2021/05/30</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a>
+    <a href="https://bablvsj.github.io/tags/%E7%BD%91%E7%AB%99/"> · 网站</a>
+    <a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/"> · 宝塔</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> 
+
+  <div class="post-content"><p>为了方便写一些东西，pc端和手机端都可以同步，我用leanote搭建了一个在线笔记，但是必须在服务器后台运行一个指令</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>base run.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不然就访问不了端口，我也不可能时刻在终端保持指令运行，所以就需要把指令放在服务器后台，让它自己保持运行，刚好有这么一插件 <code>Supervisor管理器 2.2</code> 。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/05/30/9f90c600cafa89430a3ee9c0d5b072e1.png" alt=""  />
+</p>
+<p>是一款免费的Python插件，点击下载即可，然后进入设置。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/05/30/0f9c8f2dec3697485a282efa94452184.png" alt=""  />
+</p>
+<p>点击添加进程守护。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/05/30/343421d2826ad64d94fd5660ebb0bbe1.png" alt=""  />
+</p>
+<p>把进程环境目录和启动命令都填好，名称就随便写个自己能分辨出来的就行，最后点击确定。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/05/30/03d6e938f29023b5b16032b73143b4fa.png" alt=""  />
+</p>
+<p>让它一直保持启动状态就可以，其他的不用动，以后就不用打开服务器终端输入指令了，直接在浏览器访问端口，就可以访问网页。</p>
+<p>如果为了更方便，做个反代处理即可。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E7%BD%91%E7%AB%99/">网站</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/">宝塔</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/71/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>在 vue 中使用 axios 调用数据</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/69/">
+    <span class="title">Next »</span>
+    <br>
+    <span>css 中 fixed 定位属性和动画的冲突问题及解决方法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

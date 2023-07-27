@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>在宝塔中使用青龙面板代挂京豆 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="宝塔, 脚本">
+<meta name="description" content="如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。 因此我也安排了一个脚本">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/116/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="在宝塔中使用青龙面板代挂京豆" />
+<meta property="og:description" content="如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。 因此我也安排了一个脚本" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/116/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2022-04-15T13:57:00+00:00" />
+<meta property="article:modified_time" content="2022-04-15T13:57:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="在宝塔中使用青龙面板代挂京豆"/>
+<meta name="twitter:description" content="如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。 因此我也安排了一个脚本"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "在宝塔中使用青龙面板代挂京豆",
+      "item": "https://bablvsj.github.io/temp/116/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "在宝塔中使用青龙面板代挂京豆",
+  "name": "在宝塔中使用青龙面板代挂京豆",
+  "description": "如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。 因此我也安排了一个脚本",
+  "keywords": [
+    "宝塔", "脚本"
+  ],
+  "articleBody": "如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。\n因此我也安排了一个脚本，成功部署之后，就写这篇不算教程的笔记来记录一下整个过程。\nGithub: https://github.com/6dylan6/jdpro 作者会更新一些部署的指令，如果安装不成功可以对照文档中的指令。\n拉取镜像 我是在宝塔中运行服务的，也是非常简单方便。至于怎么安装宝塔，这里就不介绍了，之前写过一篇关于部署宝塔面板的教程，可以点击站内搜索。\n如何安装宝塔面板？\n需要买服务器可以 点击链接在腾讯云购买服务器有优惠哦~ 不嫖白不嫖，省个十几二十块钱不香吗？\n 先在软件商店中下载安装一个 Docker管理器 ，之后点击 设置  镜像管理  镜像获取。\n然后输入 qinglong 进行搜索，选择第一个链接然后拉取。\n创建容器 点击创建容器。\n镜像就选择刚才拉取的那个，端口映射中的容器端口和服务器端口都填入5700，选择开机自启动，其他的都不用填，点击提交。\n 服务器的防火墙放行5700端口。\n 部署脚本 在浏览器输入 ip:5700 ，ip 地址就是你的服务器ip，会弹出一个青龙面板初始化配置，按照提示点击安装即可，没有特别复杂的。\n都是用户名密码通知设置等，我选择的是邮箱通知。\n安装完成后，在首页右上角点击新建任务，里面的内容直接复制即可。\n 名称随便填 命令填写  1  ql repo https://js.dayplus.xyz/https://github.com/6dylan6/jdpro.git \"jd_|jx_|jddj_\" \"backUp\" \"^jd[^_]|USER|JD|function|sendNotify\"    定时规则填写  1  0 0 0 * * *   点击确定即可。\n完成之后，什么都先不要点。\n环境变量 接下来来到面板左侧导航的 环境变量，点击新建变量，这里就需要京东账号的cookie值了，浏览器打开 m.jd.com ，登录账号，最后调成手机模式。\n然后在右侧找到 network ，点击搜索js文件，找到前缀为 biz.json?..... 的文件，右侧会显示一个 cookie\n找到其中的 pt_key与pt_pin ，很长看仔细。一起复制到新建变量的值里面，上面的名称输入 JD_COOKIE，最后点击确定。\n运行 最后回到定时任务，在分页的最后一页，找到最开始的那个脚本，单击允许，就会一直转圈在运行中，等到运行结束之后，选择禁用它，以后会始终保定时运行的。\n最后为了安全起见，把前面的脚本中带有 加密 二字的任务全部禁用。\n到这里就结束了，基本每天可以跑个100-200左右的豆子，虽然少，时间长了也很可观，以后买东西可以抵扣，心中暗爽….\n",
+  "wordCount" : "900",
+  "inLanguage": "en",
+  "datePublished": "2022-04-15T13:57:00Z",
+  "dateModified": "2022-04-15T13:57:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/116/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      在宝塔中使用青龙面板代挂京豆
+    </h1>
+    <div class="post-meta">
+      <span title='2022-04-15 13:57:00 +0000 UTC'>2022/04/15</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/">宝塔</a>
+    <a href="https://bablvsj.github.io/tags/%E8%84%9A%E6%9C%AC/"> · 脚本</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%8b%89%e5%8f%96%e9%95%9c%e5%83%8f" aria-label="拉取镜像">拉取镜像</a></li>
+                <li>
+                    <a href="#%e5%88%9b%e5%bb%ba%e5%ae%b9%e5%99%a8" aria-label="创建容器">创建容器</a></li>
+                <li>
+                    <a href="#%e9%83%a8%e7%bd%b2%e8%84%9a%e6%9c%ac" aria-label="部署脚本">部署脚本</a></li>
+                <li>
+                    <a href="#%e7%8e%af%e5%a2%83%e5%8f%98%e9%87%8f" aria-label="环境变量">环境变量</a></li>
+                <li>
+                    <a href="#%e8%bf%90%e8%a1%8c" aria-label="运行">运行</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>如题所述，想要在闲置的服务器中跑一些服务，青龙面板代挂京豆现存很多开源的脚本，安全性已经经过很多人验证，可以放心使用。</p>
+<!-- more -->
+<p>因此我也安排了一个脚本，成功部署之后，就写这篇不算教程的笔记来记录一下整个过程。</p>
+<p>Github: <a href="https://github.com/6dylan6/jdpro">https://github.com/6dylan6/jdpro</a>
+作者会更新一些部署的指令，如果安装不成功可以对照文档中的指令。</p>
+<h3 id="拉取镜像">拉取镜像<a hidden class="anchor" aria-hidden="true" href="#拉取镜像">#</a></h3>
+<p>我是在宝塔中运行服务的，也是非常简单方便。至于怎么安装宝塔，这里就不介绍了，之前写过一篇关于部署宝塔面板的教程，可以点击站内搜索。</p>
+<p><a href="https://imhan.cn/posts/20210511">如何安装宝塔面板？</a></p>
+<p>需要买服务器可以 <a href="https://curl.qcloud.com/opakHBek">点击链接在腾讯云购买服务器有优惠哦~</a> 不嫖白不嫖，省个十几二十块钱不香吗？</p>
+<hr>
+<p>先在软件商店中下载安装一个 <code>Docker管理器</code> ，之后点击 <code>设置 &gt; 镜像管理 &gt; 镜像获取</code>。</p>
+<p>然后输入 <code>qinglong</code> 进行搜索，选择第一个链接然后拉取。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264d9cbb43e4.png" alt=""  />
+</p>
+<h3 id="创建容器">创建容器<a hidden class="anchor" aria-hidden="true" href="#创建容器">#</a></h3>
+<p>点击创建容器。</p>
+<p>镜像就选择刚才拉取的那个，端口映射中的容器端口和服务器端口都填入5700，选择开机自启动，其他的都不用填，点击提交。</p>
+<blockquote>
+<p>服务器的防火墙放行5700端口。</p>
+</blockquote>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264d9e5ed0bb.png" alt=""  />
+</p>
+<h3 id="部署脚本">部署脚本<a hidden class="anchor" aria-hidden="true" href="#部署脚本">#</a></h3>
+<p>在浏览器输入 <code>ip:5700</code> ，ip 地址就是你的服务器ip，会弹出一个青龙面板初始化配置，按照提示点击安装即可，没有特别复杂的。</p>
+<p>都是用户名密码通知设置等，我选择的是邮箱通知。</p>
+<p>安装完成后，在首页右上角点击新建任务，里面的内容直接复制即可。</p>
+<ul>
+<li>名称随便填</li>
+<li>命令填写</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>ql repo https://js.dayplus.xyz/https://github.com/6dylan6/jdpro.git &#34;jd_|jx_|jddj_&#34; &#34;backUp&#34; &#34;^jd[^_]|USER|JD|function|sendNotify&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>定时规则填写</li>
+</ul>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>0 0 0 * * *
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>点击确定即可。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264da01401ac.png" alt=""  />
+</p>
+<p>完成之后，什么都先不要点。</p>
+<h3 id="环境变量">环境变量<a hidden class="anchor" aria-hidden="true" href="#环境变量">#</a></h3>
+<p>接下来来到面板左侧导航的 <code>环境变量</code>，点击新建变量，这里就需要京东账号的cookie值了，浏览器打开 <code>m.jd.com</code> ，登录账号，最后调成手机模式。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264da11d338a.png" alt=""  />
+</p>
+<p>然后在右侧找到 <code>network</code> ，点击搜索js文件，找到前缀为 <code>biz.json?.....</code> 的文件，右侧会显示一个 <code>cookie</code></p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264da1ed479e.png" alt=""  />
+</p>
+<p>找到其中的 <code>pt_key</code>与<code>pt_pin</code> ，很长看仔细。一起复制到新建变量的值里面，上面的名称输入 <code>JD_COOKIE</code>，最后点击确定。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264da2b927ca.png" alt=""  />
+</p>
+<h3 id="运行">运行<a hidden class="anchor" aria-hidden="true" href="#运行">#</a></h3>
+<p>最后回到定时任务，在分页的最后一页，找到最开始的那个脚本，单击允许，就会一直转圈在运行中，等到运行结束之后，选择禁用它，以后会始终保定时运行的。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2022/04/24/6264da3ccc796.png" alt=""  />
+</p>
+<p>最后为了安全起见，把前面的脚本中带有 <code>加密</code> 二字的任务全部禁用。</p>
+<p>到这里就结束了，基本每天可以跑个100-200左右的豆子，虽然少，时间长了也很可观，以后买东西可以抵扣，心中暗爽&hellip;.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E5%AE%9D%E5%A1%94/">宝塔</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E8%84%9A%E6%9C%AC/">脚本</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/119/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>随想录 (1)</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/113/">
+    <span class="title">Next »</span>
+    <br>
+    <span>2022 清明出游</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

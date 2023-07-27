@@ -79,5 +79,14 @@
       <description>解构赋值的概念 解构赋值：ES6 允许我们，按照一一对应的方式，从数组或者对象中提取值，再将提取出来的值赋值给变量。 解构：分解数据结构；赋值：给</description>
     </item>
     
+    <item>
+      <title>ES5 和 ES6 的区别？</title>
+      <link>https://bablvsj.github.io/temp/48/</link>
+      <pubDate>Wed, 20 Jan 2021 19:58:00 +0000</pubDate>
+      
+      <guid>https://bablvsj.github.io/temp/48/</guid>
+      <description>一、javascript 由三部分组成 1.ECMAScript（核心） 它规定了语言的组成部分：法语，类型，语句，关键字，操作符等等。 2.DOM</description>
+    </item>
+    
   </channel>
 </rss>

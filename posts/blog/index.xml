@@ -16,14 +16,5 @@
       <description>一、git 下载安装与检测是否安装成功 1、git 官网官网地址，这边提醒您官网是外网下载速度极慢。 所以我推荐阿里的下载地址，版本有特别多，那就随</description>
     </item>
     
-    <item>
-      <title>模板</title>
-      <link>https://bablvsj.github.io/posts/blog/firstblog/</link>
-      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/blog/firstblog/</guid>
-      <description>1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： var a = &#39;我是a&#39;; console.log(a); // 打印结果：我是a console.log(window.a); // 打印结果：我是a let b = &#39;我是b&#39;</description>
-    </item>
-    
   </channel>
 </rss>

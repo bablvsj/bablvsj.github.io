@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>hugo 如何使用 Cusdis ? | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="博客">
+<meta name="description" content="Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。 由">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/77/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="hugo 如何使用 Cusdis ?" />
+<meta property="og:description" content="Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。 由" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/77/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2021-09-16T13:14:00+00:00" />
+<meta property="article:modified_time" content="2021-09-16T13:14:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="hugo 如何使用 Cusdis ?"/>
+<meta name="twitter:description" content="Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。 由"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "hugo 如何使用 Cusdis ?",
+      "item": "https://bablvsj.github.io/temp/77/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "hugo 如何使用 Cusdis ?",
+  "name": "hugo 如何使用 Cusdis ?",
+  "description": "Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。 由",
+  "keywords": [
+    "博客"
+  ],
+  "articleBody": "Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。\n由于 Cusdis 自称是 Disqus 的替代方案，因此它还支持一键从 Disqus 导入、支持邮件通知等功能。\n官方地址: https://cusdis.com/\n他通常是用于静态博客的一个第三方评论系统，但是官方文档没有提供如何在 hugo 中使用的参数，我也是报错了多次才琢磨出来。\n1. 本地部署 根据提示，注册账号，然后 Add website ，建立一个仓库。\n进入它，然后点击 setting。\nEmbed Code 会提供几行代码以及一些 api,复制他们。\ndata-app-id 是注册时自动生成的，注意保密，每个人都不一样。\n1 2 3 4 5 6 7 8  div id=\"cusdis_thread\"  data-host=\"https://cusdis.com\"  data-app-id=\"xxxxxxxxx\"  data-page-id=\"{{ PAGE_ID }}\"  data-page-url=\"{{ PAGE_URL }}\"  data-page-title=\"{{ PAGE_TITLE }}\" div script async defer src=\"https://cusdis.com/js/cusdis.es.js\"script   将这些代码复制到本地主题的 comments.html 文件内（就是评论的那个模块，每个主题或许都不一样，注意分辨）。\n这个时候如果你 hugo server 基本都会报错，因为没有修改 {{ PAGE_ID }} 等内容，这不是 hugo 官方提供的参数，按照我下面的格式，将 id, url, title 重写一下即可。\n1 2 3 4 5 6 7 8  div id=\"cusdis_thread\"  data-host=\"https://cusdis.com\"  data-app-id=\"c1d43485-e8a7-4895-972e-247eddaf242d\"  data-page-id=\"{{ .RelPermalink }}\"  data-page-url=\"{{ .RelPermalink }}\"  data-page-title=\"{{ .Title }}\" div script async defer src=\"https://cusdis.com/js/cusdis.es.js\"script   保存重新 hugo server 即可。\n 这样做的好处是当你接受一条评论信息后，审核列表可以清楚地标明来自哪一篇文章。通常大多数博客都提供了这么一个功能。\n 2. 邮箱提醒 除了必备的评论功能， Cusdis 还提供了一个非常快速的邮箱提醒功能，不需要绑定密匙，直接输入自己的邮箱即可。\n先勾选这个 Email Notification，然后点击下方的 Advanced Notification Settings (高级通知设置)\n就可以进入设置，输入自己的邮箱。\n3. 中文化 默认的评论和提示文字均为英文，对我们很不友好，这里提供一个不错的解决方案，在引入 Cusdis 之后，顺便复制引入下面这段代码。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  script  window.CUSDIS_LOCALE = {  \"powered_by\": \"评论由 Cusdis 提供\",  \"post_comment\": \"发送\",  \"loading\": \"加载中\",  \"email\": \"邮箱地址 (可选)\",  \"nickname\": \"昵称\",  \"reply_placeholder\": \"回复内容...\",  \"reply_btn\": \"回复\",  \"sending\": \"发送中...\",  \"mod_badge\": \"管理员\",  \"content_is_required\": \"内容不能为空\",  \"nickname_is_required\": \"昵称不能为空\",  \"comment_has_been_sent\": \"评论已发送，管理员审核通过后会展示\"  } script   。。。\n",
+  "wordCount" : "883",
+  "inLanguage": "en",
+  "datePublished": "2021-09-16T13:14:00Z",
+  "dateModified": "2021-09-16T13:14:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/77/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      hugo 如何使用 Cusdis ?
+    </h1>
+    <div class="post-meta">
+      <span title='2021-09-16 13:14:00 +0000 UTC'>2021/09/16</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E5%8D%9A%E5%AE%A2/">博客</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1-%e6%9c%ac%e5%9c%b0%e9%83%a8%e7%bd%b2" aria-label="1. 本地部署">1. 本地部署</a></li>
+                <li>
+                    <a href="#2-%e9%82%ae%e7%ae%b1%e6%8f%90%e9%86%92" aria-label="2. 邮箱提醒">2. 邮箱提醒</a></li>
+                <li>
+                    <a href="#3-%e4%b8%ad%e6%96%87%e5%8c%96" aria-label="3. 中文化">3. 中文化</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>Cusdis 是一个界面清爽、注重隐私的轻量级 (~5kb gzip) 评论系统，可以很方便地与 React、Vue 或其他博客系统结合，并且还提供了一个后台来管理所有的评论。</p>
+<p>由于 Cusdis 自称是 Disqus 的替代方案，因此它还支持一键从 Disqus 导入、支持邮件通知等功能。</p>
+<p>官方地址: <a href="https://cusdis.com/">https://cusdis.com/</a></p>
+<p>他通常是用于静态博客的一个第三方评论系统，但是官方文档没有提供如何在 hugo 中使用的参数，我也是报错了多次才琢磨出来。</p>
+<h2 id="1-本地部署">1. 本地部署<a hidden class="anchor" aria-hidden="true" href="#1-本地部署">#</a></h2>
+<p>根据提示，注册账号，然后 <code>Add website</code> ，建立一个仓库。</p>
+<p>进入它，然后点击 <code>setting</code>。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/09/16/68aa68c985a8a9560645c60a98adad6f.png" alt=""  />
+</p>
+<p><code>Embed Code</code> 会提供几行代码以及一些 api,复制他们。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/09/16/059b79361e36b23f0c4ee59f2d69a990.png" alt=""  />
+</p>
+<p><code>data-app-id</code> 是注册时自动生成的，注意保密，每个人都不一样。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="font-weight:bold">div</span> <span style="color:#007f7f">id</span>=<span style="color:#0ff;font-weight:bold">&#34;cusdis_thread&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-host</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cusdis.com&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-app-id</span>=<span style="color:#0ff;font-weight:bold">&#34;xxxxxxxxx&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-id</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ PAGE_ID }}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-url</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ PAGE_URL }}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-title</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ PAGE_TITLE }}&#34;</span>
+</span></span><span style="display:flex;"><span>&gt;&lt;/<span style="font-weight:bold">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">async</span> <span style="color:#007f7f">defer</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cusdis.com/js/cusdis.es.js&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>将这些代码复制到本地主题的 <code>comments.html</code> 文件内（就是评论的那个模块，每个主题或许都不一样，注意分辨）。</p>
+<p>这个时候如果你 hugo server 基本都会报错，因为没有修改 <code>{{ PAGE_ID }}</code> 等内容，这不是 hugo 官方提供的参数，按照我下面的格式，将 id, url, title 重写一下即可。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="font-weight:bold">div</span> <span style="color:#007f7f">id</span>=<span style="color:#0ff;font-weight:bold">&#34;cusdis_thread&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-host</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cusdis.com&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-app-id</span>=<span style="color:#0ff;font-weight:bold">&#34;c1d43485-e8a7-4895-972e-247eddaf242d&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-id</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ .RelPermalink }}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-url</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ .RelPermalink }}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#007f7f">data-page-title</span>=<span style="color:#0ff;font-weight:bold">&#34;{{ .Title }}&#34;</span>
+</span></span><span style="display:flex;"><span>&gt;&lt;/<span style="font-weight:bold">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">async</span> <span style="color:#007f7f">defer</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cusdis.com/js/cusdis.es.js&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保存重新 hugo server 即可。</p>
+<blockquote>
+<p>这样做的好处是当你接受一条评论信息后，审核列表可以清楚地标明来自哪一篇文章。通常大多数博客都提供了这么一个功能。</p>
+</blockquote>
+<h2 id="2-邮箱提醒">2. 邮箱提醒<a hidden class="anchor" aria-hidden="true" href="#2-邮箱提醒">#</a></h2>
+<p>除了必备的评论功能， Cusdis 还提供了一个非常快速的邮箱提醒功能，不需要绑定密匙，直接输入自己的邮箱即可。</p>
+<p>先勾选这个 Email Notification，然后点击下方的 Advanced Notification Settings (高级通知设置)</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/09/16/75641c05cbe66afcbb4ffdfb79bb464e.png" alt=""  />
+</p>
+<p>就可以进入设置，输入自己的邮箱。</p>
+<p><img loading="lazy" src="https://imgurl.zburu.com/images/2021/09/16/a3d47cb11f1662d3894da79ead79d852.png" alt=""  />
+</p>
+<h2 id="3-中文化">3. 中文化<a hidden class="anchor" aria-hidden="true" href="#3-中文化">#</a></h2>
+<p>默认的评论和提示文字均为英文，对我们很不友好，这里提供一个不错的解决方案，在引入 Cusdis 之后，顺便复制引入下面这段代码。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">window</span>.CUSDIS_LOCALE = {
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;powered_by&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;评论由 Cusdis 提供&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;post_comment&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;发送&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;loading&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;加载中&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;email&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;邮箱地址 (可选)&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;nickname&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;昵称&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;reply_placeholder&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;回复内容...&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;reply_btn&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;回复&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;sending&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;发送中...&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;mod_badge&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;管理员&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;content_is_required&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;内容不能为空&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;nickname_is_required&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;昵称不能为空&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#34;comment_has_been_sent&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;评论已发送，管理员审核通过后会展示&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>。。。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E5%8D%9A%E5%AE%A2/">博客</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/78/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>使用js随机生成背景颜色</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/76/">
+    <span class="title">Next »</span>
+    <br>
+    <span>使用jq做一个数字递增效果</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

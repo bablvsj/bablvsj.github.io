@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>掘金抽奖脚本 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="掘金, 油猴脚本">
+<meta name="description" content="分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。 攒多一点矿石，体验买彩票的感觉。 油猴脚本代码 ```js // ==UserScript== // @name 掘金抽奖 // @namespace http://tampermonkey.net/ // @version 1.2.5 // @description 掘金抽奖">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/143/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="掘金抽奖脚本" />
+<meta property="og:description" content="分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。 攒多一点矿石，体验买彩票的感觉。 油猴脚本代码 ```js // ==UserScript== // @name 掘金抽奖 // @namespace http://tampermonkey.net/ // @version 1.2.5 // @description 掘金抽奖" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/143/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2022-06-22T09:01:00+00:00" />
+<meta property="article:modified_time" content="2022-06-22T09:01:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="掘金抽奖脚本"/>
+<meta name="twitter:description" content="分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。 攒多一点矿石，体验买彩票的感觉。 油猴脚本代码 ```js // ==UserScript== // @name 掘金抽奖 // @namespace http://tampermonkey.net/ // @version 1.2.5 // @description 掘金抽奖"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "掘金抽奖脚本",
+      "item": "https://bablvsj.github.io/temp/143/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "掘金抽奖脚本",
+  "name": "掘金抽奖脚本",
+  "description": "分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。 攒多一点矿石，体验买彩票的感觉。 油猴脚本代码 ```js // ==UserScript== // @name 掘金抽奖 // @namespace http://tampermonkey.net/ // @version 1.2.5 // @description 掘金抽奖",
+  "keywords": [
+    "掘金", "油猴脚本"
+  ],
+  "articleBody": "分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。\n攒多一点矿石，体验买彩票的感觉。\n油猴脚本代码 ```js // ==UserScript== // @name 掘金抽奖 // @namespace http://tampermonkey.net/ // @version 1.2.5 // @description 掘金抽奖 签到 免费抽奖 5连抽 10连抽 可视化抽奖 petite-vue // @author 无仙 // @match https://juejin.cn/* // @icon https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web//static/favicons/favicon-32x32.png // @require https://unpkg.com/petite-vue // ==/UserScript== (async function () { ‘use strict’;\nconst { createApp } = PetiteVue; // 不会吧不会吧，不会还有人不知道petite-vue吧\nconst root = document.createElement(‘div’); root.class = ‘wx_draw_wrap’; root.innerHTML = ` 掘金抽奖\n 掘金抽奖 当前矿石：{{ score }}  签到 签到成功 5连抽 10连抽 梭哈抽奖    奖品图片 奖品名称 中奖次数     {{ item.lottery_name }} {{ item.times }}       关闭     `;\n// 查询奖品列表 const res = await fetch(‘https://api.juejin.cn/growth_api/v1/lottery_config/get', { headers: { cookie: document.cookie }, method: ‘GET’, credentials: ‘include’ }).then((res) = res.json());\nconst award = (res.data \u0026\u0026 res.data.lottery ? res.data.lottery : []).map((item) = ({ …item, times: 0 })); const { free_count, point_cost } = res.data; // 剩余免费抽奖次数，单次抽奖消耗数\ndocument.body.appendChild(root); // 插入DOM\n// petite-vue init初始化 createApp({ award, popup: false, loading: false, score: 0, free_count, check_status: -1,\nasync open() { const res = await fetch('https://api.juejin.cn/growth_api/v1/get_cur_point', { headers: { cookie: document.cookie }, method: 'GET', credentials: 'include' }).then((res) = res.json()); this.score = res.data; // 当前分数 this.popup = true; (this.check_status === -1 || this.check_status === false) \u0026\u0026 this.get_status(); }, async draw(times, is_not_free = true) { if (this.loading || times === 0) return; // const is_not_free = !(this.free_count \u0026\u0026 times === 1); if (is_not_free \u0026\u0026 this.score { if ((is_not_free \u0026\u0026 this.score res.json()); if (result.err_no !== 0) { console.log(result.err_msg); this.loading = false; this.open(); return; } i++; is_not_free \u0026\u0026 (this.score -= point_cost); if (result.data.lottery_type === 1) this.score += 66; const item = this.award.find((item) = item.lottery_id === result.data.lottery_id); item.times++; console.log(`抽到：${result.data.lottery_name}`); drawFn(); }; console.log(`开始${times ? times + '连抽' : '梭哈'}！`); this.loading = true; this.award.forEach((item) = { item.times = 0; }); try { drawFn(); } catch (error) { this.loading = false; console.error(error); } }, async check_in() { if (this.check_status) { this.get_free(); // 免费抽奖 return; } // 签到 const check_in = await fetch('https://api.juejin.cn/growth_api/v1/check_in', { headers: { cookie: document.cookie }, method: 'POST', credentials: 'include' }).then((res) = res.json()); if (check_in.err_no !== 0) { alert('签到失败！'); this.check_status = false; return; } this.check_status = true; this.score = check_in.data.sum_point; this.get_free(); // 免费抽奖 }, async get_status() { // 查询签到状态 const today_status = await fetch('https://api.juejin.cn/growth_api/v1/get_today_status', { headers: { cookie: document.cookie }, method: 'GET', credentials: 'include' }).then((res) = res.json()); this.check_status = today_status.data; }, async get_free() { // 查询是否有免费抽奖次数 const res = await fetch('https://api.juejin.cn/growth_api/v1/lottery_config/get', { headers: { cookie: document.cookie }, method: 'GET', credentials: 'include' }).then((res) = res.json()); this.free_count = res.data.free_count; if (res.data.free_count) { // 有免费抽奖次数 this.draw(res.data.free_count, false); } }  }).mount();\n// 处理样式 const style = .wx_draw_wrap { box-sizing: border-box; position: fixed; top: 50%; left: 0px; z-index: 888888; margin-top: -20px; } .wx_draw { box-sizing: border-box; position: fixed; top: 50%; left: 0px; z-index: 888888; width: 40px; height: 40px; line-height: 16px; font-size: 12px; padding: 4px; background-color: rgb(232, 243, 255); border: 1px solid rgb(232, 243, 255); color: rgb(30, 128, 255); text-align: center; overflow: hidden; cursor: pointer; } .wx_popup { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 999999; } .wx_mask { width: 100%; height: 100%; background: rgba(0,0,0,0.5); } .wx_main { --width: 460px; position: absolute; left: 50%; top: 50%; width: var(--width); transform: translate(-50%, -50%); background: #fff; border-radius: 4px; } .wx_main .wx_header { height: 40px; line-height: 40px; font-size: 16px; padding: 0 16px; border-bottom: 1px solid #999; display: flex; align-items: center; justify-content: space-between; color: #000; font-weight: 400; } .wx_score { font-size: 12px; font-size: #00a100; } .wx_main .wx_body { padding: 16px; border-bottom: 1px solid #999; position: relative; } .wx_main .wx_options { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; } .wx_main .wx_options div { width: 80px; text-align: center; height: 24px; line-height: 24px; background-color: rgb(232, 243, 255); border: 1px solid #c9d4e3; color: rgb(30, 128, 255); cursor: pointer; border-radius: 2px; } .wx_main .wx_body p { margin: 0 0 8px; } .wx_body table { width: 100%; text-align: center; border-left: 1px solid #ccc; border-top: 1px solid #ccc; } .wx_body table th, .wx_body table td { border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; line-height: 20px; } .wx_body table th { line-height: 28px; } .wx_main .wx_body img { vertical-align: middle; width: 40px; height: 40px; } .wx_main .wx_footer { padding: 12px 16px; text-align: right; } .wx_btn { display: inline-block; width: 48px; cursor: pointer; text-align: center; height: 20px; line-height: 20px; background-color: rgb(232, 243, 255); border: 1px solid #c9d4e3; color: rgb(30, 128, 255); border-radius: 2px; } .wx_loading { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 9999999; background: rgba(0,0,0,0.65); } .wx_loading .circular { height: 42px; width: 42px; -webkit-animation: loading-rotate 2s linear infinite; animation: loading-rotate 2s linear infinite; position: absolute; left: 50%; top: 50%; margin-top: -21px; margin-left: -21px; } .wx_loading .path { -webkit-animation: loading-dash 1.5s ease-in-out infinite; animation: loading-dash 1.5s ease-in-out infinite; stroke-dasharray: 90, 150; stroke-dashoffset: 0; stroke-width: 2; stroke: #409eff; stroke-linecap: round; } @keyframes loading-rotate { 100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); } } @keyframes loading-dash { 0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 150; stroke-dashoffset: -40px; } 100% { stroke-dasharray: 90, 150; stroke-dashoffset: -120px; } };\nconst styleEl = document.createElement(‘style’); styleEl.textContent = style; document.head.appendChild(styleEl); })();\n1 2      ",
+  "wordCount" : "1620",
+  "inLanguage": "en",
+  "datePublished": "2022-06-22T09:01:00Z",
+  "dateModified": "2022-06-22T09:01:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/143/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      掘金抽奖脚本
+    </h1>
+    <div class="post-meta">
+      <span title='2022-06-22 09:01:00 +0000 UTC'>2022/06/22</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E6%8E%98%E9%87%91/">掘金</a>
+    <a href="https://bablvsj.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/"> · 油猴脚本</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> 
+
+  <div class="post-content"><p>分享一个掘金抽奖的油猴脚本，可以一键签到，抽奖，梭哈。</p>
+<p>攒多一点矿石，体验买彩票的感觉。</p>
+<summary>油猴脚本代码<details>
+```js
+// ==UserScript==
+// @name         掘金抽奖
+// @namespace    http://tampermonkey.net/
+// @version      1.2.5
+// @description  掘金抽奖 签到 免费抽奖 5连抽 10连抽 可视化抽奖 petite-vue
+// @author       无仙
+// @match        https://juejin.cn/*
+// @icon         https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web//static/favicons/favicon-32x32.png
+// @require      https://unpkg.com/petite-vue
+// ==/UserScript==
+<p>(async function () {
+&lsquo;use strict&rsquo;;</p>
+<p>const { createApp } = PetiteVue; // 不会吧不会吧，不会还有人不知道petite-vue吧</p>
+<p>const root = document.createElement(&lsquo;div&rsquo;);
+root.class = &lsquo;wx_draw_wrap&rsquo;;
+root.innerHTML = `
+&lt;div v-show=&quot;!popup&quot; class=&ldquo;wx_draw&rdquo; @click=&ldquo;open&rdquo;&gt;掘金抽奖</div></p>
+<pre><code>&lt;div v-if=&quot;popup&quot; class=&quot;wx_popup&quot;&gt;
+  &lt;div class=&quot;wx_mask&quot; @click=&quot;popup = false&quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;wx_main&quot;&gt;
+    &lt;div class=&quot;wx_header&quot;&gt;
+      &lt;div&gt;掘金抽奖&lt;/div&gt;
+      &lt;div class=&quot;wx_score&quot;&gt;当前矿石：{{ score }}&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;wx_body&quot;&gt;
+      &lt;div class=&quot;wx_options&quot;&gt;
+        &lt;div @click=&quot;check_in&quot; v-if=&quot;check_status === -1 || check_status === false&quot;&gt;签到&lt;/div&gt;
+        &lt;div @click=&quot;get_free&quot; v-else&gt;签到成功&lt;/div&gt;
+        &lt;div @click=&quot;draw(5)&quot;&gt;5连抽&lt;/div&gt;
+        &lt;div @click=&quot;draw(10)&quot;&gt;10连抽&lt;/div&gt;
+        &lt;div @click=&quot;draw(undefined)&quot;&gt;梭哈抽奖&lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;table cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; border=&quot;0&quot; width=&quot;100%&quot;&gt;
+        &lt;thead&gt;
+          &lt;tr&gt;
+            &lt;th&gt;奖品图片&lt;/th&gt;
+            &lt;th&gt;奖品名称&lt;/th&gt;
+            &lt;th&gt;中奖次数&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr v-for=&quot;item in award&quot;&gt;
+            &lt;td&gt;&lt;img :src=&quot;item.lottery_image&quot;/&gt;&lt;/td&gt;
+            &lt;td&gt;{{ item.lottery_name }}&lt;/td&gt;
+            &lt;td&gt;{{ item.times }}&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+
+      &lt;div class=&quot;wx_loading&quot; v-if=&quot;loading&quot;&gt;
+        &lt;svg class=&quot;circular&quot; viewBox=&quot;25 25 50 50&quot;&gt;
+          &lt;circle class=&quot;path&quot; cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;20&quot; fill=&quot;none&quot; /&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;wx_footer&quot;&gt;
+      &lt;div class=&quot;wx_confirm wx_btn&quot; @click=&quot;popup = false&quot;&gt;关闭&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>`;</p>
+<p>// 查询奖品列表
+const res = await fetch(&lsquo;<a href="https://api.juejin.cn/growth_api/v1/lottery_config/get'">https://api.juejin.cn/growth_api/v1/lottery_config/get'</a>, {
+headers: {
+cookie: document.cookie
+},
+method: &lsquo;GET&rsquo;,
+credentials: &lsquo;include&rsquo;
+}).then((res) =&gt; res.json());</p>
+<p>const award = (res.data &amp;&amp; res.data.lottery ? res.data.lottery : []).map((item) =&gt; ({ &hellip;item, times: 0 }));
+const { free_count, point_cost } = res.data; // 剩余免费抽奖次数，单次抽奖消耗数</p>
+<p>document.body.appendChild(root); // 插入DOM</p>
+<p>// petite-vue init初始化
+createApp({
+award,
+popup: false,
+loading: false,
+score: 0,
+free_count,
+check_status: -1,</p>
+<pre><code>async open() {
+  const res = await fetch('https://api.juejin.cn/growth_api/v1/get_cur_point', {
+    headers: {
+      cookie: document.cookie
+    },
+    method: 'GET',
+    credentials: 'include'
+  }).then((res) =&gt; res.json());
+
+  this.score = res.data; // 当前分数
+
+  this.popup = true;
+
+  (this.check_status === -1 || this.check_status === false) &amp;&amp; this.get_status();
+},
+async draw(times, is_not_free = true) {
+  if (this.loading || times === 0) return;
+
+  // const is_not_free = !(this.free_count &amp;&amp; times === 1);
+
+  if (is_not_free &amp;&amp; this.score &lt; point_cost * (times || 1)) return alert('分都不够想啥呢？');
+
+  let i = 0;
+  const drawFn = async () =&gt; {
+    if ((is_not_free &amp;&amp; this.score &lt; point_cost) || i === times) {
+      this.free_count = 0;
+      this.loading = false;
+      this.open();
+      console.log(`${times ? times + '连抽' : '梭哈'}结束！`);
+      return;
+    }
+
+    const result = await fetch('https://api.juejin.cn/growth_api/v1/lottery/draw', {
+      headers: {
+        cookie: document.cookie
+      },
+      method: 'POST',
+      credentials: 'include'
+    }).then((res) =&gt; res.json());
+
+    if (result.err_no !== 0) {
+      console.log(result.err_msg);
+      this.loading = false;
+      this.open();
+      return;
+    }
+
+    i++;
+    is_not_free &amp;&amp; (this.score -= point_cost);
+
+    if (result.data.lottery_type === 1) this.score += 66;
+
+    const item = this.award.find((item) =&gt; item.lottery_id === result.data.lottery_id);
+    item.times++;
+
+    console.log(`抽到：${result.data.lottery_name}`);
+    drawFn();
+  };
+
+  console.log(`开始${times ? times + '连抽' : '梭哈'}！`);
+  this.loading = true;
+  this.award.forEach((item) =&gt; {
+    item.times = 0;
+  });
+  try {
+    drawFn();
+  } catch (error) {
+    this.loading = false;
+    console.error(error);
+  }
+},
+async check_in() {
+  if (this.check_status) {
+    this.get_free(); // 免费抽奖
+    return;
+  }
+
+  // 签到
+  const check_in = await fetch('https://api.juejin.cn/growth_api/v1/check_in', {
+    headers: {
+      cookie: document.cookie
+    },
+    method: 'POST',
+    credentials: 'include'
+  }).then((res) =&gt; res.json());
+
+  if (check_in.err_no !== 0) {
+    alert('签到失败！');
+    this.check_status = false;
+    return;
+  }
+
+  this.check_status = true;
+  this.score = check_in.data.sum_point;
+  this.get_free(); // 免费抽奖
+},
+async get_status() {
+  // 查询签到状态
+  const today_status = await fetch('https://api.juejin.cn/growth_api/v1/get_today_status', {
+    headers: {
+      cookie: document.cookie
+    },
+    method: 'GET',
+    credentials: 'include'
+  }).then((res) =&gt; res.json());
+
+  this.check_status = today_status.data;
+},
+async get_free() {
+  // 查询是否有免费抽奖次数
+  const res = await fetch('https://api.juejin.cn/growth_api/v1/lottery_config/get', {
+    headers: {
+      cookie: document.cookie
+    },
+    method: 'GET',
+    credentials: 'include'
+  }).then((res) =&gt; res.json());
+
+  this.free_count = res.data.free_count;
+
+  if (res.data.free_count) {
+    // 有免费抽奖次数
+    this.draw(res.data.free_count, false);
+  }
+}
+</code></pre>
+<p>}).mount();</p>
+<p>// 处理样式
+const style = <code>.wx_draw_wrap { box-sizing: border-box; position: fixed; top: 50%; left: 0px; z-index: 888888; margin-top: -20px; } .wx_draw { box-sizing: border-box; position: fixed; top: 50%; left: 0px; z-index: 888888; width: 40px; height: 40px; line-height: 16px; font-size: 12px; padding: 4px; background-color: rgb(232, 243, 255); border: 1px solid rgb(232, 243, 255); color: rgb(30, 128, 255); text-align: center; overflow: hidden; cursor: pointer; } .wx_popup { position: fixed; left: 0; top: 0; right: 0; bottom: 0; z-index: 999999; } .wx_mask { width: 100%; height: 100%; background: rgba(0,0,0,0.5); } .wx_main { --width: 460px; position: absolute; left: 50%; top: 50%; width: var(--width); transform: translate(-50%, -50%); background: #fff; border-radius: 4px; } .wx_main .wx_header { height: 40px; line-height: 40px; font-size: 16px; padding: 0 16px; border-bottom: 1px solid #999; display: flex; align-items: center; justify-content: space-between; color: #000; font-weight: 400; } .wx_score { font-size: 12px; font-size: #00a100; } .wx_main .wx_body { padding: 16px; border-bottom: 1px solid #999; position: relative; } .wx_main .wx_options { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; } .wx_main .wx_options div { width: 80px; text-align: center; height: 24px; line-height: 24px; background-color: rgb(232, 243, 255); border: 1px solid #c9d4e3; color: rgb(30, 128, 255); cursor: pointer; border-radius: 2px; } .wx_main .wx_body p { margin: 0 0 8px; } .wx_body table { width: 100%; text-align: center; border-left: 1px solid #ccc; border-top: 1px solid #ccc; } .wx_body table th, .wx_body table td { border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; line-height: 20px; } .wx_body table th { line-height: 28px; } .wx_main .wx_body img { vertical-align: middle; width: 40px; height: 40px; } .wx_main .wx_footer { padding: 12px 16px; text-align: right; } .wx_btn { display: inline-block; width: 48px; cursor: pointer; text-align: center; height: 20px; line-height: 20px; background-color: rgb(232, 243, 255); border: 1px solid #c9d4e3; color: rgb(30, 128, 255); border-radius: 2px; } .wx_loading { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 9999999; background: rgba(0,0,0,0.65); } .wx_loading .circular { height: 42px; width: 42px; -webkit-animation: loading-rotate 2s linear infinite; animation: loading-rotate 2s linear infinite; position: absolute; left: 50%; top: 50%; margin-top: -21px; margin-left: -21px; } .wx_loading .path { -webkit-animation: loading-dash 1.5s ease-in-out infinite; animation: loading-dash 1.5s ease-in-out infinite; stroke-dasharray: 90, 150; stroke-dashoffset: 0; stroke-width: 2; stroke: #409eff; stroke-linecap: round; } @keyframes loading-rotate { 100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); } } @keyframes loading-dash { 0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 150; stroke-dashoffset: -40px; } 100% { stroke-dasharray: 90, 150; stroke-dashoffset: -120px; } }</code>;</p>
+<p>const styleEl = document.createElement(&lsquo;style&rsquo;);
+styleEl.textContent = style;
+document.head.appendChild(styleEl);
+})();</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&lt;/details&gt;
+</span></span><span style="display:flex;"><span>&lt;/summary&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E6%8E%98%E9%87%91/">掘金</a></li>
+      <li><a href="https://bablvsj.github.io/tags/%E6%B2%B9%E7%8C%B4%E8%84%9A%E6%9C%AC/">油猴脚本</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/145/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>人民币小写转大写</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/142/">
+    <span class="title">Next »</span>
+    <br>
+    <span>usb 接口的三面性</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

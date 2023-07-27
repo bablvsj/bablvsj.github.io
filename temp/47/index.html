@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>webpack 的核心概念和构建流程 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="js, webpack">
+<meta name="description" content="1.webpack 的核心概念 entry（入口）：一个可执行模块或者库的入口。定义了打包后的入口文件。 output（出口）：指示 webpack 如何去输出，以及在哪里输出。">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/temp/47/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.0b775796d0645eb6bcd014bcac4997db1b77193dc961874cf66c7fa593f16485.css" integrity="sha256-C3dXltBkXra80BS8rEmX2xt3GT3JYYdM9mx/pZPxZIU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="webpack 的核心概念和构建流程" />
+<meta property="og:description" content="1.webpack 的核心概念 entry（入口）：一个可执行模块或者库的入口。定义了打包后的入口文件。 output（出口）：指示 webpack 如何去输出，以及在哪里输出。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/temp/47/" /><meta property="article:section" content="temp" />
+<meta property="article:published_time" content="2021-01-18T19:59:00+00:00" />
+<meta property="article:modified_time" content="2021-01-18T19:59:00+00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="webpack 的核心概念和构建流程"/>
+<meta name="twitter:description" content="1.webpack 的核心概念 entry（入口）：一个可执行模块或者库的入口。定义了打包后的入口文件。 output（出口）：指示 webpack 如何去输出，以及在哪里输出。"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Temps",
+      "item": "https://bablvsj.github.io/temp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "webpack 的核心概念和构建流程",
+      "item": "https://bablvsj.github.io/temp/47/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "webpack 的核心概念和构建流程",
+  "name": "webpack 的核心概念和构建流程",
+  "description": "1.webpack 的核心概念 entry（入口）：一个可执行模块或者库的入口。定义了打包后的入口文件。 output（出口）：指示 webpack 如何去输出，以及在哪里输出。",
+  "keywords": [
+    "js", "webpack"
+  ],
+  "articleBody": "1.webpack 的核心概念  entry（入口）：一个可执行模块或者库的入口。定义了打包后的入口文件。 output（出口）：指示 webpack 如何去输出，以及在哪里输出。 path: 打包文件存放的绝对路径 publicPath: 网站运行时的访问路径 filename: 打包后的文件名 module（模块）：在 webpack 里，一切皆模块，一个模块对应一个文件。webpack 会从配置的 entry 中开始递归找出所有依赖的模块。 chunk（代码块）：一个 chunk 由多个 模块 组合而成。可以将可执行的模块和他所依赖的模块组合成一个 chunk ，这就是打包。 loader（模块转换器）：用于把一个模块原内容按照需求转换成新的内容。例如：es6 转换为 es5，scss 转换为 css 等。 plugin（扩展）：扩展webpack功能的插件。在webpack构建的生命周期节点上加入扩展hook，添加功能。  2.webpack 构建流程  初始化参数：解析 webpack 的配置参数，合并 shell 传入和 webpack.config.js 文件配置的参数，形成最后的配置结果。 开始编译：上一步得到的参数初始化 compiler 对象，注册所有配置的插件，插件监听 webpack 构建生命周期的事件节点，做出相应的反应，执行对象的 run 方法开始执行编译。 确定入口：其配置的 entry 入口，开始解析文件构建的 AST 语法树，找出依赖，递归下去。 编译模块：根据文件类型和 loader 配置，调用所有配置的 loader 对文件进行转换，再找出该模块依赖的模块，再递归本步骤知道所有入口依赖的文件都经过了本步骤的处理。 完成模块编译并输出：递归完后，得到每个文件结果，包含了每个模块及她们之间的依赖关系，根据 entry 配置生成代码块 chunk 。 输出完成：输出所有的 chunk 到文件系统。  3.有哪些常见的 loader ？  babel-loader：把es6转成es5； css-loader：加载css，支持模块化，压缩，文件导入等特性； style-loader：把css代码注入到js中，通过dom操作去加载css； eslint-loader：通过Eslint检查js代码； image-loader：加载并且压缩图片晚间； file-loader：文件输出到一个文件夹中，在代码中通过相对url去引用输出的文件； url-loader：和file-loader类似，文件很小的时候可以base64方式吧文件内容注入到代码中。 source-map-loader：加载额外的source map文件，方便调试。  4.业务场景和对应解决方案 1.单页应用 一个单页应用需要配置一个entry指明执行入口，web-webpack-plugin里的WebPlugin可以自动的完成这些工作：webpack会为entry生成一个包含这个入口的所有依赖文件的chunk，但是还需要一个html来加载chunk生成的js，如果还提取出css需要HTML文件中引入提取的css。\n一个简单的webpack配置文件例子：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  const { WebPlugin } = require('web-webpack-plugin'); module.exports = {  entry: {  app: './src/doc/index.js',  home: './src/doc/home.js'  },  plugins: [  // 一个WebPlugin对应生成一个html文件  new WebPlugin({  //输出的html文件名称  filename: 'index.html',  //这个html依赖的`entry`  requires: ['app','home'],  }),  ], };    说明：require: [‘app’, ‘home’]指明这个html依赖哪些entry，entry生成的js和css会自动注入到html中。\n 还支持配置这些资源注入方式，支持如下属性：\n _dist只有在生产环境中才引入的资源； _dev只有在开发环境中才引入的资源； _inline把资源的内容潜入到html中； _ie只有IE浏览器才需要引入的资源。  这些属性可以通过在js里配置，看个简单例子：\n1 2 3 4 5 6 7 8 9  new WebPlugin({  filename: 'index.html',  requires: {  app:{  _dist:true,  _inline:false,  }  }, }),   这些属性还可以在模板中设置，使用模板好处就是可以灵活的控制资源的注入点\n1 2 3 4  new WebPlugin({  filename: 'index.html',  template: './template.html', }),   1 2 3 4 5 6 7 8 9 10 11   html lang=\"zh-cn\" head  link rel=\"stylesheet\" href=\"app?_inline\"  script src=\"ie-polyfill?_ie\"script head body div id=\"react-body\"div script src=\"app\"script body html   WebPlugin插件借鉴了fis3的思想，补足了webpack缺失的以HTML为入口的功能。想了解WebPlugin的更多功能，见文档。\n2.一个项目管理多个单页面 一个项目中会包含多个单页应用，虽然多个单页面应用可以合成一个，但是这样做会导致用户没有访问的部分也加载了，如果项目中有很多的单页应用。为每一个单页应用配置一个entry和WebPlugin？如果又新增，又要新增webpack配置，这样做麻烦，这时候有一个插件web-webpack-plugin里的AutoWebPlugin方法可以解决这些问题。\n1 2 3 4 5 6  module.exports = {  plugins: [  // 所有页面的入口目录  new AutoWebPlugin('./src/'),  ] };   分析：\n AutoWebPlugin会把./src/目录下所有每个文件夹作为一个单页页面的入口，自动为所有的页面入口配置一个 WebPlugin 输出对应的html。 要新增一个页面就在 ./src/ 下新建一个文件夹包含这个单页应用所依赖的代码，AutoWebPlugin 自动生成一个名叫文件夹名称的html文件。  3.代码分隔优化 一个好的代码分割对浏览器首屏效果提升很大。\n最常见的react体系：\n 先抽出基础库react react-dom redux react-redux到一个单独的文件而不是和其它文件放在一起打包为一个文件，这样做的好处是只要你不升级他们的版本这个文件永远不会被刷新。如果你把这些基础库和业务代码打包在一个文件里每次改动业务代码都会导致文件hash值变化从而导致缓存失效浏览器重复下载这些包含基础库的代码。所以把基础库打包成一个文件。  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  // vender.js 文件抽离基础库到单独的一个文件里防止跟随业务代码被刷新 // 所有页面都依赖的第三方库 // react基础 import 'react'; import 'react-dom'; import 'react-redux'; // redux基础 import 'redux'; import 'redux-thunk'; // webpack配置 {  entry: {  vendor: './path/to/vendor.js',  }, }   通过CommonsChunkPlugin可以提取出多个代码块都依赖的代码形成一个单独的chunk。在应用有多个页面的场景下提取出所有页面公共的代码减少单个页面的代码，在不同页面之间切换时所有页面公共的代码之前被加载过而不必重新加载。所以通过CommonsChunkPlugin可以提取出多个代码块都依赖的代码形成一个单独的chunk。  4.构建服务端渲染 服务端渲染的代码要运行在nodejs环境，和浏览器不同的是，服务端渲染代码需要采用commonjs规范同时不应该包含除js之外的文件比如css。\nwebpack配置如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  module.exports = {  target: 'node',  entry: {  'server_render': './src/server_render',  },  output: {  filename: './dist/server/[name].js',  libraryTarget: 'commonjs2',  },  module: {  rules: [  {  test: /\\.js$/,  loader: 'babel-loader',  },  {  test: /\\.(scss|css|pdf)$/,  loader: 'ignore-loader',  },  ]  }, };   分析一下：\n target: 'node' 指明构建出代码要运行在node环境中。 libraryTarget: 'commonjs2' 指明输出的代码要是 commonjs 规范。 {test: /\\.(scss|css|pdf)$/,loader: 'ignore-loader'} 是为了防止不能在node里执行服务端渲染也用不上的文件被打包进去。  5.fis3迁移到webpack fis3和webpack有很多相似地方也有不同的地方，相似地方：都采用commonjs规范，不同地方：导入css这些非js资源的方式。\nfis3通过@require ‘./index.scss’，而webpack是通过require(’./index.scss’)。\n如果想把fis3平滑迁移到webpack，可以使用comment-require-loader。\n比如：你想在webpack构建是使用采用了fis3方式的imui模块\n1 2 3 4 5  loaders:[{  test: /\\.js$/,  loaders: ['comment-require-loader'],  include: [path.resolve(__dirname, 'node_modules/imui'),] }]   5.自定义webpack扩展 如果你在社区找不到你的应用场景的解决方案，那就需要自己动手了写loader或者plugin了。\n在你编写自定义webpack扩展前你需要想明白到底是要做一个loader还是plugin呢？可以这样判断：\n如果你的扩展是想对一个个单独的文件进行转换那么就编写loader剩下的都是plugin。\n其中对文件进行转换可以是像：\n babel-loader把es6转为es5； file-loader把文件替换成对应的url； raw-loader注入文本文件内容到代码中。  1.编写webpack loader 编写loader非常简单，以comment-require-loader为例：\n1 2 3  module.exports = function (content) {  return replace(content); };   loader的入口需要导出一个函数，这个函数要干的事情就是转换一个文件的内容。\n函数接收的参数content是一个文件在转换前的字符串形式内容，需要返回一个新的字符串形式内容作为转换后的结果，所有通过模块化倒入的文件都会经过loader。从这里可以看出loader只能处理一个个单独的文件而不能处理代码块。可以参考官方文档。\n2. 编写webpack plugin plugin应用场景广泛，所以稍微复杂点。以end-webpack-plugin为例：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  class EndWebpackPlugin {   constructor(doneCallback, failCallback) {  this.doneCallback = doneCallback;  this.failCallback = failCallback;  }   apply(compiler) {  // 监听webpack生命周期里的事件，做相应的处理  compiler.plugin('done', (stats) = {  this.doneCallback(stats);  });  compiler.plugin('failed', (err) = {  this.failCallback(err);  });  } }  module.exports = EndWebpackPlugin;   loader的入口需要导出一个class，在new EndWebpackPlugin()的时候通过构造函数传入这个插件需要的参数，在webpack启动的时候会先实例化plugin，再调用plugin的apply方法，插件在apply函数里监听webpack生命周期里的事件，做相应的处理。\nwebpack plugin的两个核心概念：\n compiler：从webpack启动到退出只存在一个Compiler，compiler存放着webpack的配置。 compilation：由于webpack的监听文件变化自动编译机制，compilation代表一次编译。  Compiler 和 Compilation 都会广播一系列事件。webpack生命周期里有非常多的事件。\n以上只是一个最简单的demo，更复杂的可以查看 how to write a plugin或参考web-webpack-plugin。\n 参考文章：https://www.cnblogs.com/chengxs/p/11022842.html\n ",
+  "wordCount" : "3900",
+  "inLanguage": "en",
+  "datePublished": "2021-01-18T19:59:00Z",
+  "dateModified": "2021-01-18T19:59:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/temp/47/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      webpack 的核心概念和构建流程
+    </h1>
+    <div class="post-meta">
+      <span title='2021-01-18 19:59:00 +0000 UTC'>2021/01/18</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/js/">js</a>
+    <a href="https://bablvsj.github.io/tags/webpack/"> · webpack</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1webpack-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a6%82%e5%bf%b5" aria-label="1.webpack 的核心概念">1.webpack 的核心概念</a></li>
+                <li>
+                    <a href="#2webpack-%e6%9e%84%e5%bb%ba%e6%b5%81%e7%a8%8b" aria-label="2.webpack 构建流程">2.webpack 构建流程</a></li>
+                <li>
+                    <a href="#3%e6%9c%89%e5%93%aa%e4%ba%9b%e5%b8%b8%e8%a7%81%e7%9a%84-loader-" aria-label="3.有哪些常见的 loader ？">3.有哪些常见的 loader ？</a></li>
+                <li>
+                    <a href="#4%e4%b8%9a%e5%8a%a1%e5%9c%ba%e6%99%af%e5%92%8c%e5%af%b9%e5%ba%94%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" aria-label="4.业务场景和对应解决方案">4.业务场景和对应解决方案</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%8d%95%e9%a1%b5%e5%ba%94%e7%94%a8" aria-label="1.单页应用">1.单页应用</a></li>
+                <li>
+                    <a href="#2%e4%b8%80%e4%b8%aa%e9%a1%b9%e7%9b%ae%e7%ae%a1%e7%90%86%e5%a4%9a%e4%b8%aa%e5%8d%95%e9%a1%b5%e9%9d%a2" aria-label="2.一个项目管理多个单页面">2.一个项目管理多个单页面</a></li>
+                <li>
+                    <a href="#3%e4%bb%a3%e7%a0%81%e5%88%86%e9%9a%94%e4%bc%98%e5%8c%96" aria-label="3.代码分隔优化">3.代码分隔优化</a></li>
+                <li>
+                    <a href="#4%e6%9e%84%e5%bb%ba%e6%9c%8d%e5%8a%a1%e7%ab%af%e6%b8%b2%e6%9f%93" aria-label="4.构建服务端渲染">4.构建服务端渲染</a></li>
+                <li>
+                    <a href="#5fis3%e8%bf%81%e7%a7%bb%e5%88%b0webpack" aria-label="5.fis3迁移到webpack">5.fis3迁移到webpack</a></li></ul>
+                </li>
+                <li>
+                    <a href="#5%e8%87%aa%e5%ae%9a%e4%b9%89webpack%e6%89%a9%e5%b1%95" aria-label="5.自定义webpack扩展">5.自定义webpack扩展</a><ul>
+                        
+                <li>
+                    <a href="#1%e7%bc%96%e5%86%99webpack-loader" aria-label="1.编写webpack loader">1.编写webpack loader</a></li>
+                <li>
+                    <a href="#2-%e7%bc%96%e5%86%99webpack-plugin" aria-label="2. 编写webpack plugin">2. 编写webpack plugin</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="1webpack-的核心概念">1.webpack 的核心概念<a hidden class="anchor" aria-hidden="true" href="#1webpack-的核心概念">#</a></h2>
+<ol>
+<li><strong>entry（入口）</strong>：一个可执行模块或者库的入口。定义了打包后的入口文件。</li>
+<li><strong>output（出口）</strong>：指示 webpack 如何去输出，以及在哪里输出。
+path: 打包文件存放的绝对路径
+publicPath: 网站运行时的访问路径
+filename: 打包后的文件名</li>
+<li><strong>module（模块）</strong>：在 webpack 里，一切皆模块，一个模块对应一个文件。webpack 会从配置的 entry 中开始递归找出所有依赖的模块。</li>
+<li><strong>chunk（代码块）</strong>：一个 <code>chunk</code> 由多个 <code>模块</code> 组合而成。可以将可执行的模块和他所依赖的模块组合成一个 chunk ，这就是打包。</li>
+<li><strong>loader（模块转换器）</strong>：用于把一个模块原内容按照需求转换成新的内容。例如：es6 转换为 es5，scss 转换为 css 等。</li>
+<li><strong>plugin（扩展）</strong>：扩展webpack功能的插件。在webpack构建的生命周期节点上加入扩展hook，添加功能。</li>
+</ol>
+<h2 id="2webpack-构建流程">2.webpack 构建流程<a hidden class="anchor" aria-hidden="true" href="#2webpack-构建流程">#</a></h2>
+<ol>
+<li><strong>初始化参数</strong>：解析 webpack 的配置参数，合并 shell 传入和 webpack.config.js 文件配置的参数，形成最后的配置结果。</li>
+<li><strong>开始编译</strong>：上一步得到的参数初始化 compiler 对象，注册所有配置的插件，插件监听 webpack 构建生命周期的事件节点，做出相应的反应，执行对象的 run 方法开始执行编译。</li>
+<li><strong>确定入口</strong>：其配置的 entry 入口，开始解析文件构建的 AST 语法树，找出依赖，递归下去。</li>
+<li><strong>编译模块</strong>：根据文件类型和 loader 配置，调用所有配置的 loader 对文件进行转换，再找出该模块依赖的模块，再递归本步骤知道所有入口依赖的文件都经过了本步骤的处理。</li>
+<li><strong>完成模块编译并输出</strong>：递归完后，得到每个文件结果，包含了每个模块及她们之间的依赖关系，根据 entry 配置生成代码块 chunk 。</li>
+<li><strong>输出完成</strong>：输出所有的 chunk 到文件系统。</li>
+</ol>
+<h2 id="3有哪些常见的-loader-">3.有哪些常见的 loader ？<a hidden class="anchor" aria-hidden="true" href="#3有哪些常见的-loader-">#</a></h2>
+<ol>
+<li>babel-loader：把es6转成es5；</li>
+<li>css-loader：加载css，支持模块化，压缩，文件导入等特性；</li>
+<li>style-loader：把css代码注入到js中，通过dom操作去加载css；</li>
+<li>eslint-loader：通过Eslint检查js代码；</li>
+<li>image-loader：加载并且压缩图片晚间；</li>
+<li>file-loader：文件输出到一个文件夹中，在代码中通过相对url去引用输出的文件；</li>
+<li>url-loader：和file-loader类似，文件很小的时候可以base64方式吧文件内容注入到代码中。</li>
+<li>source-map-loader：加载额外的source map文件，方便调试。</li>
+</ol>
+<h2 id="4业务场景和对应解决方案">4.业务场景和对应解决方案<a hidden class="anchor" aria-hidden="true" href="#4业务场景和对应解决方案">#</a></h2>
+<h3 id="1单页应用">1.单页应用<a hidden class="anchor" aria-hidden="true" href="#1单页应用">#</a></h3>
+<p>一个单页应用需要配置一个entry指明执行入口，web-webpack-plugin里的WebPlugin可以自动的完成这些工作：webpack会为entry生成一个包含这个入口的所有依赖文件的chunk，但是还需要一个html来加载chunk生成的js，如果还提取出css需要HTML文件中引入提取的css。</p>
+<p>一个简单的webpack配置文件例子：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">const</span> { WebPlugin } = require(<span style="color:#0ff;font-weight:bold">&#39;web-webpack-plugin&#39;</span>);
+</span></span><span style="display:flex;"><span>module.exports = {
+</span></span><span style="display:flex;"><span>  entry: {
+</span></span><span style="display:flex;"><span>    app: <span style="color:#0ff;font-weight:bold">&#39;./src/doc/index.js&#39;</span>,
+</span></span><span style="display:flex;"><span>    home: <span style="color:#0ff;font-weight:bold">&#39;./src/doc/home.js&#39;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  plugins: [
+</span></span><span style="display:flex;"><span>    <span style="color:#007f7f">// 一个WebPlugin对应生成一个html文件
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>    <span style="color:#fff;font-weight:bold">new</span> WebPlugin({
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">//输出的html文件名称
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      filename: <span style="color:#0ff;font-weight:bold">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f">//这个html依赖的`entry`
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>      requires: [<span style="color:#0ff;font-weight:bold">&#39;app&#39;</span>,<span style="color:#0ff;font-weight:bold">&#39;home&#39;</span>],
+</span></span><span style="display:flex;"><span>    }),
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>说明：require: [&lsquo;app&rsquo;, &lsquo;home&rsquo;]指明这个html依赖哪些entry，entry生成的js和css会自动注入到html中。</p>
+</blockquote>
+<p>还支持配置这些资源注入方式，支持如下属性：</p>
+<ol>
+<li>_dist只有在生产环境中才引入的资源；</li>
+<li>_dev只有在开发环境中才引入的资源；</li>
+<li>_inline把资源的内容潜入到html中；</li>
+<li>_ie只有IE浏览器才需要引入的资源。</li>
+</ol>
+<p>这些属性可以通过在js里配置，看个简单例子：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">new</span> WebPlugin({
+</span></span><span style="display:flex;"><span>    filename: <span style="color:#0ff;font-weight:bold">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>    requires: {
+</span></span><span style="display:flex;"><span>         app:{
+</span></span><span style="display:flex;"><span>              _dist:<span style="color:#fff;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>              _inline:<span style="color:#fff;font-weight:bold">false</span>,
+</span></span><span style="display:flex;"><span>         }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}),
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些属性还可以在模板中设置，使用模板好处就是可以灵活的控制资源的注入点</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">new</span> WebPlugin({
+</span></span><span style="display:flex;"><span>      filename: <span style="color:#0ff;font-weight:bold">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>      template: <span style="color:#0ff;font-weight:bold">&#39;./template.html&#39;</span>,
+</span></span><span style="display:flex;"><span>}),
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">html</span> <span style="color:#007f7f">lang</span>=<span style="color:#0ff;font-weight:bold">&#34;zh-cn&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="font-weight:bold">link</span> <span style="color:#007f7f">rel</span>=<span style="color:#0ff;font-weight:bold">&#34;stylesheet&#34;</span> <span style="color:#007f7f">href</span>=<span style="color:#0ff;font-weight:bold">&#34;app?_inline&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;ie-polyfill?_ie&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">div</span> <span style="color:#007f7f">id</span>=<span style="color:#0ff;font-weight:bold">&#34;react-body&#34;</span>&gt;&lt;/<span style="font-weight:bold">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;app&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">html</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>WebPlugin插件借鉴了fis3的思想，补足了webpack缺失的以HTML为入口的功能。想了解WebPlugin的更多功能，见文档。</p>
+<h3 id="2一个项目管理多个单页面">2.一个项目管理多个单页面<a hidden class="anchor" aria-hidden="true" href="#2一个项目管理多个单页面">#</a></h3>
+<p>一个项目中会包含多个单页应用，虽然多个单页面应用可以合成一个，但是这样做会导致用户没有访问的部分也加载了，如果项目中有很多的单页应用。为每一个单页应用配置一个entry和WebPlugin？如果又新增，又要新增webpack配置，这样做麻烦，这时候有一个插件web-webpack-plugin里的AutoWebPlugin方法可以解决这些问题。</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports = {
+</span></span><span style="display:flex;"><span>    plugins: [
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 所有页面的入口目录
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        <span style="color:#fff;font-weight:bold">new</span> AutoWebPlugin(<span style="color:#0ff;font-weight:bold">&#39;./src/&#39;</span>),
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>分析：</strong></p>
+<ol>
+<li><code>AutoWebPlugin</code>会把./src/目录下所有每个文件夹作为一个单页页面的入口，自动为所有的页面入口配置一个 <code>WebPlugin</code> 输出对应的html。</li>
+<li>要新增一个页面就在 <code>./src/</code> 下新建一个文件夹包含这个单页应用所依赖的代码，<code>AutoWebPlugin</code> 自动生成一个名叫文件夹名称的html文件。</li>
+</ol>
+<h3 id="3代码分隔优化">3.代码分隔优化<a hidden class="anchor" aria-hidden="true" href="#3代码分隔优化">#</a></h3>
+<p>一个好的代码分割对浏览器首屏效果提升很大。</p>
+<p><strong>最常见的react体系：</strong></p>
+<ol>
+<li>先抽出基础库react react-dom redux react-redux到一个单独的文件而不是和其它文件放在一起打包为一个文件，这样做的好处是只要你不升级他们的版本这个文件永远不会被刷新。如果你把这些基础库和业务代码打包在一个文件里每次改动业务代码都会导致文件hash值变化从而导致缓存失效浏览器重复下载这些包含基础库的代码。所以把基础库打包成一个文件。</li>
+</ol>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#007f7f">// vender.js 文件抽离基础库到单独的一个文件里防止跟随业务代码被刷新
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// 所有页面都依赖的第三方库
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f">// react基础
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;react&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;react-dom&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;react-redux&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// redux基础
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;redux&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">import</span> <span style="color:#0ff;font-weight:bold">&#39;redux-thunk&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">// webpack配置
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>{
+</span></span><span style="display:flex;"><span>  entry: {
+</span></span><span style="display:flex;"><span>    vendor: <span style="color:#0ff;font-weight:bold">&#39;./path/to/vendor.js&#39;</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>通过CommonsChunkPlugin可以提取出多个代码块都依赖的代码形成一个单独的chunk。在应用有多个页面的场景下提取出所有页面公共的代码减少单个页面的代码，在不同页面之间切换时所有页面公共的代码之前被加载过而不必重新加载。所以通过CommonsChunkPlugin可以提取出多个代码块都依赖的代码形成一个单独的chunk。</li>
+</ol>
+<h3 id="4构建服务端渲染">4.构建服务端渲染<a hidden class="anchor" aria-hidden="true" href="#4构建服务端渲染">#</a></h3>
+<p>服务端渲染的代码要运行在nodejs环境，和浏览器不同的是，服务端渲染代码需要采用commonjs规范同时不应该包含除js之外的文件比如css。</p>
+<p>webpack配置如下：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports = {
+</span></span><span style="display:flex;"><span>  target: <span style="color:#0ff;font-weight:bold">&#39;node&#39;</span>,
+</span></span><span style="display:flex;"><span>  entry: {
+</span></span><span style="display:flex;"><span>    <span style="color:#0ff;font-weight:bold">&#39;server_render&#39;</span>: <span style="color:#0ff;font-weight:bold">&#39;./src/server_render&#39;</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  output: {
+</span></span><span style="display:flex;"><span>    filename: <span style="color:#0ff;font-weight:bold">&#39;./dist/server/[name].js&#39;</span>,
+</span></span><span style="display:flex;"><span>    libraryTarget: <span style="color:#0ff;font-weight:bold">&#39;commonjs2&#39;</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  module: {
+</span></span><span style="display:flex;"><span>    rules: [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        test: <span style="color:#0ff;font-weight:bold">/\.js$/</span>,
+</span></span><span style="display:flex;"><span>        loader: <span style="color:#0ff;font-weight:bold">&#39;babel-loader&#39;</span>,
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        test: <span style="color:#0ff;font-weight:bold">/\.(scss|css|pdf)$/</span>,
+</span></span><span style="display:flex;"><span>        loader: <span style="color:#0ff;font-weight:bold">&#39;ignore-loader&#39;</span>,
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>分析一下：</strong></p>
+<ol>
+<li><code>target: 'node'</code> 指明构建出代码要运行在node环境中。</li>
+<li><code>libraryTarget: 'commonjs2'</code> 指明输出的代码要是 commonjs 规范。</li>
+<li><code>{test: /\.(scss|css|pdf)$/,loader: 'ignore-loader'}</code> 是为了防止不能在node里执行服务端渲染也用不上的文件被打包进去。</li>
+</ol>
+<h3 id="5fis3迁移到webpack">5.fis3迁移到webpack<a hidden class="anchor" aria-hidden="true" href="#5fis3迁移到webpack">#</a></h3>
+<p>fis3和webpack有很多相似地方也有不同的地方，相似地方：都采用commonjs规范，不同地方：导入css这些非js资源的方式。</p>
+<p>fis3通过@require &lsquo;./index.scss&rsquo;，而webpack是通过require(&rsquo;./index.scss&rsquo;)。</p>
+<p>如果想把fis3平滑迁移到webpack，可以使用comment-require-loader。</p>
+<p>比如：你想在webpack构建是使用采用了fis3方式的imui模块</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>loaders:[{
+</span></span><span style="display:flex;"><span>     test: <span style="color:#0ff;font-weight:bold">/\.js$/</span>,
+</span></span><span style="display:flex;"><span>     loaders: [<span style="color:#0ff;font-weight:bold">&#39;comment-require-loader&#39;</span>],
+</span></span><span style="display:flex;"><span>     include: [path.resolve(__dirname, <span style="color:#0ff;font-weight:bold">&#39;node_modules/imui&#39;</span>),]
+</span></span><span style="display:flex;"><span>}]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="5自定义webpack扩展">5.自定义webpack扩展<a hidden class="anchor" aria-hidden="true" href="#5自定义webpack扩展">#</a></h2>
+<p>如果你在社区找不到你的应用场景的解决方案，那就需要自己动手了写loader或者plugin了。</p>
+<p>在你编写自定义webpack扩展前你需要想明白到底是要做一个loader还是plugin呢？可以这样判断：</p>
+<p>如果你的扩展是想对一个个单独的文件进行转换那么就编写loader剩下的都是plugin。</p>
+<p>其中对文件进行转换可以是像：</p>
+<ol>
+<li>babel-loader把es6转为es5；</li>
+<li>file-loader把文件替换成对应的url；</li>
+<li>raw-loader注入文本文件内容到代码中。</li>
+</ol>
+<h3 id="1编写webpack-loader">1.编写webpack loader<a hidden class="anchor" aria-hidden="true" href="#1编写webpack-loader">#</a></h3>
+<p>编写loader非常简单，以comment-require-loader为例：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>module.exports = <span style="color:#fff;font-weight:bold">function</span> (content) {
+</span></span><span style="display:flex;"><span>    <span style="color:#fff;font-weight:bold">return</span> replace(content);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>loader的入口需要导出一个函数，这个函数要干的事情就是转换一个文件的内容。</p>
+<p>函数接收的参数content是一个文件在转换前的字符串形式内容，需要返回一个新的字符串形式内容作为转换后的结果，所有通过模块化倒入的文件都会经过loader。从这里可以看出loader只能处理一个个单独的文件而不能处理代码块。可以参考官方文档。</p>
+<h3 id="2-编写webpack-plugin">2. 编写webpack plugin<a hidden class="anchor" aria-hidden="true" href="#2-编写webpack-plugin">#</a></h3>
+<p>plugin应用场景广泛，所以稍微复杂点。以end-webpack-plugin为例：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">class</span> EndWebpackPlugin {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    constructor(doneCallback, failCallback) {
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">this</span>.doneCallback = doneCallback;
+</span></span><span style="display:flex;"><span>        <span style="color:#fff;font-weight:bold">this</span>.failCallback = failCallback;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    apply(compiler) {
+</span></span><span style="display:flex;"><span>        <span style="color:#007f7f">// 监听webpack生命周期里的事件，做相应的处理
+</span></span></span><span style="display:flex;"><span><span style="color:#007f7f"></span>        compiler.plugin(<span style="color:#0ff;font-weight:bold">&#39;done&#39;</span>, (stats) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">this</span>.doneCallback(stats);
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        compiler.plugin(<span style="color:#0ff;font-weight:bold">&#39;failed&#39;</span>, (err) =&gt; {
+</span></span><span style="display:flex;"><span>            <span style="color:#fff;font-weight:bold">this</span>.failCallback(err);
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>module.exports = EndWebpackPlugin;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>loader的入口需要导出一个class，在new EndWebpackPlugin()的时候通过构造函数传入这个插件需要的参数，在webpack启动的时候会先实例化plugin，再调用plugin的apply方法，插件在apply函数里监听webpack生命周期里的事件，做相应的处理。</p>
+<p><strong>webpack plugin的两个核心概念：</strong></p>
+<ol>
+<li>compiler：从webpack启动到退出只存在一个Compiler，compiler存放着webpack的配置。</li>
+<li>compilation：由于webpack的监听文件变化自动编译机制，compilation代表一次编译。</li>
+</ol>
+<p>Compiler 和 Compilation 都会广播一系列事件。webpack生命周期里有非常多的事件。</p>
+<p>以上只是一个最简单的demo，更复杂的可以查看 how to write a plugin或参考web-webpack-plugin。</p>
+<blockquote>
+<p>参考文章：https://www.cnblogs.com/chengxs/p/11022842.html</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/js/">js</a></li>
+      <li><a href="https://bablvsj.github.io/tags/webpack/">webpack</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/temp/48/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>ES5 和 ES6 的区别？</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/temp/46/">
+    <span class="title">Next »</span>
+    <br>
+    <span>小张厨房日记（二）</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
