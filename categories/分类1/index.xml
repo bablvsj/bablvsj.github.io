@@ -35,15 +35,6 @@
     </item>
     
     <item>
-      <title>var、let、const 的区别</title>
-      <link>https://bablvsj.github.io/posts/blog/firstblog/</link>
-      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/blog/firstblog/</guid>
-      <description>1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： var a = &#39;我是a&#39;; console.log(a); // 打印结果：我是a console.log(window.a); // 打印结果：我是a let b = &#39;我是b&#39;</description>
-    </item>
-    
-    <item>
       <title>异步和回调</title>
       <link>https://bablvsj.github.io/posts/tech/es6/10-promise%E5%85%A5%E9%97%A8%E8%AF%A6%E8%A7%A3/</link>
       <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
@@ -53,21 +44,21 @@
     </item>
     
     <item>
+      <title>模板</title>
+      <link>https://bablvsj.github.io/posts/blog/firstblog/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/blog/firstblog/</guid>
+      <description>1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： var a = &#39;我是a&#39;; console.log(a); // 打印结果：我是a console.log(window.a); // 打印结果：我是a let b = &#39;我是b&#39;</description>
+    </item>
+    
+    <item>
       <title>链式调用</title>
       <link>https://bablvsj.github.io/posts/tech/es6/11-promise%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E5%92%8Capi/</link>
       <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/es6/11-promise%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E6%B3%95%E5%92%8Capi/</guid>
       <description>链式调用：基于 Promise 处理多次 Ajax 请求【重要】 实际开发中，我们经常需要同时请求多个接口。比如说：在请求完接口1的数据data1之后，需要根据data</description>
-    </item>
-    
-    <item>
-      <title>妮妮的美好自由生活</title>
-      <link>https://bablvsj.github.io/posts/life/nini/</link>
-      <pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/life/nini/</guid>
-      <description>一级标题 二级标题 三级标题 四级标题 五级标题 六级标题 斜体文本 斜体文本 粗体文本 粗体文本 粗斜体文本 粗斜体文本 今天的安排 工作安排 1、做了叭叭叭芭比布朗</description>
     </item>
     
   </channel>
