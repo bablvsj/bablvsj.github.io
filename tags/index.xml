@@ -1,23 +1,83 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>Tags - 标签 - Lvsj&#39;s blog</title>
-        <link>https://bablvsj.github.io/tags/</link>
-        <description>Tags - 标签 - Lvsj&#39;s blog</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 01 Jan 2023 17:11:35 &#43;0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/" rel="self" type="application/rss+xml" /><item>
-    <title>some-ideas</title>
-    <link>https://bablvsj.github.io/tags/some-ideas/</link>
-    <pubDate>Sun, 01 Jan 2023 17:11:35 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://bablvsj.github.io/tags/some-ideas/</guid>
-    <description><![CDATA[]]></description>
-</item>
-<item>
-    <title>javascript</title>
-    <link>https://bablvsj.github.io/tags/javascript/</link>
-    <pubDate>Tue, 22 Nov 2022 17:11:35 &#43;0800</pubDate>
-    <author>作者</author>
-    <guid>https://bablvsj.github.io/tags/javascript/</guid>
-    <description><![CDATA[]]></description>
-</item>
-</channel>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/</link>
+    <description>Recent content in Tags on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 25 Jul 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>es6</title>
+      <link>https://bablvsj.github.io/tags/es6/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/es6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>javascript</title>
+      <link>https://bablvsj.github.io/tags/javascript/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>json</title>
+      <link>https://bablvsj.github.io/tags/json/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/json/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>标签1</title>
+      <link>https://bablvsj.github.io/tags/%E6%A0%87%E7%AD%BE1/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/%E6%A0%87%E7%AD%BE1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>标签2</title>
+      <link>https://bablvsj.github.io/tags/%E6%A0%87%E7%AD%BE2/</link>
+      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/%E6%A0%87%E7%AD%BE2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>movie</title>
+      <link>https://bablvsj.github.io/tags/movie/</link>
+      <pubDate>Fri, 16 Dec 2022 14:12:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/movie/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>想看的电影</title>
+      <link>https://bablvsj.github.io/tags/%E6%83%B3%E7%9C%8B%E7%9A%84%E7%94%B5%E5%BD%B1/</link>
+      <pubDate>Fri, 16 Dec 2022 14:12:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/%E6%83%B3%E7%9C%8B%E7%9A%84%E7%94%B5%E5%BD%B1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>async/await</title>
+      <link>https://bablvsj.github.io/tags/async/await/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/async/await/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
 </rss>
