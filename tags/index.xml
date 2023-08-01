@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 14:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>状态管理</title>
+      <link>https://bablvsj.github.io/tags/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Tue, 01 Aug 2023 14:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vue传参</title>
+      <link>https://bablvsj.github.io/tags/vue%E4%BC%A0%E5%8F%82/</link>
+      <pubDate>Tue, 01 Aug 2023 10:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/tags/vue%E4%BC%A0%E5%8F%82/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>git操作</title>
       <link>https://bablvsj.github.io/tags/git%E6%93%8D%E4%BD%9C/</link>
@@ -22,15 +40,6 @@
       <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
       
       <guid>https://bablvsj.github.io/tags/%E8%87%B4%E8%B0%A2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Vue3</title>
-      <link>https://bablvsj.github.io/tags/vue3/</link>
-      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/tags/vue3/</guid>
       <description></description>
     </item>
     
