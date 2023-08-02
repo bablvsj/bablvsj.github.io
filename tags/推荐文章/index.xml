@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>推荐文章 on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/</link>
+    <description>Recent content in 推荐文章 on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Jan 2020 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>推荐文章</title>
+      <link>https://bablvsj.github.io/posts/temp/17-%E6%8E%A8%E8%8D%90%E9%93%BE%E6%8E%A5/2019-%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/</link>
+      <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/temp/17-%E6%8E%A8%E8%8D%90%E9%93%BE%E6%8E%A5/2019-%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/</guid>
+      <description>2017-01-20 阿里9年，我总结的前端架构演进3大阶段及团队管理心法 伟明的推荐，说是对前端开发的价值观形成有良好的影响。 2017-07-13 前端开发面试题 在逛公众号「前端大</description>
+    </item>
+    
+  </channel>
+</rss>

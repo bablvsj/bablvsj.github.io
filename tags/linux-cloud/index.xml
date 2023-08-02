@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Linux-Cloud on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/linux-cloud/</link>
+    <description>Recent content in Linux-Cloud on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 01 Nov 2019 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/linux-cloud/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>云服务器Mind</title>
+      <link>https://bablvsj.github.io/posts/temp/linux/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8mind/</link>
+      <pubDate>Fri, 01 Nov 2019 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/temp/linux/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8mind/</guid>
+      <description>腾讯云服务器控制台： https://iaas.cloud.tencent.com/webshell?regionId=4&amp;amp;instanceId=ins-56hta1uv&amp;amp;username=root&amp;amp;port=22 ****LL612lv. Nginx 查看80端口被占用的进程 1 lsof -i:80 通过kill命令干掉该进程 1 kill -9 进程号(pid) 重启Nginx 1 nginx -s reload 服务器 安全组配</description>
+    </item>
+    
+    <item>
+      <title>前端人应知的 CentosNginxNode 的基本操作</title>
+      <link>https://bablvsj.github.io/posts/temp/linux/%E5%89%8D%E7%AB%AF%E4%BA%BA%E5%BA%94%E7%9F%A5%E7%9A%84-centosnginxnode-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Fri, 01 Nov 2019 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/temp/linux/%E5%89%8D%E7%AB%AF%E4%BA%BA%E5%BA%94%E7%9F%A5%E7%9A%84-centosnginxnode-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+      <description>前端人应该知道的 Centos/Nginx/Node的基本操作 Centos Centos 是一个基于 Linux 的开源免费操作系统，下面列出一些常用操作 1 2 # 本地拷贝文件到远程</description>
+    </item>
+    
+  </channel>
+</rss>

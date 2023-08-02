@@ -1,0 +1,1038 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>09-AntD框架的upload组件上传图片时遇到的一些坑 | Bablvsj's Blog</title><meta name=keywords content="开发软件快捷使用"><meta name=description content="前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 前端做文件上传这个功能，是很有技术难度的。既然框架给我们提"><meta name=author content="Lvsj"><link rel=canonical href=https://bablvsj.github.io/posts/temp/12-react%E5%9F%BA%E7%A1%80/09-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/><link crossorigin=anonymous href=/assets/css/stylesheet.de52e5063d5c6e4b62255f10cab97d18893776d568014196f938b8af9e3e8caf.css integrity="sha256-3lLlBj1cbktiJV8Qyrl9GIk3dtVoAUGW+Ti4r54+jK8=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="09-AntD框架的upload组件上传图片时遇到的一些坑"><meta property="og:description" content="前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 前端做文件上传这个功能，是很有技术难度的。既然框架给我们提"><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/temp/12-react%E5%9F%BA%E7%A1%80/09-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-01-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="09-AntD框架的upload组件上传图片时遇到的一些坑"><meta name=twitter:description content="前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 前端做文件上传这个功能，是很有技术难度的。既然框架给我们提"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"09-AntD框架的upload组件上传图片时遇到的一些坑","item":"https://bablvsj.github.io/posts/temp/12-react%E5%9F%BA%E7%A1%80/09-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"09-AntD框架的upload组件上传图片时遇到的一些坑","name":"09-AntD框架的upload组件上传图片时遇到的一些坑","description":"前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 前端做文件上传这个功能，是很有技术难度的。既然框架给我们提","keywords":["开发软件快捷使用"],"articleBody":"前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。\n前端做文件上传这个功能，是很有技术难度的。既然框架给我们提供好了，那就直接用呗。结果用的时候，发现 upload 组件的很多bug。下面来列举几个。\n备注：本文写于2019-03-02，使用的 antd 版本是 3.13.6。\n使用 AntD 的 upload 组件做图片的上传 因为需要上传多张图片，所以采用的是照片墙的形式。上传成功后的界面如下：\n（1）上传中：\n（2）上传成功：\n（3）图片预览：\n按照官方提供的实例，特此整理出项目开发中的完整写法，亲测有效。代码如下：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 /* eslint-disable */ import { Upload, Icon, Modal, Form } from 'antd'; const FormItem = Form.Item; class PicturesWall extends PureComponent { state = { previewVisible: false, previewImage: '', imgList: [], }; handleChange = ({ file, fileList }) =\u003e { console.log(JSON.stringify(file)); // file 是当前正在上传的 单个 img console.log(JSON.stringify(fileList)); // fileList 是已上传的全部 img 列表 this.setState({ imgList: fileList, }); }; handleCancel = () =\u003e this.setState({ previewVisible: false }); handlePreview = file =\u003e { this.setState({ previewImage: file.url || file.thumbUrl, previewVisible: true, }); }; // 参考链接：https://www.jianshu.com/p/f356f050b3c9 handleBeforeUpload = file =\u003e { //限制图片 格式、size、分辨率 const isJPG = file.type === 'image/jpeg'; const isJPEG = file.type === 'image/jpeg'; const isGIF = file.type === 'image/gif'; const isPNG = file.type === 'image/png'; if (!(isJPG || isJPEG || isGIF || isPNG)) { Modal.error({ title: '只能上传JPG 、JPEG 、GIF、 PNG格式的图片~', }); return; } const isLt2M = file.size / 1024 / 1024 \u003c 2; if (!isLt2M) { Modal.error({ title: '超过2M限制，不允许上传~', }); return; } return (isJPG || isJPEG || isGIF || isPNG) \u0026\u0026 isLt2M \u0026\u0026 this.checkImageWH(file); }; //返回一个 promise：检测通过则返回resolve；失败则返回reject，并阻止图片上传 checkImageWH(file) { let self = this; return new Promise(function(resolve, reject) { let filereader = new FileReader(); filereader.onload = e =\u003e { let src = e.target.result; const image = new Image(); image.onload = function() { // 获取图片的宽高，并存放到file对象中 console.log('file width :' + this.width); console.log('file height :' + this.height); file.width = this.width; file.height = this.height; resolve(); }; image.onerror = reject; image.src = src; }; filereader.readAsDataURL(file); }); } handleSubmit = e =\u003e { const { dispatch, form } = this.props; e.preventDefault(); form.validateFieldsAndScroll((err, values) =\u003e {// values 是form表单里的参数 // 点击按钮后，将表单提交给后台 dispatch({ type: 'mymodel/submitFormData', payload: values, }); }); }; render() { const { previewVisible, previewImage, imgList } = this.state; // 从 state 中拿数据 const uploadButton = ( \"plus\" /\u003e \"ant-upload-text\"\u003eUpload\u003c/div\u003e \u003c/div\u003e ); return ( \"clearfix\"\u003e this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}\u003e \"图片图片\" {...formItemLayout}\u003e {getFieldDecorator('myImg')( ","wordCount":"4299","inLanguage":"en","datePublished":"2020-01-01T17:11:35+08:00","dateModified":"2020-01-01T17:11:35+08:00","author":{"@type":"Person","name":"Lvsj"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/temp/12-react%E5%9F%BA%E7%A1%80/09-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/categories title=分类><span>分类</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>09-AntD框架的upload组件上传图片时遇到的一些坑</h1><div class=post-meta><span title='2020-01-01 17:11:35 +0800 +0800'>2020/01/01</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Lvsj<ul class=post-tags-meta><a href=https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/>开发软件快捷使用</a></ul></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#%e5%89%8d%e8%a8%80 aria-label=前言>前言</a></li><li><a href=#%e4%bd%bf%e7%94%a8-antd-%e7%9a%84-upload-%e7%bb%84%e4%bb%b6%e5%81%9a%e5%9b%be%e7%89%87%e7%9a%84%e4%b8%8a%e4%bc%a0 aria-label="使用 AntD 的 upload 组件做图片的上传">使用 AntD 的 upload 组件做图片的上传</a></li><li><a href=#%e4%b8%8a%e4%bc%a0%e5%90%8e%e7%82%b9%e5%87%bb%e5%9b%be%e7%89%87%e9%a2%84%e8%a7%88%e6%b5%8f%e8%a7%88%e5%99%a8%e5%8d%a1%e6%ad%bb%e7%9a%84%e9%97%ae%e9%a2%98 aria-label=上传后，点击图片预览，浏览器卡死的问题>上传后，点击图片预览，浏览器卡死的问题</a></li><li><a href=#%e6%96%b0%e9%9c%80%e6%b1%82%e7%bc%96%e8%be%91%e7%8e%b0%e6%9c%89%e9%a1%b5%e9%9d%a2 aria-label=新需求：编辑现有页面>新需求：编辑现有页面</a></li><li><a href=#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98 aria-label=其他问题>其他问题</a></li><li><a href=#%e6%9c%80%e5%90%8e%e4%b8%80%e6%ae%b5 aria-label=最后一段>最后一段</a></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><h2 id=前言>前言<a hidden class=anchor aria-hidden=true href=#前言>#</a></h2><p>本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 <a href=https://ant.design/components/upload-cn/>upload</a> 组件。</p><p>前端做文件上传这个功能，是很有技术难度的。既然框架给我们提供好了，那就直接用呗。结果用的时候，发现 upload 组件的很多bug。下面来列举几个。</p><p>备注：本文写于2019-03-02，使用的 antd 版本是 3.13.6。</p><h2 id=使用-antd-的-upload-组件做图片的上传>使用 AntD 的 upload 组件做图片的上传<a hidden class=anchor aria-hidden=true href=#使用-antd-的-upload-组件做图片的上传>#</a></h2><p>因为需要上传多张图片，所以采用的是照片墙的形式。上传成功后的界面如下：</p><p>（1）上传中：</p><p><img loading=lazy src=http://img.smyhvae.com/20190302_1335.png alt></p><p>（2）上传成功：</p><p><img loading=lazy src=http://img.smyhvae.com/20190302_1336.png alt></p><p>（3）图片预览：</p><p><img loading=lazy src=http://img.smyhvae.com/20190302_1331.png alt></p><p>按照官方提供的实例，特此整理出项目开发中的完整写法，亲测有效。代码如下：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">100
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">101
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">102
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">103
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">104
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">105
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">106
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">107
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">108
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">109
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">110
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">111
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">112
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">113
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">114
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">115
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">116
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">117
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">118
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">119
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">120
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">121
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">122
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">123
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">124
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">125
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">126
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">127
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">128
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">129
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">130
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">131
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">132
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">133
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">134
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#007f7f>/* eslint-disable */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> { Upload, Icon, Modal, Form } from <span style=color:#0ff;font-weight:700>&#39;antd&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>const</span> FormItem = Form.Item;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>class</span> PicturesWall <span style=color:#fff;font-weight:700>extends</span> PureComponent {
+</span></span><span style=display:flex><span>  state = {
+</span></span><span style=display:flex><span>    previewVisible: <span style=color:#fff;font-weight:700>false</span>,
+</span></span><span style=display:flex><span>    previewImage: <span style=color:#0ff;font-weight:700>&#39;&#39;</span>,
+</span></span><span style=display:flex><span>    imgList: [],
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleChange = ({ file, fileList }) =&gt; {
+</span></span><span style=display:flex><span>    console.log(JSON.stringify(file)); <span style=color:#007f7f>// file 是当前正在上传的 单个 img
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    console.log(JSON.stringify(fileList)); <span style=color:#007f7f>// fileList 是已上传的全部 img 列表
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>this</span>.setState({
+</span></span><span style=display:flex><span>      imgList: fileList,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleCancel = () =&gt; <span style=color:#fff;font-weight:700>this</span>.setState({ previewVisible: <span style=color:#fff;font-weight:700>false</span> });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handlePreview = file =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>this</span>.setState({
+</span></span><span style=display:flex><span>      previewImage: file.url || file.thumbUrl,
+</span></span><span style=display:flex><span>      previewVisible: <span style=color:#fff;font-weight:700>true</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#007f7f>// 参考链接：https://www.jianshu.com/p/f356f050b3c9
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  handleBeforeUpload = file =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>//限制图片 格式、size、分辨率
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#fff;font-weight:700>const</span> isJPG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/jpeg&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isJPEG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/jpeg&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isGIF = file.type === <span style=color:#0ff;font-weight:700>&#39;image/gif&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isPNG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/png&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>if</span> (!(isJPG || isJPEG || isGIF || isPNG)) {
+</span></span><span style=display:flex><span>      Modal.error({
+</span></span><span style=display:flex><span>        title: <span style=color:#0ff;font-weight:700>&#39;只能上传JPG 、JPEG 、GIF、 PNG格式的图片~&#39;</span>,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isLt2M = file.size / <span style=color:#ff0;font-weight:700>1024</span> / <span style=color:#ff0;font-weight:700>1024</span> &lt; <span style=color:#ff0;font-weight:700>2</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>if</span> (!isLt2M) {
+</span></span><span style=display:flex><span>      Modal.error({
+</span></span><span style=display:flex><span>        title: <span style=color:#0ff;font-weight:700>&#39;超过2M限制，不允许上传~&#39;</span>,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> (isJPG || isJPEG || isGIF || isPNG) &amp;&amp; isLt2M &amp;&amp; <span style=color:#fff;font-weight:700>this</span>.checkImageWH(file);
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#007f7f>//返回一个 promise：检测通过则返回resolve；失败则返回reject，并阻止图片上传
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  checkImageWH(file) {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>let</span> self = <span style=color:#fff;font-weight:700>this</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> <span style=color:#fff;font-weight:700>new</span> <span style=color:#fff;font-weight:700>Promise</span>(<span style=color:#fff;font-weight:700>function</span>(resolve, reject) {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>let</span> filereader = <span style=color:#fff;font-weight:700>new</span> FileReader();
+</span></span><span style=display:flex><span>      filereader.onload = e =&gt; {
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>let</span> src = e.target.result;
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>const</span> image = <span style=color:#fff;font-weight:700>new</span> Image();
+</span></span><span style=display:flex><span>        image.onload = <span style=color:#fff;font-weight:700>function</span>() {
+</span></span><span style=display:flex><span>          <span style=color:#007f7f>// 获取图片的宽高，并存放到file对象中
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>          console.log(<span style=color:#0ff;font-weight:700>&#39;file width :&#39;</span> + <span style=color:#fff;font-weight:700>this</span>.width);
+</span></span><span style=display:flex><span>          console.log(<span style=color:#0ff;font-weight:700>&#39;file height :&#39;</span> + <span style=color:#fff;font-weight:700>this</span>.height);
+</span></span><span style=display:flex><span>          file.width = <span style=color:#fff;font-weight:700>this</span>.width;
+</span></span><span style=display:flex><span>          file.height = <span style=color:#fff;font-weight:700>this</span>.height;
+</span></span><span style=display:flex><span>          resolve();
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>        image.onerror = reject;
+</span></span><span style=display:flex><span>        image.src = src;
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>      filereader.readAsDataURL(file);
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleSubmit = e =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { dispatch, form } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>    e.preventDefault();
+</span></span><span style=display:flex><span>    form.validateFieldsAndScroll((err, values) =&gt; {<span style=color:#007f7f>// values 是form表单里的参数
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      <span style=color:#007f7f>// 点击按钮后，将表单提交给后台
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      dispatch({
+</span></span><span style=display:flex><span>        type: <span style=color:#0ff;font-weight:700>&#39;mymodel/submitFormData&#39;</span>,
+</span></span><span style=display:flex><span>        payload: values,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  render() {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { previewVisible, previewImage, imgList } = <span style=color:#fff;font-weight:700>this</span>.state; <span style=color:#007f7f>//  从 state 中拿数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#fff;font-weight:700>const</span> uploadButton = (
+</span></span><span style=display:flex><span>      &lt;div&gt;
+</span></span><span style=display:flex><span>        &lt;Icon type=<span style=color:#0ff;font-weight:700>&#34;plus&#34;</span> /&gt;
+</span></span><span style=display:flex><span>        &lt;div className=<span style=color:#0ff;font-weight:700>&#34;ant-upload-text&#34;</span>&gt;Upload&lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>      &lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> (
+</span></span><span style=display:flex><span>      &lt;div className=<span style=color:#0ff;font-weight:700>&#34;clearfix&#34;</span>&gt;
+</span></span><span style=display:flex><span>        &lt;Form onSubmit={<span style=color:#fff;font-weight:700>this</span>.handleSubmit} hideRequiredMark style={{ marginTop: <span style=color:#ff0;font-weight:700>8</span> }}&gt;
+</span></span><span style=display:flex><span>          &lt;FormItem label=<span style=color:#0ff;font-weight:700>&#34;图片图片&#34;</span> {...formItemLayout}&gt;
+</span></span><span style=display:flex><span>            {getFieldDecorator(<span style=color:#0ff;font-weight:700>&#39;myImg&#39;</span>)(
+</span></span><span style=display:flex><span>              &lt;Upload
+</span></span><span style=display:flex><span>                action=<span style=color:#0ff;font-weight:700>&#34;//jsonplaceholder.typicode.com/posts/&#34;</span> <span style=color:#007f7f>// 这个是图片上传的接口请求，实际开发中，要替换成你自己的业务接口
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                data={file =&gt; ({ <span style=color:#007f7f>// data里存放的是接口的请求参数
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  param1: myParam1,
+</span></span><span style=display:flex><span>                  param2: myParam2,
+</span></span><span style=display:flex><span>                  photoCotent: file, <span style=color:#007f7f>// file 是当前正在上传的图片
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  photoWidth: file.height, <span style=color:#007f7f>// 通过  handleBeforeUpload 获取 图片的宽高
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  photoHeight: file.width,
+</span></span><span style=display:flex><span>                })}
+</span></span><span style=display:flex><span>                listType=<span style=color:#0ff;font-weight:700>&#34;picture-card&#34;</span>
+</span></span><span style=display:flex><span>                fileList={<span style=color:#fff;font-weight:700>this</span>.state.imgList}
+</span></span><span style=display:flex><span>                onPreview={<span style=color:#fff;font-weight:700>this</span>.handlePreview} <span style=color:#007f7f>// 点击图片缩略图，进行预览
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                beforeUpload={<span style=color:#fff;font-weight:700>this</span>.handleBeforeUpload} <span style=color:#007f7f>// 上传之前，对图片的格式做校验，并获取图片的宽高
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                onChange={<span style=color:#fff;font-weight:700>this</span>.handleChange} <span style=color:#007f7f>// 每次上传图片时，都会触发这个方法
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>              &gt;
+</span></span><span style=display:flex><span>                {<span style=color:#fff;font-weight:700>this</span>.state.imgList.length &gt;= <span style=color:#ff0;font-weight:700>9</span> ? <span style=color:#fff;font-weight:700>null</span> : uploadButton}
+</span></span><span style=display:flex><span>              &lt;<span style=color:red>/Upload&gt;</span>
+</span></span><span style=display:flex><span>            )}
+</span></span><span style=display:flex><span>          &lt;<span style=color:red>/FormItem&gt;</span>
+</span></span><span style=display:flex><span>        &lt;<span style=color:red>/Form&gt;</span>
+</span></span><span style=display:flex><span>        &lt;Modal visible={previewVisible} footer={<span style=color:#fff;font-weight:700>null</span>} onCancel={<span style=color:#fff;font-weight:700>this</span>.handleCancel}&gt;
+</span></span><span style=display:flex><span>          &lt;img alt=<span style=color:#0ff;font-weight:700>&#34;example&#34;</span> style={{ width: <span style=color:#0ff;font-weight:700>&#39;100%&#39;</span> }} src={previewImage} /&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:red>/Modal&gt;</span>
+</span></span><span style=display:flex><span>      &lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>export</span> <span style=color:#fff;font-weight:700>default</span> PicturesWall;
+</span></span></code></pre></td></tr></table></div></div><h2 id=上传后点击图片预览浏览器卡死的问题>上传后，点击图片预览，浏览器卡死的问题<a hidden class=anchor aria-hidden=true href=#上传后点击图片预览浏览器卡死的问题>#</a></h2><p>依据上方的代码，通过 Antd 的 upload 组件将图片上传成功后，点击图片的缩略图，理应可以在当前页面弹出 Modal，预览图片。但实际的结果是，浏览器一定会卡死。</p><p>定位问题发现，原因竟然是：图片上传成功后， upload 会将其转为 base64编码。base64这个字符串太大了，点击图片预览的时候，浏览器在解析一大串字符串，然后就卡死了。详细过程描述如下。</p><p>上方代码中，我们可以把 handleChange(file, fileList)方法中的 <code>file</code>、以及 <code>fileList</code>打印出来看看。 <code>file</code>指的是当前正在上传的 单个 img，<code>fileList</code>是已上传的全部 img 列表。 当我上传完 两张图片后， 打印结果如下：</p><p>file的打印的结果如下：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">23
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-5&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>600</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>354</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModified&#34;</span>: <span style=color:#ff0;font-weight:700>1546701318000</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModifiedDate&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;2019-01-05T15:15:18.000Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;name&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;e30e7b9680634b2c888c8bb513cc595d.jpg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;size&#34;</span>: <span style=color:#ff0;font-weight:700>31731</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;type&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;image/jpeg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;percent&#34;</span>: <span style=color:#ff0;font-weight:700>100</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;originFileObj&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>600</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>354</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;status&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;done&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;thumbUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAHQ9qKKlbimcXrIH9o2vH/AC2T+ddPj98v+9RRWsuhnHdk0ar9qb5R0Pb6VPB/qh9aKKiRr0Irnt/vUDr+NFFJCRqWxJik5Pb+dLJ938aKK06mYSdKKKKBH//Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;response&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;retCode&#34;</span>: <span style=color:#ff0;font-weight:700>0</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;imgUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;http://qianguyihao.com/opfewfwj098902kpkpkkj976fe.jpg&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;photoid&#34;</span>: <span style=color:#ff0;font-weight:700>271850</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></td></tr></table></div></div><p>fileList 的打印结果：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">48
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>[
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-3&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>1000</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>667</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModified&#34;</span>: <span style=color:#ff0;font-weight:700>1501414799000</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModifiedDate&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;2017-07-30T11:39:59.000Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;name&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;29381f30e924b89914e91b33.jpg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;size&#34;</span>: <span style=color:#ff0;font-weight:700>135204</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;type&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;image/jpeg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;percent&#34;</span>: <span style=color:#ff0;font-weight:700>100</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;originFileObj&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-3&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>1000</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>667</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;status&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;done&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;thumbUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;data:image/jpeg;base64,/E3ju1tlaK1fzJOnHQU3LsLV7HO6Zrk11MZJ7luT0A4FZuRagi9quvzQQ4iuEJ7ZpqTG4djDsPFl2Lg733f8C4q+YhQ8zoYfGSqoMmfwo5huLL0HjiyPDSYPvxRdC1XQvxeLrB8fvl/OnoLmL9vrdvvYS3NGFVe2YsASOh71JfQyrqV2mXLHOcccVSIYEnDyZO9XXB9KYH//Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;response&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;retCode&#34;</span>: <span style=color:#ff0;font-weight:700>0</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;msg&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;success&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;imgUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;http://qianguyihao.com/hfwpjouiurewnmbhepr689.jpg&#34;</span>,
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-5&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>600</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>354</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModified&#34;</span>: <span style=color:#ff0;font-weight:700>1546701318000</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;lastModifiedDate&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;2019-01-05T15:15:18.000Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;name&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;e30e7b9680634b2c888c8bb513cc595d.jpg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;size&#34;</span>: <span style=color:#ff0;font-weight:700>31731</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;type&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;image/jpeg&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;percent&#34;</span>: <span style=color:#ff0;font-weight:700>100</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;originFileObj&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;uid&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;rc-upload-1551084269812-5&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;width&#34;</span>: <span style=color:#ff0;font-weight:700>600</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;height&#34;</span>: <span style=color:#ff0;font-weight:700>354</span>
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;status&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;done&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;thumbUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAHQ9qKKlbimcXrIH9o2vH/AC2T+ddPj98v+9RRWsuhnHdk0ar9qb5R0Pb6VPB/qh9aKKiRr0Irnt/vUDr+NFFJCRqWxJik5Pb+dLJ938aKK06mYSdKKKKBH//Z&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=font-weight:700>&#34;response&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;retCode&#34;</span>: <span style=color:#ff0;font-weight:700>0</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;imgUrl&#34;</span>: <span style=color:#0ff;font-weight:700>&#34;http://qianguyihao.com/opfewfwj098902kpkpkkj976fe.jpg&#34;</span>,
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#34;photoid&#34;</span>: <span style=color:#ff0;font-weight:700>271850</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>]
+</span></span></code></pre></td></tr></table></div></div><p>上方的json数据中，需要做几点解释：</p><p>（1）<code>response</code> 字段里面的数据，就是请求接口后，后台返回给前端的数据，里面包含了图片的url链接。</p><p>（2）<code>status</code> 字段里存放的是图片上传的实时状态，包括上传中、上传完成、上传失败。</p><p>（3）<code>thumbUrl</code>字段里面存放的是图片的base64编码。</p><p>这个base64编码非常非常长。当点击图片预览的时候，其实就是加载的 thumbUrl 这个字段里的资源，难怪浏览器会卡死。</p><p><strong>解决办法</strong>：在 handleChange方法里，图片上传成功后，将 thumbUrl 字段里面的 base64 编码改为真实的图片url。代码实现如下：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">17
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>  handleChange = ({ file, fileList }) =&gt; {
+</span></span><span style=display:flex><span>    console.log(JSON.stringify(file)); <span style=color:#007f7f>// file 是当前正在上传的 单个 img
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    console.log(JSON.stringify(fileList)); <span style=color:#007f7f>// fileList 是已上传的全部 img 列表
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>// 【重要】将 图片的base64替换为图片的url。 这一行一定不会能少。
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#007f7f>// 图片上传成功后，fileList数组中的 thumbUrl 中保存的是图片的base64字符串，这种情况，导致的问题是：图片上传成功后，点击图片缩略图，浏览器会会卡死。而下面这行代码，可以解决该bug。
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    fileList.forEach(imgItem =&gt; {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>if</span> (imgItem &amp;&amp; imgItem.status == <span style=color:#0ff;font-weight:700>&#39;done&#39;</span> &amp;&amp; imgItem.response &amp;&amp; imgItem.response.imgUrl) {
+</span></span><span style=display:flex><span>        imgItem.thumbUrl = imgItem.response.imgUrl;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>this</span>.setState({
+</span></span><span style=display:flex><span>      imgList: fileList,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span></code></pre></td></tr></table></div></div><h2 id=新需求编辑现有页面>新需求：编辑现有页面<a hidden class=anchor aria-hidden=true href=#新需求编辑现有页面>#</a></h2><p>上面一段的代码中，我们是在新建的页面中，从零开始上传图片。</p><p>现在有个新的需求：如何编辑现有的页面呢？也就是说，现有的页面在初始化时，是默认有几张图片的。当我编辑这个页面时，可以对现有的图片做增删，也能增加新的图片。而且要保证：新建页面和编辑现有页面，是共用一套代码。</p><p>我看到upload 组件有提供 <code>defaultFileList</code> 的属性。我试了下，这个<code>defaultFileList</code> 的属性根本没法儿用。</p><p>那就只有手动实现了。我的model层代码，是用 redux 写的。整体的实现思路如下：（这个也是在真正在实战中用到的代码）</p><p>（1）PicturesWall.js：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">100
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">101
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">102
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">103
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">104
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">105
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">106
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">107
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">108
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">109
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">110
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">111
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">112
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">113
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">114
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">115
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">116
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">117
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">118
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">119
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">120
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">121
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">122
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">123
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">124
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">125
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">126
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">127
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">128
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">129
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">130
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">131
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">132
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">133
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">134
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">135
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">136
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">137
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">138
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">139
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">140
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">141
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">142
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">143
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">144
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">145
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">146
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">147
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">148
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">149
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">150
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">151
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">152
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">153
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">154
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">155
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">156
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">157
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">158
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">159
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">160
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">161
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">162
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">163
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">164
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">165
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">166
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">167
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">168
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">169
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">170
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">171
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">172
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">173
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">174
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">175
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">176
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">177
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">178
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">179
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#007f7f>/* eslint-disable */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> { Upload, Icon, Modal, Form } from <span style=color:#0ff;font-weight:700>&#39;antd&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>const</span> FormItem = Form.Item;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>class</span> PicturesWall <span style=color:#fff;font-weight:700>extends</span> PureComponent {
+</span></span><span style=display:flex><span>  state = {
+</span></span><span style=display:flex><span>    previewVisible: <span style=color:#fff;font-weight:700>false</span>,
+</span></span><span style=display:flex><span>    previewImage: <span style=color:#0ff;font-weight:700>&#39;&#39;</span>,
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#007f7f>// 页面初始化的时候，从接口拉取默认的图片数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  componentDidMount() {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { dispatch } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>    dispatch({
+</span></span><span style=display:flex><span>      type: <span style=color:#0ff;font-weight:700>&#39;mymodel/getAllInfo&#39;</span>,
+</span></span><span style=display:flex><span>      payload: { params: xxx },
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleChange = ({ file, fileList }) =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { dispatch } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>// 【重要】将 图片的base64替换为图片的url。 这一行一定不会能少。
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#007f7f>// 图片上传成功后，fileList数组中的 thumbUrl 中保存的是图片的base64字符串，这种情况，导致的问题是：图片上传成功后，点击图片缩略图，浏览器会会卡死。而下面这行代码，可以解决该bug。
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    fileList.forEach(imgItem =&gt; {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>if</span> (imgItem &amp;&amp; imgItem.status == <span style=color:#0ff;font-weight:700>&#39;done&#39;</span> &amp;&amp; imgItem.response &amp;&amp; imgItem.response.imgUrl) {
+</span></span><span style=display:flex><span>        imgItem.thumbUrl = imgItem.response.imgUrl;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    dispatch({
+</span></span><span style=display:flex><span>      type: <span style=color:#0ff;font-weight:700>&#39;mymodel/setImgList&#39;</span>,
+</span></span><span style=display:flex><span>      payload: fileList,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleCancel = () =&gt; <span style=color:#fff;font-weight:700>this</span>.setState({ previewVisible: <span style=color:#fff;font-weight:700>false</span> });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handlePreview = file =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>this</span>.setState({
+</span></span><span style=display:flex><span>      previewImage: file.url || file.thumbUrl,
+</span></span><span style=display:flex><span>      previewVisible: <span style=color:#fff;font-weight:700>true</span>,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#007f7f>// 参考链接：https://www.jianshu.com/p/f356f050b3c9
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  handleBeforeUpload = file =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>//限制图片 格式、size、分辨率
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#fff;font-weight:700>const</span> isJPG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/jpeg&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isJPEG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/jpeg&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isGIF = file.type === <span style=color:#0ff;font-weight:700>&#39;image/gif&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isPNG = file.type === <span style=color:#0ff;font-weight:700>&#39;image/png&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> isLt2M = file.size / <span style=color:#ff0;font-weight:700>1024</span> / <span style=color:#ff0;font-weight:700>1024</span> &lt; <span style=color:#ff0;font-weight:700>2</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>if</span> (!(isJPG || isJPEG || isGIF || isPNG)) {
+</span></span><span style=display:flex><span>      Modal.error({
+</span></span><span style=display:flex><span>        title: <span style=color:#0ff;font-weight:700>&#39;只能上传JPG 、JPEG 、GIF、 PNG格式的图片~&#39;</span>,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    } <span style=color:#fff;font-weight:700>else</span> <span style=color:#fff;font-weight:700>if</span> (!isLt2M) {
+</span></span><span style=display:flex><span>      Modal.error({
+</span></span><span style=display:flex><span>        title: <span style=color:#0ff;font-weight:700>&#39;超过2M限制，不允许上传~&#39;</span>,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>// 参考链接：https://github.com/ant-design/ant-design/issues/8779
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    <span style=color:#fff;font-weight:700>return</span> <span style=color:#fff;font-weight:700>new</span> <span style=color:#fff;font-weight:700>Promise</span>((resolve, reject) =&gt; {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>if</span> (!(isJPG || isJPEG || isGIF || isPNG)) {
+</span></span><span style=display:flex><span>        reject(file);
+</span></span><span style=display:flex><span>      } <span style=color:#fff;font-weight:700>else</span> {
+</span></span><span style=display:flex><span>        resolve(file &amp;&amp; <span style=color:#fff;font-weight:700>this</span>.checkImageWH(file));
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#007f7f>//返回一个 promise：检测通过则返回resolve；失败则返回reject，并阻止图片上传
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  checkImageWH(file) {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>let</span> self = <span style=color:#fff;font-weight:700>this</span>;
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> <span style=color:#fff;font-weight:700>new</span> <span style=color:#fff;font-weight:700>Promise</span>(<span style=color:#fff;font-weight:700>function</span>(resolve, reject) {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>let</span> filereader = <span style=color:#fff;font-weight:700>new</span> FileReader();
+</span></span><span style=display:flex><span>      filereader.onload = e =&gt; {
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>let</span> src = e.target.result;
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>const</span> image = <span style=color:#fff;font-weight:700>new</span> Image();
+</span></span><span style=display:flex><span>        image.onload = <span style=color:#fff;font-weight:700>function</span>() {
+</span></span><span style=display:flex><span>          <span style=color:#007f7f>// 获取图片的宽高，并存放到file对象中
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>          console.log(<span style=color:#0ff;font-weight:700>&#39;file width :&#39;</span> + <span style=color:#fff;font-weight:700>this</span>.width);
+</span></span><span style=display:flex><span>          console.log(<span style=color:#0ff;font-weight:700>&#39;file height :&#39;</span> + <span style=color:#fff;font-weight:700>this</span>.height);
+</span></span><span style=display:flex><span>          file.width = <span style=color:#fff;font-weight:700>this</span>.width;
+</span></span><span style=display:flex><span>          file.height = <span style=color:#fff;font-weight:700>this</span>.height;
+</span></span><span style=display:flex><span>          resolve();
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>        image.onerror = reject;
+</span></span><span style=display:flex><span>        image.src = src;
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>      filereader.readAsDataURL(file);
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  handleSubmit = e =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { dispatch, form } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>    e.preventDefault();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> {
+</span></span><span style=display:flex><span>      mymodel: { imgList }, <span style=color:#007f7f>// 从props中拿默认的图片数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    form.validateFieldsAndScroll((err, values) =&gt; {
+</span></span><span style=display:flex><span>      <span style=color:#007f7f>// values 是form表单里的参数
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      <span style=color:#007f7f>// 点击按钮后，将表单提交给后台
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#007f7f>// start 问题描述：当编辑现有页面时，如果针对已经存在的默认图片不做修改，则不会触发 upload 的 onChange方法。此时提交表单，表单里的 myImg 字段是空的。
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      <span style=color:#007f7f>// 解决办法：如果发现存在默认图片，则追加到表单中
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      <span style=color:#fff;font-weight:700>if</span> (!values.myImg) {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        values.myImg = { fileList: [] };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        values.myImg.fileList = imgList;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>      <span style=color:#007f7f>// end
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>
+</span></span><span style=display:flex><span>      dispatch({
+</span></span><span style=display:flex><span>        type: <span style=color:#0ff;font-weight:700>&#39;mymodel/submitFormData&#39;</span>,
+</span></span><span style=display:flex><span>        payload: values,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  render() {
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> { previewVisible, previewImage } = <span style=color:#fff;font-weight:700>this</span>.state; <span style=color:#007f7f>//  从 state 中拿数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> {
+</span></span><span style=display:flex><span>      mymodel: { imgList }, <span style=color:#007f7f>// 从props中拿到的图片数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    } = <span style=color:#fff;font-weight:700>this</span>.props;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>const</span> uploadButton = (
+</span></span><span style=display:flex><span>      &lt;div&gt;
+</span></span><span style=display:flex><span>        &lt;Icon type=<span style=color:#0ff;font-weight:700>&#34;plus&#34;</span> /&gt;
+</span></span><span style=display:flex><span>        &lt;div className=<span style=color:#0ff;font-weight:700>&#34;ant-upload-text&#34;</span>&gt;Upload&lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>      &lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> (
+</span></span><span style=display:flex><span>      &lt;div className=<span style=color:#0ff;font-weight:700>&#34;clearfix&#34;</span>&gt;
+</span></span><span style=display:flex><span>        &lt;Form onSubmit={<span style=color:#fff;font-weight:700>this</span>.handleSubmit} hideRequiredMark style={{ marginTop: <span style=color:#ff0;font-weight:700>8</span> }}&gt;
+</span></span><span style=display:flex><span>          &lt;FormItem label=<span style=color:#0ff;font-weight:700>&#34;图片上传&#34;</span> {...formItemLayout}&gt;
+</span></span><span style=display:flex><span>            {getFieldDecorator(<span style=color:#0ff;font-weight:700>&#39;myImg&#39;</span>)(
+</span></span><span style=display:flex><span>              &lt;Upload
+</span></span><span style=display:flex><span>                action=<span style=color:#0ff;font-weight:700>&#34;//jsonplaceholder.typicode.com/posts/&#34;</span> <span style=color:#007f7f>// 这个是图片上传的接口请求，实际开发中，要替换成你自己的业务接口
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                data={file =&gt; ({
+</span></span><span style=display:flex><span>                  <span style=color:#007f7f>// data里存放的是接口的请求参数
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  param1: myParam1,
+</span></span><span style=display:flex><span>                  param2: myParam2,
+</span></span><span style=display:flex><span>                  photoCotent: file, <span style=color:#007f7f>// file 是当前正在上传的图片
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  photoWidth: file.height, <span style=color:#007f7f>// 通过  handleBeforeUpload 获取 图片的宽高
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                  photoHeight: file.width,
+</span></span><span style=display:flex><span>                })}
+</span></span><span style=display:flex><span>                listType=<span style=color:#0ff;font-weight:700>&#34;picture-card&#34;</span>
+</span></span><span style=display:flex><span>                fileList={imgList}  <span style=color:#007f7f>// 改为从 props 里拿图片数据，而不是从 state
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                onPreview={<span style=color:#fff;font-weight:700>this</span>.handlePreview} <span style=color:#007f7f>// 点击图片缩略图，进行预览
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                beforeUpload={<span style=color:#fff;font-weight:700>this</span>.handleBeforeUpload} <span style=color:#007f7f>// 上传之前，对图片的格式做校验，并获取图片的宽高
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>                onChange={<span style=color:#fff;font-weight:700>this</span>.handleChange} <span style=color:#007f7f>// 每次上传图片时，都会触发这个方法
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>              &gt;
+</span></span><span style=display:flex><span>                {<span style=color:#fff;font-weight:700>this</span>.state.imgList.length &gt;= <span style=color:#ff0;font-weight:700>9</span> ? <span style=color:#fff;font-weight:700>null</span> : uploadButton}
+</span></span><span style=display:flex><span>              &lt;<span style=color:red>/Upload&gt;</span>
+</span></span><span style=display:flex><span>            )}
+</span></span><span style=display:flex><span>          &lt;<span style=color:red>/FormItem&gt;</span>
+</span></span><span style=display:flex><span>        &lt;<span style=color:red>/Form&gt;</span>
+</span></span><span style=display:flex><span>        &lt;Modal visible={previewVisible} footer={<span style=color:#fff;font-weight:700>null</span>} onCancel={<span style=color:#fff;font-weight:700>this</span>.handleCancel}&gt;
+</span></span><span style=display:flex><span>          &lt;img alt=<span style=color:#0ff;font-weight:700>&#34;example&#34;</span> style={{ width: <span style=color:#0ff;font-weight:700>&#39;100%&#39;</span> }} src={previewImage} /&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:red>/Modal&gt;</span>
+</span></span><span style=display:flex><span>      &lt;<span style=color:red>/div&gt;</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>export</span> <span style=color:#fff;font-weight:700>default</span> PicturesWall;
+</span></span></code></pre></td></tr></table></div></div><p>（2）mymodel.js:</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">  9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">100
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">101
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">102
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">103
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">104
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">105
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">106
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">107
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">108
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">109
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">110
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">111
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">112
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">113
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">114
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">115
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#007f7f>/* eslint-disable */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> { routerRedux } from <span style=color:#0ff;font-weight:700>&#39;dva/router&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> { message, Modal } from <span style=color:#0ff;font-weight:700>&#39;antd&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> {
+</span></span><span style=display:flex><span>  getGoodsInfo,
+</span></span><span style=display:flex><span>  getAllGoods,
+</span></span><span style=display:flex><span>} from <span style=color:#0ff;font-weight:700>&#39;../services/api&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> { trim, getCookie } from <span style=color:#0ff;font-weight:700>&#39;../utils/utils&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>export</span> <span style=color:#fff;font-weight:700>default</span> {
+</span></span><span style=display:flex><span>  namespace: <span style=color:#0ff;font-weight:700>&#39;mymodel&#39;</span>,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  state: {
+</span></span><span style=display:flex><span>    form: {},
+</span></span><span style=display:flex><span>    list: [],
+</span></span><span style=display:flex><span>    listDetail: [],
+</span></span><span style=display:flex><span>    goodsList: [],
+</span></span><span style=display:flex><span>    goodsListDetail: [],
+</span></span><span style=display:flex><span>    pagination: {
+</span></span><span style=display:flex><span>      pageSize: <span style=color:#ff0;font-weight:700>10</span>,
+</span></span><span style=display:flex><span>      total: <span style=color:#ff0;font-weight:700>0</span>,
+</span></span><span style=display:flex><span>      current: <span style=color:#ff0;font-weight:700>1</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    imgList: [], <span style=color:#007f7f>//图片
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>  },
+</span></span><span style=display:flex><span>  subscriptions: {
+</span></span><span style=display:flex><span>    setup({ dispatch, history }) {
+</span></span><span style=display:flex><span>      history.listen(location =&gt; {
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>if</span> (location.pathname !== <span style=color:#0ff;font-weight:700>&#39;/xx/xxx&#39;</span>) <span style=color:#fff;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>if</span> (!location.state || !location.state.xxxId) <span style=color:#fff;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>        dispatch({
+</span></span><span style=display:flex><span>          type: <span style=color:#0ff;font-weight:700>&#39;fetch&#39;</span>,
+</span></span><span style=display:flex><span>          payload: location.state,
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  effects: {
+</span></span><span style=display:flex><span>    <span style=color:#007f7f>// 接口。获取所有工厂店的列表 (步骤02)
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>    *getAllInfo({ payload }, { select, call, put }) {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>yield</span> put({
+</span></span><span style=display:flex><span>        type: <span style=color:#0ff;font-weight:700>&#39;form&#39;</span>,
+</span></span><span style=display:flex><span>        payload,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>      console.log(<span style=color:#0ff;font-weight:700>&#39;params:&#39;</span> + JSON.stringify(payload));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>let</span> params = {};
+</span></span><span style=display:flex><span>      params = payload;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>const</span> response = <span style=color:#fff;font-weight:700>yield</span> call(getGoodsInfo, params);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      console.log(<span style=color:#0ff;font-weight:700>&#39;smyhvae response:&#39;</span> + JSON.stringify(response));
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>if</span> (response.error) <span style=color:#fff;font-weight:700>return</span>;
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>yield</span> put({
+</span></span><span style=display:flex><span>        type: <span style=color:#0ff;font-weight:700>&#39;allInfo&#39;</span>,
+</span></span><span style=display:flex><span>        payload:
+</span></span><span style=display:flex><span>          (response.data &amp;&amp;
+</span></span><span style=display:flex><span>            response.data.map(item =&gt; ({
+</span></span><span style=display:flex><span>              xx1: item.yy1,
+</span></span><span style=display:flex><span>              xx2: item.yy2,
+</span></span><span style=display:flex><span>            }))) ||
+</span></span><span style=display:flex><span>          [],
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#007f7f>// response 里包含了接口返回给前端的默认图片数据
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>      <span style=color:#fff;font-weight:700>if</span> (response &amp;&amp; response.data &amp;&amp; response.data[<span style=color:#ff0;font-weight:700>0</span>] &amp;&amp; response.data[<span style=color:#ff0;font-weight:700>0</span>].my_jpg) {
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>let</span> tempImgList = response.data[<span style=color:#ff0;font-weight:700>0</span>].my_jpg.split(<span style=color:#0ff;font-weight:700>&#39;,&#39;</span>);
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>let</span> imgList = [];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>if</span> (tempImgList.length &gt; <span style=color:#ff0;font-weight:700>0</span>) {
+</span></span><span style=display:flex><span>          tempImgList.forEach(item =&gt; {
+</span></span><span style=display:flex><span>            imgList.push({
+</span></span><span style=display:flex><span>              uid: item,
+</span></span><span style=display:flex><span>              name: <span style=color:#0ff;font-weight:700>&#39;xxx.png&#39;</span>,
+</span></span><span style=display:flex><span>              status: <span style=color:#0ff;font-weight:700>&#39;done&#39;</span>,
+</span></span><span style=display:flex><span>              thumbUrl: item,
+</span></span><span style=display:flex><span>            });
+</span></span><span style=display:flex><span>          });
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#007f7f>// 通过  redux的方式 将 默认图片 传给 imgList
+</span></span></span><span style=display:flex><span><span style=color:#007f7f></span>        console.log(<span style=color:#0ff;font-weight:700>&#39;smyhvae payload imgList:&#39;</span> + JSON.stringify(imgList));
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>yield</span> put({
+</span></span><span style=display:flex><span>          type: <span style=color:#0ff;font-weight:700>&#39;setImgList&#39;</span>,
+</span></span><span style=display:flex><span>          payload: imgList,
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    *setImgList({ payload }, { call, put }) {
+</span></span><span style=display:flex><span>      console.log(<span style=color:#0ff;font-weight:700>&#39;model setImgList&#39;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>yield</span> put({
+</span></span><span style=display:flex><span>        type: <span style=color:#0ff;font-weight:700>&#39;getImgList&#39;</span>,
+</span></span><span style=display:flex><span>        payload,
+</span></span><span style=display:flex><span>      });
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  reducers: {
+</span></span><span style=display:flex><span>    allInfo(state, action) {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>return</span> {
+</span></span><span style=display:flex><span>        ...state,
+</span></span><span style=display:flex><span>        list: action.payload,
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    getImgList(state, action) {
+</span></span><span style=display:flex><span>      <span style=color:#fff;font-weight:700>return</span> {
+</span></span><span style=display:flex><span>        ...state,
+</span></span><span style=display:flex><span>        imgList: action.payload,
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>};
+</span></span></code></pre></td></tr></table></div></div><p>上面的代码，可以规避 upload 组件的一些bug；而且可以在上传前，通过校验图片的尺寸、大小等，如果不满足条件，则弹出modal弹窗，阻止上传。</p><p>大功告成。本文感谢 ld 同学的支持。</p><p>更多内容，可以看本人的另外一篇文章：</p><ul><li><a href=https://www.cnblogs.com/qianguyihao/p/13093592.html>AntD框架的upload组件上传图片时使用customRequest方法自定义上传行为</a></li></ul><h2 id=其他问题>其他问题<a hidden class=anchor aria-hidden=true href=#其他问题>#</a></h2><ul><li><a href=https://github.com/ant-design/ant-design/issues/8779>beforeUpload返回false后，文件仍然为上传中的状态</a></li></ul><h2 id=最后一段>最后一段<a hidden class=anchor aria-hidden=true href=#最后一段>#</a></h2><p>有人说，前端开发，连卖菜的都会。可如果真的遇到技术难题，还是得找个靠谱的前端同学才行。这不，来看看前端码农日常：</p><p><img loading=lazy src=http://img.smyhvae.com/20190302_1339_2.png alt></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/>开发软件快捷使用</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/temp/04-javascript/08-%E8%BF%90%E7%AE%97%E7%AC%A6/><span class=title>« Prev</span><br><span>08-运算符</span></a>
+<a class=next href=https://bablvsj.github.io/posts/temp/04-javascript/09-%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1%E6%89%A9%E5%B1%95set%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/><span class=title>Next »</span><br><span>09-内置对象扩展：Set数据结构</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

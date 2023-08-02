@@ -6,11 +6,11 @@
     <description>Recent content in git操作 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 27 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/git%E6%93%8D%E4%BD%9C/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jul 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/git%E6%93%8D%E4%BD%9C/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>git安装/常用命令</title>
       <link>https://bablvsj.github.io/posts/blog/2023/001-gitinstall/</link>
-      <pubDate>Thu, 27 Jul 2023 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 27 Jul 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/blog/2023/001-gitinstall/</guid>
       <description>一、git 下载安装与检测是否安装成功 1、git 官网官网地址，这边提醒您官网是外网下载速度极慢。 所以我推荐阿里的下载地址，版本有特别多，那就随</description>

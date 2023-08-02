@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>面试 on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/</link>
+    <description>Recent content in 面试 on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 01 May 2020 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JavaScript</title>
+      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/javascript/</link>
+      <pubDate>Fri, 01 May 2020 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/javascript/</guid>
+      <description>JavaScript JavaScript的组成 JavaScript 由以下三部分组成： ECMAScript（核心）：JavaScript 语言基础 DOM（文档对象模型）：规定了访问</description>
+    </item>
+    
+    <item>
+      <title>手写代码</title>
+      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/handwritten-code/</link>
+      <pubDate>Fri, 01 May 2020 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/handwritten-code/</guid>
+      <description>手写事件侦听器，并要求兼容浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54</description>
+    </item>
+    
+  </channel>
+</rss>
