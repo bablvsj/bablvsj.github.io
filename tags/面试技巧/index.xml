@@ -8,24 +8,6 @@
     <language>zh-cn</language>
     <lastBuildDate>Wed, 01 Apr 2020 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>CSS盒模型及BFC</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/02-css%E7%9B%92%E6%A8%A1%E5%9E%8B%E5%8F%8Abfc/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/02-css%E7%9B%92%E6%A8%A1%E5%9E%8B%E5%8F%8Abfc/</guid>
-      <description>本文最初发表于博客园，并在GitHub上持续更新前端的系列文章。欢迎在GitHub上关注我，一起入门和进阶前端。 以下是正文。 题目：谈一谈你对</description>
-    </item>
-    
-    <item>
-      <title>DOM事件的总结</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/03-dom%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%80%BB%E7%BB%93/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/03-dom%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%80%BB%E7%BB%93/</guid>
-      <description>前言 要学习事件的基础内容，请看先本人之前的基础文章： 《04-JavaScript基础/27-事件对象Event》 《04-JavaScript</description>
-    </item>
-    
-    <item>
       <title>ES6：模块化的使用和编译环境</title>
       <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/es6%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/</link>
       <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
@@ -44,111 +26,12 @@
     </item>
     
     <item>
-      <title>https</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/1.%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/1.%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86/</guid>
-      <description>1、http 和 https 的基本概念 http: 是一个客户端和服务器端请求和应答的标准（TCP），用于从 WWW 服务器传输超文本到本地浏览器的超文本传输协议。 http</description>
-    </item>
-    
-    <item>
-      <title>HTTP协议</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/04-http%E5%8D%8F%E8%AE%AE/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/04-http%E5%8D%8F%E8%AE%AE/</guid>
-      <description>一面中，如果有笔试，考HTTP协议的可能性较大。 前言 一面要讲的内容： HTTP协议的主要特点 HTTP报文的组成部分 HTTP方法 get 和 post的区</description>
-    </item>
-    
-    <item>
       <title>JS相关</title>
       <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/js%E7%9B%B8%E5%85%B3/</link>
       <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/js%E7%9B%B8%E5%85%B3/</guid>
       <description>JS 有哪些数据类型 基本数据类型：string、number、bigint、bool、undefined、null 引用数据类型：object、s</description>
-    </item>
-    
-    <item>
-      <title>js运行机制：异步和单线程</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/09-js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%BC%82%E6%AD%A5%E5%92%8C%E5%8D%95%E7%BA%BF%E7%A8%8B/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/09-js%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%BC%82%E6%AD%A5%E5%92%8C%E5%8D%95%E7%BA%BF%E7%A8%8B/</guid>
-      <description>前言 面试时，关于同步和异步，可能会问以下问题： 同步和异步的区别是什么？分别举一个同步和异步的例子 一个关于 setTimeout 的笔试题 前端使用异步的场景哪些？ 面</description>
-    </item>
-    
-    <item>
-      <title>MVVM</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/mvvm/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/mvvm/</guid>
-      <description>前言 MVVM的常见问题： 如何理解MVVM 如何实现MVVM 是否解读过Vue的源码 题目： 说一下使用 jQuery 和使用框架的区别 说一下对 MVVM 的理解 vue 中如何实现</description>
-    </item>
-    
-    <item>
-      <title>z-推荐文章</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/z-%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/z-%E6%8E%A8%E8%8D%90%E6%96%87%E7%AB%A0/</guid>
-      <description>征服JavaScript面试系列 | 众城翻译 征服 JavaScript 面试：什么是闭包？ 征服 JavaScript 面试：什么是函数组合 征服JavaScript面试系列：类继承和原型继</description>
-    </item>
-    
-    <item>
-      <title>准备</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/00-%E5%87%86%E5%A4%87/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/00-%E5%87%86%E5%A4%87/</guid>
-      <description>前言 面试分为三部分 技术面试：问技术问题。 负责人面试：考察综合能力。比如：项目把控能力、项目深度、项目架构、业务等。 hr 面试：侧重于性格、沟通、</description>
-    </item>
-    
-    <item>
-      <title>创建对象和原型链</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/05-01.%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/05-01.%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE/</guid>
-      <description>前言 面向对象的三大特性 封装 继承 多态 原型链的知识 原型链是面向对象的基础，是非常重要的部分。有以下几种知识： 创建对象有几种方法 原型、构造函数、实</description>
-    </item>
-    
-    <item>
-      <title>前端错误监控</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/11-%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/11-%E5%89%8D%E7%AB%AF%E9%94%99%E8%AF%AF%E7%9B%91%E6%8E%A7/</guid>
-      <description>前言 错误监控包含的内容是： 前端错误的分类 每种错误的捕获方式 上报错误的基本原理 面试时，可能有两种问法： 如何监测 js 错误？（开门见山的方式） 如何保</description>
-    </item>
-    
-    <item>
-      <title>变量提升的题目</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87%E7%9A%84%E9%A2%98%E7%9B%AE/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87%E7%9A%84%E9%A2%98%E7%9B%AE/</guid>
-      <description>变量提升 先说三句总结性的话： let 的「创建」过程被提升了，但是初始化没有提升。 var 的「创建」和「初始化」都被提升了。 function 的「创建」「初始化」和「赋值</description>
-    </item>
-    
-    <item>
-      <title>安全问题：CSRF和XSS</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/07-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98csrf%E5%92%8Cxss/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/07-%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98csrf%E5%92%8Cxss/</guid>
-      <description>前言 面试中的安全问题，明确来说，就两个方面： CSRF：基本概念、攻击方式、防御措施 XSS：基本概念、攻击方式、防御措施 这两个问题，一般不会问</description>
-    </item>
-    
-    <item>
-      <title>异步</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%BC%82%E6%AD%A5/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E5%BC%82%E6%AD%A5/</guid>
-      <description>面试题 20180321面试题 1 2 3 4 5 6 7 8 9 10 11 console.log(1); setTimeout(function () { console.log(2); }, 1000); setTimeout(function () { console.log(3); }, 0); console.log(4); 20180321面试题 1 2 3 4 5 6 var arr = [1, 2, 3]; for (var i = 0; i &amp;lt; arr.length;</description>
     </item>
     
     <item>
@@ -161,69 +44,6 @@
     </item>
     
     <item>
-      <title>算法问题</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/08-%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/08-%E7%AE%97%E6%B3%95%E9%97%AE%E9%A2%98/</guid>
-      <description>前言 算法主要包括： 1、排序 排序一定要准备。 2、堆栈、队列、链表 队列和链表可以不准备，但是堆栈一定要准备。 一个小技巧：JS的数组本身就具备堆栈</description>
-    </item>
-    
-    <item>
-      <title>网友面经</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E7%BD%91%E5%8F%8B%E9%9D%A2%E7%BB%8F/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E7%BD%91%E5%8F%8B%E9%9D%A2%E7%BB%8F/</guid>
-      <description>2018-03-08 jawil | 一年经验初探阿里巴巴前端社招 此博主的博客签名： 20180308_1703.png 2017我遇到的前端面试题 作者整理的这些题目，很多是来自面试跳槽的视频。非常推荐。 作者</description>
-    </item>
-    
-    <item>
-      <title>虚拟DOM</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E8%99%9A%E6%8B%9Fdom/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E8%99%9A%E6%8B%9Fdom/</guid>
-      <description>前言 vdom 是 vue 和 React 的核心，先讲哪个都绕不开它。 vdom 比较独立，使用也比较简单。 如果面试问到 vue 和 React 和实现，免不了问 vdom： vdom 是什么？为何会存在 vdo</description>
-    </item>
-    
-    <item>
-      <title>跨域通信类</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/06-%E8%B7%A8%E5%9F%9F%E9%80%9A%E4%BF%A1%E7%B1%BB/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/06-%E8%B7%A8%E5%9F%9F%E9%80%9A%E4%BF%A1%E7%B1%BB/</guid>
-      <description>本文最初发表于博客园，并在GitHub上持续更新前端的系列文章。欢迎在GitHub上关注我，一起入门和进阶前端。 以下是正文。 前言 从本章起，对</description>
-    </item>
-    
-    <item>
-      <title>钉钉面试</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%92%89%E9%92%89%E9%9D%A2%E8%AF%95/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%92%89%E9%92%89%E9%9D%A2%E8%AF%95/</guid>
-      <description>基础知识主要包含以下几个方面： 基础：计算机原理、编译原理、数据结构、算法、设计模式、编程范式等基本知识了解 语法：JavaScript、ECM</description>
-    </item>
-    
-    <item>
-      <title>面向对象：类的定义和继承的几种方式</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/05-02.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E7%BB%A7%E6%89%BF%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/05-02.%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E7%BB%A7%E6%89%BF%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/</guid>
-      <description>前言 类与实例： 类的声明 生成实例 类与继承： 如何实现继承：继承的本质就是原型链 继承的几种方式 类的定义、实例化 类的定义/类的声明 方式一：用构造函数</description>
-    </item>
-    
-    <item>
-      <title>面经链接推荐</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E7%BB%8F%E9%93%BE%E6%8E%A5%E6%8E%A8%E8%8D%90/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E7%BB%8F%E9%93%BE%E6%8E%A5%E6%8E%A8%E8%8D%90/</guid>
-      <description>2018-01-25 有时在面试时，我都替候选人着急——候选人完全可以在面试前准备 2018-01-26 转眼人到中年：前端老程序员无法忘怀的一次百度电话面试 八年前的面经，咋记得这么</description>
-    </item>
-    
-    <item>
       <title>面试技巧</title>
       <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/</link>
       <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
@@ -233,30 +53,12 @@
     </item>
     
     <item>
-      <title>面试题整理</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E9%A2%98%E6%95%B4%E7%90%86/</guid>
-      <description>JavaScript 存储相关：请描述以下cookie、localStorage、sessionStorage的区别 在H5之前，cookie一直都是本地存储的一</description>
-    </item>
-    
-    <item>
       <title>页面布局</title>
       <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/</link>
       <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/</guid>
-      <description>前端面试（前言） 面试基础 页面布局 CSS盒模型：是CSS的基石。 DOM事件 HTTP协议 面向对象 原型链：能说出原型链的始末 面试进阶 通信：普通的通</description>
-    </item>
-    
-    <item>
-      <title>页面性能优化</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/10-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/10-%E9%A1%B5%E9%9D%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
-      <description>本文最初发表于博客园，并在GitHub上持续更新前端的系列文章。欢迎在GitHub上关注我，一起入门和进阶前端。 以下是正文。 前言 提升页面性能</description>
+      <description>题目：页面布局 问题：假设容器的高度默认100px，请写出三栏布局，其中左栏、右栏的宽度各为300px，中间的宽度自适应。 分析： 方法1：浮动 方</description>
     </item>
     
   </channel>
