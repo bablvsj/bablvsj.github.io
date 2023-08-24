@@ -6,7 +6,16 @@
     <description>Recent content in 文章 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 23 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Aug 2023 16:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深浅拷贝</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230823-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 24 Aug 2023 16:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230823-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</guid>
+      <description>概念 浅拷贝： 1.创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。 2.如果属性是基本类型，拷贝的就是基本类型的值。 3.如果属性是引用</description>
+    </item>
+    
     <item>
       <title>简述原型、原型链、(原型)继承</title>
       <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%AE%80%E8%BF%B0%E5%8E%9F%E5%9E%8B%E5%8E%9F%E5%9E%8B%E9%93%BE%E5%8E%9F%E5%9E%8B%E7%BB%A7%E6%89%BF/</link>
@@ -22,7 +31,7 @@
       <pubDate>Wed, 16 Aug 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/js%E5%9F%BA%E7%A1%80/</guid>
-      <description>1.判断数据类型 **typeof 1 2 3 4 5 6 7 8 9 10 typeof &amp;#39;seymoe&amp;#39; // &amp;#39;string&amp;#39; typeof true // &amp;#39;boolean&amp;#39; typeof 10 // &amp;#39;number&amp;#39; typeof Symbol() // &amp;#39;symbol&amp;#39; typeof null // &amp;#39;object&amp;#39; `无法判定是否为 null ` typeof undefined // &amp;#39;undefined&amp;#39; typeof {} // &amp;#39;object&amp;#39; typeof [] // &amp;#39;object&amp;#39; typeof(() =&amp;gt; {}) // &amp;#39;function&amp;#39; 弊端： null</description>
+      <description>1.判断数据类型 typeof 1 2 3 4 5 6 7 8 9 10 typeof &amp;#39;seymoe&amp;#39; // &amp;#39;string&amp;#39; typeof true // &amp;#39;boolean&amp;#39; typeof 10 // &amp;#39;number&amp;#39; typeof Symbol() // &amp;#39;symbol&amp;#39; typeof null // &amp;#39;object&amp;#39; `无法判定是否为 null ` typeof undefined // &amp;#39;undefined&amp;#39; typeof {} // &amp;#39;object&amp;#39; typeof [] // &amp;#39;object&amp;#39; typeof(() =&amp;gt; {}) // &amp;#39;function&amp;#39; 弊端： null</description>
     </item>
     
     <item>
@@ -89,6 +98,15 @@
     </item>
     
     <item>
+      <title>English</title>
+      <link>https://bablvsj.github.io/posts/exams/english/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/english/</guid>
+      <description>英语（二）不规则动词表 中文 原形 动词过去式 过去分词 1.出现，升起 arise arose arisen 2.开始 begin began begun 3.吹 blow blew blown 4打断break broke broken 5选择choose chose chosen 6做</description>
+    </item>
+    
+    <item>
       <title>for four exams</title>
       <link>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</link>
       <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
@@ -140,15 +158,6 @@
       
       <guid>https://bablvsj.github.io/posts/tech/think.md/</guid>
       <description>勒布朗（LeBlanc）法则：稍后等于永不（Later equals never）</description>
-    </item>
-    
-    <item>
-      <title>深浅拷贝</title>
-      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
-      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</guid>
-      <description>前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（</description>
     </item>
     
     <item>
