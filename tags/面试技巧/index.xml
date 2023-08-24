@@ -8,57 +8,12 @@
     <language>zh-cn</language>
     <lastBuildDate>Wed, 01 Apr 2020 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>ES6：模块化的使用和编译环境</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/es6%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/es6%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83/</guid>
-      <description>前言 ES6的主要内容 模块化的使用和编译环境 Class与JS构造函数的区别 Promise的用法 ES6其他常用功能 本文来讲“模块化的使用和编译环</description>
-    </item>
-    
-    <item>
-      <title>http</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/http/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/http/</guid>
-      <description>HTTP 状态码知道哪些？ 301 和 302 的区别： 301 永久重定向，浏览器会记住（有缓存） 302 临时重定向（无缓存） HTTP 缓存怎么做？ 强缓存： Expires或Cache-</description>
-    </item>
-    
-    <item>
-      <title>JS相关</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/js%E7%9B%B8%E5%85%B3/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/js%E7%9B%B8%E5%85%B3/</guid>
-      <description>JS 有哪些数据类型 基本数据类型：string、number、bigint、bool、undefined、null 引用数据类型：object、s</description>
-    </item>
-    
-    <item>
-      <title>我的面试经历</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E6%88%91%E7%9A%84%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E6%88%91%E7%9A%84%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/</guid>
-      <description>20180323 什么是闭包，闭包有什么作用。 ES6的新特性有哪些。 作用域、函数扩展（扩展运算符、默认参数、箭头函数）、异步promise、模块化。 追问：c</description>
-    </item>
-    
-    <item>
       <title>面试技巧</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/</link>
+      <link>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/</link>
       <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/</guid>
+      <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/%E9%9D%A2%E8%AF%95%E6%8A%80%E5%B7%A7/</guid>
       <description>写简历的注意事项 最多可以写“深入了解”，但不要写“精通”。 遇到不知道的问题，该怎么回答 这块儿我没了解过，准备回去看一下。 这块儿我没研究过，您</description>
-    </item>
-    
-    <item>
-      <title>页面布局</title>
-      <link>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/</link>
-      <pubDate>Wed, 01 Apr 2020 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/temp/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80/</guid>
-      <description>题目：页面布局 问题：假设容器的高度默认100px，请写出三栏布局，其中左栏、右栏的宽度各为300px，中间的宽度自适应。 分析： 方法1：浮动 方</description>
     </item>
     
   </channel>

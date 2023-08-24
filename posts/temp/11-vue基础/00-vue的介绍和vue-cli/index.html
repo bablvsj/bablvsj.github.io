@@ -1,80 +1,895 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>00-Vue的介绍和vue-cli | Bablvsj's Blog</title><meta name=keywords content="开发软件快捷使用"><meta name=description content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示"><meta name=author content="Lvsj"><link rel=canonical href=https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/><link crossorigin=anonymous href=/assets/css/stylesheet.4042000fa2684f3af41ed8c08949567fce091421c6b1ca8041acafa54d196a62.css integrity="sha256-QEIAD6JoTzr0HtjAiUlWf84JFCHGscqAQayvpU0ZamI=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="00-Vue的介绍和vue-cli"><meta property="og:description" content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示"><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-01-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="00-Vue的介绍和vue-cli"><meta name=twitter:description content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"00-Vue的介绍和vue-cli","item":"https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"00-Vue的介绍和vue-cli","name":"00-Vue的介绍和vue-cli","description":"MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示","keywords":["开发软件快捷使用"],"articleBody":"MVVM模式 Model：负责数据存储\nView：负责页面展示\nView Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示\n关于框架 为什么要学习流行框架 1、企业为了提高开发效率：在企业中，时间就是效率，效率就是金钱；企业中，使用框架，能够提高开发的效率。\n提高开发效率的发展历程：\n原生JS -\u003e Jquery之类的类库 -\u003e 前端模板引擎 -\u003e Angular.js / Vue.js（能够帮助我们减少不必要的DOM操作；提高渲染效率；双向数据绑定的概念）\n2、在Vue中，一个核心的概念就是：数据驱动，避免手动操作DOM元素。这样的话，可以让前端程序员可以更多的时间去关注数据的业务逻辑，而不是关心 DOM 是如何渲染的了。\n框架和库的区别 框架：\n框架是一套完整的解决方案。\n对项目的侵入性较大，项目如果需要更换框架，则需要重新架构整个项目。但是优点也很明显：功能完善、提供了一整套的解决方案。\n库（插件）：\n只是提供某一个小功能。\n对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其它库实现需求。\n举例：\n从Jquery 切换到 Zepto\n从 EJS 切换到 art-template\n前端的各种框架 Vue 和 React 的相同点 利用虚拟DOM实现快速渲染\n轻量级\n响应式组件\n支持服务器端渲染\n易于集成路由工具、打包工具以及状态管理工具\nPS：Vue 在国内很受欢迎；React 在国内和国外都很受欢迎，适合做大型网站。\n什么是虚拟 DOM 传统的web开发，是利用 jQuery操作DOM，这是非常耗资源的。\n我们可以在 JS 的内存里构建类似于DOM的对象，去拼装数据，拼装完整后，把数据整体解析，一次性插入到html里去。这就形成了虚拟 DOM。\nVue1.0没有虚拟DOM，Vue2.0改成了基于虚拟DOM。\n前端框架回顾 Vue框架中，没有控制器。\nVue 框架 发展历史 2013年底作为尤雨溪个人实验项目开始开发\n2014年2月公开发布。\n2014年11月发布0.11版本\n2016年10月发布2.0版本。\n相关网址 中文官网\nvuejs官方论坛\nGitHub地址：https://github.com/vuejs/vue\nVue1.0 在线文档：http://v1-cn.vuejs.org/guide/\nVue2.x 在线文档：https://cn.vuejs.org/v2/guide/\nVue1下载地址：http://v1-cn.vuejs.org/js/vue.js\nVue2下载地址：https://cdn.jsdelivr.net/npm/vue/\n上方截图的时间：2018-03-02。\n介绍 Vue 本身并不是一个框架，Vue结合周边生态构成一个灵活的、渐进式的框架。\nVue 以及大型 Vue 项目所需的周边技术，构成了生态。\n渐进式框架图：\nVue框架的特点 模板渲染：基于 html 的模板语法，学习成本低。\n响应式的更新机制：数据改变之后，视图会自动刷新。【重要】\n渐进式框架\n组件化/模块化\n轻量：开启 gzip压缩后，可以达到 20kb 大小。（React 达到 35kb，AngularJS 达到60kb）。\nVue 的环境搭建 我们首先要安装好 NVM、Node.js环境，然后再来做下面的操作。\n常见的插件 Webpack：代码模块化构建打包工具。\nGulp：基于流的自动化构建工具。\nBabel：使用最新的 规范来编写 js。\nVue：构建数据驱动的Web界面的渐进式框架\nExpress：基于 Node.js 平台，快速、开放、极简的 Web 开发框架。\n以上这些包，都可以通过 NPM 这个包管理工具来安装。\n引用 Vue.js 文件 1、方式一：（CDN的方式进行引用）\n1 2 3 4 5 6 7 8 9 10 11 12 \u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\"\u003e \u003ctitle\u003eTitle\u003c/title\u003e \u003cscript src=\"https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js\"\u003e\u003c/script\u003e \u003c/head\u003e \u003cbody\u003e \u003c/body\u003e \u003c/html\u003e 2、方式二：（下载 vue.js 文件）\n去网站 https://cdn.jsdelivr.net/npm/vue/ 下载 vue.js 文件，直接放到工程文件里，然后引用。\n3、方式三：（NPM的方式安装vue）\n1 2 # 最新稳定版 $ npm install vue 如果网络不稳定，可以采用下面的方式安装：\n1 cnpm i vue --save 然后在代码中通过下面这种方式进行引用：\n1 import Vue from 'vue' 利用 vue-cli 新建一个空的项目 Vue 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具为现代化的前端开发工作流提供了开箱即用的构建配置。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目。\n官方代码参考 1 2 3 4 5 6 7 npm install -g @vue/cli vue create my-app cd my-app npm run serve 我们根据上方的参考代码，来看看“利用 vue-cli 新建一个空的项目”的步骤。\n安装 vue-cli（命令行工具） 安装命令如下：\n1 2 # 全局安装 vue-cli $ npm install -g @vue/cli 初始化一个 simple 项目 （1）首先执行：\n1 vue create my-app 输入上方命令后，会弹出一个选项：\n如果是初学者，直接选default就行。之后会自动生成一个空的初始化项目，包含了项目目录、以及项目依赖的脚本。\n这个空项目的工程文件如下：（请务必仔细研究这个项目的写法和目录结构）\n2019-06-21-vue-my-app.zip 我们可以看到这个项目的结构：\nsrc：项目源码\n.babelrc：ES6编译插件的配置\nindex.html：单页面的入口\n上方截图中，npm install指的是下载各种依赖包，npm run dev指的是打开发包，npm run build指的是打生产包。\n（2）本地运行项目：\n1 2 3 cd my-app npm run serve 浏览器输入http://localhost:8080/，就可以让这个空的项目在本地跑起来：\n备注：我们在 GitHub上下载的任何Vue有关的项目，第一步都是要首先执行 npm install，安装依赖的 mode_modules，然后再运行。我们发给同事的工程文件，建议不要包含 node_modules。\n构建一个 非 simple 项目 构建一个空的项目，首先执行：\n1 vue create vuedemo2 上图中，选择 Manually select features，然后根据提示依次输入：\nproject name：要求小写。\ndescription：默认即可。\nvue-router：需要。\nESlint：语法检查，初学者可以暂时不需要。\n单元测试：暂时也不需要。\ne2e test：不需要。\n选择 eslint 的配置：\n然后让这个空的项目就可以在浏览器上跑起来。\nvue 项目结构分析 buid：打包配置的文件夹\nconfig：webpack对应的配置\nsrc：开发项目的源码\nApp.vue：入口组件。.vue文件都是组件。 main.js：项目入口文件。 static：存放静态资源\n.babelrc：解析ES6的配置文件\n.editorcofnig：编辑器的配置\n.postcssrc.js：html添加前缀的配置\nindex.html：单页面的入口。通过 webpack打包后，会把 src 源码进行编译，插入到这个 html 里面来。\npackage.json：项目的基础配置，包含版本号、脚本命令、项目依赖库、开发依赖库、引擎等。\n图片的base64编码 默认是10k以下，建议都通过 base64编码。在配置文件webpack.base.conf.js中进行修改：\n1 2 3 4 5 6 7 { test: /\\.(png|jpe?g|gif|svg)(\\?.*)?$/, loader: 'url-loader', options: { limit: 10000, name: utils.assetsPath('img/[name].[hash:7].[ext]') } ","wordCount":"2665","inLanguage":"en","datePublished":"2020-01-01T17:11:35+08:00","dateModified":"2020-01-01T17:11:35+08:00","author":{"@type":"Person","name":"Lvsj"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/categories title=分类><span>分类</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>00-Vue的介绍和vue-cli</h1><div class=post-meta><span title='2020-01-01 17:11:35 +0800 +0800'>2020/01/01</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Lvsj<ul class=post-tags-meta><a href=https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/>开发软件快捷使用</a></ul></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#mvvm%e6%a8%a1%e5%bc%8f aria-label=MVVM模式>MVVM模式</a></li><li><a href=#%e5%85%b3%e4%ba%8e%e6%a1%86%e6%9e%b6 aria-label=关于框架>关于框架</a><ul><li><a href=#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%ad%a6%e4%b9%a0%e6%b5%81%e8%a1%8c%e6%a1%86%e6%9e%b6 aria-label=为什么要学习流行框架>为什么要学习流行框架</a></li><li><a href=#%e6%a1%86%e6%9e%b6%e5%92%8c%e5%ba%93%e7%9a%84%e5%8c%ba%e5%88%ab aria-label=框架和库的区别>框架和库的区别</a></li></ul></li><li><a href=#%e5%89%8d%e7%ab%af%e7%9a%84%e5%90%84%e7%a7%8d%e6%a1%86%e6%9e%b6 aria-label=前端的各种框架>前端的各种框架</a><ul><li><a href=#vue-%e5%92%8c-react-%e7%9a%84%e7%9b%b8%e5%90%8c%e7%82%b9 aria-label="Vue 和 React 的相同点">Vue 和 React 的相同点</a></li><li><a href=#%e4%bb%80%e4%b9%88%e6%98%af%e8%99%9a%e6%8b%9f-dom aria-label="什么是虚拟 DOM">什么是虚拟 DOM</a></li><li><a href=#%e5%89%8d%e7%ab%af%e6%a1%86%e6%9e%b6%e5%9b%9e%e9%a1%be aria-label=前端框架回顾>前端框架回顾</a></li></ul></li><li><a href=#vue-%e6%a1%86%e6%9e%b6 aria-label="Vue 框架">Vue 框架</a><ul><li><a href=#%e5%8f%91%e5%b1%95%e5%8e%86%e5%8f%b2 aria-label=发展历史>发展历史</a></li><li><a href=#%e7%9b%b8%e5%85%b3%e7%bd%91%e5%9d%80 aria-label=相关网址>相关网址</a></li><li><a href=#%e4%bb%8b%e7%bb%8d aria-label=介绍>介绍</a></li><li><a href=#vue%e6%a1%86%e6%9e%b6%e7%9a%84%e7%89%b9%e7%82%b9 aria-label=Vue框架的特点>Vue框架的特点</a></li></ul></li><li><a href=#vue-%e7%9a%84%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba aria-label="Vue 的环境搭建">Vue 的环境搭建</a><ul><li><a href=#%e5%b8%b8%e8%a7%81%e7%9a%84%e6%8f%92%e4%bb%b6 aria-label=常见的插件>常见的插件</a></li><li><a href=#%e5%bc%95%e7%94%a8-vuejs-%e6%96%87%e4%bb%b6 aria-label="引用 Vue.js 文件">引用 Vue.js 文件</a></li></ul></li><li><a href=#%e5%88%a9%e7%94%a8-vue-cli-%e6%96%b0%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%a9%ba%e7%9a%84%e9%a1%b9%e7%9b%ae aria-label="利用 vue-cli 新建一个空的项目">利用 vue-cli 新建一个空的项目</a><ul><li><a href=#%e5%ae%98%e6%96%b9%e4%bb%a3%e7%a0%81%e5%8f%82%e8%80%83 aria-label=官方代码参考>官方代码参考</a></li><li><a href=#%e5%ae%89%e8%a3%85-vue-cli%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%b7%a5%e5%85%b7 aria-label="安装 vue-cli（命令行工具）">安装 vue-cli（命令行工具）</a></li><li><a href=#%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%80%e4%b8%aa-simple-%e9%a1%b9%e7%9b%ae aria-label="初始化一个 simple 项目">初始化一个 simple 项目</a></li><li><a href=#%e6%9e%84%e5%bb%ba%e4%b8%80%e4%b8%aa-%e9%9d%9e-simple-%e9%a1%b9%e7%9b%ae aria-label="构建一个 非 simple 项目">构建一个 非 simple 项目</a></li></ul></li><li><a href=#vue-%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%e5%88%86%e6%9e%90 aria-label="vue 项目结构分析">vue 项目结构分析</a><ul><li><a href=#%e5%9b%be%e7%89%87%e7%9a%84base64%e7%bc%96%e7%a0%81 aria-label=图片的base64编码>图片的base64编码</a></li></ul></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><h2 id=mvvm模式>MVVM模式<a hidden class=anchor aria-hidden=true href=#mvvm模式>#</a></h2><p><img loading=lazy src=http://img.smyhvae.com/20180420_2150.png alt></p><ul><li><p>Model：负责数据存储</p></li><li><p>View：负责页面展示</p></li><li><p>View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示</p></li></ul><h2 id=关于框架>关于框架<a hidden class=anchor aria-hidden=true href=#关于框架>#</a></h2><h3 id=为什么要学习流行框架>为什么要学习流行框架<a hidden class=anchor aria-hidden=true href=#为什么要学习流行框架>#</a></h3><p><strong>1、企业为了提高开发效率</strong>：在企业中，时间就是效率，效率就是金钱；企业中，使用框架，能够提高开发的效率。</p><p><strong>提高开发效率的发展历程</strong>：</p><p>原生JS -> Jquery之类的类库 -> 前端模板引擎 -> Angular.js / Vue.js（能够帮助我们减少不必要的DOM操作；提高渲染效率；双向数据绑定的概念）</p><p>2、在Vue中，一个核心的概念就是：数据驱动，避免手动操作DOM元素。这样的话，可以让前端程序员可以更多的时间去关注数据的业务逻辑，而不是关心 DOM 是如何渲染的了。</p><h3 id=框架和库的区别>框架和库的区别<a hidden class=anchor aria-hidden=true href=#框架和库的区别>#</a></h3><p><strong>框架</strong>：</p><p>框架是一套完整的解决方案。</p><p>对项目的<strong>侵入性</strong>较大，项目如果需要更换框架，则需要重新架构整个项目。但是优点也很明显：功能完善、提供了一整套的解决方案。</p><p><strong>库（插件）</strong>：</p><p>只是提供某一个小功能。</p><p>对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其它库实现需求。</p><p>举例：</p><ul><li><p>从Jquery 切换到 Zepto</p></li><li><p>从 EJS 切换到 art-template</p></li></ul><h2 id=前端的各种框架>前端的各种框架<a hidden class=anchor aria-hidden=true href=#前端的各种框架>#</a></h2><h3 id=vue-和-react-的相同点>Vue 和 React 的相同点<a hidden class=anchor aria-hidden=true href=#vue-和-react-的相同点>#</a></h3><ul><li><p>利用虚拟DOM实现快速渲染</p></li><li><p>轻量级</p></li><li><p>响应式组件</p></li><li><p>支持服务器端渲染</p></li><li><p>易于集成路由工具、打包工具以及状态管理工具</p></li></ul><p>PS：Vue 在国内很受欢迎；React 在国内和国外都很受欢迎，适合做大型网站。</p><h3 id=什么是虚拟-dom>什么是虚拟 DOM<a hidden class=anchor aria-hidden=true href=#什么是虚拟-dom>#</a></h3><p>传统的web开发，是利用 jQuery操作DOM，这是非常耗资源的。</p><p>我们可以在 JS 的内存里构建类似于DOM的对象，去拼装数据，拼装完整后，把数据整体解析，一次性插入到html里去。这就形成了虚拟 DOM。</p><p>Vue1.0没有虚拟DOM，Vue2.0改成了基于虚拟DOM。</p><h3 id=前端框架回顾>前端框架回顾<a hidden class=anchor aria-hidden=true href=#前端框架回顾>#</a></h3><p><img loading=lazy src=http://img.smyhvae.com/20180302_1645.png alt></p><p><img loading=lazy src=http://img.smyhvae.com/20180302_1651.png alt></p><p><img loading=lazy src=http://img.smyhvae.com/20180302_1652.png alt></p><p>Vue框架中，没有控制器。</p><h2 id=vue-框架>Vue 框架<a hidden class=anchor aria-hidden=true href=#vue-框架>#</a></h2><h3 id=发展历史>发展历史<a hidden class=anchor aria-hidden=true href=#发展历史>#</a></h3><ul><li><p>2013年底作为尤雨溪个人实验项目开始开发</p></li><li><p>2014年2月公开发布。</p></li><li><p>2014年11月发布0.11版本</p></li><li><p>2016年10月发布2.0版本。</p></li></ul><h3 id=相关网址>相关网址<a hidden class=anchor aria-hidden=true href=#相关网址>#</a></h3><ul><li><p><a href=https://cn.vuejs.org/>中文官网</a></p></li><li><p><a href=https://forum.vuejs.org/>vuejs官方论坛</a></p></li><li><p>GitHub地址：<a href=https://github.com/vuejs/vue>https://github.com/vuejs/vue</a></p></li><li><p>Vue1.0 在线文档：<a href=http://v1-cn.vuejs.org/guide/>http://v1-cn.vuejs.org/guide/</a></p></li><li><p>Vue2.x 在线文档：<a href=https://cn.vuejs.org/v2/guide/>https://cn.vuejs.org/v2/guide/</a></p></li><li><p>Vue1下载地址：<a href=http://v1-cn.vuejs.org/js/vue.js>http://v1-cn.vuejs.org/js/vue.js</a></p></li><li><p>Vue2下载地址：<a href=https://cdn.jsdelivr.net/npm/vue/>https://cdn.jsdelivr.net/npm/vue/</a></p></li></ul><p><img loading=lazy src=http://img.smyhvae.com/20180302_1658.png alt></p><p>上方截图的时间：2018-03-02。</p><h3 id=介绍>介绍<a hidden class=anchor aria-hidden=true href=#介绍>#</a></h3><p>Vue 本身并不是一个框架，Vue结合周边生态构成一个灵活的、渐进式的框架。</p><p>Vue 以及大型 Vue 项目所需的周边技术，构成了生态。</p><p>渐进式框架图：</p><p><img loading=lazy src=http://img.smyhvae.com/20180302_1701.png alt></p><h3 id=vue框架的特点>Vue框架的特点<a hidden class=anchor aria-hidden=true href=#vue框架的特点>#</a></h3><ul><li><p>模板渲染：基于 html 的模板语法，学习成本低。</p></li><li><p>响应式的更新机制：数据改变之后，视图会自动刷新。【重要】</p></li><li><p>渐进式框架</p></li><li><p>组件化/模块化</p></li><li><p>轻量：开启 gzip压缩后，可以达到 20kb 大小。（React 达到 35kb，AngularJS 达到60kb）。</p></li></ul><h2 id=vue-的环境搭建>Vue 的环境搭建<a hidden class=anchor aria-hidden=true href=#vue-的环境搭建>#</a></h2><blockquote><p>我们首先要安装好 NVM、Node.js环境，然后再来做下面的操作。</p></blockquote><h3 id=常见的插件>常见的插件<a hidden class=anchor aria-hidden=true href=#常见的插件>#</a></h3><ul><li><p>Webpack：代码模块化构建打包工具。</p></li><li><p>Gulp：基于流的自动化构建工具。</p></li><li><p>Babel：使用最新的 规范来编写 js。</p></li><li><p>Vue：构建数据驱动的Web界面的渐进式框架</p></li><li><p>Express：基于 Node.js 平台，快速、开放、极简的 Web 开发框架。</p></li></ul><p>以上这些包，都可以通过 NPM 这个包管理工具来安装。</p><h3 id=引用-vuejs-文件>引用 Vue.js 文件<a hidden class=anchor aria-hidden=true href=#引用-vuejs-文件>#</a></h3><p>1、<strong>方式一</strong>：（CDN的方式进行引用）</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">10
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">11
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">12
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#0f0;font-weight:700>&lt;!DOCTYPE html&gt;</span>
-</span></span><span style=display:flex><span>&lt;<span style=font-weight:700>html</span> <span style=color:#007f7f>lang</span>=<span style=color:#0ff;font-weight:700>&#34;en&#34;</span>&gt;
-</span></span><span style=display:flex><span>&lt;<span style=font-weight:700>head</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=font-weight:700>meta</span> <span style=color:#007f7f>charset</span>=<span style=color:#0ff;font-weight:700>&#34;UTF-8&#34;</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=font-weight:700>title</span>&gt;Title&lt;/<span style=font-weight:700>title</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=font-weight:700>script</span> <span style=color:#007f7f>src</span>=<span style=color:#0ff;font-weight:700>&#34;https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js&#34;</span>&gt;&lt;/<span style=font-weight:700>script</span>&gt;
-</span></span><span style=display:flex><span>&lt;/<span style=font-weight:700>head</span>&gt;
-</span></span><span style=display:flex><span>&lt;<span style=font-weight:700>body</span>&gt;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>&lt;/<span style=font-weight:700>body</span>&gt;
-</span></span><span style=display:flex><span>&lt;/<span style=font-weight:700>html</span>&gt;
-</span></span></code></pre></td></tr></table></div></div><p>2、方式二：（下载 vue.js 文件）</p><p>去网站 <a href=https://cdn.jsdelivr.net/npm/vue/>https://cdn.jsdelivr.net/npm/vue/</a> 下载 vue.js 文件，直接放到工程文件里，然后引用。</p><p>3、方式三：（NPM的方式安装vue）</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#007f7f># 最新稳定版</span>
-</span></span><span style=display:flex><span>$ npm install vue
-</span></span></code></pre></td></tr></table></div></div><p>如果网络不稳定，可以采用下面的方式安装：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>cnpm i vue --save
-</span></span></code></pre></td></tr></table></div></div><p>然后在代码中通过下面这种方式进行引用：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>  <span style=color:#fff;font-weight:700>import</span> Vue from <span style=color:#0ff;font-weight:700>&#39;vue&#39;</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=利用-vue-cli-新建一个空的项目>利用 vue-cli 新建一个空的项目<a hidden class=anchor aria-hidden=true href=#利用-vue-cli-新建一个空的项目>#</a></h2><p>Vue 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具为现代化的前端开发工作流提供了开箱即用的构建配置。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目。</p><h3 id=官方代码参考>官方代码参考<a hidden class=anchor aria-hidden=true href=#官方代码参考>#</a></h3><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">7
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>  npm install -g @vue/cli
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  vue create my-app
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  cd my-app
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  npm run serve
-</span></span></code></pre></td></tr></table></div></div><p>我们根据上方的参考代码，来看看“利用 vue-cli 新建一个空的项目”的步骤。</p><h3 id=安装-vue-cli命令行工具>安装 vue-cli（命令行工具）<a hidden class=anchor aria-hidden=true href=#安装-vue-cli命令行工具>#</a></h3><p>安装命令如下：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#007f7f># 全局安装 vue-cli</span>
-</span></span><span style=display:flex><span>$ npm install -g @vue/cli
-</span></span></code></pre></td></tr></table></div></div><h3 id=初始化一个-simple-项目>初始化一个 simple 项目<a hidden class=anchor aria-hidden=true href=#初始化一个-simple-项目>#</a></h3><p>（1）首先执行：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>  vue create my-app
-</span></span></code></pre></td></tr></table></div></div><p>输入上方命令后，会弹出一个选项：</p><p><img loading=lazy src=http://img.smyhvae.com/20190624_163626.png alt></p><p>如果是初学者，直接选<code>default</code>就行。之后会自动生成一个空的初始化项目，包含了项目目录、以及项目依赖的脚本。</p><p>这个空项目的工程文件如下：（请务必仔细研究这个项目的写法和目录结构）</p><ul><li><a href=https://download.csdn.net/download/smyhvae/11256220>2019-06-21-vue-my-app.zip</a></li></ul><p>我们可以看到这个项目的结构：</p><p><img loading=lazy src=http://img.smyhvae.com/20190624_160726.png alt></p><ul><li><p>src：项目源码</p></li><li><p>.babelrc：ES6编译插件的配置</p></li><li><p>index.html：单页面的入口</p></li></ul><p>上方截图中，<code>npm install</code>指的是下载各种依赖包，<code>npm run dev</code>指的是打开发包，<code>npm run build</code>指的是打生产包。</p><p>（2）本地运行项目：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>  cd my-app
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  npm run serve
-</span></span></code></pre></td></tr></table></div></div><p>浏览器输入<code>http://localhost:8080/</code>，就可以让这个空的项目在本地跑起来：</p><p><img loading=lazy src=http://img.smyhvae.com/20190624_160229.png alt></p><p>备注：我们在 GitHub上下载的任何Vue有关的项目，第一步都是要首先执行 npm install，安装依赖的 mode_modules，然后再运行。我们发给同事的工程文件，建议不要包含 <code>node_modules</code>。</p><h3 id=构建一个-非-simple-项目>构建一个 非 simple 项目<a hidden class=anchor aria-hidden=true href=#构建一个-非-simple-项目>#</a></h3><p>构建一个空的项目，首先执行：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>vue create vuedemo2
-</span></span></code></pre></td></tr></table></div></div><p><img loading=lazy src=http://img.smyhvae.com/20190624_163726.png alt></p><p>上图中，选择 <code>Manually select features</code>，然后根据提示依次输入：</p><p><img loading=lazy src=http://img.smyhvae.com/20190624_164305.png alt></p><ul><li><p>project name：<strong>要求小写</strong>。</p></li><li><p>description：默认即可。</p></li><li><p>vue-router：需要。</p></li><li><p>ESlint：语法检查，初学者可以暂时不需要。</p></li><li><p>单元测试：暂时也不需要。</p></li><li><p>e2e test：不需要。</p></li></ul><p>选择 eslint 的配置：</p><p><img loading=lazy src=http://img.smyhvae.com/20190624_165001.png alt></p><p>然后让这个空的项目就可以在浏览器上跑起来。</p><h2 id=vue-项目结构分析>vue 项目结构分析<a hidden class=anchor aria-hidden=true href=#vue-项目结构分析>#</a></h2><p><img loading=lazy src=http://img.smyhvae.com/20180501_2100.png alt></p><ul><li><p>buid：打包配置的文件夹</p></li><li><p>config：webpack对应的配置</p></li><li><p>src：开发项目的源码</p><ul><li>App.vue：入口组件。<code>.vue</code>文件都是组件。</li><li>main.js：项目入口文件。</li></ul></li><li><p>static：存放静态资源</p></li><li><p><code>.babelrc</code>：解析ES6的配置文件</p></li><li><p><code>.editorcofnig</code>：编辑器的配置</p></li><li><p><code>.postcssrc.js</code>：html添加前缀的配置</p></li><li><p><code>index.html</code>：单页面的入口。通过 webpack打包后，会把 src 源码进行编译，插入到这个 html 里面来。</p></li><li><p><code>package.json</code>：项目的基础配置，包含版本号、脚本命令、项目依赖库、开发依赖库、引擎等。</p></li></ul><h3 id=图片的base64编码>图片的base64编码<a hidden class=anchor aria-hidden=true href=#图片的base64编码>#</a></h3><p>默认是10k以下，建议都通过 base64编码。在配置文件<code>webpack.base.conf.js</code>中进行修改：</p><div class=highlight><div style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">1
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">2
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">3
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">4
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">5
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">6
-</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#727272">7
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>      {
-</span></span><span style=display:flex><span>        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-</span></span><span style=display:flex><span>        loader: &#39;url-loader&#39;,
-</span></span><span style=display:flex><span>        options: {
-</span></span><span style=display:flex><span>          limit: 10000,
-</span></span><span style=display:flex><span>          name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
-</span></span><span style=display:flex><span>        }
-</span></span></code></pre></td></tr></table></div></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/>开发软件快捷使用</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/temp/01-%E5%89%8D%E7%AB%AF%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/3-%E8%B5%8B%E5%80%BC%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D/><span class=title>« Prev</span><br><span>赋值、深拷贝、浅拷贝</span></a>
-<a class=next href=https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/01-06.%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/><span class=title>Next »</span><br><span>01-06.自定义按键修饰符&自定义指令</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>00-Vue的介绍和vue-cli | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="开发软件快捷使用">
+<meta name="description" content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示">
+<meta name="author" content="Lvsj">
+<link rel="canonical" href="https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d3d1e8f99275d4b58d2782bf557bc4eb2372da0512a5c7aa819718f806749b6f.css" integrity="sha256-09Ho&#43;ZJ11LWNJ4K/VXvE6yNy2gUSpceqgZcY&#43;AZ0m28=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="00-Vue的介绍和vue-cli" />
+<meta property="og:description" content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-01-01T17:11:35+08:00" />
+<meta property="article:modified_time" content="2020-01-01T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="00-Vue的介绍和vue-cli"/>
+<meta name="twitter:description" content="MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "00-Vue的介绍和vue-cli",
+      "item": "https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "00-Vue的介绍和vue-cli",
+  "name": "00-Vue的介绍和vue-cli",
+  "description": "MVVM模式 Model：负责数据存储 View：负责页面展示 View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示",
+  "keywords": [
+    "开发软件快捷使用"
+  ],
+  "articleBody": "MVVM模式 Model：负责数据存储\nView：负责页面展示\nView Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示\n关于框架 为什么要学习流行框架 1、企业为了提高开发效率：在企业中，时间就是效率，效率就是金钱；企业中，使用框架，能够提高开发的效率。\n提高开发效率的发展历程：\n原生JS -\u003e Jquery之类的类库 -\u003e 前端模板引擎 -\u003e Angular.js / Vue.js（能够帮助我们减少不必要的DOM操作；提高渲染效率；双向数据绑定的概念）\n2、在Vue中，一个核心的概念就是：数据驱动，避免手动操作DOM元素。这样的话，可以让前端程序员可以更多的时间去关注数据的业务逻辑，而不是关心 DOM 是如何渲染的了。\n框架和库的区别 框架：\n框架是一套完整的解决方案。\n对项目的侵入性较大，项目如果需要更换框架，则需要重新架构整个项目。但是优点也很明显：功能完善、提供了一整套的解决方案。\n库（插件）：\n只是提供某一个小功能。\n对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其它库实现需求。\n举例：\n从Jquery 切换到 Zepto\n从 EJS 切换到 art-template\n前端的各种框架 Vue 和 React 的相同点 利用虚拟DOM实现快速渲染\n轻量级\n响应式组件\n支持服务器端渲染\n易于集成路由工具、打包工具以及状态管理工具\nPS：Vue 在国内很受欢迎；React 在国内和国外都很受欢迎，适合做大型网站。\n什么是虚拟 DOM 传统的web开发，是利用 jQuery操作DOM，这是非常耗资源的。\n我们可以在 JS 的内存里构建类似于DOM的对象，去拼装数据，拼装完整后，把数据整体解析，一次性插入到html里去。这就形成了虚拟 DOM。\nVue1.0没有虚拟DOM，Vue2.0改成了基于虚拟DOM。\n前端框架回顾 Vue框架中，没有控制器。\nVue 框架 发展历史 2013年底作为尤雨溪个人实验项目开始开发\n2014年2月公开发布。\n2014年11月发布0.11版本\n2016年10月发布2.0版本。\n相关网址 中文官网\nvuejs官方论坛\nGitHub地址：https://github.com/vuejs/vue\nVue1.0 在线文档：http://v1-cn.vuejs.org/guide/\nVue2.x 在线文档：https://cn.vuejs.org/v2/guide/\nVue1下载地址：http://v1-cn.vuejs.org/js/vue.js\nVue2下载地址：https://cdn.jsdelivr.net/npm/vue/\n上方截图的时间：2018-03-02。\n介绍 Vue 本身并不是一个框架，Vue结合周边生态构成一个灵活的、渐进式的框架。\nVue 以及大型 Vue 项目所需的周边技术，构成了生态。\n渐进式框架图：\nVue框架的特点 模板渲染：基于 html 的模板语法，学习成本低。\n响应式的更新机制：数据改变之后，视图会自动刷新。【重要】\n渐进式框架\n组件化/模块化\n轻量：开启 gzip压缩后，可以达到 20kb 大小。（React 达到 35kb，AngularJS 达到60kb）。\nVue 的环境搭建 我们首先要安装好 NVM、Node.js环境，然后再来做下面的操作。\n常见的插件 Webpack：代码模块化构建打包工具。\nGulp：基于流的自动化构建工具。\nBabel：使用最新的 规范来编写 js。\nVue：构建数据驱动的Web界面的渐进式框架\nExpress：基于 Node.js 平台，快速、开放、极简的 Web 开发框架。\n以上这些包，都可以通过 NPM 这个包管理工具来安装。\n引用 Vue.js 文件 1、方式一：（CDN的方式进行引用）\n1 2 3 4 5 6 7 8 9 10 11 12 \u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\"\u003e \u003ctitle\u003eTitle\u003c/title\u003e \u003cscript src=\"https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js\"\u003e\u003c/script\u003e \u003c/head\u003e \u003cbody\u003e \u003c/body\u003e \u003c/html\u003e 2、方式二：（下载 vue.js 文件）\n去网站 https://cdn.jsdelivr.net/npm/vue/ 下载 vue.js 文件，直接放到工程文件里，然后引用。\n3、方式三：（NPM的方式安装vue）\n1 2 # 最新稳定版 $ npm install vue 如果网络不稳定，可以采用下面的方式安装：\n1 cnpm i vue --save 然后在代码中通过下面这种方式进行引用：\n1 import Vue from 'vue' 利用 vue-cli 新建一个空的项目 Vue 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具为现代化的前端开发工作流提供了开箱即用的构建配置。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目。\n官方代码参考 1 2 3 4 5 6 7 npm install -g @vue/cli vue create my-app cd my-app npm run serve 我们根据上方的参考代码，来看看“利用 vue-cli 新建一个空的项目”的步骤。\n安装 vue-cli（命令行工具） 安装命令如下：\n1 2 # 全局安装 vue-cli $ npm install -g @vue/cli 初始化一个 simple 项目 （1）首先执行：\n1 vue create my-app 输入上方命令后，会弹出一个选项：\n如果是初学者，直接选default就行。之后会自动生成一个空的初始化项目，包含了项目目录、以及项目依赖的脚本。\n这个空项目的工程文件如下：（请务必仔细研究这个项目的写法和目录结构）\n2019-06-21-vue-my-app.zip 我们可以看到这个项目的结构：\nsrc：项目源码\n.babelrc：ES6编译插件的配置\nindex.html：单页面的入口\n上方截图中，npm install指的是下载各种依赖包，npm run dev指的是打开发包，npm run build指的是打生产包。\n（2）本地运行项目：\n1 2 3 cd my-app npm run serve 浏览器输入http://localhost:8080/，就可以让这个空的项目在本地跑起来：\n备注：我们在 GitHub上下载的任何Vue有关的项目，第一步都是要首先执行 npm install，安装依赖的 mode_modules，然后再运行。我们发给同事的工程文件，建议不要包含 node_modules。\n构建一个 非 simple 项目 构建一个空的项目，首先执行：\n1 vue create vuedemo2 上图中，选择 Manually select features，然后根据提示依次输入：\nproject name：要求小写。\ndescription：默认即可。\nvue-router：需要。\nESlint：语法检查，初学者可以暂时不需要。\n单元测试：暂时也不需要。\ne2e test：不需要。\n选择 eslint 的配置：\n然后让这个空的项目就可以在浏览器上跑起来。\nvue 项目结构分析 buid：打包配置的文件夹\nconfig：webpack对应的配置\nsrc：开发项目的源码\nApp.vue：入口组件。.vue文件都是组件。 main.js：项目入口文件。 static：存放静态资源\n.babelrc：解析ES6的配置文件\n.editorcofnig：编辑器的配置\n.postcssrc.js：html添加前缀的配置\nindex.html：单页面的入口。通过 webpack打包后，会把 src 源码进行编译，插入到这个 html 里面来。\npackage.json：项目的基础配置，包含版本号、脚本命令、项目依赖库、开发依赖库、引擎等。\n图片的base64编码 默认是10k以下，建议都通过 base64编码。在配置文件webpack.base.conf.js中进行修改：\n1 2 3 4 5 6 7 { test: /\\.(png|jpe?g|gif|svg)(\\?.*)?$/, loader: 'url-loader', options: { limit: 10000, name: utils.assetsPath('img/[name].[hash:7].[ext]') } ",
+  "wordCount" : "2665",
+  "inLanguage": "en",
+  "datePublished": "2020-01-01T17:11:35+08:00",
+  "dateModified": "2020-01-01T17:11:35+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "Lvsj"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/00-vue%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8Cvue-cli/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/categories" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      00-Vue的介绍和vue-cli
+    </h1>
+    <div class="post-meta">
+      <span title='2020-01-01 17:11:35 +0800 CST'>2020/01/01</span>&nbsp;·&nbsp;6 min&nbsp;·&nbsp;Lvsj
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/">开发软件快捷使用</a>
+</ul>
+
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#mvvm%e6%a8%a1%e5%bc%8f" aria-label="MVVM模式">MVVM模式</a></li>
+                <li>
+                    <a href="#%e5%85%b3%e4%ba%8e%e6%a1%86%e6%9e%b6" aria-label="关于框架">关于框架</a><ul>
+                        
+                <li>
+                    <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%ad%a6%e4%b9%a0%e6%b5%81%e8%a1%8c%e6%a1%86%e6%9e%b6" aria-label="为什么要学习流行框架">为什么要学习流行框架</a></li>
+                <li>
+                    <a href="#%e6%a1%86%e6%9e%b6%e5%92%8c%e5%ba%93%e7%9a%84%e5%8c%ba%e5%88%ab" aria-label="框架和库的区别">框架和库的区别</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%89%8d%e7%ab%af%e7%9a%84%e5%90%84%e7%a7%8d%e6%a1%86%e6%9e%b6" aria-label="前端的各种框架">前端的各种框架</a><ul>
+                        
+                <li>
+                    <a href="#vue-%e5%92%8c-react-%e7%9a%84%e7%9b%b8%e5%90%8c%e7%82%b9" aria-label="Vue 和 React 的相同点">Vue 和 React 的相同点</a></li>
+                <li>
+                    <a href="#%e4%bb%80%e4%b9%88%e6%98%af%e8%99%9a%e6%8b%9f-dom" aria-label="什么是虚拟 DOM">什么是虚拟 DOM</a></li>
+                <li>
+                    <a href="#%e5%89%8d%e7%ab%af%e6%a1%86%e6%9e%b6%e5%9b%9e%e9%a1%be" aria-label="前端框架回顾">前端框架回顾</a></li></ul>
+                </li>
+                <li>
+                    <a href="#vue-%e6%a1%86%e6%9e%b6" aria-label="Vue 框架">Vue 框架</a><ul>
+                        
+                <li>
+                    <a href="#%e5%8f%91%e5%b1%95%e5%8e%86%e5%8f%b2" aria-label="发展历史">发展历史</a></li>
+                <li>
+                    <a href="#%e7%9b%b8%e5%85%b3%e7%bd%91%e5%9d%80" aria-label="相关网址">相关网址</a></li>
+                <li>
+                    <a href="#%e4%bb%8b%e7%bb%8d" aria-label="介绍">介绍</a></li>
+                <li>
+                    <a href="#vue%e6%a1%86%e6%9e%b6%e7%9a%84%e7%89%b9%e7%82%b9" aria-label="Vue框架的特点">Vue框架的特点</a></li></ul>
+                </li>
+                <li>
+                    <a href="#vue-%e7%9a%84%e7%8e%af%e5%a2%83%e6%90%ad%e5%bb%ba" aria-label="Vue 的环境搭建">Vue 的环境搭建</a><ul>
+                        
+                <li>
+                    <a href="#%e5%b8%b8%e8%a7%81%e7%9a%84%e6%8f%92%e4%bb%b6" aria-label="常见的插件">常见的插件</a></li>
+                <li>
+                    <a href="#%e5%bc%95%e7%94%a8-vuejs-%e6%96%87%e4%bb%b6" aria-label="引用 Vue.js 文件">引用 Vue.js 文件</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%88%a9%e7%94%a8-vue-cli-%e6%96%b0%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%a9%ba%e7%9a%84%e9%a1%b9%e7%9b%ae" aria-label="利用 vue-cli 新建一个空的项目">利用 vue-cli 新建一个空的项目</a><ul>
+                        
+                <li>
+                    <a href="#%e5%ae%98%e6%96%b9%e4%bb%a3%e7%a0%81%e5%8f%82%e8%80%83" aria-label="官方代码参考">官方代码参考</a></li>
+                <li>
+                    <a href="#%e5%ae%89%e8%a3%85-vue-cli%e5%91%bd%e4%bb%a4%e8%a1%8c%e5%b7%a5%e5%85%b7" aria-label="安装 vue-cli（命令行工具）">安装 vue-cli（命令行工具）</a></li>
+                <li>
+                    <a href="#%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%80%e4%b8%aa-simple-%e9%a1%b9%e7%9b%ae" aria-label="初始化一个 simple 项目">初始化一个 simple 项目</a></li>
+                <li>
+                    <a href="#%e6%9e%84%e5%bb%ba%e4%b8%80%e4%b8%aa-%e9%9d%9e-simple-%e9%a1%b9%e7%9b%ae" aria-label="构建一个 非 simple 项目">构建一个 非 simple 项目</a></li></ul>
+                </li>
+                <li>
+                    <a href="#vue-%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84%e5%88%86%e6%9e%90" aria-label="vue 项目结构分析">vue 项目结构分析</a><ul>
+                        
+                <li>
+                    <a href="#%e5%9b%be%e7%89%87%e7%9a%84base64%e7%bc%96%e7%a0%81" aria-label="图片的base64编码">图片的base64编码</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="mvvm模式">MVVM模式<a hidden class="anchor" aria-hidden="true" href="#mvvm模式">#</a></h2>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180420_2150.png" alt=""  />
+</p>
+<ul>
+<li>
+<p>Model：负责数据存储</p>
+</li>
+<li>
+<p>View：负责页面展示</p>
+</li>
+<li>
+<p>View Model：负责业务逻辑处理（比如Ajax请求等），对数据进行加工后交给视图展示</p>
+</li>
+</ul>
+<h2 id="关于框架">关于框架<a hidden class="anchor" aria-hidden="true" href="#关于框架">#</a></h2>
+<h3 id="为什么要学习流行框架">为什么要学习流行框架<a hidden class="anchor" aria-hidden="true" href="#为什么要学习流行框架">#</a></h3>
+<p><strong>1、企业为了提高开发效率</strong>：在企业中，时间就是效率，效率就是金钱；企业中，使用框架，能够提高开发的效率。</p>
+<p><strong>提高开发效率的发展历程</strong>：</p>
+<p>原生JS -&gt; Jquery之类的类库 -&gt; 前端模板引擎 -&gt; Angular.js / Vue.js（能够帮助我们减少不必要的DOM操作；提高渲染效率；双向数据绑定的概念）</p>
+<p>2、在Vue中，一个核心的概念就是：数据驱动，避免手动操作DOM元素。这样的话，可以让前端程序员可以更多的时间去关注数据的业务逻辑，而不是关心 DOM 是如何渲染的了。</p>
+<h3 id="框架和库的区别">框架和库的区别<a hidden class="anchor" aria-hidden="true" href="#框架和库的区别">#</a></h3>
+<p><strong>框架</strong>：</p>
+<p>框架是一套完整的解决方案。</p>
+<p>对项目的<strong>侵入性</strong>较大，项目如果需要更换框架，则需要重新架构整个项目。但是优点也很明显：功能完善、提供了一整套的解决方案。</p>
+<p><strong>库（插件）</strong>：</p>
+<p>只是提供某一个小功能。</p>
+<p>对项目的侵入性较小，如果某个库无法完成某些需求，可以很容易切换到其它库实现需求。</p>
+<p>举例：</p>
+<ul>
+<li>
+<p>从Jquery 切换到 Zepto</p>
+</li>
+<li>
+<p>从 EJS 切换到 art-template</p>
+</li>
+</ul>
+<h2 id="前端的各种框架">前端的各种框架<a hidden class="anchor" aria-hidden="true" href="#前端的各种框架">#</a></h2>
+<h3 id="vue-和-react-的相同点">Vue 和 React 的相同点<a hidden class="anchor" aria-hidden="true" href="#vue-和-react-的相同点">#</a></h3>
+<ul>
+<li>
+<p>利用虚拟DOM实现快速渲染</p>
+</li>
+<li>
+<p>轻量级</p>
+</li>
+<li>
+<p>响应式组件</p>
+</li>
+<li>
+<p>支持服务器端渲染</p>
+</li>
+<li>
+<p>易于集成路由工具、打包工具以及状态管理工具</p>
+</li>
+</ul>
+<p>PS：Vue 在国内很受欢迎；React 在国内和国外都很受欢迎，适合做大型网站。</p>
+<h3 id="什么是虚拟-dom">什么是虚拟 DOM<a hidden class="anchor" aria-hidden="true" href="#什么是虚拟-dom">#</a></h3>
+<p>传统的web开发，是利用 jQuery操作DOM，这是非常耗资源的。</p>
+<p>我们可以在 JS 的内存里构建类似于DOM的对象，去拼装数据，拼装完整后，把数据整体解析，一次性插入到html里去。这就形成了虚拟 DOM。</p>
+<p>Vue1.0没有虚拟DOM，Vue2.0改成了基于虚拟DOM。</p>
+<h3 id="前端框架回顾">前端框架回顾<a hidden class="anchor" aria-hidden="true" href="#前端框架回顾">#</a></h3>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180302_1645.png" alt=""  />
+</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180302_1651.png" alt=""  />
+</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180302_1652.png" alt=""  />
+</p>
+<p>Vue框架中，没有控制器。</p>
+<h2 id="vue-框架">Vue 框架<a hidden class="anchor" aria-hidden="true" href="#vue-框架">#</a></h2>
+<h3 id="发展历史">发展历史<a hidden class="anchor" aria-hidden="true" href="#发展历史">#</a></h3>
+<ul>
+<li>
+<p>2013年底作为尤雨溪个人实验项目开始开发</p>
+</li>
+<li>
+<p>2014年2月公开发布。</p>
+</li>
+<li>
+<p>2014年11月发布0.11版本</p>
+</li>
+<li>
+<p>2016年10月发布2.0版本。</p>
+</li>
+</ul>
+<h3 id="相关网址">相关网址<a hidden class="anchor" aria-hidden="true" href="#相关网址">#</a></h3>
+<ul>
+<li>
+<p><a href="https://cn.vuejs.org/">中文官网</a></p>
+</li>
+<li>
+<p><a href="https://forum.vuejs.org/">vuejs官方论坛</a></p>
+</li>
+<li>
+<p>GitHub地址：<a href="https://github.com/vuejs/vue">https://github.com/vuejs/vue</a></p>
+</li>
+<li>
+<p>Vue1.0 在线文档：<a href="http://v1-cn.vuejs.org/guide/">http://v1-cn.vuejs.org/guide/</a></p>
+</li>
+<li>
+<p>Vue2.x 在线文档：<a href="https://cn.vuejs.org/v2/guide/">https://cn.vuejs.org/v2/guide/</a></p>
+</li>
+<li>
+<p>Vue1下载地址：<a href="http://v1-cn.vuejs.org/js/vue.js">http://v1-cn.vuejs.org/js/vue.js</a></p>
+</li>
+<li>
+<p>Vue2下载地址：<a href="https://cdn.jsdelivr.net/npm/vue/">https://cdn.jsdelivr.net/npm/vue/</a></p>
+</li>
+</ul>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180302_1658.png" alt=""  />
+</p>
+<p>上方截图的时间：2018-03-02。</p>
+<h3 id="介绍">介绍<a hidden class="anchor" aria-hidden="true" href="#介绍">#</a></h3>
+<p>Vue 本身并不是一个框架，Vue结合周边生态构成一个灵活的、渐进式的框架。</p>
+<p>Vue 以及大型 Vue 项目所需的周边技术，构成了生态。</p>
+<p>渐进式框架图：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180302_1701.png" alt=""  />
+</p>
+<h3 id="vue框架的特点">Vue框架的特点<a hidden class="anchor" aria-hidden="true" href="#vue框架的特点">#</a></h3>
+<ul>
+<li>
+<p>模板渲染：基于 html 的模板语法，学习成本低。</p>
+</li>
+<li>
+<p>响应式的更新机制：数据改变之后，视图会自动刷新。【重要】</p>
+</li>
+<li>
+<p>渐进式框架</p>
+</li>
+<li>
+<p>组件化/模块化</p>
+</li>
+<li>
+<p>轻量：开启 gzip压缩后，可以达到 20kb 大小。（React 达到 35kb，AngularJS 达到60kb）。</p>
+</li>
+</ul>
+<h2 id="vue-的环境搭建">Vue 的环境搭建<a hidden class="anchor" aria-hidden="true" href="#vue-的环境搭建">#</a></h2>
+<blockquote>
+<p>我们首先要安装好 NVM、Node.js环境，然后再来做下面的操作。</p>
+</blockquote>
+<h3 id="常见的插件">常见的插件<a hidden class="anchor" aria-hidden="true" href="#常见的插件">#</a></h3>
+<ul>
+<li>
+<p>Webpack：代码模块化构建打包工具。</p>
+</li>
+<li>
+<p>Gulp：基于流的自动化构建工具。</p>
+</li>
+<li>
+<p>Babel：使用最新的 规范来编写 js。</p>
+</li>
+<li>
+<p>Vue：构建数据驱动的Web界面的渐进式框架</p>
+</li>
+<li>
+<p>Express：基于 Node.js 平台，快速、开放、极简的 Web 开发框架。</p>
+</li>
+</ul>
+<p>以上这些包，都可以通过 NPM 这个包管理工具来安装。</p>
+<h3 id="引用-vuejs-文件">引用 Vue.js 文件<a hidden class="anchor" aria-hidden="true" href="#引用-vuejs-文件">#</a></h3>
+<p>1、<strong>方式一</strong>：（CDN的方式进行引用）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#0f0;font-weight:bold">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">html</span> <span style="color:#007f7f">lang</span>=<span style="color:#0ff;font-weight:bold">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="font-weight:bold">meta</span> <span style="color:#007f7f">charset</span>=<span style="color:#0ff;font-weight:bold">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="font-weight:bold">title</span>&gt;Title&lt;/<span style="font-weight:bold">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="font-weight:bold">script</span> <span style="color:#007f7f">src</span>=<span style="color:#0ff;font-weight:bold">&#34;https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js&#34;</span>&gt;&lt;/<span style="font-weight:bold">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="font-weight:bold">body</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="font-weight:bold">html</span>&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2、方式二：（下载 vue.js 文件）</p>
+<p>去网站 <a href="https://cdn.jsdelivr.net/npm/vue/">https://cdn.jsdelivr.net/npm/vue/</a> 下载 vue.js 文件，直接放到工程文件里，然后引用。</p>
+<p>3、方式三：（NPM的方式安装vue）</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#007f7f"># 最新稳定版</span>
+</span></span><span style="display:flex;"><span>$ npm install vue
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果网络不稳定，可以采用下面的方式安装：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>cnpm i vue --save
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在代码中通过下面这种方式进行引用：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>  <span style="color:#fff;font-weight:bold">import</span> Vue from <span style="color:#0ff;font-weight:bold">&#39;vue&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="利用-vue-cli-新建一个空的项目">利用 vue-cli 新建一个空的项目<a hidden class="anchor" aria-hidden="true" href="#利用-vue-cli-新建一个空的项目">#</a></h2>
+<p>Vue 提供一个官方命令行工具，可用于快速搭建大型单页应用。该工具为现代化的前端开发工作流提供了开箱即用的构建配置。只需几分钟即可创建并启动一个带热重载、保存时静态检查以及可用于生产环境的构建配置的项目。</p>
+<h3 id="官方代码参考">官方代码参考<a hidden class="anchor" aria-hidden="true" href="#官方代码参考">#</a></h3>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  npm install -g @vue/cli
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  vue create my-app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cd my-app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  npm run serve
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们根据上方的参考代码，来看看“利用 vue-cli 新建一个空的项目”的步骤。</p>
+<h3 id="安装-vue-cli命令行工具">安装 vue-cli（命令行工具）<a hidden class="anchor" aria-hidden="true" href="#安装-vue-cli命令行工具">#</a></h3>
+<p>安装命令如下：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#007f7f"># 全局安装 vue-cli</span>
+</span></span><span style="display:flex;"><span>$ npm install -g @vue/cli
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="初始化一个-simple-项目">初始化一个 simple 项目<a hidden class="anchor" aria-hidden="true" href="#初始化一个-simple-项目">#</a></h3>
+<p>（1）首先执行：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  vue create my-app
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>输入上方命令后，会弹出一个选项：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20190624_163626.png" alt=""  />
+</p>
+<p>如果是初学者，直接选<code>default</code>就行。之后会自动生成一个空的初始化项目，包含了项目目录、以及项目依赖的脚本。</p>
+<p>这个空项目的工程文件如下：（请务必仔细研究这个项目的写法和目录结构）</p>
+<ul>
+<li><a href="https://download.csdn.net/download/smyhvae/11256220">2019-06-21-vue-my-app.zip</a></li>
+</ul>
+<p>我们可以看到这个项目的结构：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20190624_160726.png" alt=""  />
+</p>
+<ul>
+<li>
+<p>src：项目源码</p>
+</li>
+<li>
+<p>.babelrc：ES6编译插件的配置</p>
+</li>
+<li>
+<p>index.html：单页面的入口</p>
+</li>
+</ul>
+<p>上方截图中，<code>npm install</code>指的是下载各种依赖包，<code>npm run dev</code>指的是打开发包，<code>npm run build</code>指的是打生产包。</p>
+<p>（2）本地运行项目：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>  cd my-app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  npm run serve
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>浏览器输入<code>http://localhost:8080/</code>，就可以让这个空的项目在本地跑起来：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20190624_160229.png" alt=""  />
+</p>
+<p>备注：我们在 GitHub上下载的任何Vue有关的项目，第一步都是要首先执行 npm install，安装依赖的 mode_modules，然后再运行。我们发给同事的工程文件，建议不要包含 <code>node_modules</code>。</p>
+<h3 id="构建一个-非-simple-项目">构建一个 非 simple 项目<a hidden class="anchor" aria-hidden="true" href="#构建一个-非-simple-项目">#</a></h3>
+<p>构建一个空的项目，首先执行：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>vue create vuedemo2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="http://img.smyhvae.com/20190624_163726.png" alt=""  />
+</p>
+<p>上图中，选择 <code>Manually select features</code>，然后根据提示依次输入：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20190624_164305.png" alt=""  />
+</p>
+<ul>
+<li>
+<p>project name：<strong>要求小写</strong>。</p>
+</li>
+<li>
+<p>description：默认即可。</p>
+</li>
+<li>
+<p>vue-router：需要。</p>
+</li>
+<li>
+<p>ESlint：语法检查，初学者可以暂时不需要。</p>
+</li>
+<li>
+<p>单元测试：暂时也不需要。</p>
+</li>
+<li>
+<p>e2e test：不需要。</p>
+</li>
+</ul>
+<p>选择 eslint 的配置：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20190624_165001.png" alt=""  />
+</p>
+<p>然后让这个空的项目就可以在浏览器上跑起来。</p>
+<h2 id="vue-项目结构分析">vue 项目结构分析<a hidden class="anchor" aria-hidden="true" href="#vue-项目结构分析">#</a></h2>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180501_2100.png" alt=""  />
+</p>
+<ul>
+<li>
+<p>buid：打包配置的文件夹</p>
+</li>
+<li>
+<p>config：webpack对应的配置</p>
+</li>
+<li>
+<p>src：开发项目的源码</p>
+<ul>
+<li>App.vue：入口组件。<code>.vue</code>文件都是组件。</li>
+<li>main.js：项目入口文件。</li>
+</ul>
+</li>
+<li>
+<p>static：存放静态资源</p>
+</li>
+<li>
+<p><code>.babelrc</code>：解析ES6的配置文件</p>
+</li>
+<li>
+<p><code>.editorcofnig</code>：编辑器的配置</p>
+</li>
+<li>
+<p><code>.postcssrc.js</code>：html添加前缀的配置</p>
+</li>
+<li>
+<p><code>index.html</code>：单页面的入口。通过 webpack打包后，会把 src 源码进行编译，插入到这个 html 里面来。</p>
+</li>
+<li>
+<p><code>package.json</code>：项目的基础配置，包含版本号、脚本命令、项目依赖库、开发依赖库、引擎等。</p>
+</li>
+</ul>
+<h3 id="图片的base64编码">图片的base64编码<a hidden class="anchor" aria-hidden="true" href="#图片的base64编码">#</a></h3>
+<p>默认是10k以下，建议都通过 base64编码。在配置文件<code>webpack.base.conf.js</code>中进行修改：</p>
+<div class="highlight"><div style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#727272">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+</span></span><span style="display:flex;"><span>        loader: &#39;url-loader&#39;,
+</span></span><span style="display:flex;"><span>        options: {
+</span></span><span style="display:flex;"><span>          limit: 10000,
+</span></span><span style="display:flex;"><span>          name: utils.assetsPath(&#39;img/[name].[hash:7].[ext]&#39;)
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/%E5%BC%80%E5%8F%91%E8%BD%AF%E4%BB%B6%E5%BF%AB%E6%8D%B7%E4%BD%BF%E7%94%A8/">开发软件快捷使用</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/temp/01-%E5%89%8D%E7%AB%AF%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/3-%E8%B5%8B%E5%80%BC%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>赋值、深拷贝、浅拷贝</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/temp/11-vue%E5%9F%BA%E7%A1%80/01-06.%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/">
+    <span class="title">Next »</span>
+    <br>
+    <span>01-06.自定义按键修饰符&amp;自定义指令</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

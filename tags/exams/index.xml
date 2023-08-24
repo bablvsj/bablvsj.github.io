@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>exams on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/exams/</link>
+    <description>Recent content in exams on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 07 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/exams/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C&#43;&#43;</title>
+      <link>https://bablvsj.github.io/posts/exams/c&#43;&#43;/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/c&#43;&#43;/</guid>
+      <description>第一章 C++语言简介 第一节 C++语言的发展简史 1、程序语言分为三类：低级语言、中级语言、高级语言 机器语言和汇编语言属于低级语言，直接能够操纵</description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://bablvsj.github.io/posts/exams/java/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/java/</guid>
+      <description>This is Java</description>
+    </item>
+    
+  </channel>
+</rss>

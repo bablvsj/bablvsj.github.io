@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TypeScript on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/typescript/</link>
+    <description>Recent content in TypeScript on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 11 Aug 2023 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/typescript/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TypeScript</title>
+      <link>https://bablvsj.github.io/posts/tech/codelanguage/20230815-typescript/</link>
+      <pubDate>Fri, 11 Aug 2023 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/tech/codelanguage/20230815-typescript/</guid>
+      <description>TypeScript的特性 类型系统 TypeScript是静态类型 （根据类型检查的时机来分类） 动态类型是指在运行时才会进行类型检查，这种语言的</description>
+    </item>
+    
+  </channel>
+</rss>

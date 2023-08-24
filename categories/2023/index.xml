@@ -6,31 +6,85 @@
     <description>Recent content in 2023 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 07 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2023/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2023/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>深浅拷贝</title>
-      <link>https://bablvsj.github.io/posts/tech/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
+      <title>JS基础</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/js%E5%9F%BA%E7%A1%80/</link>
+      <pubDate>Wed, 16 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/js%E5%9F%BA%E7%A1%80/</guid>
+      <description>1.判断数据类型 **typeof 1 2 3 4 5 6 7 8 9 10 typeof &amp;#39;seymoe&amp;#39; // &amp;#39;string&amp;#39; typeof true // &amp;#39;boolean&amp;#39; typeof 10 // &amp;#39;number&amp;#39; typeof Symbol() // &amp;#39;symbol&amp;#39; typeof null // &amp;#39;object&amp;#39; `无法判定是否为 null ` typeof undefined // &amp;#39;undefined&amp;#39; typeof {} // &amp;#39;object&amp;#39; typeof [] // &amp;#39;object&amp;#39; typeof(() =&amp;gt; {}) // &amp;#39;function&amp;#39; 弊端： null</description>
+    </item>
+    
+    <item>
+      <title>Css库</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/css/</link>
+      <pubDate>Tue, 15 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/css/</guid>
+      <description>1.css 选择器 CSS选择器包括行内样式、id选择器、class选择器、标签选择器，优先级依次降低，!important可用于优先级提升，比行内样式</description>
+    </item>
+    
+    <item>
+      <title>Css题库</title>
+      <link>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-css-%E9%A2%98%E5%BA%93/</link>
       <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/tech/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</guid>
+      <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-css-%E9%A2%98%E5%BA%93/</guid>
+      <description>1. 重绘与重排的区别 重绘：更换背景色 重排/回流：隐藏删除元素，页面dom重新渲染，重新生成布局，重新排列元素，非常影响性能。 『重绘』不一定会出</description>
+    </item>
+    
+    <item>
+      <title>for four exams</title>
+      <link>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</guid>
+      <description>am pm 28 Java程序设计 数据库原理 29 C++程序设计 英语二 Java程序设计 04747 - 2017 数据库原理 04735 - 2018 C++程序设计 04727 - 2019 英语二 00015 - 2012</description>
+    </item>
+    
+    <item>
+      <title>TS面试题</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/ts/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/ts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vue3 知识点</title>
+      <link>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/vue3-%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/vue3-%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <description>你知道Vue3.x响应式数据原理吗？ Vue3.x改用Proxy替代Object.defineProperty。 因为Proxy可以直接监听对象</description>
+    </item>
+    
+    <item>
+      <title>深浅拷贝</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230807-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</guid>
       <description>前言 ECMAScript 简介 ES 的全称是 ECMAScript，它是由 ECMA 国际标准化组织 制定的一套脚本语言的标准化规范。 详细来说，ES 是由 ECMA 的第 39 号技术专家委员会（</description>
     </item>
     
     <item>
       <title>面试题列表</title>
-      <link>https://bablvsj.github.io/posts/tech/interview/temp-question-list/</link>
+      <link>https://bablvsj.github.io/posts/interview/temp-question-list/</link>
       <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/tech/interview/temp-question-list/</guid>
-      <description>js 相关 es6 基本语法 promise async / await 原型链 渲染机制 运行机制：异步同步、 宏任务微任务 vue3相关 ref / reactive 与其区别 pinia / vuex 与其区别区别 vite / webpack 与其区别区别 vue3</description>
+      <guid>https://bablvsj.github.io/posts/interview/temp-question-list/</guid>
+      <description>你讲一下vue双向绑定的原理 讲一下vue3相比vue2，它在diff算法上做了哪些优化？ Vue2为什么要对数组的常用方法进行重写？ Vue的n</description>
     </item>
     
     <item>
       <title>Vue3 常用传参方式</title>
-      <link>https://bablvsj.github.io/posts/tech/vue3/20230801-vue3-%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F/</link>
+      <link>https://bablvsj.github.io/posts/interview/vue3/20230801-vue3-%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F/</link>
       <pubDate>Tue, 01 Aug 2023 10:46:19 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/tech/vue3/20230801-vue3-%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F/</guid>
+      <guid>https://bablvsj.github.io/posts/interview/vue3/20230801-vue3-%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F/</guid>
       <description>父子组件 props 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 //父组件 &amp;lt;template&amp;gt; &amp;lt;div&amp;gt; &amp;lt;ChildrenVue :msg=&amp;#39;msg&amp;#39; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script setup &amp;gt; import ChildrenVue from &amp;#39;../components/Children.vue&amp;#39;; import { ref } from &amp;#39;vue&amp;#39; const msg = ref(&amp;#39;哈喽哈</description>
     </item>
     

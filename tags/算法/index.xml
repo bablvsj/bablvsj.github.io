@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>算法 on Bablvsj&#39;s Blog</title>
+    <link>https://bablvsj.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on Bablvsj&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Jan 2020 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>data-structure</title>
+      <link>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/data-structure/</link>
+      <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/data-structure/</guid>
+      <description>栈和队列的区别? 栈的插入和删除操作都是在一端进行的，而队列的操作却是在两端进行的。 队列先进先出，栈先进后出。 栈只允许在表尾一端进行插入和删除</description>
+    </item>
+    
+    <item>
+      <title>我的第一本算法书</title>
+      <link>https://bablvsj.github.io/posts/tech/frontend/15-%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6/20230809-%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/tech/frontend/15-%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6/20230809-%E7%AE%97%E6%B3%95/</guid>
+      <description>一、数据结构 数据结构 优点 缺点 运行时间 添加/删除 链表 数据的添加/删除都较为方便 访问数据比较耗费时间 O(n) O(1) 数组 访问数据十分简单 添加/删除数据比较耗</description>
+    </item>
+    
+  </channel>
+</rss>
