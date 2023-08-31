@@ -6,7 +6,16 @@
     <description>Recent content in 2023 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 24 Aug 2023 16:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2023/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2023/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SQL之母</title>
+      <link>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</link>
+      <pubDate>Thu, 31 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</guid>
+      <description>教程： 基础语法 数据列输出顺序 SELECT {列名...} 全表查询 select * from 表名 查询 - 别名 别名语法 {原始字段名} as {别名} 来为查询结果的列名取一个便于理解的名</description>
+    </item>
+    
     <item>
       <title>深浅拷贝</title>
       <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230823-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
