@@ -103,7 +103,7 @@
       <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/temp-question-list/</guid>
-      <description>你讲一下vue双向绑定的原理 讲一下vue3相比vue2，它在diff算法上做了哪些优化？ Vue2为什么要对数组的常用方法进行重写？ Vue的n</description>
+      <description>Vue Vue2为什么要对数组的常用方法进行重写？ Vue的nextTick是怎么实现的？ 数据获取是用的哪个 API？ 回答 Axios。Axios 中有做</description>
     </item>
     
   </channel>
