@@ -6,7 +6,16 @@
     <description>Recent content in 每天一道面试题 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 24 Aug 2023 16:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Sep 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vue面试题</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+      <pubDate>Thu, 21 Sep 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+      <description>Vue 响应式系统的原理 Vue 实现响应式主要是采用数据劫持结合发布者-订阅者模式的方式。具体实现就是整合 Observer，Compiler 和 Watcher 三者。 Observer</description>
+    </item>
+    
     <item>
       <title>深浅拷贝</title>
       <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230823-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>

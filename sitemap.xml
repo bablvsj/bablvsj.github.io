@@ -2,34 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://bablvsj.github.io/categories/2023/</loc>
-    <lastmod>2023-08-31T13:46:19+08:00</lastmod>
-  </url><url>
     <loc>https://bablvsj.github.io/</loc>
-    <lastmod>2023-08-31T13:46:19+08:00</lastmod>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
   </url><url>
     <loc>https://bablvsj.github.io/categories/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/tags/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/tags/vue3/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/posts/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/tags/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/categories/%E9%9D%A2%E8%AF%95/</loc>
+    <lastmod>2023-09-21T13:46:19+08:00</lastmod>
+  </url><url>
+    <loc>https://bablvsj.github.io/categories/2023/</loc>
     <lastmod>2023-08-31T13:46:19+08:00</lastmod>
   </url><url>
     <loc>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</loc>
     <lastmod>2023-08-31T13:46:19+08:00</lastmod>
   </url><url>
-    <loc>https://bablvsj.github.io/tags/</loc>
-    <lastmod>2023-08-31T13:46:19+08:00</lastmod>
-  </url><url>
-    <loc>https://bablvsj.github.io/posts/</loc>
-    <lastmod>2023-08-31T13:46:19+08:00</lastmod>
-  </url><url>
     <loc>https://bablvsj.github.io/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</loc>
     <lastmod>2023-08-31T13:46:19+08:00</lastmod>
   </url><url>
-    <loc>https://bablvsj.github.io/tags/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/</loc>
-    <lastmod>2023-08-24T16:46:19+08:00</lastmod>
-  </url><url>
     <loc>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230823-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</loc>
-    <lastmod>2023-08-24T16:46:19+08:00</lastmod>
-  </url><url>
-    <loc>https://bablvsj.github.io/categories/%E9%9D%A2%E8%AF%95/</loc>
     <lastmod>2023-08-24T16:46:19+08:00</lastmod>
   </url><url>
     <loc>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/%E7%AE%80%E8%BF%B0%E5%8E%9F%E5%9E%8B%E5%8E%9F%E5%9E%8B%E9%93%BE%E5%8E%9F%E5%9E%8B%E7%BB%A7%E6%89%BF/</loc>
@@ -75,9 +81,6 @@
     <lastmod>2023-08-07T13:46:19+08:00</lastmod>
   </url><url>
     <loc>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/ts/</loc>
-    <lastmod>2023-08-07T13:46:19+08:00</lastmod>
-  </url><url>
-    <loc>https://bablvsj.github.io/tags/vue3/</loc>
     <lastmod>2023-08-07T13:46:19+08:00</lastmod>
   </url><url>
     <loc>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/vue3-%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>

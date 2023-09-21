@@ -6,7 +6,16 @@
     <description>Recent content on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 31 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 21 Sep 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>vue面试题</title>
+      <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
+      <pubDate>Thu, 21 Sep 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</guid>
+      <description>Vue 响应式系统的原理 Vue 实现响应式主要是采用数据劫持结合发布者-订阅者模式的方式。具体实现就是整合 Observer，Compiler 和 Watcher 三者。 Observer</description>
+    </item>
+    
     <item>
       <title>SQL之母</title>
       <link>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</link>
