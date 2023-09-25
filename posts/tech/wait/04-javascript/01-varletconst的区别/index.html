@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>01-var、let、const的区别 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="JavaScript">
+<meta name="description" content="var、let、const 的区别 1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： 1 2 3 var a = &#39;我是a&#39;; console.log(a);">
+<meta name="author" content="">
+<link rel="canonical" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/01-varletconst%E7%9A%84%E5%8C%BA%E5%88%AB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.00b3797027cb90c4380b6260a9fce3bfc4b4173de20a3898bd8f02ecee7b5199.css" integrity="sha256-ALN5cCfLkMQ4C2Jgqfzjv8S0Fz3iCjiYvY8C7O57UZk=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="01-var、let、const的区别" />
+<meta property="og:description" content="var、let、const 的区别 1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： 1 2 3 var a = &#39;我是a&#39;; console.log(a);" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/04-javascript/01-varletconst%E7%9A%84%E5%8C%BA%E5%88%AB/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-03-01T17:11:35+08:00" />
+<meta property="article:modified_time" content="2020-03-01T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="01-var、let、const的区别"/>
+<meta name="twitter:description" content="var、let、const 的区别 1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： 1 2 3 var a = &#39;我是a&#39;; console.log(a);"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "01-var、let、const的区别",
+      "item": "https://bablvsj.github.io/posts/tech/wait/04-javascript/01-varletconst%E7%9A%84%E5%8C%BA%E5%88%AB/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "01-var、let、const的区别",
+  "name": "01-var、let、const的区别",
+  "description": "var、let、const 的区别 1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例： 1 2 3 var a = \u0026#39;我是a\u0026#39;; console.log(a);",
+  "keywords": [
+    "JavaScript"
+  ],
+  "articleBody": "var、let、const 的区别 1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会 举例：\n1 2 3 var a = '我是a'; console.log(a); // 打印结果：我是a console.log(window.a); // 打印结果：我是a 1 2 3 let b = '我是b'; console.log(b); // 打印结果：我是b console.log(window.b); // 打印结果：undefined 1 2 3 let c = '我是c'; console.log(c); // 打印结果：我是c console.log(window.b); // 打印结果：undefined var 的这一特性，会造成 window 全局变量的污染。举例如下：\n1 2 var innerHeight = 100; console.log(window.innerHeight); // 打印结果：永远都是100 ==\u003e 会覆盖 window 自带的 innerHeight 属性 2、var 声明的变量存在变量提升，let 和 const 声明的变量不存在变量提升 举例：(先使用，再声明)\n1 2 console.log(a); // 打印结果：undefined ==\u003e a已经声明但没有赋值 var a = '我是a'; 1 2 console.log(b); // 报错：Uncaught ReferenceError: Cannot access 'b' before initialization ==\u003e 找不到b这个变量 let b = '我是b'; 1 2 console.log(c); // 报错：Uncaught ReferenceError: Cannot access 'c' before initialization ==\u003e 找不到c这个变量 const c = '我是c'; 3、var 声明不存在块级作用域，let 和 const 声明存在块级作用域 举例：\n1 2 3 4 5 6 7 8 9 { var a = '我是a'; let b = '我是b'; const c = '我是c'; } console.log(a); // 我是a console.log(b); // 报错：Uncaught ReferenceError: b is not defined ==\u003e 找不到b这个变量 console.log(c); // 报错：Uncaught ReferenceError: c is not defined ==\u003e 找不到c这个变量 报错是因为找不到 b 和 c 这两个变量。\n4、同一作用域下，var 可以重复声明变量，let 和 const 不能重复声明变量 1 2 3 var a = '我是a'; var a = 'qianguyihao'; console.log(a); // 打印结果：qianguyihao 1 2 3 let b = '我是b'; let b = 'qianguyihao'; console.log(b); //报错：Uncaught SyntaxError: Identifier 'b' has already been declared ==\u003e 变量 b 已经被声明了 1 2 3 const c = '我是c'; const c = 'qianguyihao'; console.log(c); //报错：Uncaught SyntaxError: Identifier 'c' has already been declared ==\u003e 变量 c 已经被声明了 备注：通过第3、第4点可以看出：使用 let/const 声明的变量，不会造成全局污染。\n5、let 和 const 的暂时性死区（DTC） 举例 1：（表现正常）\n1 2 3 4 5 6 7 const name = 'qianguyihao'; function foo() { console.log(name); } foo(); // 执行函数后，打印结果：smyhvae 上方例子中， 变量 name 被声明在函数外部，此时函数内部可以直接使用。\n举例 2：（报错）\n1 2 3 4 5 6 7 8 const name = 'qianguyihao'; function foo() { console.log(name); const name = 'hello'; } foo(); // 执行函数后，控制台报错：Uncaught ReferenceError: Cannot access 'name' before initialization 代码解释：如果在当前块级作用域中使用了变量 name，并且当前块级作用域中通过 let/const 声明了这个变量，那么，声明语句必须放在使用之前，也就是所谓的 DTC（暂时性死区）。DTC 其实是一种保护机制，可以让我们养成良好的编程习惯。\n关于”暂时性死区“的更多介绍，详本项目的另一篇文章《JavaScript之ES6语法：变量let、const和块级作用域.md》。\n6、const：一旦声明必须赋值；声明后不能再修改 一旦声明必须赋值：\n1 2 const a; console.log(a); // 报错：Uncaught SyntaxError: Missing initializer in const declaration 总结 基于上面的种种区别，我们可以知道：var 声明的变量，很容易造成全局污染。以后我们尽量使用 let 和 const 声明变量吧。\nconst 常量到底能不能被修改 我们知道：用 const 声明的变量无法被修改。但还有一点，我们一定要记住：\n如果用 const 声明基本数据类型，则无法被修改；\n如果用 const 声明引用数据类型（即“对象”），这里的“无法被修改”指的是不能改变内存地址的引用；但对象里的内容是可以被修改的。\n举例 1：（不能修改）\n1 2 const name = 'qianguyihao'; name = 'vae'; // 因为无法被修改，所以报错：Uncaught TypeError: Assignment to constant variable 举例 2：（不能修改）\n1 2 3 4 5 6 const obj = { name: 'qianguyihao', age: 28, }; obj = { name: 'vae' }; // 因为无法被修改，所以报错：Uncaught TypeError: Assignment to constant variable 举例 3：（可以修改）\n1 2 3 4 5 const obj = { name: 'qianguyihao', age: 28, }; obj.name = 'vae'; // 对象里的 name 属性可以被修改 JS 中 var、let、const 区别 ",
+  "wordCount" : "1534",
+  "inLanguage": "en",
+  "datePublished": "2020-03-01T17:11:35+08:00",
+  "dateModified": "2020-03-01T17:11:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/tech/wait/04-javascript/01-varletconst%E7%9A%84%E5%8C%BA%E5%88%AB/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      01-var、let、const的区别<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta">
+      
+<ul class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/javascript/">JavaScript</a>
+</ul>
+
+4 min&nbsp;·&nbsp;<span title='2020-03-01 17:11:35 +0800 CST'>2020/03/01</span>
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#varletconst-%e7%9a%84%e5%8c%ba%e5%88%ab" aria-label="var、let、const 的区别">var、let、const 的区别</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#1var-%e5%a3%b0%e6%98%8e%e7%9a%84%e5%8f%98%e9%87%8f%e4%bc%9a%e6%8c%82%e8%bd%bd%e5%9c%a8-window-%e5%af%b9%e8%b1%a1%e4%b8%8a%e8%80%8c-let-%e5%92%8c-const-%e5%a3%b0%e6%98%8e%e7%9a%84%e5%8f%98%e9%87%8f%e4%b8%8d%e4%bc%9a" aria-label="1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会">1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会</a></li>
+                <li>
+                    <a href="#2var-%e5%a3%b0%e6%98%8e%e7%9a%84%e5%8f%98%e9%87%8f%e5%ad%98%e5%9c%a8%e5%8f%98%e9%87%8f%e6%8f%90%e5%8d%87let-%e5%92%8c-const-%e5%a3%b0%e6%98%8e%e7%9a%84%e5%8f%98%e9%87%8f%e4%b8%8d%e5%ad%98%e5%9c%a8%e5%8f%98%e9%87%8f%e6%8f%90%e5%8d%87" aria-label="2、var 声明的变量存在变量提升，let 和 const 声明的变量不存在变量提升">2、var 声明的变量存在变量提升，let 和 const 声明的变量不存在变量提升</a></li>
+                <li>
+                    <a href="#3var-%e5%a3%b0%e6%98%8e%e4%b8%8d%e5%ad%98%e5%9c%a8%e5%9d%97%e7%ba%a7%e4%bd%9c%e7%94%a8%e5%9f%9flet-%e5%92%8c-const-%e5%a3%b0%e6%98%8e%e5%ad%98%e5%9c%a8%e5%9d%97%e7%ba%a7%e4%bd%9c%e7%94%a8%e5%9f%9f" aria-label="3、var 声明不存在块级作用域，let 和 const 声明存在块级作用域">3、var 声明不存在块级作用域，let 和 const 声明存在块级作用域</a></li>
+                <li>
+                    <a href="#4%e5%90%8c%e4%b8%80%e4%bd%9c%e7%94%a8%e5%9f%9f%e4%b8%8bvar-%e5%8f%af%e4%bb%a5%e9%87%8d%e5%a4%8d%e5%a3%b0%e6%98%8e%e5%8f%98%e9%87%8flet-%e5%92%8c-const-%e4%b8%8d%e8%83%bd%e9%87%8d%e5%a4%8d%e5%a3%b0%e6%98%8e%e5%8f%98%e9%87%8f" aria-label="4、同一作用域下，var 可以重复声明变量，let 和 const 不能重复声明变量">4、同一作用域下，var 可以重复声明变量，let 和 const 不能重复声明变量</a></li>
+                <li>
+                    <a href="#5let-%e5%92%8c-const-%e7%9a%84%e6%9a%82%e6%97%b6%e6%80%a7%e6%ad%bb%e5%8c%badtc" aria-label="5、let 和 const 的暂时性死区（DTC）">5、let 和 const 的暂时性死区（DTC）</a></li>
+                <li>
+                    <a href="#6const%e4%b8%80%e6%97%a6%e5%a3%b0%e6%98%8e%e5%bf%85%e9%a1%bb%e8%b5%8b%e5%80%bc%e5%a3%b0%e6%98%8e%e5%90%8e%e4%b8%8d%e8%83%bd%e5%86%8d%e4%bf%ae%e6%94%b9" aria-label="6、const：一旦声明必须赋值；声明后不能再修改">6、const：一旦声明必须赋值；声明后不能再修改</a></li></ul>
+                    
+                <li>
+                    <a href="#%e6%80%bb%e7%bb%93" aria-label="总结">总结</a></li></ul>
+                </li>
+                <li>
+                    <a href="#const-%e5%b8%b8%e9%87%8f%e5%88%b0%e5%ba%95%e8%83%bd%e4%b8%8d%e8%83%bd%e8%a2%ab%e4%bf%ae%e6%94%b9" aria-label="const 常量到底能不能被修改">const 常量到底能不能被修改</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h3 id="varletconst-的区别">var、let、const 的区别<a hidden class="anchor" aria-hidden="true" href="#varletconst-的区别">#</a></h3>
+<h5 id="1var-声明的变量会挂载在-window-对象上而-let-和-const-声明的变量不会">1、var 声明的变量会挂载在 window 对象上，而 let 和 const 声明的变量不会<a hidden class="anchor" aria-hidden="true" href="#1var-声明的变量会挂载在-window-对象上而-let-和-const-声明的变量不会">#</a></h5>
+<p>举例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;我是a&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 打印结果：我是a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 打印结果：我是a
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;我是b&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 打印结果：我是b
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 打印结果：undefined
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;我是c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span> <span class="c1">// 打印结果：我是c
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 打印结果：undefined
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>var 的这一特性，会造成 window 全局变量的污染。举例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">innerHeight</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">innerHeight</span><span class="p">);</span> <span class="c1">// 打印结果：永远都是100  ==&gt; 会覆盖 window 自带的 innerHeight 属性
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="2var-声明的变量存在变量提升let-和-const-声明的变量不存在变量提升">2、var 声明的变量存在变量提升，let 和 const 声明的变量不存在变量提升<a hidden class="anchor" aria-hidden="true" href="#2var-声明的变量存在变量提升let-和-const-声明的变量不存在变量提升">#</a></h5>
+<p>举例：(先使用，再声明)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 打印结果：undefined ==&gt; a已经声明但没有赋值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;我是a&#39;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 报错：Uncaught ReferenceError: Cannot access &#39;b&#39; before initialization ==&gt; 找不到b这个变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;我是b&#39;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span> <span class="c1">// 报错：Uncaught ReferenceError: Cannot access &#39;c&#39; before initialization ==&gt; 找不到c这个变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;我是c&#39;</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="3var-声明不存在块级作用域let-和-const-声明存在块级作用域">3、var 声明不存在块级作用域，let 和 const 声明存在块级作用域<a hidden class="anchor" aria-hidden="true" href="#3var-声明不存在块级作用域let-和-const-声明存在块级作用域">#</a></h5>
+<p>举例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;我是a&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;我是b&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;我是c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 我是a
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// 报错：Uncaught ReferenceError: b is not defined ==&gt; 找不到b这个变量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span> <span class="c1">// 报错：Uncaught ReferenceError: c is not defined ==&gt; 找不到c这个变量
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>报错是因为找不到 b 和 c 这两个变量。</p>
+<h5 id="4同一作用域下var-可以重复声明变量let-和-const-不能重复声明变量">4、同一作用域下，var 可以重复声明变量，let 和 const 不能重复声明变量<a hidden class="anchor" aria-hidden="true" href="#4同一作用域下var-可以重复声明变量let-和-const-不能重复声明变量">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;我是a&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 打印结果：qianguyihao
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;我是b&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">b</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">//报错：Uncaught SyntaxError: Identifier &#39;b&#39; has already been declared  ==&gt; 变量 b 已经被声明了
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;我是c&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">c</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span> <span class="c1">//报错：Uncaught SyntaxError: Identifier &#39;c&#39; has already been declared  ==&gt; 变量 c 已经被声明了
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>备注：通过第3、第4点可以看出：使用 let/const 声明的变量，不会造成全局污染。</p>
+<h5 id="5let-和-const-的暂时性死区dtc">5、let 和 const 的暂时性死区（DTC）<a hidden class="anchor" aria-hidden="true" href="#5let-和-const-的暂时性死区dtc">#</a></h5>
+<p><strong>举例 1</strong>：（表现正常）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span><span class="p">();</span> <span class="c1">// 执行函数后，打印结果：smyhvae
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>上方例子中， 变量 name 被声明在函数外部，此时函数内部可以直接使用。</p>
+<p><strong>举例 2</strong>：（报错）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;hello&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">foo</span><span class="p">();</span> <span class="c1">// 执行函数后，控制台报错：Uncaught ReferenceError: Cannot access &#39;name&#39; before initialization
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码解释：如果在当前块级作用域中使用了变量 name，并且当前块级作用域中通过 let/const 声明了这个变量，那么，<strong>声明语句必须放在使用之前，也就是所谓的 DTC（暂时性死区）</strong>。DTC 其实是一种保护机制，可以让我们养成良好的编程习惯。</p>
+<p>关于”暂时性死区“的更多介绍，详本项目的另一篇文章《JavaScript之ES6语法：变量let、const和块级作用域.md》。</p>
+<h5 id="6const一旦声明必须赋值声明后不能再修改">6、const：一旦声明必须赋值；声明后不能再修改<a hidden class="anchor" aria-hidden="true" href="#6const一旦声明必须赋值声明后不能再修改">#</a></h5>
+<p>一旦声明必须赋值：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">a</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// 报错：Uncaught SyntaxError: Missing initializer in const declaration
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h4>
+<p>基于上面的种种区别，我们可以知道：var 声明的变量，很容易造成全局污染。以后我们尽量使用 let 和 const 声明变量吧。</p>
+<h3 id="const-常量到底能不能被修改">const 常量到底能不能被修改<a hidden class="anchor" aria-hidden="true" href="#const-常量到底能不能被修改">#</a></h3>
+<p>我们知道：用 const 声明的变量无法被修改。但还有一点，我们一定要记住：</p>
+<ul>
+<li>
+<p>如果用 const 声明基本数据类型，则无法被修改；</p>
+</li>
+<li>
+<p>如果用 const 声明引用数据类型（即“对象”），这里的“无法被修改”指的是<strong>不能改变内存地址的引用</strong>；但对象里的内容是可以被修改的。</p>
+</li>
+</ul>
+<p>举例 1：（不能修改）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;vae&#39;</span><span class="p">;</span> <span class="c1">// 因为无法被修改，所以报错：Uncaught TypeError: Assignment to constant variable
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>举例 2：（不能修改）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span><span class="o">:</span> <span class="mi">28</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;vae&#39;</span> <span class="p">};</span> <span class="c1">// 因为无法被修改，所以报错：Uncaught TypeError: Assignment to constant variable
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>举例 3：（可以修改）</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;qianguyihao&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">age</span><span class="o">:</span> <span class="mi">28</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl"><span class="nx">obj</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;vae&#39;</span><span class="p">;</span> <span class="c1">// 对象里的 name 属性可以被修改
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><a href="https://juejin.im/post/5e49249be51d4526e651b654">JS 中 var、let、const 区别</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/javascript/">JavaScript</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/01-js%E7%AE%80%E4%BB%8B/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>01-JS简介</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/02-%E5%8F%98%E9%87%8F/">
+    <span class="title">Next »</span>
+    <br>
+    <span>02-变量</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>
