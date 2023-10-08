@@ -6,7 +6,16 @@
     <description>Recent content on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Sep 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Oct 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java</title>
+      <link>https://bablvsj.github.io/posts/exams/java/</link>
+      <pubDate>Sat, 07 Oct 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/java/</guid>
+      <description>第一章 Java概述 考点一 Java语言的特点 1.**语法简单，功能强大，安全可靠 强类型语言： 没有指针（ 与C、C++ 对比 ）、 没有多重继承机制( 可</description>
+    </item>
+    
     <item>
       <title>vue面试题</title>
       <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</link>

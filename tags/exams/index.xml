@@ -6,7 +6,25 @@
     <description>Recent content in exams on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 29 Oct 2022 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/exams/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Oct 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/exams/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java</title>
+      <link>https://bablvsj.github.io/posts/exams/java/</link>
+      <pubDate>Sat, 07 Oct 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/java/</guid>
+      <description>第一章 Java概述 考点一 Java语言的特点 1.**语法简单，功能强大，安全可靠 强类型语言： 没有指针（ 与C、C++ 对比 ）、 没有多重继承机制( 可</description>
+    </item>
+    
+    <item>
+      <title>for four exams</title>
+      <link>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</link>
+      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</guid>
+      <description>am pm 28 Java程序设计 数据库原理 29 C++程序设计 英语二 Java程序设计 04747 - 2017 数据库系统原理 04735 - 2018 C++程序设计 04737 - 2019 英语二 00015 - 2012</description>
+    </item>
+    
     <item>
       <title>数据库系统原理</title>
       <link>https://bablvsj.github.io/posts/exams/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86-04735/</link>
