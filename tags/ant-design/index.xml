@@ -13,7 +13,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/12-react%E5%9F%BA%E7%A1%80/08-ant-design%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</guid>
-      <description>andt 的介绍 Ant Design 是基于 React 实现，开发和服务于企业级后台产品。 支持环境 现代浏览器和 IE9 及以上（需要 polyfills）。 支持服务端渲染。 Electron Electr</description>
+      <description></description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/12-react%E5%9F%BA%E7%A1%80/09-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/</guid>
-      <description>前言 本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 前端做文件上传这个功能，是很有技术难度的。既然框架给我们提</description>
+      <description></description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/12-react%E5%9F%BA%E7%A1%80/10-antd%E6%A1%86%E6%9E%B6%E7%9A%84upload%E7%BB%84%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%97%B6%E4%BD%BF%E7%94%A8customrequest%E6%96%B9%E6%B3%95%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%8A%E4%BC%A0%E8%A1%8C%E4%B8%BA/</guid>
-      <description>本次做后台管理系统，采用的是 AntD 框架。涉及到图片的上传，用的是AntD的 upload 组件。 我在上一篇文章《前端AntD框架的upload组件上传图片时遇</description>
+      <description></description>
     </item>
     
   </channel>

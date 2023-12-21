@@ -13,7 +13,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/11-vue%E5%9F%BA%E7%A1%80/01-06.%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8C%87%E4%BB%A4/</guid>
-      <description>v-on的按键修饰符 Vue 内置的按键修饰符 通俗一点讲，指的是：监听键盘输入的事件。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符。如下： Vue内置</description>
+      <description></description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/11-vue%E5%9F%BA%E7%A1%80/08-vuex/</guid>
-      <description>state / mutations / getters / actions =&amp;gt; 公共数据库 / 直接改变数据方法 / state的计算属性 / 异步( 调用mutations方法 )间接改变数据 1、store.js文件 1</description>
+      <description></description>
     </item>
     
   </channel>

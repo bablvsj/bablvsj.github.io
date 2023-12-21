@@ -40,7 +40,7 @@
       <pubDate>Wed, 16 Aug 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/js%E5%9F%BA%E7%A1%80/</guid>
-      <description>1.判断数据类型 typeof 1 2 3 4 5 6 7 8 9 10 typeof &amp;#39;seymoe&amp;#39; // &amp;#39;string&amp;#39; typeof true // &amp;#39;boolean&amp;#39; typeof 10 // &amp;#39;number&amp;#39; typeof Symbol() // &amp;#39;symbol&amp;#39; typeof null // &amp;#39;object&amp;#39; `无法判定是否为 null ` typeof undefined // &amp;#39;undefined&amp;#39; typeof {} // &amp;#39;object&amp;#39; typeof [] // &amp;#39;object&amp;#39; typeof(() =&amp;gt; {}) // &amp;#39;function&amp;#39; 弊端： null</description>
+      <description>1.判断数据类型 typeof typeof &amp;#39;seymoe&amp;#39; // &amp;#39;string&amp;#39; typeof true // &amp;#39;boolean&amp;#39; typeof 10 // &amp;#39;number&amp;#39; typeof Symbol() // &amp;#39;symbol&amp;#39; typeof null // &amp;#39;object&amp;#39; `无法判定是否为 null ` typeof undefined // &amp;#39;undefined&amp;#39; typeof {} // &amp;#39;object&amp;#39; typeof [] // &amp;#39;object&amp;#39; typeof(() =&amp;gt; {}) // &amp;#39;function&amp;#39; 弊端： null 的判定有误差 数组、对</description>
     </item>
     
     <item>
@@ -67,7 +67,7 @@
       <pubDate>Mon, 14 Aug 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230814-%E7%9C%9F%E6%AD%A3%E7%90%86%E8%A7%A3promise/</guid>
-      <description>源码实现 基础功能 1 2 3 4 5 6 7 8 9 10 const p = new Promise((resolve, reject) =&amp;gt; { resolve(&amp;#39;fulfilled&amp;#39;) reject(&amp;#39;rejected&amp;#39;) }) p.then(value=&amp;gt;{ consolo.log(value) },reason=&amp;gt;{ console.log(reason) }) new Promise 的实现原理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29</description>
+      <description>源码实现 基础功能 const p = new Promise((resolve, reject) =&amp;gt; { resolve(&amp;#39;fulfilled&amp;#39;) reject(&amp;#39;rejected&amp;#39;) }) p.then(value=&amp;gt;{ consolo.log(value) },reason=&amp;gt;{ console.log(reason) }) new Promise 的实现原理 const PENDING = &amp;#39;pending&amp;#39; const FULFILLED = &amp;#39;fulfilled&amp;#39; const REJECTED = &amp;#39;rejected&amp;#39; class SelfPromise { status = PENDING; //初始状态值pending value = null; //成功</description>
     </item>
     
     <item>

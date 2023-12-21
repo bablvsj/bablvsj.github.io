@@ -22,7 +22,7 @@
       <pubDate>Wed, 02 Aug 2023 14:55:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/python/20230802-%E6%89%B9%E9%87%8F%E8%AF%BB%E5%8F%96%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6/</guid>
-      <description>完整代码 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 import os import re import sys import glob path = &amp;#39;D:/2cr/temp/hugoBlog/content/temp&amp;#39; # 指定所需处理文件的目录 # 递归遍历文件夹 for root, dirs,</description>
+      <description>完整代码 import os import re import sys import glob path = &amp;#39;D:/2cr/temp/hugoBlog/content/temp&amp;#39; # 指定所需处理文件的目录 # 递归遍历文件夹 for root, dirs, files in os.walk(path): for file in files: if os.path.splitext(file)[1] == &amp;#39;.md&amp;#39;: # 匹配后缀名为md的文件 filename = os.path.splitext(file)[0] # 获取文件名</description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Tue, 01 Aug 2023 10:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/vue3/20230801-vue3-%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F/</guid>
-      <description>父子组件 props 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 //父组件 &amp;lt;template&amp;gt; &amp;lt;div&amp;gt; &amp;lt;ChildrenVue :msg=&amp;#39;msg&amp;#39; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script setup &amp;gt; import ChildrenVue from &amp;#39;../components/Children.vue&amp;#39;; import { ref } from &amp;#39;vue&amp;#39; const msg = ref(&amp;#39;哈喽哈</description>
+      <description>父子组件 props //父组件 &amp;lt;template&amp;gt; &amp;lt;div&amp;gt; &amp;lt;ChildrenVue :msg=&amp;#39;msg&amp;#39; /&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script setup &amp;gt; import ChildrenVue from &amp;#39;../components/Children.vue&amp;#39;; import { ref } from &amp;#39;vue&amp;#39; const msg = ref(&amp;#39;哈喽哈喽&amp;#39;) } &amp;lt;/script //子组件 &amp;lt;template&amp;gt; &amp;lt;div&amp;gt; &amp;lt;h1&amp;gt; {{msg}}&amp;lt;/h1&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;/template&amp;gt; &amp;lt;script setup&amp;gt; export default {</description>
     </item>
     
   </channel>

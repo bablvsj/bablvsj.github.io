@@ -6,23 +6,14 @@
     <description>Recent content in 工具 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 25 Feb 2021 22:41:00 +0000</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>使用宝塔面板安装 autoPicCdn 图床工具</title>
-      <link>https://bablvsj.github.io/temp/51/</link>
-      <pubDate>Thu, 25 Feb 2021 22:41:00 +0000</pubDate>
+      <title>Markdown语法</title>
+      <link>https://bablvsj.github.io/posts/blog/mdtemplate/</link>
+      <pubDate>Wed, 20 Dec 2023 13:46:19 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/temp/51/</guid>
-      <description>很多小伙伴在做个人网站或者博客时，总能用到各种各样的图床工具，毕竟在写文章的时候需要插入一些图片，我也不例外，来盘点一下之前用的工具， 最开始</description>
-    </item>
-    
-    <item>
-      <title>webpack安装配置指令</title>
-      <link>https://bablvsj.github.io/temp/30/</link>
-      <pubDate>Thu, 26 Nov 2020 13:08:00 +0000</pubDate>
-      
-      <guid>https://bablvsj.github.io/temp/30/</guid>
-      <description>进行重新加载编译。实际就是将浏览器不认识的语法编译成浏览器认识的语法。比如less编译成css，ES6 语法 转成 ES5等等。 减少io请求,通常</description>
+      <guid>https://bablvsj.github.io/posts/blog/mdtemplate/</guid>
+      <description>介绍一下Markdown语法</description>
     </item>
     
   </channel>

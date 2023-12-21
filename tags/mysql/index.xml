@@ -13,7 +13,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/01-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
-      <description>数据库的概念 数据库：database（DB），是一种存储数据的仓库。具有如下特性： 数据库是根据数据结构组织、存储和管理数据。 数据库能够长期、</description>
+      <description></description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/02-mysql%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8Cnavicat%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/</guid>
-      <description>MySQL 安装 MySQL（Mac版） 步骤1、下载安装包并安装： MySQL 下载地址：https://dev.mysql.com/downloads/mysql</description>
+      <description></description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/03-mysql%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
-      <description>SQL 的一些简单语法规则 结束符 SQL 指令需要语句结束符，默认是英文分号;。 当然，还有另外两个结束符： \g 与英文分号;等效。 \G：将查到的结构旋转90度</description>
+      <description></description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/04-mysql%E5%AD%97%E6%AE%B5%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid>
-      <description>前言 MySQL 中的字段，主要有四种数据类型： 整型（整数） 小数 字符串类型 时间日期类型 下面来详细讲一讲。 整数类型 整数类型的分类 MySQL中，整型有五种：</description>
+      <description></description>
     </item>
     
     <item>
@@ -49,7 +49,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</guid>
-      <description>MySQL 的一些简单命令 我们可以在 Navicat Premium 软件中，创建数据库和表，然后输入查询命令来查询数据。选择菜单栏「查询-&amp;gt;新建查询-&amp;gt;输入 sql 命令-&amp;</description>
+      <description></description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/mysql%E6%95%B0%E6%8D%AE%E5%BA%93/mysql%E8%AE%BE%E8%AE%A1%E4%B8%89%E5%A4%A7%E8%8C%83%E5%BC%8F/</guid>
-      <description>前言 范式即规范。MySQL 范式的作用是： 让我们建的表更佳简洁和高效。 让功能独立化，避免耦合。 MySQL 设计三大范式 第一范式（1NF）：原子性 表的每一</description>
+      <description></description>
     </item>
     
   </channel>

@@ -13,7 +13,7 @@
       <pubDate>Mon, 14 Aug 2023 13:46:19 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/20230814-%E7%9C%9F%E6%AD%A3%E7%90%86%E8%A7%A3promise/</guid>
-      <description>源码实现 基础功能 1 2 3 4 5 6 7 8 9 10 const p = new Promise((resolve, reject) =&amp;gt; { resolve(&amp;#39;fulfilled&amp;#39;) reject(&amp;#39;rejected&amp;#39;) }) p.then(value=&amp;gt;{ consolo.log(value) },reason=&amp;gt;{ console.log(reason) }) new Promise 的实现原理 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29</description>
+      <description>源码实现 基础功能 const p = new Promise((resolve, reject) =&amp;gt; { resolve(&amp;#39;fulfilled&amp;#39;) reject(&amp;#39;rejected&amp;#39;) }) p.then(value=&amp;gt;{ consolo.log(value) },reason=&amp;gt;{ console.log(reason) }) new Promise 的实现原理 const PENDING = &amp;#39;pending&amp;#39; const FULFILLED = &amp;#39;fulfilled&amp;#39; const REJECTED = &amp;#39;rejected&amp;#39; class SelfPromise { status = PENDING; //初始状态值pending value = null; //成功</description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/04-javascript/03-es5%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E6%89%A9%E5%B1%95/</guid>
-      <description>JSON 对象 1、js对象(数组) &amp;ndash;&amp;gt; json对象(数组)： 1 JSON.stringify(obj/arr) 2、json对象(数组) &amp;ndash;&amp;gt; js对象(数组)： 1 JSON.parse(json) 上面这两个方法是ES5中提供的。 我们要</description>
+      <description></description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/04-javascript/04-es6%E5%8F%98%E9%87%8F-letconst-%E5%92%8C%E5%9D%97%E7%BA%A7%E4%BD%9C%E7%94%A8%E5%9F%9F/</guid>
-      <description>ES6 的变量声明 ES5 中，使用 var 定义全局变量（ var 是 variable 的简写）。 ES6 中，新增了 let 和 const 来定义变量： let：定义局部变量，替代 var。 const：定义常量（</description>
+      <description></description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/es6/</guid>
-      <description>前言 ECMAScript 是 JS 的语言标准。而 ES6 是新的 JS 语法标准。 发展历史 20180303_1633.png 2015年6月，ES6正式发布。 ES6 的其他优势 使用 babel 语法转换器，支持低端浏览器 流行的库基</description>
+      <description></description>
     </item>
     
     <item>
@@ -49,7 +49,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/20230801-es6/</guid>
-      <description>1、ES5、ES6和ES2015有什么区别? ES2015特指在2015年发布的新一代JS语言标准，ES6泛指下一代JS语言标准，包含ES20</description>
+      <description></description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/04-javascript/es6symbol/</guid>
-      <description>Symbol 概述 背景：ES5中对象的属性名都是字符串，容易造成重名，污染环境。 概念：ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。它</description>
+      <description></description>
     </item>
     
   </channel>

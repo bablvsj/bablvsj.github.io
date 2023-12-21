@@ -13,7 +13,7 @@
       <pubDate>Sun, 01 Mar 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/css/css---sasslessscss/</guid>
-      <description>sass sass变量 $variablename: value; 示例代码 1 2 3 4 5 6 7 8 9 10 11 12 13 14 $myFont: Helvetica, sans-serif; $myColor: red; $myFontSize: 18px; $myWidth: 680px; body { font-family: $myFont; font-size: $myFontSize; color: $myColor; } #container { width: $myWidth; } sass作用域 Sass 变量的作用域只能在当前的</description>
+      <description></description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/css%E7%9B%92%E6%A8%A1%E5%9E%8B%E5%8F%8Abfc/</guid>
-      <description>题目：谈一谈你对CSS盒模型的认识 专业的面试，一定会问 CSS 盒模型。对于这个题目，我们要回答一下几个方面： 基本概念：content、paddin</description>
+      <description></description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/01-html/03-css%E9%80%89%E6%8B%A9%E5%99%A8/</guid>
-      <description>CSS 概述 CSS：Cascading Style Sheet，层叠样式表。CSS 的作用就是给 HTML 页面标签添加各种样式，定义网页的显示效果。简单一句话：CSS 将</description>
+      <description></description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/interview/css/03-less%E8%AF%A6%E8%A7%A3/</guid>
-      <description>本文最初发表于博客园，并在GitHub上持续更新前端的系列文章。欢迎在GitHub上关注我，一起入门和进阶前端。 以下是正文。 CSS 预处理器 为什么</description>
+      <description></description>
     </item>
     
     <item>
@@ -49,7 +49,7 @@
       <pubDate>Tue, 01 Jan 2019 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/wait/01-html/03-%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%BC%80%E5%8F%91%E4%B8%AD%E5%85%B3%E4%BA%8E%E5%AD%97%E4%BD%93%E7%9A%84%E5%B8%B8%E8%AF%86/</guid>
-      <description>字体分类 常见的字体可以分为两类：衬线体、无衬线体。 1、serif（衬线体）：在字的笔画开始、结束的地方有额外的装饰，而且笔画的粗细会有所不同</description>
+      <description></description>
     </item>
     
   </channel>

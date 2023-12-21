@@ -13,7 +13,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/01-webstorm%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>WebStorm的简单设置 1、主题修改： 可能大家会觉得软件的界面不太好看，我们可以换一下主题。选择菜单栏“File&amp;ndash;settin</description>
+      <description></description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/03-git%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>常见操作 全局配置用户信息 1 2 git config --global user.name &amp;#34;lvsijun&amp;#34; git config --global user.email &amp;#34;lvsijun@163.com&amp;#34; 分支的合并 场景：基于master分支的代码，开发一个新的特性，给每个特性都单独建一个的新的分</description>
+      <description></description>
     </item>
     
     <item>
@@ -31,7 +31,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/06-chrome%E6%B5%8F%E8%A7%88%E5%99%A8/</guid>
-      <description>title: &amp;ldquo;HelloWorld&amp;rdquo; date: 2022-11-22T17:11:35+08:00 draft: true 控制台的使用 控制台查看源码 控制台的Sources标签可以查看源码。按住快捷键「cmd + P」，可以根据文件名查找源码文件。 其他 show user</description>
+      <description></description>
     </item>
     
     <item>
@@ -40,7 +40,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/05-github%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>GitHub的使用 GitHub添加wiki 参考链接： https://juejin.im/post/5a3216c8f265da43333e6b54 GitHub项目添加 license 参考链接： https://blog.csdn.net/qq_35246620/article/details/77647234 GitHub 引用图片的另一种方式 参考链接： 关于markdown</description>
+      <description></description>
     </item>
     
     <item>
@@ -49,7 +49,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/01-vs-code%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>快捷键 作用 IDEA 快捷键 VS Code 备注 复制当前行 Ctrl + D Shift + Alt + ↑↓ 使用很频繁 当前文件搜索 Ctrl + R Ctrl + F 非常实用 全局搜索内容 Ctrl + Shift + R Ctrl + Shift + F 不如上面的快</description>
+      <description></description>
     </item>
     
     <item>
@@ -58,7 +58,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/05-vs-code%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A7%AF%E7%B4%AF/</guid>
-      <description>常见配置 自动保存： 1 &amp;#34;files.autoSave&amp;#34;: &amp;#34;onFocusChange&amp;#34; 参考链接：https://blog.csdn.net/WestLonly/article/details/78048</description>
+      <description></description>
     </item>
     
     <item>
@@ -67,7 +67,7 @@
       <pubDate>Wed, 01 Jan 2020 17:11:35 +0800</pubDate>
       
       <guid>https://bablvsj.github.io/posts/tech/frontend/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E5%92%8C%E4%BB%A3%E7%90%86%E5%B7%A5%E5%85%B7whistle/</guid>
-      <description>Whistle 官网 Whistle 官网：https://wproxy.org/whistle/ Whistle 的 GitHub：https://github.com/avwo/whi</description>
+      <description></description>
     </item>
     
   </channel>

@@ -1,661 +1,333 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>手写代码 | Bablvsj's Blog</title><meta name=keywords content="面试"><meta name=description content="手写事件侦听器，并要求兼容浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/><link crossorigin=anonymous href=/assets/css/stylesheet.89e53fb10d7090a33517d83b18da1cdb3f4d7bfa546525e8b3cf5a41f9817fb5.css integrity="sha256-ieU/sQ1wkKM1F9g7GNoc2z9Ne/pUZSXos89aQfmBf7U=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="手写代码"><meta property="og:description" content="手写事件侦听器，并要求兼容浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54"><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-05-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="手写代码"><meta name=twitter:description content="手写事件侦听器，并要求兼容浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"手写代码","item":"https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"手写代码","name":"手写代码","description":"手写事件侦听器，并要求兼容浏览器 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54","keywords":["面试"],"articleBody":"手写事件侦听器，并要求兼容浏览器\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 var eventUtil = { getEvent: function(event) { return event || window.event; }, getTarget: function(event) { return event.target || event.srcElement; }, addListener: function(element, type, hander) { if (element.addEventListener) { element.addEventListener(type, hander, false); } else if (element.attachEvent) { element.attachEvent('on' + type, hander); } else { element['on' + type] = hander; } }, removeListener: function(element, type, hander) { if (element.removeEventListener) { element.removeEventListener(type, hander, false); } else if (element.deattachEvent) { element.detachEvent(type, hander); } else { element['on' + type] = null; } }, preventDefault: function(event) { if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; } }, stopPropagation: function(event) { if (event.stopPropagation) { event.stopPropagation(); } else { event.cancelBubble = true; } } }; // 调用 (function() { var btn = document.getElementById(\"btn\"); var link = document.getElementsByTagName(\"a\")[0]; eventUtil.addListener(btn, \"click\", function(event) { var event = eventUtil.getEvent(event); var target = eventUtil.getTarget(event); alert(event.type); alert(target); eventUtil.stopPropagation(event); }); eventUtil.addListener(link, \"click\", function(event) { alert(\"prevent default event\"); var event = eventUtil.getEvent(event); eventUtil.preventDefault(event); }); eventUtil.addListener(document.body, \"click\", function() { alert(\"click body\"); }); })(); 手写事件模型\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 var Event = (function () { var list = {}, bind, trigger, remove; bind = function (key, fn) { if (!list[key]) { list[key] = []; } list[key].push(fn); }; trigger = function () { var key = Array.prototype.shift.call(arguments); var fns = list[key]; if (!fns || fns.length === 0) { return false; } for (var i = 0, fn; fn = fns[i++];) { fn.apply(this, arguments); } }; remove = function (key, fn) { var fns = list[key]; if (!fns) { return false; } if (!fn) { fns \u0026 (fns.length = 0); } else { for (var i = fns.length - 1; i \u003e= 0; i--) { var _fn = fns[i]; if (_fn === fn) { fns.splice(i, 1); } } } }; return { bind: bind, trigger: trigger, remove: remove } })(); // 调用 Event.bind('Hit', function(){ console.log('bind event'); }); // 绑定事件 Event.trigger(\"Hit\", function(){ console.log('trigger event'); }); // 触发事件 手写事件代理，并要求兼容浏览器\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 function delegateEvent(parentEl, selector, type, fn) { var handler = function(e){ var e = e || window.event; var target = e.target || e.srcElement; if (matchSelector(target, selector)) { if(fn) { fn.call(target, e); } } }; if(parentEl.addEventListener){ parentEl.addEventListener(type, handler); }else{ parentEl.attachEvent(\"on\" + type, handler); } } /** * support #id, tagName, .className */ function matchSelector(ele, selector) { // if use id if (selector.charAt(0) === \"#\") { return ele.id === selector.slice(1); } // if use class if (selector.charAt(0) === \".\") { return (\" \" + ele.className + \" \").indexOf(\" \" + selector.slice(1) + \" \") != -1; } // if use tagName return ele.tagName.toLowerCase() === selector.toLowerCase(); } // 调用 var box = document.getElementById(\"box\"); delegateEvent(box, \"a\", \"click\", function(){ console.log(this.href); }) 手写事件触发器，并要求兼容浏览器\n1 2 3 4 5 6 7 8 9 10 var fireEvent = function(element, event){ if (document.createEventObject){ var mockEvent = document.createEventObject(); return element.fireEvent('on' + event, mockEvent) }else{ var mockEvent = document.createEvent('HTMLEvents'); mockEvent.initEvent(event, true, true); return element.dispatchEvent(mockEvent); } } 手写 Function.bind 函数\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 if (!Function.prototype.bind) { Function.prototype.bind = function (oThis) { if (typeof this !== \"function\") { throw new TypeError(\"'this' is not function\"); } // bind's default arguments, array without first element // first part arguments for the function var aBindArgs = Array.prototype.slice.call(arguments, 1); var fToBind = this; // the function will be binding var fNOP = function () {}; var fBound = function () { // target this will be binding var oThis = this instanceof fNOP ? this : oThis || this; // last part arguments for the function var aCallArgs = Array.prototype.slice.call(arguments); // complete arguments for the function var aFuncArgs = aBindArgs.concat(aCallArgs); return fToBind.apply(oThis, aFuncArgs); }; // fBound extends fToBind fNOP.prototype = this.prototype; fBound.prototype = new fNOP(); return fBound; }; } // 调用 var add = function(a, b, c){ return a + b + c;}; var newAdd = add.bind(null, 1, 2); var result = newAdd(3); 手写数组快速排序\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 var quickSort = function(arr) { if (arr.length \u003c= 1) { return arr; } var pivotIndex = Math.floor(arr.length / 2); var pivot = arr.splice(pivotIndex, 1)[0]; var left = []; var right = []; for (var i = 0, len = arr.length; i \u003c len; i++){ if (arr[i] \u003c pivot) { left.push(arr[i]); } else { right.push(arr[i]); } } return quickSort(left).concat([pivot], quickSort(right)); }; // 调用 quickSort([9, 4, 2, 8, 1, 5, 3, 7]); 手写数组冒泡排序\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 var bubble = function(arr){ var maxIndex = arr.length - 1, temp, flag; for (var i = maxIndex; i \u003e 0; i--) { flag = true for (var j = 0; j \u003c i; j++) { if (arr[j] \u003e arr[j + 1]) { temp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = temp; flag = false; } } if(! flag){ break; } } return arr; } // 调用 var arr = bubble([13, 69, 28, 93, 55, 75, 34]); 手写数组去重\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 Array.prototype.unique = function() { return [...new Set(this)];}; // 调用 [1, 2, 3, 3, 2, 1].unique(); function unique1(arr){ var hash = {}, result = []; for(var i=0, len=arr.length; i\u003clen; i++){ if(! hash[arr[i]]){ result.push(arr[i]); hash[arr[i]] = true; } } return result; } // 调用 unique1([1, 2, 3, 3, 2, 1]); Array.prototype.unique2 = function(){ this.sort(); var result = [this[0]]; var len = this.length; for(var i = 0; i \u003c len; i++){ if(this[i] !== result[result.length - 1]){ result.push(this[i]); } } return result; } // 调用 [1, 2, 3, 3, 2, 1].unique2(); function unique3(arr){ var result = []; for(var i=0; i\u003carr.length; i++){ if(result.indexOf(arr[i]) == -1){ result.push(arr[i]); } } return result; } // 调用 unique3([1, 2, 3, 3, 2, 1]); 将url的查询参数解析成字典对象\n1 2 3 4 5 6 7 8 9 10 11 12 13 function parseQuery(url) { url = url == null ? window.location.href : url; var search = url.substring(url.lastIndexOf(\"?\") + 1); var hash = {}; var reg = /([^?\u0026=]+)=([^?\u0026=]*)/g; search.replace(reg, function (match, $1, $2) { var name = decodeURIComponent($1); var val = decodeURIComponent($2); hash[name] = String(val); return match; }); return hash; } 封装函数节流函数\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 var throttle = function(fn, delay, mustRunDelay){ var timer = null; var t_start; return function(){ var context = this, args = arguments, t_curr = +new Date(); clearTimeout(timer); if(!t_start){ t_start = t_curr; } if(t_curr - t_start \u003e= mustRunDelay){ fn.apply(context, args); t_start = t_curr; } else { timer = setTimeout(function(){ fn.apply(context, args); }, delay); } }; }; // 调用（两次间隔50ms内连续触发不执行，但每累计100ms至少执行一次 window.onresize = throttle(myFunc, 50, 100); 用JS实现千位分隔符\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 function test1(num){ var str = (+ num) + ''; var len = str.length; if(len \u003c= 3) return str; num = ''; while(len \u003e 3){ len -= 3; num = ',' + str.substr(len, 3) + num; } return str.substr(0, len) + num; } function test2(num){ // ?= 正向匹配:匹配位置 // ?! 正向不匹配:排除位置 var str = (+num).toString(); var reg = /(?=(?!\\b)(\\d{3})+$)/g; return str.replace(reg, ','); } ","wordCount":"1536","inLanguage":"en","datePublished":"2020-05-01T17:11:35+08:00","dateModified":"2020-05-01T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>手写代码</h1><div class=post-meta><ul class=post-tags-meta><a href=https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/>面试</a></ul>4 min&nbsp;·&nbsp;<span title='2020-05-01 17:11:35 +0800 +0800'>2020/05/01</span></div></header><div class=post-content><p><strong>手写事件侦听器，并要求兼容浏览器</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span><span class=lnt>66
-</span><span class=lnt>67
-</span><span class=lnt>68
-</span><span class=lnt>69
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>eventUtil</span> <span class=o>=</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nx>getEvent</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>event</span> <span class=o>||</span> <span class=nb>window</span><span class=p>.</span><span class=nx>event</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=p>},</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>getTarget</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>event</span><span class=p>.</span><span class=nx>target</span> <span class=o>||</span> <span class=nx>event</span><span class=p>.</span><span class=nx>srcElement</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=p>},</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>addListener</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>(</span><span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>,</span> <span class=kc>false</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>attachEvent</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>.</span><span class=nx>attachEvent</span><span class=p>(</span><span class=s1>&#39;on&#39;</span> <span class=o>+</span> <span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>[</span><span class=s1>&#39;on&#39;</span> <span class=o>+</span> <span class=nx>type</span><span class=p>]</span> <span class=o>=</span> <span class=nx>hander</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>},</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>removeListener</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>removeEventListener</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>.</span><span class=nx>removeEventListener</span><span class=p>(</span><span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>,</span> <span class=kc>false</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>deattachEvent</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>.</span><span class=nx>detachEvent</span><span class=p>(</span><span class=nx>type</span><span class=p>,</span> <span class=nx>hander</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>element</span><span class=p>[</span><span class=s1>&#39;on&#39;</span> <span class=o>+</span> <span class=nx>type</span><span class=p>]</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>},</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>preventDefault</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>event</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>event</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>event</span><span class=p>.</span><span class=nx>returnValue</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>},</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>stopPropagation</span><span class=o>:</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>if</span> <span class=p>(</span><span class=nx>event</span><span class=p>.</span><span class=nx>stopPropagation</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>event</span><span class=p>.</span><span class=nx>stopPropagation</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>event</span><span class=p>.</span><span class=nx>cancelBubble</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>      <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>(</span><span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>btn</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&#34;btn&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>link</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementsByTagName</span><span class=p>(</span><span class=s2>&#34;a&#34;</span><span class=p>)[</span><span class=mi>0</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>addListener</span><span class=p>(</span><span class=nx>btn</span><span class=p>,</span> <span class=s2>&#34;click&#34;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=kd>var</span> <span class=nx>event</span> <span class=o>=</span> <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>getEvent</span><span class=p>(</span><span class=nx>event</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=kd>var</span> <span class=nx>target</span> <span class=o>=</span> <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>getTarget</span><span class=p>(</span><span class=nx>event</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>alert</span><span class=p>(</span><span class=nx>event</span><span class=p>.</span><span class=nx>type</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>alert</span><span class=p>(</span><span class=nx>target</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>stopPropagation</span><span class=p>(</span><span class=nx>event</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>  <span class=p>});</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>addListener</span><span class=p>(</span><span class=nx>link</span><span class=p>,</span> <span class=s2>&#34;click&#34;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(</span><span class=nx>event</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nx>alert</span><span class=p>(</span><span class=s2>&#34;prevent default event&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=kd>var</span> <span class=nx>event</span> <span class=o>=</span> <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>getEvent</span><span class=p>(</span><span class=nx>event</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>(</span><span class=nx>event</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>  <span class=p>});</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=nx>eventUtil</span><span class=p>.</span><span class=nx>addListener</span><span class=p>(</span><span class=nb>document</span><span class=p>.</span><span class=nx>body</span><span class=p>,</span> <span class=s2>&#34;click&#34;</span><span class=p>,</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nx>alert</span><span class=p>(</span><span class=s2>&#34;click body&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>  <span class=p>});</span>
-</span></span><span class=line><span class=cl><span class=p>})();</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写事件模型</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>Event</span> <span class=o>=</span> <span class=p>(</span><span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>list</span> <span class=o>=</span> <span class=p>{},</span> <span class=nx>bind</span><span class=p>,</span> <span class=nx>trigger</span><span class=p>,</span> <span class=nx>remove</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=nx>bind</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>list</span><span class=p>[</span><span class=nx>key</span><span class=p>])</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=nx>list</span><span class=p>[</span><span class=nx>key</span><span class=p>]</span> <span class=o>=</span> <span class=p>[];</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=nx>list</span><span class=p>[</span><span class=nx>key</span><span class=p>].</span><span class=nx>push</span><span class=p>(</span><span class=nx>fn</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>};</span>
-</span></span><span class=line><span class=cl>    <span class=nx>trigger</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>key</span> <span class=o>=</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>shift</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>arguments</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>fns</span> <span class=o>=</span> <span class=nx>list</span><span class=p>[</span><span class=nx>key</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>fns</span> <span class=o>||</span> <span class=nx>fns</span><span class=p>.</span><span class=nx>length</span> <span class=o>===</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>false</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>fn</span><span class=p>;</span> <span class=nx>fn</span> <span class=o>=</span> <span class=nx>fns</span><span class=p>[</span><span class=nx>i</span><span class=o>++</span><span class=p>];)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=nx>fn</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=k>this</span><span class=p>,</span> <span class=nx>arguments</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>};</span>
-</span></span><span class=line><span class=cl>    <span class=nx>remove</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>key</span><span class=p>,</span> <span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>fns</span> <span class=o>=</span> <span class=nx>list</span><span class=p>[</span><span class=nx>key</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>fns</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=kc>false</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=nx>fns</span> <span class=o>&amp;</span> <span class=p>(</span><span class=nx>fns</span><span class=p>.</span><span class=nx>length</span> <span class=o>=</span> <span class=mi>0</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=nx>fns</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&gt;=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span><span class=o>--</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>                <span class=kd>var</span> <span class=nx>_fn</span> <span class=o>=</span> <span class=nx>fns</span><span class=p>[</span><span class=nx>i</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=nx>_fn</span> <span class=o>===</span> <span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>                    <span class=nx>fns</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=nx>i</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>                <span class=p>}</span>
-</span></span><span class=line><span class=cl>            <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>};</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=nx>bind</span><span class=o>:</span> <span class=nx>bind</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>        <span class=nx>trigger</span><span class=o>:</span> <span class=nx>trigger</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>        <span class=nx>remove</span><span class=o>:</span> <span class=nx>remove</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>})();</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Event</span><span class=p>.</span><span class=nx>bind</span><span class=p>(</span><span class=s1>&#39;Hit&#39;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(){</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;bind event&#39;</span><span class=p>);</span> <span class=p>});</span> <span class=c1>// 绑定事件
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>Event</span><span class=p>.</span><span class=nx>trigger</span><span class=p>(</span><span class=s2>&#34;Hit&#34;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(){</span> <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=s1>&#39;trigger event&#39;</span><span class=p>);</span> <span class=p>});</span> <span class=c1>// 触发事件
-</span></span></span></code></pre></td></tr></table></div></div><p><strong>手写事件代理，并要求兼容浏览器</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>function</span> <span class=nx>delegateEvent</span><span class=p>(</span><span class=nx>parentEl</span><span class=p>,</span> <span class=nx>selector</span><span class=p>,</span> <span class=nx>type</span><span class=p>,</span> <span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>handler</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>e</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>          <span class=kd>var</span> <span class=nx>e</span> <span class=o>=</span> <span class=nx>e</span> <span class=o>||</span> <span class=nb>window</span><span class=p>.</span><span class=nx>event</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>          <span class=kd>var</span> <span class=nx>target</span> <span class=o>=</span> <span class=nx>e</span><span class=p>.</span><span class=nx>target</span> <span class=o>||</span> <span class=nx>e</span><span class=p>.</span><span class=nx>srcElement</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>          <span class=k>if</span> <span class=p>(</span><span class=nx>matchSelector</span><span class=p>(</span><span class=nx>target</span><span class=p>,</span> <span class=nx>selector</span><span class=p>))</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>              <span class=k>if</span><span class=p>(</span><span class=nx>fn</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>                  <span class=nx>fn</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>target</span><span class=p>,</span> <span class=nx>e</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>              <span class=p>}</span>
-</span></span><span class=line><span class=cl>          <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>};</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>parentEl</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=nx>parentEl</span><span class=p>.</span><span class=nx>addEventListener</span><span class=p>(</span><span class=nx>type</span><span class=p>,</span> <span class=nx>handler</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span><span class=k>else</span><span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=nx>parentEl</span><span class=p>.</span><span class=nx>attachEvent</span><span class=p>(</span><span class=s2>&#34;on&#34;</span> <span class=o>+</span> <span class=nx>type</span><span class=p>,</span> <span class=nx>handler</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=cm>/**
-</span></span></span><span class=line><span class=cl><span class=cm> * support #id, tagName, .className
-</span></span></span><span class=line><span class=cl><span class=cm> */</span>
-</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>matchSelector</span><span class=p>(</span><span class=nx>ele</span><span class=p>,</span> <span class=nx>selector</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=c1>// if use id
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=nx>selector</span><span class=p>.</span><span class=nx>charAt</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>===</span> <span class=s2>&#34;#&#34;</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>ele</span><span class=p>.</span><span class=nx>id</span> <span class=o>===</span> <span class=nx>selector</span><span class=p>.</span><span class=nx>slice</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=c1>// if use class
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=nx>selector</span><span class=p>.</span><span class=nx>charAt</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span> <span class=o>===</span> <span class=s2>&#34;.&#34;</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=s2>&#34; &#34;</span> <span class=o>+</span> <span class=nx>ele</span><span class=p>.</span><span class=nx>className</span> <span class=o>+</span> <span class=s2>&#34; &#34;</span><span class=p>).</span><span class=nx>indexOf</span><span class=p>(</span><span class=s2>&#34; &#34;</span> <span class=o>+</span> <span class=nx>selector</span><span class=p>.</span><span class=nx>slice</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>+</span> <span class=s2>&#34; &#34;</span><span class=p>)</span> <span class=o>!=</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=c1>// if use tagName
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=k>return</span> <span class=nx>ele</span><span class=p>.</span><span class=nx>tagName</span><span class=p>.</span><span class=nx>toLowerCase</span><span class=p>()</span> <span class=o>===</span> <span class=nx>selector</span><span class=p>.</span><span class=nx>toLowerCase</span><span class=p>();</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>box</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&#34;box&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=nx>delegateEvent</span><span class=p>(</span><span class=nx>box</span><span class=p>,</span> <span class=s2>&#34;a&#34;</span><span class=p>,</span> <span class=s2>&#34;click&#34;</span><span class=p>,</span> <span class=kd>function</span><span class=p>(){</span>
-</span></span><span class=line><span class=cl>    <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=k>this</span><span class=p>.</span><span class=nx>href</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>})</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写事件触发器，并要求兼容浏览器</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>fireEvent</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>event</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nb>document</span><span class=p>.</span><span class=nx>createEventObject</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>mockEvent</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createEventObject</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>element</span><span class=p>.</span><span class=nx>fireEvent</span><span class=p>(</span><span class=s1>&#39;on&#39;</span> <span class=o>+</span> <span class=nx>event</span><span class=p>,</span> <span class=nx>mockEvent</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span><span class=k>else</span><span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=kd>var</span> <span class=nx>mockEvent</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createEvent</span><span class=p>(</span><span class=s1>&#39;HTMLEvents&#39;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=nx>mockEvent</span><span class=p>.</span><span class=nx>initEvent</span><span class=p>(</span><span class=nx>event</span><span class=p>,</span> <span class=kc>true</span><span class=p>,</span> <span class=kc>true</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=nx>element</span><span class=p>.</span><span class=nx>dispatchEvent</span><span class=p>(</span><span class=nx>mockEvent</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写 Function.bind 函数</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nb>Function</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>bind</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nb>Function</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>bind</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>oThis</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>typeof</span> <span class=k>this</span> <span class=o>!==</span> <span class=s2>&#34;function&#34;</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=k>throw</span> <span class=k>new</span> <span class=nx>TypeError</span><span class=p>(</span><span class=s2>&#34;&#39;this&#39; is not function&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1>// bind&#39;s default arguments, array without first element
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=c1>// first part arguments for the function
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>aBindArgs</span> <span class=o>=</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>slice</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>arguments</span><span class=p>,</span> <span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>fToBind</span> <span class=o>=</span> <span class=k>this</span><span class=p>;</span> <span class=c1>// the function will be binding
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kd>var</span> <span class=nx>fNOP</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{};</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>fBound</span> <span class=o>=</span> <span class=kd>function</span> <span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=c1>// target this will be binding
-</span></span></span><span class=line><span class=cl><span class=c1></span>          <span class=kd>var</span> <span class=nx>oThis</span> <span class=o>=</span> <span class=k>this</span> <span class=k>instanceof</span> <span class=nx>fNOP</span> <span class=o>?</span> <span class=k>this</span> <span class=o>:</span> <span class=nx>oThis</span> <span class=o>||</span> <span class=k>this</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>          <span class=c1>// last part arguments for the function
-</span></span></span><span class=line><span class=cl><span class=c1></span>          <span class=kd>var</span> <span class=nx>aCallArgs</span> <span class=o>=</span> <span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>slice</span><span class=p>.</span><span class=nx>call</span><span class=p>(</span><span class=nx>arguments</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>          <span class=c1>// complete arguments for the function
-</span></span></span><span class=line><span class=cl><span class=c1></span>          <span class=kd>var</span> <span class=nx>aFuncArgs</span> <span class=o>=</span> <span class=nx>aBindArgs</span><span class=p>.</span><span class=nx>concat</span><span class=p>(</span><span class=nx>aCallArgs</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>          <span class=k>return</span> <span class=nx>fToBind</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=nx>oThis</span><span class=p>,</span> <span class=nx>aFuncArgs</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>        <span class=p>};</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=c1>// fBound extends fToBind
-</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>fNOP</span><span class=p>.</span><span class=nx>prototype</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>prototype</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=nx>fBound</span><span class=p>.</span><span class=nx>prototype</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>fNOP</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>fBound</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>add</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>a</span><span class=p>,</span> <span class=nx>b</span><span class=p>,</span> <span class=nx>c</span><span class=p>){</span> <span class=k>return</span> <span class=nx>a</span> <span class=o>+</span> <span class=nx>b</span> <span class=o>+</span> <span class=nx>c</span><span class=p>;};</span>
-</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>newAdd</span> <span class=o>=</span> <span class=nx>add</span><span class=p>.</span><span class=nx>bind</span><span class=p>(</span><span class=kc>null</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=kd>var</span> <span class=nx>result</span> <span class=o>=</span> <span class=nx>newAdd</span><span class=p>(</span><span class=mi>3</span><span class=p>);</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写数组快速排序</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>quickSort</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>arr</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>arr</span><span class=p>.</span><span class=nx>length</span> <span class=o>&lt;=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=nx>arr</span><span class=p>;</span> <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>pivotIndex</span> <span class=o>=</span> <span class=nb>Math</span><span class=p>.</span><span class=nx>floor</span><span class=p>(</span><span class=nx>arr</span><span class=p>.</span><span class=nx>length</span> <span class=o>/</span> <span class=mi>2</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>pivot</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>splice</span><span class=p>(</span><span class=nx>pivotIndex</span><span class=p>,</span> <span class=mi>1</span><span class=p>)[</span><span class=mi>0</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>left</span> <span class=o>=</span> <span class=p>[];</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>right</span> <span class=o>=</span> <span class=p>[];</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span> <span class=nx>len</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>len</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span> <span class=o>&lt;</span> <span class=nx>pivot</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>left</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>          <span class=nx>right</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>quickSort</span><span class=p>(</span><span class=nx>left</span><span class=p>).</span><span class=nx>concat</span><span class=p>([</span><span class=nx>pivot</span><span class=p>],</span> <span class=nx>quickSort</span><span class=p>(</span><span class=nx>right</span><span class=p>));</span>
-</span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>quickSort</span><span class=p>([</span><span class=mi>9</span><span class=p>,</span> <span class=mi>4</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>8</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>5</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>7</span><span class=p>]);</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写数组冒泡排序</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>bubble</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>arr</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>maxIndex</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>,</span> <span class=nx>temp</span><span class=p>,</span> <span class=nx>flag</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=nx>maxIndex</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&gt;</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span><span class=o>--</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=nx>flag</span> <span class=o>=</span> <span class=kc>true</span>
-</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kd>var</span> <span class=nx>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>j</span> <span class=o>&lt;</span> <span class=nx>i</span><span class=p>;</span> <span class=nx>j</span><span class=o>++</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>j</span><span class=p>]</span> <span class=o>&gt;</span> <span class=nx>arr</span><span class=p>[</span><span class=nx>j</span> <span class=o>+</span> <span class=mi>1</span><span class=p>])</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>                <span class=nx>temp</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>[</span><span class=nx>j</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>                <span class=nx>arr</span><span class=p>[</span><span class=nx>j</span><span class=p>]</span> <span class=o>=</span> <span class=nx>arr</span><span class=p>[</span><span class=nx>j</span> <span class=o>+</span> <span class=mi>1</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>                <span class=nx>arr</span><span class=p>[</span><span class=nx>j</span> <span class=o>+</span> <span class=mi>1</span><span class=p>]</span> <span class=o>=</span> <span class=nx>temp</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>                <span class=nx>flag</span> <span class=o>=</span> <span class=kc>false</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>            <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=o>!</span> <span class=nx>flag</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>arr</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kd>var</span> <span class=nx>arr</span> <span class=o>=</span> <span class=nx>bubble</span><span class=p>([</span><span class=mi>13</span><span class=p>,</span> <span class=mi>69</span><span class=p>,</span> <span class=mi>28</span><span class=p>,</span> <span class=mi>93</span><span class=p>,</span> <span class=mi>55</span><span class=p>,</span> <span class=mi>75</span><span class=p>,</span> <span class=mi>34</span><span class=p>]);</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>手写数组去重</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>unique</span> <span class=o>=</span> <span class=kd>function</span><span class=p>()</span> <span class=p>{</span> <span class=k>return</span> <span class=p>[...</span><span class=k>new</span> <span class=nx>Set</span><span class=p>(</span><span class=k>this</span><span class=p>)];};</span>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>].</span><span class=nx>unique</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>unique1</span><span class=p>(</span><span class=nx>arr</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>hash</span> <span class=o>=</span> <span class=p>{},</span> <span class=nx>result</span> <span class=o>=</span> <span class=p>[];</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span><span class=o>=</span><span class=mi>0</span><span class=p>,</span> <span class=nx>len</span><span class=o>=</span><span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>&lt;</span><span class=nx>len</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=o>!</span> <span class=nx>hash</span><span class=p>[</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]]){</span>
-</span></span><span class=line><span class=cl>          <span class=nx>result</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>          <span class=nx>hash</span><span class=p>[</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]]</span> <span class=o>=</span> <span class=kc>true</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>result</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>unique1</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nb>Array</span><span class=p>.</span><span class=nx>prototype</span><span class=p>.</span><span class=nx>unique2</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(){</span>
-</span></span><span class=line><span class=cl>    <span class=k>this</span><span class=p>.</span><span class=nx>sort</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>result</span> <span class=o>=</span> <span class=p>[</span><span class=k>this</span><span class=p>[</span><span class=mi>0</span><span class=p>]];</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>len</span> <span class=o>=</span> <span class=k>this</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>len</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=k>this</span><span class=p>[</span><span class=nx>i</span><span class=p>]</span> <span class=o>!==</span> <span class=nx>result</span><span class=p>[</span><span class=nx>result</span><span class=p>.</span><span class=nx>length</span> <span class=o>-</span> <span class=mi>1</span><span class=p>]){</span>
-</span></span><span class=line><span class=cl>          <span class=nx>result</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=k>this</span><span class=p>[</span><span class=nx>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>result</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=p>[</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>].</span><span class=nx>unique2</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>unique3</span><span class=p>(</span><span class=nx>arr</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>result</span> <span class=o>=</span> <span class=p>[];</span>
-</span></span><span class=line><span class=cl>    <span class=k>for</span><span class=p>(</span><span class=kd>var</span> <span class=nx>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span> <span class=nx>i</span><span class=o>&lt;</span><span class=nx>arr</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span> <span class=nx>i</span><span class=o>++</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span><span class=p>(</span><span class=nx>result</span><span class=p>.</span><span class=nx>indexOf</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>])</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>          <span class=nx>result</span><span class=p>.</span><span class=nx>push</span><span class=p>(</span><span class=nx>arr</span><span class=p>[</span><span class=nx>i</span><span class=p>]);</span>
-</span></span><span class=line><span class=cl>        <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>result</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nx>unique3</span><span class=p>([</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>2</span><span class=p>,</span> <span class=mi>1</span><span class=p>]);</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>将url的查询参数解析成字典对象</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>function</span> <span class=nx>parseQuery</span><span class=p>(</span><span class=nx>url</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=nx>url</span> <span class=o>=</span> <span class=nx>url</span> <span class=o>==</span> <span class=kc>null</span> <span class=o>?</span> <span class=nb>window</span><span class=p>.</span><span class=nx>location</span><span class=p>.</span><span class=nx>href</span> <span class=o>:</span> <span class=nx>url</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>search</span> <span class=o>=</span> <span class=nx>url</span><span class=p>.</span><span class=nx>substring</span><span class=p>(</span><span class=nx>url</span><span class=p>.</span><span class=nx>lastIndexOf</span><span class=p>(</span><span class=s2>&#34;?&#34;</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>hash</span> <span class=o>=</span> <span class=p>{};</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>reg</span> <span class=o>=</span> <span class=sr>/([^?&amp;=]+)=([^?&amp;=]*)/g</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=nx>search</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=nx>reg</span><span class=p>,</span> <span class=kd>function</span> <span class=p>(</span><span class=nx>match</span><span class=p>,</span> <span class=nx>$1</span><span class=p>,</span> <span class=nx>$2</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=kd>var</span> <span class=nx>name</span> <span class=o>=</span> <span class=nb>decodeURIComponent</span><span class=p>(</span><span class=nx>$1</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=kd>var</span> <span class=nx>val</span> <span class=o>=</span> <span class=nb>decodeURIComponent</span><span class=p>(</span><span class=nx>$2</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>hash</span><span class=p>[</span><span class=nx>name</span><span class=p>]</span> <span class=o>=</span> <span class=nb>String</span><span class=p>(</span><span class=nx>val</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=k>return</span> <span class=nx>match</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=p>});</span>
-</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>hash</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>封装函数节流函数</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>var</span> <span class=nx>throttle</span> <span class=o>=</span> <span class=kd>function</span><span class=p>(</span><span class=nx>fn</span><span class=p>,</span> <span class=nx>delay</span><span class=p>,</span> <span class=nx>mustRunDelay</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>timer</span> <span class=o>=</span> <span class=kc>null</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>t_start</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=kd>function</span><span class=p>(){</span>
-</span></span><span class=line><span class=cl>    <span class=kd>var</span> <span class=nx>context</span> <span class=o>=</span> <span class=k>this</span><span class=p>,</span> <span class=nx>args</span> <span class=o>=</span> <span class=nx>arguments</span><span class=p>,</span> <span class=nx>t_curr</span> <span class=o>=</span> <span class=o>+</span><span class=k>new</span> <span class=nb>Date</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>    <span class=nx>clearTimeout</span><span class=p>(</span><span class=nx>timer</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=nx>t_start</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>      <span class=nx>t_start</span> <span class=o>=</span> <span class=nx>t_curr</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>    <span class=k>if</span><span class=p>(</span><span class=nx>t_curr</span> <span class=o>-</span> <span class=nx>t_start</span> <span class=o>&gt;=</span> <span class=nx>mustRunDelay</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>      <span class=nx>fn</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=nx>context</span><span class=p>,</span> <span class=nx>args</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=nx>t_start</span> <span class=o>=</span> <span class=nx>t_curr</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nx>timer</span> <span class=o>=</span> <span class=nx>setTimeout</span><span class=p>(</span><span class=kd>function</span><span class=p>(){</span>
-</span></span><span class=line><span class=cl>        <span class=nx>fn</span><span class=p>.</span><span class=nx>apply</span><span class=p>(</span><span class=nx>context</span><span class=p>,</span> <span class=nx>args</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>      <span class=p>},</span> <span class=nx>delay</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=p>};</span>
-</span></span><span class=line><span class=cl><span class=p>};</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1>// 调用（两次间隔50ms内连续触发不执行，但每累计100ms至少执行一次
-</span></span></span><span class=line><span class=cl><span class=c1></span><span class=nb>window</span><span class=p>.</span><span class=nx>onresize</span> <span class=o>=</span> <span class=nx>throttle</span><span class=p>(</span><span class=nx>myFunc</span><span class=p>,</span> <span class=mi>50</span><span class=p>,</span> <span class=mi>100</span><span class=p>);</span>
-</span></span></code></pre></td></tr></table></div></div><p><strong>用JS实现千位分隔符</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-JavaScript data-lang=JavaScript><span class=line><span class=cl><span class=kd>function</span> <span class=nx>test1</span><span class=p>(</span><span class=nx>num</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>str</span> <span class=o>=</span> <span class=p>(</span><span class=o>+</span> <span class=nx>num</span><span class=p>)</span> <span class=o>+</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>len</span> <span class=o>=</span> <span class=nx>str</span><span class=p>.</span><span class=nx>length</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=k>if</span><span class=p>(</span><span class=nx>len</span> <span class=o>&lt;=</span> <span class=mi>3</span><span class=p>)</span> <span class=k>return</span> <span class=nx>str</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=nx>num</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=k>while</span><span class=p>(</span><span class=nx>len</span> <span class=o>&gt;</span> <span class=mi>3</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>      <span class=nx>len</span> <span class=o>-=</span> <span class=mi>3</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>      <span class=nx>num</span> <span class=o>=</span> <span class=s1>&#39;,&#39;</span> <span class=o>+</span> <span class=nx>str</span><span class=p>.</span><span class=nx>substr</span><span class=p>(</span><span class=nx>len</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span> <span class=o>+</span> <span class=nx>num</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=p>}</span>
-</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>str</span><span class=p>.</span><span class=nx>substr</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=nx>len</span><span class=p>)</span> <span class=o>+</span> <span class=nx>num</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=kd>function</span> <span class=nx>test2</span><span class=p>(</span><span class=nx>num</span><span class=p>){</span>
-</span></span><span class=line><span class=cl>  <span class=c1>// ?= 正向匹配:匹配位置
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=c1>// ?! 正向不匹配:排除位置
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kd>var</span> <span class=nx>str</span> <span class=o>=</span> <span class=p>(</span><span class=o>+</span><span class=nx>num</span><span class=p>).</span><span class=nx>toString</span><span class=p>();</span>
-</span></span><span class=line><span class=cl>  <span class=kd>var</span> <span class=nx>reg</span> <span class=o>=</span> <span class=sr>/(?=(?!\b)(\d{3})+$)/g</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=k>return</span> <span class=nx>str</span><span class=p>.</span><span class=nx>replace</span><span class=p>(</span><span class=nx>reg</span><span class=p>,</span> <span class=s1>&#39;,&#39;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/>面试</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/javascript/><span class=title>« Prev</span><br><span>JavaScript</span></a>
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>手写代码 | Bablvsj's Blog</title><meta name=keywords content="面试"><meta name=description content="手写代码 - Bablvsj's Blog"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/><link crossorigin=anonymous href=/assets/css/stylesheet.b33b75c69bb2ec0d4accfeaad1d3ba05b272f180583f687c640a522d6492076f.css integrity="sha256-szt1xpuy7A1KzP6q0dO6BbJy8YBYP2h8ZApSLWSSB28=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=stylesheet href=/css/syntax.css><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="手写代码"><meta property="og:description" content><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-05-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="手写代码"><meta name=twitter:description content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"手写代码","item":"https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"手写代码","name":"手写代码","description":"","keywords":["面试"],"articleBody":"手写事件侦听器，并要求兼容浏览器\nvar eventUtil = { getEvent: function(event) { return event || window.event; }, getTarget: function(event) { return event.target || event.srcElement; }, addListener: function(element, type, hander) { if (element.addEventListener) { element.addEventListener(type, hander, false); } else if (element.attachEvent) { element.attachEvent('on' + type, hander); } else { element['on' + type] = hander; } }, removeListener: function(element, type, hander) { if (element.removeEventListener) { element.removeEventListener(type, hander, false); } else if (element.deattachEvent) { element.detachEvent(type, hander); } else { element['on' + type] = null; } }, preventDefault: function(event) { if (event.preventDefault) { event.preventDefault(); } else { event.returnValue = false; } }, stopPropagation: function(event) { if (event.stopPropagation) { event.stopPropagation(); } else { event.cancelBubble = true; } } }; // 调用 (function() { var btn = document.getElementById(\"btn\"); var link = document.getElementsByTagName(\"a\")[0]; eventUtil.addListener(btn, \"click\", function(event) { var event = eventUtil.getEvent(event); var target = eventUtil.getTarget(event); alert(event.type); alert(target); eventUtil.stopPropagation(event); }); eventUtil.addListener(link, \"click\", function(event) { alert(\"prevent default event\"); var event = eventUtil.getEvent(event); eventUtil.preventDefault(event); }); eventUtil.addListener(document.body, \"click\", function() { alert(\"click body\"); }); })(); 手写事件模型\nvar Event = (function () { var list = {}, bind, trigger, remove; bind = function (key, fn) { if (!list[key]) { list[key] = []; } list[key].push(fn); }; trigger = function () { var key = Array.prototype.shift.call(arguments); var fns = list[key]; if (!fns || fns.length === 0) { return false; } for (var i = 0, fn; fn = fns[i++];) { fn.apply(this, arguments); } }; remove = function (key, fn) { var fns = list[key]; if (!fns) { return false; } if (!fn) { fns \u0026 (fns.length = 0); } else { for (var i = fns.length - 1; i \u003e= 0; i--) { var _fn = fns[i]; if (_fn === fn) { fns.splice(i, 1); } } } }; return { bind: bind, trigger: trigger, remove: remove } })(); // 调用 Event.bind('Hit', function(){ console.log('bind event'); }); // 绑定事件 Event.trigger(\"Hit\", function(){ console.log('trigger event'); }); // 触发事件 手写事件代理，并要求兼容浏览器\nfunction delegateEvent(parentEl, selector, type, fn) { var handler = function(e){ var e = e || window.event; var target = e.target || e.srcElement; if (matchSelector(target, selector)) { if(fn) { fn.call(target, e); } } }; if(parentEl.addEventListener){ parentEl.addEventListener(type, handler); }else{ parentEl.attachEvent(\"on\" + type, handler); } } /** * support #id, tagName, .className */ function matchSelector(ele, selector) { // if use id if (selector.charAt(0) === \"#\") { return ele.id === selector.slice(1); } // if use class if (selector.charAt(0) === \".\") { return (\" \" + ele.className + \" \").indexOf(\" \" + selector.slice(1) + \" \") != -1; } // if use tagName return ele.tagName.toLowerCase() === selector.toLowerCase(); } // 调用 var box = document.getElementById(\"box\"); delegateEvent(box, \"a\", \"click\", function(){ console.log(this.href); }) 手写事件触发器，并要求兼容浏览器\nvar fireEvent = function(element, event){ if (document.createEventObject){ var mockEvent = document.createEventObject(); return element.fireEvent('on' + event, mockEvent) }else{ var mockEvent = document.createEvent('HTMLEvents'); mockEvent.initEvent(event, true, true); return element.dispatchEvent(mockEvent); } } 手写 Function.bind 函数\nif (!Function.prototype.bind) { Function.prototype.bind = function (oThis) { if (typeof this !== \"function\") { throw new TypeError(\"'this' is not function\"); } // bind's default arguments, array without first element // first part arguments for the function var aBindArgs = Array.prototype.slice.call(arguments, 1); var fToBind = this; // the function will be binding var fNOP = function () {}; var fBound = function () { // target this will be binding var oThis = this instanceof fNOP ? this : oThis || this; // last part arguments for the function var aCallArgs = Array.prototype.slice.call(arguments); // complete arguments for the function var aFuncArgs = aBindArgs.concat(aCallArgs); return fToBind.apply(oThis, aFuncArgs); }; // fBound extends fToBind fNOP.prototype = this.prototype; fBound.prototype = new fNOP(); return fBound; }; } // 调用 var add = function(a, b, c){ return a + b + c;}; var newAdd = add.bind(null, 1, 2); var result = newAdd(3); 手写数组快速排序\nvar quickSort = function(arr) { if (arr.length \u003c= 1) { return arr; } var pivotIndex = Math.floor(arr.length / 2); var pivot = arr.splice(pivotIndex, 1)[0]; var left = []; var right = []; for (var i = 0, len = arr.length; i \u003c len; i++){ if (arr[i] \u003c pivot) { left.push(arr[i]); } else { right.push(arr[i]); } } return quickSort(left).concat([pivot], quickSort(right)); }; // 调用 quickSort([9, 4, 2, 8, 1, 5, 3, 7]); 手写数组冒泡排序\nvar bubble = function(arr){ var maxIndex = arr.length - 1, temp, flag; for (var i = maxIndex; i \u003e 0; i--) { flag = true for (var j = 0; j \u003c i; j++) { if (arr[j] \u003e arr[j + 1]) { temp = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = temp; flag = false; } } if(! flag){ break; } } return arr; } // 调用 var arr = bubble([13, 69, 28, 93, 55, 75, 34]); 手写数组去重\nArray.prototype.unique = function() { return [...new Set(this)];}; // 调用 [1, 2, 3, 3, 2, 1].unique(); function unique1(arr){ var hash = {}, result = []; for(var i=0, len=arr.length; i\u003clen; i++){ if(! hash[arr[i]]){ result.push(arr[i]); hash[arr[i]] = true; } } return result; } // 调用 unique1([1, 2, 3, 3, 2, 1]); Array.prototype.unique2 = function(){ this.sort(); var result = [this[0]]; var len = this.length; for(var i = 0; i \u003c len; i++){ if(this[i] !== result[result.length - 1]){ result.push(this[i]); } } return result; } // 调用 [1, 2, 3, 3, 2, 1].unique2(); function unique3(arr){ var result = []; for(var i=0; i\u003carr.length; i++){ if(result.indexOf(arr[i]) == -1){ result.push(arr[i]); } } return result; } // 调用 unique3([1, 2, 3, 3, 2, 1]); 将url的查询参数解析成字典对象\nfunction parseQuery(url) { url = url == null ? window.location.href : url; var search = url.substring(url.lastIndexOf(\"?\") + 1); var hash = {}; var reg = /([^?\u0026=]+)=([^?\u0026=]*)/g; search.replace(reg, function (match, $1, $2) { var name = decodeURIComponent($1); var val = decodeURIComponent($2); hash[name] = String(val); return match; }); return hash; } 封装函数节流函数\nvar throttle = function(fn, delay, mustRunDelay){ var timer = null; var t_start; return function(){ var context = this, args = arguments, t_curr = +new Date(); clearTimeout(timer); if(!t_start){ t_start = t_curr; } if(t_curr - t_start \u003e= mustRunDelay){ fn.apply(context, args); t_start = t_curr; } else { timer = setTimeout(function(){ fn.apply(context, args); }, delay); } }; }; // 调用（两次间隔50ms内连续触发不执行，但每累计100ms至少执行一次 window.onresize = throttle(myFunc, 50, 100); 用JS实现千位分隔符\nfunction test1(num){ var str = (+ num) + ''; var len = str.length; if(len \u003c= 3) return str; num = ''; while(len \u003e 3){ len -= 3; num = ',' + str.substr(len, 3) + num; } return str.substr(0, len) + num; } function test2(num){ // ?= 正向匹配:匹配位置 // ?! 正向不匹配:排除位置 var str = (+num).toString(); var reg = /(?=(?!\\b)(\\d{3})+$)/g; return str.replace(reg, ','); } ","wordCount":"1208","inLanguage":"en","datePublished":"2020-05-01T17:11:35+08:00","dateModified":"2020-05-01T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/202308-%E6%89%8B%E5%86%99%E4%BB%A3%E7%A0%81/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>手写代码</h1><div class=post-meta><div class=post-tags-meta><a href=https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/>面试</a></div>3 min&nbsp;·&nbsp;<span title='2020-05-01 17:11:35 +0800 +0800'>2020/05/01</span></div></header><div class=post-content><p><strong>手写事件侦听器，并要求兼容浏览器</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> eventUtil <span style=color:#af3a03>=</span> {
+</span></span><span style=display:flex><span>  getEvent<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>return</span> event <span style=color:#af3a03>||</span> <span style=color:#b57614>window</span>.event;
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  getTarget<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>return</span> event.target <span style=color:#af3a03>||</span> event.srcElement;
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  addListener<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(element, type, hander) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>if</span> (element.addEventListener) {
+</span></span><span style=display:flex><span>          element.addEventListener(type, hander, <span style=color:#af3a03>false</span>);
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> <span style=color:#af3a03>if</span> (element.attachEvent) {
+</span></span><span style=display:flex><span>          element.attachEvent(<span style=color:#79740e>&#39;on&#39;</span> <span style=color:#af3a03>+</span> type, hander);
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>          element[<span style=color:#79740e>&#39;on&#39;</span> <span style=color:#af3a03>+</span> type] <span style=color:#af3a03>=</span> hander;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  removeListener<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(element, type, hander) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>if</span> (element.removeEventListener) {
+</span></span><span style=display:flex><span>          element.removeEventListener(type, hander, <span style=color:#af3a03>false</span>);
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> <span style=color:#af3a03>if</span> (element.deattachEvent) {
+</span></span><span style=display:flex><span>          element.detachEvent(type, hander);
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>          element[<span style=color:#79740e>&#39;on&#39;</span> <span style=color:#af3a03>+</span> type] <span style=color:#af3a03>=</span> <span style=color:#af3a03>null</span>;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  preventDefault<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>if</span> (event.preventDefault) {
+</span></span><span style=display:flex><span>          event.preventDefault();
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>          event.returnValue <span style=color:#af3a03>=</span> <span style=color:#af3a03>false</span>;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  stopPropagation<span style=color:#af3a03>:</span> <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>if</span> (event.stopPropagation) {
+</span></span><span style=display:flex><span>          event.stopPropagation();
+</span></span><span style=display:flex><span>      } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>          event.cancelBubble <span style=color:#af3a03>=</span> <span style=color:#af3a03>true</span>;
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>(<span style=color:#af3a03>function</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> btn <span style=color:#af3a03>=</span> <span style=color:#b57614>document</span>.getElementById(<span style=color:#79740e>&#34;btn&#34;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> link <span style=color:#af3a03>=</span> <span style=color:#b57614>document</span>.getElementsByTagName(<span style=color:#79740e>&#34;a&#34;</span>)[<span style=color:#8f3f71>0</span>];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  eventUtil.addListener(btn, <span style=color:#79740e>&#34;click&#34;</span>, <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>var</span> event <span style=color:#af3a03>=</span> eventUtil.getEvent(event);
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>var</span> target <span style=color:#af3a03>=</span> eventUtil.getTarget(event);
+</span></span><span style=display:flex><span>      alert(event.type);
+</span></span><span style=display:flex><span>      alert(target);
+</span></span><span style=display:flex><span>      eventUtil.stopPropagation(event);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  eventUtil.addListener(link, <span style=color:#79740e>&#34;click&#34;</span>, <span style=color:#af3a03>function</span>(event) {
+</span></span><span style=display:flex><span>      alert(<span style=color:#79740e>&#34;prevent default event&#34;</span>);
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>var</span> event <span style=color:#af3a03>=</span> eventUtil.getEvent(event);
+</span></span><span style=display:flex><span>      eventUtil.preventDefault(event);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  eventUtil.addListener(<span style=color:#b57614>document</span>.body, <span style=color:#79740e>&#34;click&#34;</span>, <span style=color:#af3a03>function</span>() {
+</span></span><span style=display:flex><span>      alert(<span style=color:#79740e>&#34;click body&#34;</span>);
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>})();
+</span></span></code></pre></div><p><strong>手写事件模型</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> Event <span style=color:#af3a03>=</span> (<span style=color:#af3a03>function</span> () {
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> list <span style=color:#af3a03>=</span> {}, bind, trigger, remove;
+</span></span><span style=display:flex><span>    bind <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> (key, fn) {
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span> (<span style=color:#af3a03>!</span>list[key]) {
+</span></span><span style=display:flex><span>            list[key] <span style=color:#af3a03>=</span> [];
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        list[key].push(fn);
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    trigger <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> () {
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>var</span> key <span style=color:#af3a03>=</span> <span style=color:#b57614>Array</span>.prototype.shift.call(arguments);
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>var</span> fns <span style=color:#af3a03>=</span> list[key];
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span> (<span style=color:#af3a03>!</span>fns <span style=color:#af3a03>||</span> fns.length <span style=color:#af3a03>===</span> <span style=color:#8f3f71>0</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#af3a03>return</span> <span style=color:#af3a03>false</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>for</span> (<span style=color:#af3a03>var</span> i <span style=color:#af3a03>=</span> <span style=color:#8f3f71>0</span>, fn; fn <span style=color:#af3a03>=</span> fns[i<span style=color:#af3a03>++</span>];) {
+</span></span><span style=display:flex><span>            fn.apply(<span style=color:#af3a03>this</span>, arguments);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    remove <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> (key, fn) {
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>var</span> fns <span style=color:#af3a03>=</span> list[key];
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span> (<span style=color:#af3a03>!</span>fns) {
+</span></span><span style=display:flex><span>            <span style=color:#af3a03>return</span> <span style=color:#af3a03>false</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span> (<span style=color:#af3a03>!</span>fn) {
+</span></span><span style=display:flex><span>            fns <span style=color:#af3a03>&amp;</span> (fns.length <span style=color:#af3a03>=</span> <span style=color:#8f3f71>0</span>);
+</span></span><span style=display:flex><span>        } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>            <span style=color:#af3a03>for</span> (<span style=color:#af3a03>var</span> i <span style=color:#af3a03>=</span> fns.length <span style=color:#af3a03>-</span> <span style=color:#8f3f71>1</span>; i <span style=color:#af3a03>&gt;=</span> <span style=color:#8f3f71>0</span>; i<span style=color:#af3a03>--</span>) {
+</span></span><span style=display:flex><span>                <span style=color:#af3a03>var</span> _fn <span style=color:#af3a03>=</span> fns[i];
+</span></span><span style=display:flex><span>                <span style=color:#af3a03>if</span> (_fn <span style=color:#af3a03>===</span> fn) {
+</span></span><span style=display:flex><span>                    fns.splice(i, <span style=color:#8f3f71>1</span>);
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> {
+</span></span><span style=display:flex><span>        bind<span style=color:#af3a03>:</span> bind,
+</span></span><span style=display:flex><span>        trigger<span style=color:#af3a03>:</span> trigger,
+</span></span><span style=display:flex><span>        remove<span style=color:#af3a03>:</span> remove
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>})();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>Event.bind(<span style=color:#79740e>&#39;Hit&#39;</span>, <span style=color:#af3a03>function</span>(){ console.log(<span style=color:#79740e>&#39;bind event&#39;</span>); }); <span style=color:#928374;font-style:italic>// 绑定事件
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>Event.trigger(<span style=color:#79740e>&#34;Hit&#34;</span>, <span style=color:#af3a03>function</span>(){ console.log(<span style=color:#79740e>&#39;trigger event&#39;</span>); }); <span style=color:#928374;font-style:italic>// 触发事件
+</span></span></span></code></pre></div><p><strong>手写事件代理，并要求兼容浏览器</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>function</span> delegateEvent(parentEl, selector, type, fn) {
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> handler <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(e){
+</span></span><span style=display:flex><span>          <span style=color:#af3a03>var</span> e <span style=color:#af3a03>=</span> e <span style=color:#af3a03>||</span> <span style=color:#b57614>window</span>.event;
+</span></span><span style=display:flex><span>          <span style=color:#af3a03>var</span> target <span style=color:#af3a03>=</span> e.target <span style=color:#af3a03>||</span> e.srcElement;
+</span></span><span style=display:flex><span>          <span style=color:#af3a03>if</span> (matchSelector(target, selector)) {
+</span></span><span style=display:flex><span>              <span style=color:#af3a03>if</span>(fn) {
+</span></span><span style=display:flex><span>                  fn.call(target, e);
+</span></span><span style=display:flex><span>              }
+</span></span><span style=display:flex><span>          }
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span>(parentEl.addEventListener){
+</span></span><span style=display:flex><span>        parentEl.addEventListener(type, handler);
+</span></span><span style=display:flex><span>    }<span style=color:#af3a03>else</span>{
+</span></span><span style=display:flex><span>        parentEl.attachEvent(<span style=color:#79740e>&#34;on&#34;</span> <span style=color:#af3a03>+</span> type, handler);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>/**
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic> * support #id, tagName, .className
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic> */</span>
+</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> matchSelector(ele, selector) {
+</span></span><span style=display:flex><span>    <span style=color:#928374;font-style:italic>// if use id
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#af3a03>if</span> (selector.charAt(<span style=color:#8f3f71>0</span>) <span style=color:#af3a03>===</span> <span style=color:#79740e>&#34;#&#34;</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>return</span> ele.id <span style=color:#af3a03>===</span> selector.slice(<span style=color:#8f3f71>1</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#928374;font-style:italic>// if use class
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#af3a03>if</span> (selector.charAt(<span style=color:#8f3f71>0</span>) <span style=color:#af3a03>===</span> <span style=color:#79740e>&#34;.&#34;</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>return</span> (<span style=color:#79740e>&#34; &#34;</span> <span style=color:#af3a03>+</span> ele.className <span style=color:#af3a03>+</span> <span style=color:#79740e>&#34; &#34;</span>).indexOf(<span style=color:#79740e>&#34; &#34;</span> <span style=color:#af3a03>+</span> selector.slice(<span style=color:#8f3f71>1</span>) <span style=color:#af3a03>+</span> <span style=color:#79740e>&#34; &#34;</span>) <span style=color:#af3a03>!=</span> <span style=color:#af3a03>-</span><span style=color:#8f3f71>1</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#928374;font-style:italic>// if use tagName
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#af3a03>return</span> ele.tagName.toLowerCase() <span style=color:#af3a03>===</span> selector.toLowerCase();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>var</span> box <span style=color:#af3a03>=</span> <span style=color:#b57614>document</span>.getElementById(<span style=color:#79740e>&#34;box&#34;</span>);
+</span></span><span style=display:flex><span>delegateEvent(box, <span style=color:#79740e>&#34;a&#34;</span>, <span style=color:#79740e>&#34;click&#34;</span>, <span style=color:#af3a03>function</span>(){
+</span></span><span style=display:flex><span>    console.log(<span style=color:#af3a03>this</span>.href);
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><p><strong>手写事件触发器，并要求兼容浏览器</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> fireEvent <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(element, event){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span> (<span style=color:#b57614>document</span>.createEventObject){
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>var</span> mockEvent <span style=color:#af3a03>=</span> <span style=color:#b57614>document</span>.createEventObject();
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>return</span> element.fireEvent(<span style=color:#79740e>&#39;on&#39;</span> <span style=color:#af3a03>+</span> event, mockEvent)
+</span></span><span style=display:flex><span>    }<span style=color:#af3a03>else</span>{
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>var</span> mockEvent <span style=color:#af3a03>=</span> <span style=color:#b57614>document</span>.createEvent(<span style=color:#79740e>&#39;HTMLEvents&#39;</span>);
+</span></span><span style=display:flex><span>        mockEvent.initEvent(event, <span style=color:#af3a03>true</span>, <span style=color:#af3a03>true</span>);
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>return</span> element.dispatchEvent(mockEvent);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>手写 Function.bind 函数</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>if</span> (<span style=color:#af3a03>!</span><span style=color:#b57614>Function</span>.prototype.bind) {
+</span></span><span style=display:flex><span>  <span style=color:#b57614>Function</span>.prototype.bind <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> (oThis) {
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span> (<span style=color:#af3a03>typeof</span> <span style=color:#af3a03>this</span> <span style=color:#af3a03>!==</span> <span style=color:#79740e>&#34;function&#34;</span>) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>throw</span> <span style=color:#af3a03>new</span> TypeError(<span style=color:#79740e>&#34;&#39;this&#39; is not function&#34;</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#928374;font-style:italic>// bind&#39;s default arguments, array without first element
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#928374;font-style:italic>// first part arguments for the function
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#af3a03>var</span> aBindArgs <span style=color:#af3a03>=</span> <span style=color:#b57614>Array</span>.prototype.slice.call(arguments, <span style=color:#8f3f71>1</span>);
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> fToBind <span style=color:#af3a03>=</span> <span style=color:#af3a03>this</span>; <span style=color:#928374;font-style:italic>// the function will be binding
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    <span style=color:#af3a03>var</span> fNOP <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> () {};
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> fBound <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span> () {
+</span></span><span style=display:flex><span>          <span style=color:#928374;font-style:italic>// target this will be binding
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>          <span style=color:#af3a03>var</span> oThis <span style=color:#af3a03>=</span> <span style=color:#af3a03>this</span> <span style=color:#af3a03>instanceof</span> fNOP <span style=color:#af3a03>?</span> <span style=color:#af3a03>this</span> <span style=color:#af3a03>:</span> oThis <span style=color:#af3a03>||</span> <span style=color:#af3a03>this</span>;
+</span></span><span style=display:flex><span>          <span style=color:#928374;font-style:italic>// last part arguments for the function
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>          <span style=color:#af3a03>var</span> aCallArgs <span style=color:#af3a03>=</span> <span style=color:#b57614>Array</span>.prototype.slice.call(arguments);
+</span></span><span style=display:flex><span>          <span style=color:#928374;font-style:italic>// complete arguments for the function
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>          <span style=color:#af3a03>var</span> aFuncArgs <span style=color:#af3a03>=</span> aBindArgs.concat(aCallArgs);
+</span></span><span style=display:flex><span>          <span style=color:#af3a03>return</span> fToBind.apply(oThis, aFuncArgs);
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#928374;font-style:italic>// fBound extends fToBind
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    fNOP.prototype <span style=color:#af3a03>=</span> <span style=color:#af3a03>this</span>.prototype;
+</span></span><span style=display:flex><span>    fBound.prototype <span style=color:#af3a03>=</span> <span style=color:#af3a03>new</span> fNOP();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> fBound;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>var</span> add <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(a, b, c){ <span style=color:#af3a03>return</span> a <span style=color:#af3a03>+</span> b <span style=color:#af3a03>+</span> c;};
+</span></span><span style=display:flex><span><span style=color:#af3a03>var</span> newAdd <span style=color:#af3a03>=</span> add.bind(<span style=color:#af3a03>null</span>, <span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>);
+</span></span><span style=display:flex><span><span style=color:#af3a03>var</span> result <span style=color:#af3a03>=</span> newAdd(<span style=color:#8f3f71>3</span>);
+</span></span></code></pre></div><p><strong>手写数组快速排序</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> quickSort <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(arr) {
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span> (arr.length <span style=color:#af3a03>&lt;=</span> <span style=color:#8f3f71>1</span>) { <span style=color:#af3a03>return</span> arr; }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> pivotIndex <span style=color:#af3a03>=</span> <span style=color:#b57614>Math</span>.floor(arr.length <span style=color:#af3a03>/</span> <span style=color:#8f3f71>2</span>);
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> pivot <span style=color:#af3a03>=</span> arr.splice(pivotIndex, <span style=color:#8f3f71>1</span>)[<span style=color:#8f3f71>0</span>];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> left <span style=color:#af3a03>=</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> right <span style=color:#af3a03>=</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>for</span> (<span style=color:#af3a03>var</span> i <span style=color:#af3a03>=</span> <span style=color:#8f3f71>0</span>, len <span style=color:#af3a03>=</span> arr.length; i <span style=color:#af3a03>&lt;</span> len; i<span style=color:#af3a03>++</span>){
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span> (arr[i] <span style=color:#af3a03>&lt;</span> pivot) {
+</span></span><span style=display:flex><span>          left.push(arr[i]);
+</span></span><span style=display:flex><span>        } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>          right.push(arr[i]);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> quickSort(left).concat([pivot], quickSort(right));
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>quickSort([<span style=color:#8f3f71>9</span>, <span style=color:#8f3f71>4</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>8</span>, <span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>5</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>7</span>]);
+</span></span></code></pre></div><p><strong>手写数组冒泡排序</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> bubble <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(arr){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> maxIndex <span style=color:#af3a03>=</span> arr.length <span style=color:#af3a03>-</span> <span style=color:#8f3f71>1</span>, temp, flag;
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>for</span> (<span style=color:#af3a03>var</span> i <span style=color:#af3a03>=</span> maxIndex; i <span style=color:#af3a03>&gt;</span> <span style=color:#8f3f71>0</span>; i<span style=color:#af3a03>--</span>) {
+</span></span><span style=display:flex><span>        flag <span style=color:#af3a03>=</span> <span style=color:#af3a03>true</span>
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>for</span> (<span style=color:#af3a03>var</span> j <span style=color:#af3a03>=</span> <span style=color:#8f3f71>0</span>; j <span style=color:#af3a03>&lt;</span> i; j<span style=color:#af3a03>++</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#af3a03>if</span> (arr[j] <span style=color:#af3a03>&gt;</span> arr[j <span style=color:#af3a03>+</span> <span style=color:#8f3f71>1</span>]) {
+</span></span><span style=display:flex><span>                temp <span style=color:#af3a03>=</span> arr[j];
+</span></span><span style=display:flex><span>                arr[j] <span style=color:#af3a03>=</span> arr[j <span style=color:#af3a03>+</span> <span style=color:#8f3f71>1</span>];
+</span></span><span style=display:flex><span>                arr[j <span style=color:#af3a03>+</span> <span style=color:#8f3f71>1</span>] <span style=color:#af3a03>=</span> temp;
+</span></span><span style=display:flex><span>                flag <span style=color:#af3a03>=</span> <span style=color:#af3a03>false</span>;
+</span></span><span style=display:flex><span>            }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span>(<span style=color:#af3a03>!</span> flag){
+</span></span><span style=display:flex><span>            <span style=color:#af3a03>break</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> arr;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>var</span> arr <span style=color:#af3a03>=</span> bubble([<span style=color:#8f3f71>13</span>, <span style=color:#8f3f71>69</span>, <span style=color:#8f3f71>28</span>, <span style=color:#8f3f71>93</span>, <span style=color:#8f3f71>55</span>, <span style=color:#8f3f71>75</span>, <span style=color:#8f3f71>34</span>]);
+</span></span></code></pre></div><p><strong>手写数组去重</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#b57614>Array</span>.prototype.unique <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>() { <span style=color:#af3a03>return</span> [...<span style=color:#af3a03>new</span> Set(<span style=color:#af3a03>this</span>)];};
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>[<span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>1</span>].unique();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> unique1(arr){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> hash <span style=color:#af3a03>=</span> {}, result <span style=color:#af3a03>=</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>for</span>(<span style=color:#af3a03>var</span> i<span style=color:#af3a03>=</span><span style=color:#8f3f71>0</span>, len<span style=color:#af3a03>=</span>arr.length; i<span style=color:#af3a03>&lt;</span>len; i<span style=color:#af3a03>++</span>){
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span>(<span style=color:#af3a03>!</span> hash[arr[i]]){
+</span></span><span style=display:flex><span>          result.push(arr[i]);
+</span></span><span style=display:flex><span>          hash[arr[i]] <span style=color:#af3a03>=</span> <span style=color:#af3a03>true</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> result;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>unique1([<span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>1</span>]);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b57614>Array</span>.prototype.unique2 <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>this</span>.sort();
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> result <span style=color:#af3a03>=</span> [<span style=color:#af3a03>this</span>[<span style=color:#8f3f71>0</span>]];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> len <span style=color:#af3a03>=</span> <span style=color:#af3a03>this</span>.length;
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>for</span>(<span style=color:#af3a03>var</span> i <span style=color:#af3a03>=</span> <span style=color:#8f3f71>0</span>; i <span style=color:#af3a03>&lt;</span> len; i<span style=color:#af3a03>++</span>){
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span>(<span style=color:#af3a03>this</span>[i] <span style=color:#af3a03>!==</span> result[result.length <span style=color:#af3a03>-</span> <span style=color:#8f3f71>1</span>]){
+</span></span><span style=display:flex><span>          result.push(<span style=color:#af3a03>this</span>[i]);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> result;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>[<span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>1</span>].unique2();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> unique3(arr){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> result <span style=color:#af3a03>=</span> [];
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>for</span>(<span style=color:#af3a03>var</span> i<span style=color:#af3a03>=</span><span style=color:#8f3f71>0</span>; i<span style=color:#af3a03>&lt;</span>arr.length; i<span style=color:#af3a03>++</span>){
+</span></span><span style=display:flex><span>        <span style=color:#af3a03>if</span>(result.indexOf(arr[i]) <span style=color:#af3a03>==</span> <span style=color:#af3a03>-</span><span style=color:#8f3f71>1</span>){
+</span></span><span style=display:flex><span>          result.push(arr[i]);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>return</span> result;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>unique3([<span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>1</span>]);
+</span></span></code></pre></div><p><strong>将url的查询参数解析成字典对象</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>function</span> parseQuery(url) {
+</span></span><span style=display:flex><span>  url <span style=color:#af3a03>=</span> url <span style=color:#af3a03>==</span> <span style=color:#af3a03>null</span> <span style=color:#af3a03>?</span> <span style=color:#b57614>window</span>.location.href <span style=color:#af3a03>:</span> url;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> search <span style=color:#af3a03>=</span> url.substring(url.lastIndexOf(<span style=color:#79740e>&#34;?&#34;</span>) <span style=color:#af3a03>+</span> <span style=color:#8f3f71>1</span>);
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> hash <span style=color:#af3a03>=</span> {};
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> reg <span style=color:#af3a03>=</span> <span style=color:#79740e>/([^?&amp;=]+)=([^?&amp;=]*)/g</span>;
+</span></span><span style=display:flex><span>  search.replace(reg, <span style=color:#af3a03>function</span> (match, $1, $2) {
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>var</span> name <span style=color:#af3a03>=</span> <span style=color:#b57614>decodeURIComponent</span>($1);
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>var</span> val <span style=color:#af3a03>=</span> <span style=color:#b57614>decodeURIComponent</span>($2);
+</span></span><span style=display:flex><span>      hash[name] <span style=color:#af3a03>=</span> <span style=color:#b57614>String</span>(val);
+</span></span><span style=display:flex><span>      <span style=color:#af3a03>return</span> match;
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>return</span> hash;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>封装函数节流函数</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>var</span> throttle <span style=color:#af3a03>=</span> <span style=color:#af3a03>function</span>(fn, delay, mustRunDelay){
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> timer <span style=color:#af3a03>=</span> <span style=color:#af3a03>null</span>;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> t_start;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>return</span> <span style=color:#af3a03>function</span>(){
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>var</span> context <span style=color:#af3a03>=</span> <span style=color:#af3a03>this</span>, args <span style=color:#af3a03>=</span> arguments, t_curr <span style=color:#af3a03>=</span> <span style=color:#af3a03>+</span><span style=color:#af3a03>new</span> <span style=color:#b57614>Date</span>();
+</span></span><span style=display:flex><span>    clearTimeout(timer);
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span>(<span style=color:#af3a03>!</span>t_start){
+</span></span><span style=display:flex><span>      t_start <span style=color:#af3a03>=</span> t_curr;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#af3a03>if</span>(t_curr <span style=color:#af3a03>-</span> t_start <span style=color:#af3a03>&gt;=</span> mustRunDelay){
+</span></span><span style=display:flex><span>      fn.apply(context, args);
+</span></span><span style=display:flex><span>      t_start <span style=color:#af3a03>=</span> t_curr;
+</span></span><span style=display:flex><span>    } <span style=color:#af3a03>else</span> {
+</span></span><span style=display:flex><span>      timer <span style=color:#af3a03>=</span> setTimeout(<span style=color:#af3a03>function</span>(){
+</span></span><span style=display:flex><span>        fn.apply(context, args);
+</span></span><span style=display:flex><span>      }, delay);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 调用（两次间隔50ms内连续触发不执行，但每累计100ms至少执行一次
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#b57614>window</span>.onresize <span style=color:#af3a03>=</span> throttle(myFunc, <span style=color:#8f3f71>50</span>, <span style=color:#8f3f71>100</span>);
+</span></span></code></pre></div><p><strong>用JS实现千位分隔符</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#af3a03>function</span> test1(num){
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> str <span style=color:#af3a03>=</span> (<span style=color:#af3a03>+</span> num) <span style=color:#af3a03>+</span> <span style=color:#79740e>&#39;&#39;</span>;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> len <span style=color:#af3a03>=</span> str.length;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>if</span>(len <span style=color:#af3a03>&lt;=</span> <span style=color:#8f3f71>3</span>) <span style=color:#af3a03>return</span> str;
+</span></span><span style=display:flex><span>  num <span style=color:#af3a03>=</span> <span style=color:#79740e>&#39;&#39;</span>;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>while</span>(len <span style=color:#af3a03>&gt;</span> <span style=color:#8f3f71>3</span>){
+</span></span><span style=display:flex><span>      len <span style=color:#af3a03>-=</span> <span style=color:#8f3f71>3</span>;
+</span></span><span style=display:flex><span>      num <span style=color:#af3a03>=</span> <span style=color:#79740e>&#39;,&#39;</span> <span style=color:#af3a03>+</span> str.substr(len, <span style=color:#8f3f71>3</span>) <span style=color:#af3a03>+</span> num;
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>return</span> str.substr(<span style=color:#8f3f71>0</span>, len) <span style=color:#af3a03>+</span> num;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> test2(num){
+</span></span><span style=display:flex><span>  <span style=color:#928374;font-style:italic>// ?= 正向匹配:匹配位置
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>  <span style=color:#928374;font-style:italic>// ?! 正向不匹配:排除位置
+</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>  <span style=color:#af3a03>var</span> str <span style=color:#af3a03>=</span> (<span style=color:#af3a03>+</span>num).toString();
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>var</span> reg <span style=color:#af3a03>=</span> <span style=color:#79740e>/(?=(?!\b)(\d{3})+$)/g</span>;
+</span></span><span style=display:flex><span>  <span style=color:#af3a03>return</span> str.replace(reg, <span style=color:#79740e>&#39;,&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/%E9%9D%A2%E8%AF%95/>面试</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/javascript/><span class=title>« Prev</span><br><span>JavaScript</span></a>
 <a class=next href=https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/egg.js/><span class=title>Next »</span><br><span>egg.js</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
