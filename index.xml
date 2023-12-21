@@ -269,15 +269,6 @@
     </item>
     
     <item>
-      <title>Java</title>
-      <link>https://bablvsj.github.io/posts/exams/java/</link>
-      <pubDate>Sat, 07 Oct 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/exams/java/</guid>
-      <description>第一章 Java概述 考点一 Java语言的特点 1.**语法简单，功能强大，安全可靠 强类型语言： 没有指针（ 与C、C++ 对比 ）、 没有多重继承机制( 可</description>
-    </item>
-    
-    <item>
       <title>vue面试题</title>
       <link>https://bablvsj.github.io/posts/interview/%E6%AF%8F%E5%A4%A9%E4%B8%80%E9%81%93%E9%9D%A2%E8%AF%95%E9%A2%98/202309-vue%E9%9D%A2%E8%AF%95%E9%A2%98/</link>
       <pubDate>Thu, 21 Sep 2023 13:46:19 +0800</pubDate>
@@ -374,24 +365,6 @@
       
       <guid>https://bablvsj.github.io/posts/tech/wait/14-%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/01-css-%E9%A2%98%E5%BA%93/</guid>
       <description>1. 重绘与重排的区别 重绘：更换背景色 重排/回流：隐藏删除元素，页面dom重新渲染，重新生成布局，重新排列元素，非常影响性能。 『重绘』不一定会出</description>
-    </item>
-    
-    <item>
-      <title>C语言基础</title>
-      <link>https://bablvsj.github.io/posts/exams/c%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/</link>
-      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/exams/c%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/</guid>
-      <description>准备运行环境 C/C++ 运行环境配置 参考文章 ：https://devpress.csdn.net/chongqing/64b8f6fb9a15ac69</description>
-    </item>
-    
-    <item>
-      <title>for four exams</title>
-      <link>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</link>
-      <pubDate>Mon, 07 Aug 2023 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/exams/20231028-for-four-exams/</guid>
-      <description>am pm 28 Java程序设计 数据库原理 29 C++程序设计 英语二 Java程序设计 04747 - 2017 数据库系统原理 04735 - 2018 C++程序设计 04737 - 2019 英语二 00015 - 2012</description>
     </item>
     
     <item>
@@ -503,15 +476,6 @@
     </item>
     
     <item>
-      <title>数据库系统原理</title>
-      <link>https://bablvsj.github.io/posts/exams/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86-04735/</link>
-      <pubDate>Sat, 29 Oct 2022 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/exams/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86-04735/</guid>
-      <description>最新自考笔记 : https://github.com/Eished/self-study-exam_notes https://github.com/yangyiRunning/DB_course_ware/blob/master/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%E4%B8%8E%E6%8A%80%E6%9C%AF4-%E7%AC%AC%E5%9B%9B%E7%AB%A0.pptx 大纲 2018 版 题型 题数 * 得分 合计 单项选择题 15 题 x 2 分 30 分 填空题 10 题 x 1 分 10 分 设计题 5 题 x 4 分 20 分 简答题 5 题 x 6 分 30 分 综合题 1 题 x</description>
-    </item>
-    
-    <item>
       <title>English 第一部分 常用词缀</title>
       <link>https://bablvsj.github.io/posts/exams/english-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86-%E5%B8%B8%E7%94%A8%E8%AF%8D%E7%BC%80/</link>
       <pubDate>Fri, 28 Oct 2022 13:46:19 +0800</pubDate>
@@ -545,15 +509,6 @@
       
       <guid>https://bablvsj.github.io/posts/exams/english-%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86-%E4%B8%87%E8%83%BD%E5%8F%A5%E5%AD%90%E5%92%8C%E5%86%99%E4%BD%9C%E6%A8%A1%E6%9D%BF/</guid>
       <description>一、万能句子 关于&amp;hellip;&amp;hellip;人们有不同的观点。一些人认为&amp;hellip;&amp;hellip; There are different opinions among people as to ______.Some people suggest that ______. 俗话说</description>
-    </item>
-    
-    <item>
-      <title>C&#43;&#43;</title>
-      <link>https://bablvsj.github.io/posts/exams/c&#43;&#43;/</link>
-      <pubDate>Wed, 26 Oct 2022 13:46:19 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/exams/c&#43;&#43;/</guid>
-      <description>计算机信息管理专业课程 自考笔记在线更新地址 : https://github.com/Eished/self-study-exam_notes 配套代码：https://github.com/Eished/C-CPP 2019版 单选题 1分x</description>
     </item>
     
     <item>
