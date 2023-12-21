@@ -9,20 +9,11 @@
     <lastBuildDate>Thu, 31 Aug 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/tags/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SQL之母</title>
-      <link>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</link>
+      <link>https://bablvsj.github.io/posts/life/exams/sql%E4%B9%8B%E6%AF%8D/</link>
       <pubDate>Thu, 31 Aug 2023 13:46:19 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/exams/sql%E4%B9%8B%E6%AF%8D/</guid>
-      <description>教程： 基础语法 数据列输出顺序 SELECT {列名...} 全表查询 select * from 表名 查询 - 别名 别名语法 {原始字段名} as {别名} 来为查询结果的列名取一个便于理解的名</description>
-    </item>
-    
-    <item>
-      <title>TypeScript</title>
-      <link>https://bablvsj.github.io/posts/tech/codelanguage/20230815-typescript/</link>
-      <pubDate>Fri, 11 Aug 2023 17:11:35 +0800</pubDate>
-      
-      <guid>https://bablvsj.github.io/posts/tech/codelanguage/20230815-typescript/</guid>
-      <description></description>
+      <guid>https://bablvsj.github.io/posts/life/exams/sql%E4%B9%8B%E6%AF%8D/</guid>
+      <description>SQL从入门到入门</description>
     </item>
     
   </channel>

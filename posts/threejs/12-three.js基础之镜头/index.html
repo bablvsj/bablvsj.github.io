@@ -1,221 +1,942 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>12 Three.js基础之镜头 | Bablvsj's Blog</title><meta name=keywords content="Three.js"><meta name=description content="12 Three.js基础之镜头 - Bablvsj's Blog"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/><link crossorigin=anonymous href=/assets/css/stylesheet.241265d51339977eb0f90d05780e286ec2789600ca4137f29552dec9dee06569.css integrity="sha256-JBJl1RM5l36w+Q0FeA4obsJ4lgDKQTfylVLeyd7gZWk=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=stylesheet href=/css/syntax.css><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="12 Three.js基础之镜头"><meta property="og:description" content><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-12-19T17:11:35+08:00"><meta property="article:modified_time" content="2023-12-19T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="12 Three.js基础之镜头"><meta name=twitter:description content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"12 Three.js基础之镜头","item":"https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"12 Three.js基础之镜头","name":"12 Three.js基础之镜头","description":"","keywords":["Three.js"],"articleBody":"在之前所有的示例中，关于镜头，我们使用的都是 PerspectiveCamera(透视镜头)。\n再次强调一下，我个人偏好是喜欢将 Camera 称为 “镜头”，但是 Three.js 官方或其他教程中称呼其为 “相机”\n在 Three.js 中，一共有 5 种镜头：\n镜头类型(都继承于Three.Camera) 镜头名称 解释说明 ArrayCamera 镜头阵列 一组已预定义的镜头 CubeCamera 立方镜头 6个面的镜头(前、后、左、右、顶、底) OrthographicCamera 正交镜头 无论物体距离镜头远近，最终渲染出的大小不变 PerspectiveCamera 透视镜头 像人眼睛一样的镜头，远大近小，最常用的镜头 StereoCamera 立体镜头 双透视镜头，常用于创建 3D 立体影像或 视差屏障 所有镜头的辅助对象都是：Three.CameraHelper\n由于 透视镜头(PerspectiveCamera) 是日常中使用最频繁的镜头类型，因此我们先从 透视镜头 开始讲解。\n镜头的一些知识 我们通过透视镜头，来讲解一些镜头的知识\n透视镜头(PerspectiveCamera) 所呈现出的效果，和我们用有眼睛观察世界是一模一样的。\n平截面 无论所观察的物体是什么类型，例如球体、立方体、椎体等，在我们的视野中都会形成 2 个截面：\n远截面(far)：物体最远处的截面 近截面(near)：物体最近处的截面 若以某个特定角度，当镜头(眼睛)观察物体时，物体远截面和近截面完全相同，那么此时近截面就会遮挡远截面，我们只能看到近截面。\n例如我们在一个立方体的正前方，此时近截面完全遮挡住远截面，此时我们观察到的立方体更像是一个平面。\n但是由于可能存在阴影，我们依然能够感知到这是一个 “3D立体物体”。\n视椎 想象一下，假设把我们的镜头(眼睛) 当做一个点，由这个点依次与物体的近截面、远截面的顶点进行连接，就会形成一个 椎体，而这个虚构出来的椎体，就是我们镜头(眼睛)与物体在空间上存在的视椎。\n如果我们眼睛不是与物体，而是与 “场景(Three.Scene)的近截面、远截面” 形成的视椎，就是正常 Three.js 场景中可见空间。\n请注意，上面提到的 场景的远截面和近截面 是加了引号，事实上没有办法直接设置场景的远近截面，场景的近远视椎是由镜头的以下几个参数最终计算出的：\n镜头的观察角度(fov) 镜头画面的宽高比(aspect) 镜头的最近可见距离(far) 镜头的最远可见距离(near) 一个隐含因素：镜头本身的位置(camera.position) 近截面和远截面决定了物体是否在镜头内可见\n物体与镜头的距离决定物体在视觉上的大小\n当我们初始化一个透视镜头时，构造函数需要传递的 4 个参数，就是上面前 4 个元素。\n透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000\n补充说明：\n在 Three.js 官方文档中对以上 4 个参数的解释是：\nfov：摄像机视椎体垂直视野角度 aspect：摄像机视椎体长宽比(宽高比) near：摄像机视椎体近端面 far：摄像机视椎体远端面 虽然我的描述和官方描述文字上存在差异，但意思相同。我认为我的用词更加口语化，容易理解，所以在本系列文章中，我会继续使用我的描述语言。\n因为受到自己对 Three.js 的理解程度，或许偏个人化语言描述或许是不正确的。\n关于镜头近截面与远截面的补充说明：计算量与性能 我们知道透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000，而我们之前文章中的示例，通常镜头设置参数为：new Three.PerspectiveCamera(45,2,0.1,1000)\n也就是说，近截面(镜头最近可见距离)通常设置为 0.1、远截面(镜头最远可见距离)通常为 1000\n若超出这个范围内的物体或物体局部则都将不可见。\n思考一下 假设我们直接将 near 由 0.1 修改为 0.0001、far 由 1000 修改为 1000000，那是不是场景最近可见度更加精细、可见范围变得更大，能够承载更多的物体呢？\n答案是肯定的，但场景越大，可见度越微观，渲染所需计算量也越大。\n请记得：当计算量大到一定程度后，就会出现渲染异常，画面会出现一些意外的、不符合预期结果。\n通常表现为物体表面像素紊乱、破碎、闪烁、像素前后失调，这是因为 GPU 没有足够的精度来确认哪些像素应该在前，哪些在后。\n我十分确信此刻我是在讲解 Three.js，而不是 大姨妈。\n解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true logarighmicDepthBuffer：对数深度缓存器\nconst renderer = new Three.WebGLRenderer({ canvas:xxxx, logarithmicDepthBuffer:true }) 注意事项：\n通常电脑浏览器都已支持 logarithmicDepthBuffer 属性，但很多手机目前还不支持。 logarithmicDepthBuffer 为 true 只是在一定程度上能够缓解问题，但若 near 足够小、far 足够大时，依然会出现 GPU 计算精度不够，造成画面渲染紊乱。 解决办法(推荐做法)：不解决 请记得：你本就不应该把 near 设置过小、far 设置过大！\nnear 和 far 正确的设定原则 尽可能让 near 和 far 更接近镜头不远的位置，当然前提是不让任何物体超出消失的范围内。\n注意，这里的 “更接近镜头不远的位置” 是指 “合适、适当的位置”，并不是指小数点后精确多少位。\n在保证精度的前提下，尽可能设置合适的 近截面和远截面，这样让 镜头与物体产生的视椎 “更小、更接近”，以节省渲染所需计算量和性能。\n举一个例子：\n假设你需要渲染出一个 足球 的特写，那么把足球放置在一个 比较小的平台或地面即可，而不是创建一个城市一样大小的场景，却只渲染出一个 足球的近距离特写。\n但是假设你的场景确确实实需要非常大，此时就需要多参考网上其他人是如何处理类似场景的。\n或许后续文章中也会有讲解，此时此刻你只需知道 near 和 far 设置合适即可，没必要过于精细或巨大。\n镜头示例1：使用CameraHelper来观察镜头 关于 透视镜头 PerspectiveCamera 我们之前示例中已经使用多次。\n本示例主要演示 通过 镜头辅助对象(CameraHelper) 来观察镜头。\n思考一下 在正常情况下，一个镜头只能看到别的物体但无法看到自己。\n就好像我们的眼睛可以看到这个世界，但是眼睛本身自己没法看到自己(眼睛)。\n当然除非对着镜子，不过对着镜子的本质依然是眼睛去看别的物体。\n更加直白一点：就算你眼睛长得再大，你也做不到左眼直接看到自己右眼。\n我们人虽然是 2 个眼球，但是在 Three.js 的相关举例中，是将 左右两个眼睛当成 是 1 个镜头来阐述的。\nHelloCamera示例目标 创建一个包含物体的场景 创建 2 个镜头，镜头A和镜头B 将网页画面一分为二 左侧显示 镜头A 所看到的场景 右侧使用使用 镜头B 来观察 镜头A 补充说明：\n事实上是 镜头B 观察并显示 镜头A 对应的辅助对象 (CameraHelper) 为了省事，我们直接使用前文讲解灯光时编写的 create-scene.ts 来创建场景 代码实现思路 关键点 1：同一个场景渲染出 2 个不同的画面 **实现 2 个画面：**添加左右 2 个镜头，每个镜头设置不同，最终呈现出的场景不同\nconst leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) leftCamera.position.set(0, 10, 20) const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200) rightCamera.position.set(40, 10, 30) rightCamera.lookAt(0, 5, 0) **实现 2 个交互：**添加 左右 2 个 div、2 个 OrbitControls，覆盖于canvas 之上\nconst leftControls = new OrbitControls(leftCamera, leftViewRef.current) leftControls.target.set(0, 5, 0) leftControls.update() const rightControls = new OrbitControls(rightCamera, rightViewRef.current) rightControls.target.set(0, 5, 0) rightControls.update() ... **渲染 2 个画面：**使用渲染器的 裁减 功能\n渲染器裁减功能，涉及到的方法有 setScissor()、setScissorTarget()、setViewport() 。\n我们之前示例中，为了适应浏览器窗口大小的改变，我们使用过 渲染器的 setSize()\nsetScissor ( x : Integer, y : Integer, width : Integer, height : Integer ) : null 将剪裁区域设为(x, y)到(x + width, y + height) Sets the scissor area from\nsetScissorTest ( boolean : Boolean ) : null 启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。\nsetViewport ( x : Integer, y : Integer, width : Integer, height : Integer ) : null 将视口大小设置为(x, y)到 (x + width, y + height)\n请额外留意在后面实际代码中，我们定义的 setScissorForElement() 函数。\n多敲几遍，记住 setScissorForElement() 函数中获得裁减区域的代码套路\n关键点 2：镜头辅助对象 镜头辅助对象为 Three.CameraHelper，他的用法很简单：\nconst helper = new THREE.CameraHelper( leftCamera ) scene.add( helper ) 关键点 3：如何渲染 在之前所有的示例代码中，渲染代码都为：\nrenderer.render(scene, camera) 但本示例中，我们是同一个 scene，但是 2 个不同的 camera，因此与之对应的渲染代码也要发生变化。\n需要依次分别渲染出 左侧镜头视角 和 右侧镜头视角。\n//leftCamera一些更新操作 ... renderer.render(sceneRef.current, leftCamera) //rightCamera一些更新操作 ... renderer.render(sceneRef.current, rightCamera) 具体的代码 create-scene.ts 我们直接使用之前 “11 Three.js基础之灯光.md” 中已写好的代码。\nindex.scss .full-screen,canvas { display: block; height: inherit; width: inherit; } .split { position: fixed; display: flex; width: inherit; height: inherit; } .split div { width: inherit; height: inherit; } index.tsx import { useRef, useEffect } from 'react' import * as Three from 'three' import createScene from '@/components/hello-light/create-scene' import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' import './index.scss' const HelloCamera = () =\u003e { const canvasRef = useRef(null) const sceneRef = useRef(null) const leftViewRef = useRef(null) const rightViewRef = useRef(null) useEffect(() =\u003e { if (canvasRef.current === null || leftViewRef.current === null || rightViewRef.current === null) { return } const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current as HTMLCanvasElement }) renderer.setScissorTest(true) const scene = createScene() scene.background = new Three.Color(0x000000) sceneRef.current = scene const light = new Three.DirectionalLight(0xFFFFFF, 1) light.position.set(0, 10, 0) light.target.position.set(5, 0, 0) scene.add(light) scene.add(light.target) const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) leftCamera.position.set(0, 10, 20) const helper = new Three.CameraHelper(leftCamera) scene.add(helper) const leftControls = new OrbitControls(leftCamera, leftViewRef.current) leftControls.target.set(0, 5, 0) leftControls.update() const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200) rightCamera.position.set(40, 10, 30) //为了能够看清、看全镜头，所以将右侧镜头的位置设置稍远一些 rightCamera.lookAt(0, 5, 0) const rightControls = new OrbitControls(rightCamera, rightViewRef.current) rightControls.target.set(0, 5, 0) rightControls.update() const setScissorForElement = (div: HTMLDivElement) =\u003e { if (canvasRef.current === null) { return } //获得 canvas 和 div 的矩形框尺寸和位置 const canvasRect = canvasRef.current.getBoundingClientRect() const divRect = div.getBoundingClientRect() //计算出裁切框的尺寸和位置 const right = Math.min(divRect.right, canvasRect.right) - canvasRect.left const left = Math.max(0, divRect.left - canvasRect.left) const bottom = Math.min(divRect.bottom, canvasRect.bottom) - canvasRect.top const top = Math.max(0, divRect.top - canvasRect.top) const width = Math.min(canvasRect.width, right - left) const height = Math.min(canvasRect.height, bottom - top) //将剪刀设置为仅渲染到画布的该部分 const positiveYUpBottom = canvasRect.height - bottom renderer.setScissor(left, positiveYUpBottom, width, height) renderer.setViewport(left, positiveYUpBottom, width, height) //返回外观 return width / height } const render = () =\u003e { if (leftCamera === null || rightCamera === null || sceneRef.current === null) { return } const sceneBackground = sceneRef.current.background as Three.Color //渲染 左侧 镜头 const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement) leftCamera.aspect = leftAspect as number leftCamera.updateProjectionMatrix() helper.update() helper.visible = false sceneBackground.set(0x000000) renderer.render(sceneRef.current, leftCamera) //渲染 右侧 个镜头 const rightAspect = setScissorForElement(rightViewRef.current as HTMLDivElement) rightCamera.aspect = rightAspect as number rightCamera.updateProjectionMatrix() helper.visible = true sceneBackground.set(0x000040) renderer.render(sceneRef.current, rightCamera) window.requestAnimationFrame(render) } window.requestAnimationFrame(render) const handleResize = () =\u003e { if (canvasRef.current === null) { return } const width = canvasRef.current.clientWidth const height = canvasRef.current.clientHeight renderer.setSize(width, height, false) } handleResize() window.addEventListener('resize', handleResize) return () =\u003e { window.removeEventListener('resize', handleResize) } }, [canvasRef]) return ( ) } export default HelloCamera 执行以后，就会看到浏览器中左右 2 个可交互的画面。其中右侧画面中包含左侧灯光辅助对象。\n镜头示例2：OrthographicCamera 第二个比较经常用的镜头是 OrthographicCamera(正交镜头)。\n正交镜头与透视镜头最大的区别点在于：\n正交镜头的视椎体不是 椎体，而是立方体\n正交镜头看到的都是一个“面”\n因此，正交镜头没有 “透视(近大远小)”这个概念\n我对于以上 2 点理解并不深，先记住以后再慢慢研究\nOrthographicCamera的用途 用途1：作为 2D 画布 作为 3D 建模程序 的 上、下、左、右、前、后 视图。 OrthographicCamera基本用法 const camera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50) camera.zoom = 0.2 camera.position.set(0,10,20) 初始化时，构造函数内的参数依次是：\nOrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )\nleft：视椎体左侧面 right：视椎体右侧面 top：视椎体顶面 bottom：视椎体底面 near：视椎体近端面 far：视椎体远端面 从实际的角度来看，一定要注意以下几点：\nleft 的值不能大于 right，同理 bottom 的值不能大于 top。 如果没有按照这个约定，例如 bottom 大于 top 相当于颠倒了相机。 near 设置越小，投影的映像越大 left 与 right 之间的距离、top 与 bottom 之间的距离的比例一定要和 canvas 比例相同，否则会导致投影的物体形状变形 正交镜头与透视镜头的几点不同地方 渲染时，对应的设置不同。\n透视镜头渲染时，需要修改的是 camera.aspect = newAspect\n正交镜头渲染时，需要修改的是 camera.left = - new Aspect、camera.right = new Aspect\n假设我们在 HelloCamera 示例中使用 OrthographicCamera 需要修改的地方为：\n- const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) - leftCamera.position.set(0, 10, 20) + const leftCamera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50) + leftCamera.zoom = 0.2 leftCamera.position.set(0,10,20) ... const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement) - leftCamera.aspect = leftAspect as number + leftCamera.left = -(leftAspect as number) + leftCamera.right = leftAspect as number leftCamera.updateProjectionMatrix() 其他代码无需修改，发布调试，即可看到正交镜头辅助对象，此时的视椎不再是椎体，而是一个立方体。\n关于其他镜头：ArrayCamera、CubeCamera、StereoCamera 本文不再讲解，以后用到的时候再深入研究。\n具体的用法，可查阅：https://threejs.org/docs/index.html#api/zh/cameras/Camera\n至此，关于镜头的基础知识讲解完毕。\n虽然本文是在讲镜头，但本文的核心知识点却是在讲 渲染器的裁切 功能。\n一定要多多复习，熟练掌握 渲染器的 setScissor()、setScissorTest()、setViewport() 方法。\n下一节，我们将讲解 Shardown(阴影)\n","wordCount":"4738","inLanguage":"en","datePublished":"2023-12-19T17:11:35+08:00","dateModified":"2023-12-19T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>12 Three.js基础之镜头</h1><div class=post-meta><div class=post-tags-meta><a href=https://bablvsj.github.io/tags/three.js/>Three.js</a></div>10 min&nbsp;·&nbsp;<span title='2023-12-19 17:11:35 +0800 +0800'>2023/12/19</span></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#%e9%95%9c%e5%a4%b4%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86 aria-label=镜头的一些知识>镜头的一些知识</a><ul><ul><li><a href=#%e5%b9%b3%e6%88%aa%e9%9d%a2 aria-label=平截面>平截面</a></li><li><a href=#%e8%a7%86%e6%a4%8e aria-label=视椎>视椎</a></li></ul></ul></li><li><a href=#%e5%85%b3%e4%ba%8e%e9%95%9c%e5%a4%b4%e8%bf%91%e6%88%aa%e9%9d%a2%e4%b8%8e%e8%bf%9c%e6%88%aa%e9%9d%a2%e7%9a%84%e8%a1%a5%e5%85%85%e8%af%b4%e6%98%8e%e8%ae%a1%e7%ae%97%e9%87%8f%e4%b8%8e%e6%80%a7%e8%83%bd aria-label=关于镜头近截面与远截面的补充说明：计算量与性能>关于镜头近截面与远截面的补充说明：计算量与性能</a><ul><ul><li><a href=#%e6%80%9d%e8%80%83%e4%b8%80%e4%b8%8b aria-label=思考一下>思考一下</a></li><li><a href=#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95%e5%b9%b6%e4%b8%8d%e6%8e%a8%e8%8d%90%e5%b0%86%e6%b8%b2%e6%9f%93%e5%99%a8%e7%9a%84logarithmicdepthbuffer%e8%ae%be%e7%bd%ae%e4%b8%batrue aria-label=解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true>解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true</a></li><li><a href=#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95%e6%8e%a8%e8%8d%90%e5%81%9a%e6%b3%95%e4%b8%8d%e8%a7%a3%e5%86%b3 aria-label=解决办法(推荐做法)：不解决>解决办法(推荐做法)：不解决</a></li><li><a href=#near-%e5%92%8c-far-%e6%ad%a3%e7%a1%ae%e7%9a%84%e8%ae%be%e5%ae%9a%e5%8e%9f%e5%88%99 aria-label="near 和 far 正确的设定原则">near 和 far 正确的设定原则</a></li></ul></ul></li><li><a href=#%e9%95%9c%e5%a4%b4%e7%a4%ba%e4%be%8b1%e4%bd%bf%e7%94%a8camerahelper%e6%9d%a5%e8%a7%82%e5%af%9f%e9%95%9c%e5%a4%b4 aria-label=镜头示例1：使用CameraHelper来观察镜头>镜头示例1：使用CameraHelper来观察镜头</a><ul><ul><li><a href=#%e6%80%9d%e8%80%83%e4%b8%80%e4%b8%8b-1 aria-label=思考一下>思考一下</a></li></ul><li><a href=#hellocamera%e7%a4%ba%e4%be%8b%e7%9b%ae%e6%a0%87 aria-label=HelloCamera示例目标>HelloCamera示例目标</a></li><li><a href=#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0%e6%80%9d%e8%b7%af aria-label=代码实现思路>代码实现思路</a><ul><li><a href=#%e5%85%b3%e9%94%ae%e7%82%b9-1%e5%90%8c%e4%b8%80%e4%b8%aa%e5%9c%ba%e6%99%af%e6%b8%b2%e6%9f%93%e5%87%ba-2-%e4%b8%aa%e4%b8%8d%e5%90%8c%e7%9a%84%e7%94%bb%e9%9d%a2 aria-label="关键点 1：同一个场景渲染出 2 个不同的画面">关键点 1：同一个场景渲染出 2 个不同的画面</a></li><li><a href=#%e5%85%b3%e9%94%ae%e7%82%b9-2%e9%95%9c%e5%a4%b4%e8%be%85%e5%8a%a9%e5%af%b9%e8%b1%a1 aria-label="关键点 2：镜头辅助对象">关键点 2：镜头辅助对象</a></li><li><a href=#%e5%85%b3%e9%94%ae%e7%82%b9-3%e5%a6%82%e4%bd%95%e6%b8%b2%e6%9f%93 aria-label="关键点 3：如何渲染">关键点 3：如何渲染</a></li></ul></li><li><a href=#%e5%85%b7%e4%bd%93%e7%9a%84%e4%bb%a3%e7%a0%81 aria-label=具体的代码>具体的代码</a><ul><li><a href=#create-scenets aria-label=create-scene.ts>create-scene.ts</a></li><li><a href=#indexscss aria-label=index.scss>index.scss</a></li><li><a href=#indextsx aria-label=index.tsx>index.tsx</a></li></ul></li></ul></li><li><a href=#%e9%95%9c%e5%a4%b4%e7%a4%ba%e4%be%8b2orthographiccamera aria-label=镜头示例2：OrthographicCamera>镜头示例2：OrthographicCamera</a><ul><ul><li><a href=#orthographiccamera%e7%9a%84%e7%94%a8%e9%80%94 aria-label=OrthographicCamera的用途>OrthographicCamera的用途</a></li><li><a href=#orthographiccamera%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95 aria-label=OrthographicCamera基本用法>OrthographicCamera基本用法</a></li><li><a href=#%e6%ad%a3%e4%ba%a4%e9%95%9c%e5%a4%b4%e4%b8%8e%e9%80%8f%e8%a7%86%e9%95%9c%e5%a4%b4%e7%9a%84%e5%87%a0%e7%82%b9%e4%b8%8d%e5%90%8c%e5%9c%b0%e6%96%b9 aria-label=正交镜头与透视镜头的几点不同地方>正交镜头与透视镜头的几点不同地方</a></li></ul><li><a href=#%e5%81%87%e8%ae%be%e6%88%91%e4%bb%ac%e5%9c%a8-hellocamera-%e7%a4%ba%e4%be%8b%e4%b8%ad%e4%bd%bf%e7%94%a8-orthographiccamera aria-label="假设我们在 HelloCamera 示例中使用 OrthographicCamera">假设我们在 HelloCamera 示例中使用 OrthographicCamera</a></li></ul></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><p>在之前所有的示例中，关于镜头，我们使用的都是 PerspectiveCamera(透视镜头)。</p><blockquote><p>再次强调一下，我个人偏好是喜欢将 Camera 称为 “镜头”，但是 Three.js 官方或其他教程中称呼其为 “相机”</p></blockquote><p><strong>在 Three.js 中，一共有 5 种镜头：</strong></p><table><thead><tr><th>镜头类型(都继承于Three.Camera)</th><th>镜头名称</th><th>解释说明</th></tr></thead><tbody><tr><td>ArrayCamera</td><td>镜头阵列</td><td>一组已预定义的镜头</td></tr><tr><td>CubeCamera</td><td>立方镜头</td><td>6个面的镜头(前、后、左、右、顶、底)</td></tr><tr><td>OrthographicCamera</td><td>正交镜头</td><td>无论物体距离镜头远近，最终渲染出的大小不变</td></tr><tr><td>PerspectiveCamera</td><td>透视镜头</td><td>像人眼睛一样的镜头，远大近小，最常用的镜头</td></tr><tr><td>StereoCamera</td><td>立体镜头</td><td>双透视镜头，常用于创建 3D 立体影像或 视差屏障</td></tr></tbody></table><p><strong>所有镜头的辅助对象都是：Three.CameraHelper</strong></p><p>由于 透视镜头(PerspectiveCamera) 是日常中使用最频繁的镜头类型，因此我们先从 透视镜头 开始讲解。</p><h2 id=镜头的一些知识>镜头的一些知识<a hidden class=anchor aria-hidden=true href=#镜头的一些知识>#</a></h2><blockquote><p>我们通过透视镜头，来讲解一些镜头的知识<br>透视镜头(PerspectiveCamera) 所呈现出的效果，和我们用有眼睛观察世界是一模一样的。</p></blockquote><h4 id=平截面>平截面<a hidden class=anchor aria-hidden=true href=#平截面>#</a></h4><p>无论所观察的物体是什么类型，例如球体、立方体、椎体等，在我们的视野中都会形成 2 个截面：</p><ol><li><strong>远截面(far)：物体最远处的截面</strong></li><li><strong>近截面(near)：物体最近处的截面</strong></li></ol><p>若以某个特定角度，当镜头(眼睛)观察物体时，物体远截面和近截面完全相同，那么此时近截面就会遮挡远截面，我们只能看到近截面。</p><p>例如我们在一个立方体的正前方，此时近截面完全遮挡住远截面，此时我们观察到的立方体更像是一个平面。</p><blockquote><p>但是由于可能存在阴影，我们依然能够感知到这是一个 “3D立体物体”。</p></blockquote><h4 id=视椎>视椎<a hidden class=anchor aria-hidden=true href=#视椎>#</a></h4><p>想象一下，假设把我们的镜头(眼睛) 当做一个点，由这个点依次与物体的近截面、远截面的顶点进行连接，就会形成一个 椎体，而这个虚构出来的椎体，就是我们镜头(眼睛)与物体在空间上存在的视椎。</p><p>如果我们眼睛不是与物体，而是与 <strong>“场景(Three.Scene)的近截面、远截面”</strong> 形成的视椎，就是正常 Three.js 场景中可见空间。</p><p>请注意，上面提到的 场景的远截面和近截面 是加了引号，事实上没有办法直接设置场景的远近截面，场景的近远视椎是由镜头的以下几个参数最终计算出的：</p><ol><li>镜头的观察角度(fov)</li><li>镜头画面的宽高比(aspect)</li><li>镜头的最近可见距离(far)</li><li>镜头的最远可见距离(near)</li><li>一个隐含因素：镜头本身的位置(camera.position)</li></ol><blockquote><p>近截面和远截面决定了物体是否在镜头内可见<br>物体与镜头的距离决定物体在视觉上的大小</p></blockquote><p>当我们初始化一个透视镜头时，构造函数需要传递的 4 个参数，就是上面前 4 个元素。</p><p><strong>透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000</strong></p><p><strong>补充说明：</strong></p><p>在 Three.js 官方文档中对以上 4 个参数的解释是：</p><ol><li>fov：摄像机视椎体垂直视野角度</li><li>aspect：摄像机视椎体长宽比(宽高比)</li><li>near：摄像机视椎体近端面</li><li>far：摄像机视椎体远端面</li></ol><blockquote><p>虽然我的描述和官方描述文字上存在差异，但意思相同。我认为我的用词更加口语化，容易理解，所以在本系列文章中，我会继续使用我的描述语言。</p><p>因为受到自己对 Three.js 的理解程度，或许偏个人化语言描述或许是不正确的。</p></blockquote><h2 id=关于镜头近截面与远截面的补充说明计算量与性能>关于镜头近截面与远截面的补充说明：计算量与性能<a hidden class=anchor aria-hidden=true href=#关于镜头近截面与远截面的补充说明计算量与性能>#</a></h2><p>我们知道透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000，而我们之前文章中的示例，通常镜头设置参数为：new Three.PerspectiveCamera(45,2,0.1,1000)</p><blockquote><p>也就是说，近截面(镜头最近可见距离)通常设置为 0.1、远截面(镜头最远可见距离)通常为 1000</p></blockquote><p>若超出这个范围内的物体或物体局部则都将不可见。</p><h4 id=思考一下>思考一下<a hidden class=anchor aria-hidden=true href=#思考一下>#</a></h4><p>假设我们直接将 near 由 0.1 修改为 0.0001、far 由 1000 修改为 1000000，那是不是场景最近可见度更加精细、可见范围变得更大，能够承载更多的物体呢？</p><p>答案是肯定的，但场景越大，可见度越微观，渲染所需计算量也越大。</p><p><strong>请记得：当计算量大到一定程度后，就会出现渲染异常，画面会出现一些意外的、不符合预期结果。</strong></p><p><strong>通常表现为物体表面像素紊乱、破碎、闪烁、像素前后失调，这是因为 GPU 没有足够的精度来确认哪些像素应该在前，哪些在后。</strong></p><blockquote><p>我十分确信此刻我是在讲解 Three.js，而不是 大姨妈。</p></blockquote><h4 id=解决办法并不推荐将渲染器的logarithmicdepthbuffer设置为true>解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true<a hidden class=anchor aria-hidden=true href=#解决办法并不推荐将渲染器的logarithmicdepthbuffer设置为true>#</a></h4><p><strong>logarighmicDepthBuffer：对数深度缓存器</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const renderer = new Three.WebGLRenderer({
-</span></span><span style=display:flex><span>  canvas:xxxx,
-</span></span><span style=display:flex><span>  logarithmicDepthBuffer:true
-</span></span><span style=display:flex><span>})
-</span></span></code></pre></div><p><strong>注意事项：</strong></p><ol><li>通常电脑浏览器都已支持 logarithmicDepthBuffer 属性，但很多手机目前还不支持。</li><li>logarithmicDepthBuffer 为 true 只是在一定程度上能够缓解问题，但若 near 足够小、far 足够大时，依然会出现 GPU 计算精度不够，造成画面渲染紊乱。</li></ol><h4 id=解决办法推荐做法不解决>解决办法(推荐做法)：不解决<a hidden class=anchor aria-hidden=true href=#解决办法推荐做法不解决>#</a></h4><p><strong>请记得：你本就不应该把 near 设置过小、far 设置过大！</strong></p><h4 id=near-和-far-正确的设定原则>near 和 far 正确的设定原则<a hidden class=anchor aria-hidden=true href=#near-和-far-正确的设定原则>#</a></h4><p>尽可能让 near 和 far 更接近镜头不远的位置，当然前提是不让任何物体超出消失的范围内。</p><p>注意，这里的 “更接近镜头不远的位置” 是指 “合适、适当的位置”，并不是指小数点后精确多少位。</p><p>在保证精度的前提下，尽可能设置合适的 近截面和远截面，这样让 镜头与物体产生的视椎 “更小、更接近”，以节省渲染所需计算量和性能。</p><p><strong>举一个例子：</strong></p><p>假设你需要渲染出一个 足球 的特写，那么把足球放置在一个 比较小的平台或地面即可，而不是创建一个城市一样大小的场景，却只渲染出一个 足球的近距离特写。</p><blockquote><p>但是假设你的场景确确实实需要非常大，此时就需要多参考网上其他人是如何处理类似场景的。<br>或许后续文章中也会有讲解，此时此刻你只需知道 near 和 far 设置合适即可，没必要过于精细或巨大。</p></blockquote><h2 id=镜头示例1使用camerahelper来观察镜头>镜头示例1：使用CameraHelper来观察镜头<a hidden class=anchor aria-hidden=true href=#镜头示例1使用camerahelper来观察镜头>#</a></h2><p>关于 透视镜头 PerspectiveCamera 我们之前示例中已经使用多次。</p><p>本示例主要演示 通过 镜头辅助对象(CameraHelper) 来观察镜头。</p><h4 id=思考一下-1>思考一下<a hidden class=anchor aria-hidden=true href=#思考一下-1>#</a></h4><p>在正常情况下，一个镜头只能看到别的物体但无法看到自己。</p><p>就好像我们的眼睛可以看到这个世界，但是眼睛本身自己没法看到自己(眼睛)。</p><blockquote><p>当然除非对着镜子，不过对着镜子的本质依然是眼睛去看别的物体。</p></blockquote><p>更加直白一点：就算你眼睛长得再大，你也做不到左眼直接看到自己右眼。</p><blockquote><p>我们人虽然是 2 个眼球，但是在 Three.js 的相关举例中，是将 左右两个眼睛当成 是 1 个镜头来阐述的。</p></blockquote><h3 id=hellocamera示例目标>HelloCamera示例目标<a hidden class=anchor aria-hidden=true href=#hellocamera示例目标>#</a></h3><ol><li>创建一个包含物体的场景</li><li>创建 2 个镜头，镜头A和镜头B</li><li>将网页画面一分为二</li><li>左侧显示 镜头A 所看到的场景</li><li>右侧使用使用 镜头B 来观察 镜头A</li></ol><p><strong>补充说明：</strong></p><ol><li>事实上是 镜头B 观察并显示 镜头A 对应的辅助对象 (CameraHelper)</li><li>为了省事，我们直接使用前文讲解灯光时编写的 create-scene.ts 来创建场景</li></ol><h3 id=代码实现思路>代码实现思路<a hidden class=anchor aria-hidden=true href=#代码实现思路>#</a></h3><h4 id=关键点-1同一个场景渲染出-2-个不同的画面>关键点 1：同一个场景渲染出 2 个不同的画面<a hidden class=anchor aria-hidden=true href=#关键点-1同一个场景渲染出-2-个不同的画面>#</a></h4><p>**实现 2 个画面：**添加左右 2 个镜头，每个镜头设置不同，最终呈现出的场景不同</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
-</span></span><span style=display:flex><span>leftCamera.position.set(0, 10, 20)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200)
-</span></span><span style=display:flex><span>rightCamera.position.set(40, 10, 30)
-</span></span><span style=display:flex><span>rightCamera.lookAt(0, 5, 0)
-</span></span></code></pre></div><p>**实现 2 个交互：**添加 左右 2 个 div、2 个 OrbitControls，覆盖于canvas 之上</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const leftControls = new OrbitControls(leftCamera, leftViewRef.current)
-</span></span><span style=display:flex><span>leftControls.target.set(0, 5, 0)
-</span></span><span style=display:flex><span>leftControls.update()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>const rightControls = new OrbitControls(rightCamera, rightViewRef.current)
-</span></span><span style=display:flex><span>rightControls.target.set(0, 5, 0)
-</span></span><span style=display:flex><span>rightControls.update()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>...
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>&lt;div className=&#39;full-screen&#39;&gt;
-</span></span><span style=display:flex><span>    &lt;div className=&#39;split&#39;&gt;
-</span></span><span style=display:flex><span>        &lt;div ref={leftViewRef}&gt;&lt;/div&gt;
-</span></span><span style=display:flex><span>        &lt;div ref={rightViewRef}&gt;&lt;/div&gt;
-</span></span><span style=display:flex><span>    &lt;/div&gt;
-</span></span><span style=display:flex><span>    &lt;canvas ref={canvasRef} /&gt;
-</span></span><span style=display:flex><span>&lt;/div&gt;
-</span></span></code></pre></div><p>**渲染 2 个画面：**使用渲染器的 裁减 功能</p><p>渲染器裁减功能，涉及到的方法有 setScissor()、setScissorTarget()、setViewport() 。</p><blockquote><p>我们之前示例中，为了适应浏览器窗口大小的改变，我们使用过 渲染器的 setSize()</p></blockquote><p><strong>setScissor ( x : Integer, y : Integer, width : Integer, height : Integer ) : null</strong>
-将剪裁区域设为(x, y)到(x + width, y + height) Sets the scissor area from</p><p><strong>setScissorTest ( boolean : Boolean ) : null</strong>
-启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。</p><p><strong>setViewport ( x : Integer, y : Integer, width : Integer, height : Integer ) : null</strong>
-将视口大小设置为(x, y)到 (x + width, y + height)</p><p><strong>请额外留意在后面实际代码中，我们定义的 setScissorForElement() 函数。</strong></p><blockquote><p>多敲几遍，记住 setScissorForElement() 函数中获得裁减区域的代码套路</p></blockquote><h4 id=关键点-2镜头辅助对象>关键点 2：镜头辅助对象<a hidden class=anchor aria-hidden=true href=#关键点-2镜头辅助对象>#</a></h4><p>镜头辅助对象为 Three.CameraHelper，他的用法很简单：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const helper = new THREE.CameraHelper( leftCamera )
-</span></span><span style=display:flex><span>scene.add( helper )
-</span></span></code></pre></div><h4 id=关键点-3如何渲染>关键点 3：如何渲染<a hidden class=anchor aria-hidden=true href=#关键点-3如何渲染>#</a></h4><p>在之前所有的示例代码中，渲染代码都为：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>renderer.render(scene, camera)
-</span></span></code></pre></div><p>但本示例中，我们是同一个 scene，但是 2 个不同的 camera，因此与之对应的渲染代码也要发生变化。</p><p>需要依次分别渲染出 左侧镜头视角 和 右侧镜头视角。</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>//leftCamera一些更新操作
-</span></span><span style=display:flex><span>...
-</span></span><span style=display:flex><span>renderer.render(sceneRef.current, leftCamera)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>//rightCamera一些更新操作
-</span></span><span style=display:flex><span>...
-</span></span><span style=display:flex><span>renderer.render(sceneRef.current, rightCamera)
-</span></span></code></pre></div><h3 id=具体的代码>具体的代码<a hidden class=anchor aria-hidden=true href=#具体的代码>#</a></h3><h4 id=create-scenets>create-scene.ts<a hidden class=anchor aria-hidden=true href=#create-scenets>#</a></h4><p>我们直接使用之前 <strong>“11 Three.js基础之灯光.md”</strong> 中已写好的代码。</p><h4 id=indexscss>index.scss<a hidden class=anchor aria-hidden=true href=#indexscss>#</a></h4><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>.full-screen,canvas {
-</span></span><span style=display:flex><span>    display: block;
-</span></span><span style=display:flex><span>    height: inherit;
-</span></span><span style=display:flex><span>    width: inherit;
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>.split {
-</span></span><span style=display:flex><span>    position: fixed;
-</span></span><span style=display:flex><span>    display: flex;
-</span></span><span style=display:flex><span>    width: inherit;
-</span></span><span style=display:flex><span>    height: inherit;
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>.split div {
-</span></span><span style=display:flex><span>    width: inherit;
-</span></span><span style=display:flex><span>    height: inherit;
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h4 id=indextsx>index.tsx<a hidden class=anchor aria-hidden=true href=#indextsx>#</a></h4><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>import { useRef, useEffect } from &#39;react&#39;
-</span></span><span style=display:flex><span>import * as Three from &#39;three&#39;
-</span></span><span style=display:flex><span>import createScene from &#39;@/components/hello-light/create-scene&#39;
-</span></span><span style=display:flex><span>import { OrbitControls } from &#39;three/examples/jsm/controls/OrbitControls&#39;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>import &#39;./index.scss&#39;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>const HelloCamera = () =&gt; {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null)
-</span></span><span style=display:flex><span>    const sceneRef = useRef&lt;Three.Scene | null&gt;(null)
-</span></span><span style=display:flex><span>    const leftViewRef = useRef&lt;HTMLDivElement&gt;(null)
-</span></span><span style=display:flex><span>    const rightViewRef = useRef&lt;HTMLDivElement&gt;(null)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    useEffect(() =&gt; {
-</span></span><span style=display:flex><span>        if (canvasRef.current === null || leftViewRef.current === null || rightViewRef.current === null) {
-</span></span><span style=display:flex><span>            return
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current as HTMLCanvasElement })
-</span></span><span style=display:flex><span>        renderer.setScissorTest(true)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const scene = createScene()
-</span></span><span style=display:flex><span>        scene.background = new Three.Color(0x000000)
-</span></span><span style=display:flex><span>        sceneRef.current = scene
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const light = new Three.DirectionalLight(0xFFFFFF, 1)
-</span></span><span style=display:flex><span>        light.position.set(0, 10, 0)
-</span></span><span style=display:flex><span>        light.target.position.set(5, 0, 0)
-</span></span><span style=display:flex><span>        scene.add(light)
-</span></span><span style=display:flex><span>        scene.add(light.target)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
-</span></span><span style=display:flex><span>        leftCamera.position.set(0, 10, 20)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const helper = new Three.CameraHelper(leftCamera)
-</span></span><span style=display:flex><span>        scene.add(helper)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const leftControls = new OrbitControls(leftCamera, leftViewRef.current)
-</span></span><span style=display:flex><span>        leftControls.target.set(0, 5, 0)
-</span></span><span style=display:flex><span>        leftControls.update()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200)
-</span></span><span style=display:flex><span>        rightCamera.position.set(40, 10, 30) //为了能够看清、看全镜头，所以将右侧镜头的位置设置稍远一些
-</span></span><span style=display:flex><span>        rightCamera.lookAt(0, 5, 0)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const rightControls = new OrbitControls(rightCamera, rightViewRef.current)
-</span></span><span style=display:flex><span>        rightControls.target.set(0, 5, 0)
-</span></span><span style=display:flex><span>        rightControls.update()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const setScissorForElement = (div: HTMLDivElement) =&gt; {
-</span></span><span style=display:flex><span>            if (canvasRef.current === null) {
-</span></span><span style=display:flex><span>                return
-</span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //获得 canvas 和 div 的矩形框尺寸和位置
-</span></span><span style=display:flex><span>            const canvasRect = canvasRef.current.getBoundingClientRect()
-</span></span><span style=display:flex><span>            const divRect = div.getBoundingClientRect()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //计算出裁切框的尺寸和位置
-</span></span><span style=display:flex><span>            const right = Math.min(divRect.right, canvasRect.right) - canvasRect.left
-</span></span><span style=display:flex><span>            const left = Math.max(0, divRect.left - canvasRect.left)
-</span></span><span style=display:flex><span>            const bottom = Math.min(divRect.bottom, canvasRect.bottom) - canvasRect.top
-</span></span><span style=display:flex><span>            const top = Math.max(0, divRect.top - canvasRect.top)
-</span></span><span style=display:flex><span>            const width = Math.min(canvasRect.width, right - left)
-</span></span><span style=display:flex><span>            const height = Math.min(canvasRect.height, bottom - top)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //将剪刀设置为仅渲染到画布的该部分
-</span></span><span style=display:flex><span>            const positiveYUpBottom = canvasRect.height - bottom
-</span></span><span style=display:flex><span>            renderer.setScissor(left, positiveYUpBottom, width, height)
-</span></span><span style=display:flex><span>            renderer.setViewport(left, positiveYUpBottom, width, height)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //返回外观
-</span></span><span style=display:flex><span>            return width / height
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const render = () =&gt; {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            if (leftCamera === null || rightCamera === null || sceneRef.current === null) {
-</span></span><span style=display:flex><span>                return
-</span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>            
-</span></span><span style=display:flex><span>            const sceneBackground = sceneRef.current.background as Three.Color
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //渲染 左侧 镜头
-</span></span><span style=display:flex><span>            const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            leftCamera.aspect = leftAspect as number
-</span></span><span style=display:flex><span>            leftCamera.updateProjectionMatrix()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            helper.update()
-</span></span><span style=display:flex><span>            helper.visible = false
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            sceneBackground.set(0x000000)
-</span></span><span style=display:flex><span>            renderer.render(sceneRef.current, leftCamera)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            //渲染 右侧 个镜头
-</span></span><span style=display:flex><span>            const rightAspect = setScissorForElement(rightViewRef.current as HTMLDivElement)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            rightCamera.aspect = rightAspect as number
-</span></span><span style=display:flex><span>            rightCamera.updateProjectionMatrix()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            helper.visible = true
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            sceneBackground.set(0x000040)
-</span></span><span style=display:flex><span>            renderer.render(sceneRef.current, rightCamera)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            window.requestAnimationFrame(render)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        window.requestAnimationFrame(render)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const handleResize = () =&gt; {
-</span></span><span style=display:flex><span>            if (canvasRef.current === null) {
-</span></span><span style=display:flex><span>                return
-</span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            const width = canvasRef.current.clientWidth
-</span></span><span style=display:flex><span>            const height = canvasRef.current.clientHeight
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            renderer.setSize(width, height, false)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        handleResize()
-</span></span><span style=display:flex><span>        window.addEventListener(&#39;resize&#39;, handleResize)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        return () =&gt; {
-</span></span><span style=display:flex><span>            window.removeEventListener(&#39;resize&#39;, handleResize)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    }, [canvasRef])
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    return (
-</span></span><span style=display:flex><span>        &lt;div className=&#39;full-screen&#39;&gt;
-</span></span><span style=display:flex><span>            &lt;div className=&#39;split&#39;&gt;
-</span></span><span style=display:flex><span>                &lt;div ref={leftViewRef}&gt;&lt;/div&gt;
-</span></span><span style=display:flex><span>                &lt;div ref={rightViewRef}&gt;&lt;/div&gt;
-</span></span><span style=display:flex><span>            &lt;/div&gt;
-</span></span><span style=display:flex><span>            &lt;canvas ref={canvasRef} /&gt;
-</span></span><span style=display:flex><span>        &lt;/div&gt;
-</span></span><span style=display:flex><span>    )
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>export default HelloCamera
-</span></span></code></pre></div><p>执行以后，就会看到浏览器中左右 2 个可交互的画面。其中右侧画面中包含左侧灯光辅助对象。</p><h2 id=镜头示例2orthographiccamera>镜头示例2：OrthographicCamera<a hidden class=anchor aria-hidden=true href=#镜头示例2orthographiccamera>#</a></h2><p>第二个比较经常用的镜头是 OrthographicCamera(正交镜头)。</p><p>正交镜头与透视镜头最大的区别点在于：</p><ol><li><p>正交镜头的视椎体不是 椎体，而是立方体</p></li><li><p>正交镜头看到的都是一个“面”</p></li><li><p>因此，正交镜头没有 “透视(近大远小)”这个概念</p><blockquote><p>我对于以上 2 点理解并不深，先记住以后再慢慢研究</p></blockquote></li></ol><h4 id=orthographiccamera的用途>OrthographicCamera的用途<a hidden class=anchor aria-hidden=true href=#orthographiccamera的用途>#</a></h4><ol><li>用途1：作为 2D 画布</li><li>作为 3D 建模程序 的 上、下、左、右、前、后 视图。</li></ol><h4 id=orthographiccamera基本用法>OrthographicCamera基本用法<a hidden class=anchor aria-hidden=true href=#orthographiccamera基本用法>#</a></h4><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const camera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50)
-</span></span><span style=display:flex><span>camera.zoom = 0.2
-</span></span><span style=display:flex><span>camera.position.set(0,10,20)
-</span></span></code></pre></div><p>初始化时，构造函数内的参数依次是：</p><p>OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )</p><ol><li>left：视椎体左侧面</li><li>right：视椎体右侧面</li><li>top：视椎体顶面</li><li>bottom：视椎体底面</li><li>near：视椎体近端面</li><li>far：视椎体远端面</li></ol><p><strong>从实际的角度来看，一定要注意以下几点：</strong></p><ol><li>left 的值不能大于 right，同理 bottom 的值不能大于 top。 如果没有按照这个约定，例如 bottom 大于 top 相当于颠倒了相机。</li><li>near 设置越小，投影的映像越大</li><li>left 与 right 之间的距离、top 与 bottom 之间的距离的比例一定要和 canvas 比例相同，否则会导致投影的物体形状变形</li></ol><h4 id=正交镜头与透视镜头的几点不同地方>正交镜头与透视镜头的几点不同地方<a hidden class=anchor aria-hidden=true href=#正交镜头与透视镜头的几点不同地方>#</a></h4><p><strong>渲染时，对应的设置不同。</strong></p><p>透视镜头渲染时，需要修改的是 camera.aspect = newAspect</p><p>正交镜头渲染时，需要修改的是 camera.left = - new Aspect、camera.right = new Aspect</p><h3 id=假设我们在-hellocamera-示例中使用-orthographiccamera>假设我们在 HelloCamera 示例中使用 OrthographicCamera<a hidden class=anchor aria-hidden=true href=#假设我们在-hellocamera-示例中使用-orthographiccamera>#</a></h3><p><strong>需要修改的地方为：</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-diff data-lang=diff><span style=display:flex><span><span style=color:#282828;background-color:#9d0006>- const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#9d0006>- leftCamera.position.set(0, 10, 20)
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#9d0006></span><span style=color:#282828;background-color:#79740e>+ const leftCamera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50)
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#79740e>+ leftCamera.zoom = 0.2
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#79740e></span>  leftCamera.position.set(0,10,20)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>...
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement)
-</span></span><span style=display:flex><span><span style=color:#282828;background-color:#9d0006>- leftCamera.aspect = leftAspect as number
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#9d0006></span><span style=color:#282828;background-color:#79740e>+ leftCamera.left = -(leftAspect as number)
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#79740e>+ leftCamera.right = leftAspect as number
-</span></span></span><span style=display:flex><span><span style=color:#282828;background-color:#79740e></span>  leftCamera.updateProjectionMatrix()
-</span></span></code></pre></div><p>其他代码无需修改，发布调试，即可看到正交镜头辅助对象，此时的视椎不再是椎体，而是一个立方体。</p><p>关于其他镜头：ArrayCamera、CubeCamera、StereoCamera 本文不再讲解，以后用到的时候再深入研究。</p><p>具体的用法，可查阅：<a href=https://threejs.org/docs/index.html#api/zh/cameras/Camera>https://threejs.org/docs/index.html#api/zh/cameras/Camera</a></p><p>至此，关于镜头的基础知识讲解完毕。</p><blockquote><p>虽然本文是在讲镜头，但本文的核心知识点却是在讲 渲染器的裁切 功能。</p><p>一定要多多复习，熟练掌握 渲染器的 setScissor()、setScissorTest()、setViewport() 方法。</p></blockquote><p>下一节，我们将讲解 Shardown(阴影)</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/three.js/>Three.js</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/threejs/11-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%81%AF%E5%85%89/><span class=title>« Prev</span><br><span>11 Three.js基础之灯光</span></a>
-<a class=next href=https://bablvsj.github.io/posts/threejs/13-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%98%B4%E5%BD%B1/><span class=title>Next »</span><br><span>13 Three.js基础之阴影</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>12 Three.js基础之镜头 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="Three.js">
+<meta name="description" content="12 Three.js基础之镜头 - Bablvsj&#39;s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5525cc669fcb4f094a55bfc3ebfc5a6e73445e090010c66ab49c2cad14735f57.css" integrity="sha256-VSXMZp/LTwlKVb/D6/xabnNEXgkAEMZqtJwsrRRzX1c=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="stylesheet" href="/css/syntax.css">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="12 Three.js基础之镜头" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-19T17:11:35+08:00" />
+<meta property="article:modified_time" content="2023-12-19T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="12 Three.js基础之镜头"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "12 Three.js基础之镜头",
+      "item": "https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "12 Three.js基础之镜头",
+  "name": "12 Three.js基础之镜头",
+  "description": "",
+  "keywords": [
+    "Three.js"
+  ],
+  "articleBody": "在之前所有的示例中，关于镜头，我们使用的都是 PerspectiveCamera(透视镜头)。\n再次强调一下，我个人偏好是喜欢将 Camera 称为 “镜头”，但是 Three.js 官方或其他教程中称呼其为 “相机”\n在 Three.js 中，一共有 5 种镜头：\n镜头类型(都继承于Three.Camera) 镜头名称 解释说明 ArrayCamera 镜头阵列 一组已预定义的镜头 CubeCamera 立方镜头 6个面的镜头(前、后、左、右、顶、底) OrthographicCamera 正交镜头 无论物体距离镜头远近，最终渲染出的大小不变 PerspectiveCamera 透视镜头 像人眼睛一样的镜头，远大近小，最常用的镜头 StereoCamera 立体镜头 双透视镜头，常用于创建 3D 立体影像或 视差屏障 所有镜头的辅助对象都是：Three.CameraHelper\n由于 透视镜头(PerspectiveCamera) 是日常中使用最频繁的镜头类型，因此我们先从 透视镜头 开始讲解。\n镜头的一些知识 我们通过透视镜头，来讲解一些镜头的知识\n透视镜头(PerspectiveCamera) 所呈现出的效果，和我们用有眼睛观察世界是一模一样的。\n平截面 无论所观察的物体是什么类型，例如球体、立方体、椎体等，在我们的视野中都会形成 2 个截面：\n远截面(far)：物体最远处的截面 近截面(near)：物体最近处的截面 若以某个特定角度，当镜头(眼睛)观察物体时，物体远截面和近截面完全相同，那么此时近截面就会遮挡远截面，我们只能看到近截面。\n例如我们在一个立方体的正前方，此时近截面完全遮挡住远截面，此时我们观察到的立方体更像是一个平面。\n但是由于可能存在阴影，我们依然能够感知到这是一个 “3D立体物体”。\n视椎 想象一下，假设把我们的镜头(眼睛) 当做一个点，由这个点依次与物体的近截面、远截面的顶点进行连接，就会形成一个 椎体，而这个虚构出来的椎体，就是我们镜头(眼睛)与物体在空间上存在的视椎。\n如果我们眼睛不是与物体，而是与 “场景(Three.Scene)的近截面、远截面” 形成的视椎，就是正常 Three.js 场景中可见空间。\n请注意，上面提到的 场景的远截面和近截面 是加了引号，事实上没有办法直接设置场景的远近截面，场景的近远视椎是由镜头的以下几个参数最终计算出的：\n镜头的观察角度(fov) 镜头画面的宽高比(aspect) 镜头的最近可见距离(far) 镜头的最远可见距离(near) 一个隐含因素：镜头本身的位置(camera.position) 近截面和远截面决定了物体是否在镜头内可见\n物体与镜头的距离决定物体在视觉上的大小\n当我们初始化一个透视镜头时，构造函数需要传递的 4 个参数，就是上面前 4 个元素。\n透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000\n补充说明：\n在 Three.js 官方文档中对以上 4 个参数的解释是：\nfov：摄像机视椎体垂直视野角度 aspect：摄像机视椎体长宽比(宽高比) near：摄像机视椎体近端面 far：摄像机视椎体远端面 虽然我的描述和官方描述文字上存在差异，但意思相同。我认为我的用词更加口语化，容易理解，所以在本系列文章中，我会继续使用我的描述语言。\n因为受到自己对 Three.js 的理解程度，或许偏个人化语言描述或许是不正确的。\n关于镜头近截面与远截面的补充说明：计算量与性能 我们知道透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000，而我们之前文章中的示例，通常镜头设置参数为：new Three.PerspectiveCamera(45,2,0.1,1000)\n也就是说，近截面(镜头最近可见距离)通常设置为 0.1、远截面(镜头最远可见距离)通常为 1000\n若超出这个范围内的物体或物体局部则都将不可见。\n思考一下 假设我们直接将 near 由 0.1 修改为 0.0001、far 由 1000 修改为 1000000，那是不是场景最近可见度更加精细、可见范围变得更大，能够承载更多的物体呢？\n答案是肯定的，但场景越大，可见度越微观，渲染所需计算量也越大。\n请记得：当计算量大到一定程度后，就会出现渲染异常，画面会出现一些意外的、不符合预期结果。\n通常表现为物体表面像素紊乱、破碎、闪烁、像素前后失调，这是因为 GPU 没有足够的精度来确认哪些像素应该在前，哪些在后。\n我十分确信此刻我是在讲解 Three.js，而不是 大姨妈。\n解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true logarighmicDepthBuffer：对数深度缓存器\nconst renderer = new Three.WebGLRenderer({ canvas:xxxx, logarithmicDepthBuffer:true }) 注意事项：\n通常电脑浏览器都已支持 logarithmicDepthBuffer 属性，但很多手机目前还不支持。 logarithmicDepthBuffer 为 true 只是在一定程度上能够缓解问题，但若 near 足够小、far 足够大时，依然会出现 GPU 计算精度不够，造成画面渲染紊乱。 解决办法(推荐做法)：不解决 请记得：你本就不应该把 near 设置过小、far 设置过大！\nnear 和 far 正确的设定原则 尽可能让 near 和 far 更接近镜头不远的位置，当然前提是不让任何物体超出消失的范围内。\n注意，这里的 “更接近镜头不远的位置” 是指 “合适、适当的位置”，并不是指小数点后精确多少位。\n在保证精度的前提下，尽可能设置合适的 近截面和远截面，这样让 镜头与物体产生的视椎 “更小、更接近”，以节省渲染所需计算量和性能。\n举一个例子：\n假设你需要渲染出一个 足球 的特写，那么把足球放置在一个 比较小的平台或地面即可，而不是创建一个城市一样大小的场景，却只渲染出一个 足球的近距离特写。\n但是假设你的场景确确实实需要非常大，此时就需要多参考网上其他人是如何处理类似场景的。\n或许后续文章中也会有讲解，此时此刻你只需知道 near 和 far 设置合适即可，没必要过于精细或巨大。\n镜头示例1：使用CameraHelper来观察镜头 关于 透视镜头 PerspectiveCamera 我们之前示例中已经使用多次。\n本示例主要演示 通过 镜头辅助对象(CameraHelper) 来观察镜头。\n思考一下 在正常情况下，一个镜头只能看到别的物体但无法看到自己。\n就好像我们的眼睛可以看到这个世界，但是眼睛本身自己没法看到自己(眼睛)。\n当然除非对着镜子，不过对着镜子的本质依然是眼睛去看别的物体。\n更加直白一点：就算你眼睛长得再大，你也做不到左眼直接看到自己右眼。\n我们人虽然是 2 个眼球，但是在 Three.js 的相关举例中，是将 左右两个眼睛当成 是 1 个镜头来阐述的。\nHelloCamera示例目标 创建一个包含物体的场景 创建 2 个镜头，镜头A和镜头B 将网页画面一分为二 左侧显示 镜头A 所看到的场景 右侧使用使用 镜头B 来观察 镜头A 补充说明：\n事实上是 镜头B 观察并显示 镜头A 对应的辅助对象 (CameraHelper) 为了省事，我们直接使用前文讲解灯光时编写的 create-scene.ts 来创建场景 代码实现思路 关键点 1：同一个场景渲染出 2 个不同的画面 **实现 2 个画面：**添加左右 2 个镜头，每个镜头设置不同，最终呈现出的场景不同\nconst leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) leftCamera.position.set(0, 10, 20) const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200) rightCamera.position.set(40, 10, 30) rightCamera.lookAt(0, 5, 0) **实现 2 个交互：**添加 左右 2 个 div、2 个 OrbitControls，覆盖于canvas 之上\nconst leftControls = new OrbitControls(leftCamera, leftViewRef.current) leftControls.target.set(0, 5, 0) leftControls.update() const rightControls = new OrbitControls(rightCamera, rightViewRef.current) rightControls.target.set(0, 5, 0) rightControls.update() ... **渲染 2 个画面：**使用渲染器的 裁减 功能\n渲染器裁减功能，涉及到的方法有 setScissor()、setScissorTarget()、setViewport() 。\n我们之前示例中，为了适应浏览器窗口大小的改变，我们使用过 渲染器的 setSize()\nsetScissor ( x : Integer, y : Integer, width : Integer, height : Integer ) : null 将剪裁区域设为(x, y)到(x + width, y + height) Sets the scissor area from\nsetScissorTest ( boolean : Boolean ) : null 启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。\nsetViewport ( x : Integer, y : Integer, width : Integer, height : Integer ) : null 将视口大小设置为(x, y)到 (x + width, y + height)\n请额外留意在后面实际代码中，我们定义的 setScissorForElement() 函数。\n多敲几遍，记住 setScissorForElement() 函数中获得裁减区域的代码套路\n关键点 2：镜头辅助对象 镜头辅助对象为 Three.CameraHelper，他的用法很简单：\nconst helper = new THREE.CameraHelper( leftCamera ) scene.add( helper ) 关键点 3：如何渲染 在之前所有的示例代码中，渲染代码都为：\nrenderer.render(scene, camera) 但本示例中，我们是同一个 scene，但是 2 个不同的 camera，因此与之对应的渲染代码也要发生变化。\n需要依次分别渲染出 左侧镜头视角 和 右侧镜头视角。\n//leftCamera一些更新操作 ... renderer.render(sceneRef.current, leftCamera) //rightCamera一些更新操作 ... renderer.render(sceneRef.current, rightCamera) 具体的代码 create-scene.ts 我们直接使用之前 “11 Three.js基础之灯光.md” 中已写好的代码。\nindex.scss .full-screen,canvas { display: block; height: inherit; width: inherit; } .split { position: fixed; display: flex; width: inherit; height: inherit; } .split div { width: inherit; height: inherit; } index.tsx import { useRef, useEffect } from 'react' import * as Three from 'three' import createScene from '@/components/hello-light/create-scene' import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' import './index.scss' const HelloCamera = () =\u003e { const canvasRef = useRef(null) const sceneRef = useRef(null) const leftViewRef = useRef(null) const rightViewRef = useRef(null) useEffect(() =\u003e { if (canvasRef.current === null || leftViewRef.current === null || rightViewRef.current === null) { return } const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current as HTMLCanvasElement }) renderer.setScissorTest(true) const scene = createScene() scene.background = new Three.Color(0x000000) sceneRef.current = scene const light = new Three.DirectionalLight(0xFFFFFF, 1) light.position.set(0, 10, 0) light.target.position.set(5, 0, 0) scene.add(light) scene.add(light.target) const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) leftCamera.position.set(0, 10, 20) const helper = new Three.CameraHelper(leftCamera) scene.add(helper) const leftControls = new OrbitControls(leftCamera, leftViewRef.current) leftControls.target.set(0, 5, 0) leftControls.update() const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200) rightCamera.position.set(40, 10, 30) //为了能够看清、看全镜头，所以将右侧镜头的位置设置稍远一些 rightCamera.lookAt(0, 5, 0) const rightControls = new OrbitControls(rightCamera, rightViewRef.current) rightControls.target.set(0, 5, 0) rightControls.update() const setScissorForElement = (div: HTMLDivElement) =\u003e { if (canvasRef.current === null) { return } //获得 canvas 和 div 的矩形框尺寸和位置 const canvasRect = canvasRef.current.getBoundingClientRect() const divRect = div.getBoundingClientRect() //计算出裁切框的尺寸和位置 const right = Math.min(divRect.right, canvasRect.right) - canvasRect.left const left = Math.max(0, divRect.left - canvasRect.left) const bottom = Math.min(divRect.bottom, canvasRect.bottom) - canvasRect.top const top = Math.max(0, divRect.top - canvasRect.top) const width = Math.min(canvasRect.width, right - left) const height = Math.min(canvasRect.height, bottom - top) //将剪刀设置为仅渲染到画布的该部分 const positiveYUpBottom = canvasRect.height - bottom renderer.setScissor(left, positiveYUpBottom, width, height) renderer.setViewport(left, positiveYUpBottom, width, height) //返回外观 return width / height } const render = () =\u003e { if (leftCamera === null || rightCamera === null || sceneRef.current === null) { return } const sceneBackground = sceneRef.current.background as Three.Color //渲染 左侧 镜头 const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement) leftCamera.aspect = leftAspect as number leftCamera.updateProjectionMatrix() helper.update() helper.visible = false sceneBackground.set(0x000000) renderer.render(sceneRef.current, leftCamera) //渲染 右侧 个镜头 const rightAspect = setScissorForElement(rightViewRef.current as HTMLDivElement) rightCamera.aspect = rightAspect as number rightCamera.updateProjectionMatrix() helper.visible = true sceneBackground.set(0x000040) renderer.render(sceneRef.current, rightCamera) window.requestAnimationFrame(render) } window.requestAnimationFrame(render) const handleResize = () =\u003e { if (canvasRef.current === null) { return } const width = canvasRef.current.clientWidth const height = canvasRef.current.clientHeight renderer.setSize(width, height, false) } handleResize() window.addEventListener('resize', handleResize) return () =\u003e { window.removeEventListener('resize', handleResize) } }, [canvasRef]) return ( ) } export default HelloCamera 执行以后，就会看到浏览器中左右 2 个可交互的画面。其中右侧画面中包含左侧灯光辅助对象。\n镜头示例2：OrthographicCamera 第二个比较经常用的镜头是 OrthographicCamera(正交镜头)。\n正交镜头与透视镜头最大的区别点在于：\n正交镜头的视椎体不是 椎体，而是立方体\n正交镜头看到的都是一个“面”\n因此，正交镜头没有 “透视(近大远小)”这个概念\n我对于以上 2 点理解并不深，先记住以后再慢慢研究\nOrthographicCamera的用途 用途1：作为 2D 画布 作为 3D 建模程序 的 上、下、左、右、前、后 视图。 OrthographicCamera基本用法 const camera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50) camera.zoom = 0.2 camera.position.set(0,10,20) 初始化时，构造函数内的参数依次是：\nOrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )\nleft：视椎体左侧面 right：视椎体右侧面 top：视椎体顶面 bottom：视椎体底面 near：视椎体近端面 far：视椎体远端面 从实际的角度来看，一定要注意以下几点：\nleft 的值不能大于 right，同理 bottom 的值不能大于 top。 如果没有按照这个约定，例如 bottom 大于 top 相当于颠倒了相机。 near 设置越小，投影的映像越大 left 与 right 之间的距离、top 与 bottom 之间的距离的比例一定要和 canvas 比例相同，否则会导致投影的物体形状变形 正交镜头与透视镜头的几点不同地方 渲染时，对应的设置不同。\n透视镜头渲染时，需要修改的是 camera.aspect = newAspect\n正交镜头渲染时，需要修改的是 camera.left = - new Aspect、camera.right = new Aspect\n假设我们在 HelloCamera 示例中使用 OrthographicCamera 需要修改的地方为：\n- const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100) - leftCamera.position.set(0, 10, 20) + const leftCamera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50) + leftCamera.zoom = 0.2 leftCamera.position.set(0,10,20) ... const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement) - leftCamera.aspect = leftAspect as number + leftCamera.left = -(leftAspect as number) + leftCamera.right = leftAspect as number leftCamera.updateProjectionMatrix() 其他代码无需修改，发布调试，即可看到正交镜头辅助对象，此时的视椎不再是椎体，而是一个立方体。\n关于其他镜头：ArrayCamera、CubeCamera、StereoCamera 本文不再讲解，以后用到的时候再深入研究。\n具体的用法，可查阅：https://threejs.org/docs/index.html#api/zh/cameras/Camera\n至此，关于镜头的基础知识讲解完毕。\n虽然本文是在讲镜头，但本文的核心知识点却是在讲 渲染器的裁切 功能。\n一定要多多复习，熟练掌握 渲染器的 setScissor()、setScissorTest()、setViewport() 方法。\n下一节，我们将讲解 Shardown(阴影)\n",
+  "wordCount" : "4738",
+  "inLanguage": "en",
+  "datePublished": "2023-12-19T17:11:35+08:00",
+  "dateModified": "2023-12-19T17:11:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/threejs/12-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%95%9C%E5%A4%B4/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      12 Three.js基础之镜头
+    </h1>
+    <div class="post-meta">
+      
+<div class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/three.js/">Three.js</a>
+</div>
+
+10 min&nbsp;·&nbsp;<span title='2023-12-19 17:11:35 +0800 CST'>2023/12/19</span>
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e9%95%9c%e5%a4%b4%e7%9a%84%e4%b8%80%e4%ba%9b%e7%9f%a5%e8%af%86" aria-label="镜头的一些知识">镜头的一些知识</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e5%b9%b3%e6%88%aa%e9%9d%a2" aria-label="平截面">平截面</a></li>
+                <li>
+                    <a href="#%e8%a7%86%e6%a4%8e" aria-label="视椎">视椎</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#%e5%85%b3%e4%ba%8e%e9%95%9c%e5%a4%b4%e8%bf%91%e6%88%aa%e9%9d%a2%e4%b8%8e%e8%bf%9c%e6%88%aa%e9%9d%a2%e7%9a%84%e8%a1%a5%e5%85%85%e8%af%b4%e6%98%8e%e8%ae%a1%e7%ae%97%e9%87%8f%e4%b8%8e%e6%80%a7%e8%83%bd" aria-label="关于镜头近截面与远截面的补充说明：计算量与性能">关于镜头近截面与远截面的补充说明：计算量与性能</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e6%80%9d%e8%80%83%e4%b8%80%e4%b8%8b" aria-label="思考一下">思考一下</a></li>
+                <li>
+                    <a href="#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95%e5%b9%b6%e4%b8%8d%e6%8e%a8%e8%8d%90%e5%b0%86%e6%b8%b2%e6%9f%93%e5%99%a8%e7%9a%84logarithmicdepthbuffer%e8%ae%be%e7%bd%ae%e4%b8%batrue" aria-label="解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true">解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true</a></li>
+                <li>
+                    <a href="#%e8%a7%a3%e5%86%b3%e5%8a%9e%e6%b3%95%e6%8e%a8%e8%8d%90%e5%81%9a%e6%b3%95%e4%b8%8d%e8%a7%a3%e5%86%b3" aria-label="解决办法(推荐做法)：不解决">解决办法(推荐做法)：不解决</a></li>
+                <li>
+                    <a href="#near-%e5%92%8c-far-%e6%ad%a3%e7%a1%ae%e7%9a%84%e8%ae%be%e5%ae%9a%e5%8e%9f%e5%88%99" aria-label="near 和 far 正确的设定原则">near 和 far 正确的设定原则</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#%e9%95%9c%e5%a4%b4%e7%a4%ba%e4%be%8b1%e4%bd%bf%e7%94%a8camerahelper%e6%9d%a5%e8%a7%82%e5%af%9f%e9%95%9c%e5%a4%b4" aria-label="镜头示例1：使用CameraHelper来观察镜头">镜头示例1：使用CameraHelper来观察镜头</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e6%80%9d%e8%80%83%e4%b8%80%e4%b8%8b-1" aria-label="思考一下">思考一下</a></li></ul>
+                    
+                <li>
+                    <a href="#hellocamera%e7%a4%ba%e4%be%8b%e7%9b%ae%e6%a0%87" aria-label="HelloCamera示例目标">HelloCamera示例目标</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0%e6%80%9d%e8%b7%af" aria-label="代码实现思路">代码实现思路</a><ul>
+                        
+                <li>
+                    <a href="#%e5%85%b3%e9%94%ae%e7%82%b9-1%e5%90%8c%e4%b8%80%e4%b8%aa%e5%9c%ba%e6%99%af%e6%b8%b2%e6%9f%93%e5%87%ba-2-%e4%b8%aa%e4%b8%8d%e5%90%8c%e7%9a%84%e7%94%bb%e9%9d%a2" aria-label="关键点 1：同一个场景渲染出 2 个不同的画面">关键点 1：同一个场景渲染出 2 个不同的画面</a></li>
+                <li>
+                    <a href="#%e5%85%b3%e9%94%ae%e7%82%b9-2%e9%95%9c%e5%a4%b4%e8%be%85%e5%8a%a9%e5%af%b9%e8%b1%a1" aria-label="关键点 2：镜头辅助对象">关键点 2：镜头辅助对象</a></li>
+                <li>
+                    <a href="#%e5%85%b3%e9%94%ae%e7%82%b9-3%e5%a6%82%e4%bd%95%e6%b8%b2%e6%9f%93" aria-label="关键点 3：如何渲染">关键点 3：如何渲染</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%85%b7%e4%bd%93%e7%9a%84%e4%bb%a3%e7%a0%81" aria-label="具体的代码">具体的代码</a><ul>
+                        
+                <li>
+                    <a href="#create-scenets" aria-label="create-scene.ts">create-scene.ts</a></li>
+                <li>
+                    <a href="#indexscss" aria-label="index.scss">index.scss</a></li>
+                <li>
+                    <a href="#indextsx" aria-label="index.tsx">index.tsx</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#%e9%95%9c%e5%a4%b4%e7%a4%ba%e4%be%8b2orthographiccamera" aria-label="镜头示例2：OrthographicCamera">镜头示例2：OrthographicCamera</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#orthographiccamera%e7%9a%84%e7%94%a8%e9%80%94" aria-label="OrthographicCamera的用途">OrthographicCamera的用途</a></li>
+                <li>
+                    <a href="#orthographiccamera%e5%9f%ba%e6%9c%ac%e7%94%a8%e6%b3%95" aria-label="OrthographicCamera基本用法">OrthographicCamera基本用法</a></li>
+                <li>
+                    <a href="#%e6%ad%a3%e4%ba%a4%e9%95%9c%e5%a4%b4%e4%b8%8e%e9%80%8f%e8%a7%86%e9%95%9c%e5%a4%b4%e7%9a%84%e5%87%a0%e7%82%b9%e4%b8%8d%e5%90%8c%e5%9c%b0%e6%96%b9" aria-label="正交镜头与透视镜头的几点不同地方">正交镜头与透视镜头的几点不同地方</a></li></ul>
+                    
+                <li>
+                    <a href="#%e5%81%87%e8%ae%be%e6%88%91%e4%bb%ac%e5%9c%a8-hellocamera-%e7%a4%ba%e4%be%8b%e4%b8%ad%e4%bd%bf%e7%94%a8-orthographiccamera" aria-label="假设我们在 HelloCamera 示例中使用 OrthographicCamera">假设我们在 HelloCamera 示例中使用 OrthographicCamera</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>在之前所有的示例中，关于镜头，我们使用的都是 PerspectiveCamera(透视镜头)。</p>
+<blockquote>
+<p>再次强调一下，我个人偏好是喜欢将 Camera 称为 “镜头”，但是 Three.js 官方或其他教程中称呼其为 “相机”</p>
+</blockquote>
+<p><strong>在 Three.js 中，一共有 5 种镜头：</strong></p>
+<table>
+<thead>
+<tr>
+<th>镜头类型(都继承于Three.Camera)</th>
+<th>镜头名称</th>
+<th>解释说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ArrayCamera</td>
+<td>镜头阵列</td>
+<td>一组已预定义的镜头</td>
+</tr>
+<tr>
+<td>CubeCamera</td>
+<td>立方镜头</td>
+<td>6个面的镜头(前、后、左、右、顶、底)</td>
+</tr>
+<tr>
+<td>OrthographicCamera</td>
+<td>正交镜头</td>
+<td>无论物体距离镜头远近，最终渲染出的大小不变</td>
+</tr>
+<tr>
+<td>PerspectiveCamera</td>
+<td>透视镜头</td>
+<td>像人眼睛一样的镜头，远大近小，最常用的镜头</td>
+</tr>
+<tr>
+<td>StereoCamera</td>
+<td>立体镜头</td>
+<td>双透视镜头，常用于创建 3D 立体影像或 视差屏障</td>
+</tr>
+</tbody>
+</table>
+<p><strong>所有镜头的辅助对象都是：Three.CameraHelper</strong></p>
+<p>由于 透视镜头(PerspectiveCamera) 是日常中使用最频繁的镜头类型，因此我们先从 透视镜头 开始讲解。</p>
+<h2 id="镜头的一些知识">镜头的一些知识<a hidden class="anchor" aria-hidden="true" href="#镜头的一些知识">#</a></h2>
+<blockquote>
+<p>我们通过透视镜头，来讲解一些镜头的知识<br>
+透视镜头(PerspectiveCamera) 所呈现出的效果，和我们用有眼睛观察世界是一模一样的。</p>
+</blockquote>
+<h4 id="平截面">平截面<a hidden class="anchor" aria-hidden="true" href="#平截面">#</a></h4>
+<p>无论所观察的物体是什么类型，例如球体、立方体、椎体等，在我们的视野中都会形成 2 个截面：</p>
+<ol>
+<li><strong>远截面(far)：物体最远处的截面</strong></li>
+<li><strong>近截面(near)：物体最近处的截面</strong></li>
+</ol>
+<p>若以某个特定角度，当镜头(眼睛)观察物体时，物体远截面和近截面完全相同，那么此时近截面就会遮挡远截面，我们只能看到近截面。</p>
+<p>例如我们在一个立方体的正前方，此时近截面完全遮挡住远截面，此时我们观察到的立方体更像是一个平面。</p>
+<blockquote>
+<p>但是由于可能存在阴影，我们依然能够感知到这是一个 “3D立体物体”。</p>
+</blockquote>
+<h4 id="视椎">视椎<a hidden class="anchor" aria-hidden="true" href="#视椎">#</a></h4>
+<p>想象一下，假设把我们的镜头(眼睛) 当做一个点，由这个点依次与物体的近截面、远截面的顶点进行连接，就会形成一个 椎体，而这个虚构出来的椎体，就是我们镜头(眼睛)与物体在空间上存在的视椎。</p>
+<p>如果我们眼睛不是与物体，而是与 <strong>“场景(Three.Scene)的近截面、远截面”</strong> 形成的视椎，就是正常 Three.js 场景中可见空间。</p>
+<p>请注意，上面提到的 场景的远截面和近截面 是加了引号，事实上没有办法直接设置场景的远近截面，场景的近远视椎是由镜头的以下几个参数最终计算出的：</p>
+<ol>
+<li>镜头的观察角度(fov)</li>
+<li>镜头画面的宽高比(aspect)</li>
+<li>镜头的最近可见距离(far)</li>
+<li>镜头的最远可见距离(near)</li>
+<li>一个隐含因素：镜头本身的位置(camera.position)</li>
+</ol>
+<blockquote>
+<p>近截面和远截面决定了物体是否在镜头内可见<br>
+物体与镜头的距离决定物体在视觉上的大小</p>
+</blockquote>
+<p>当我们初始化一个透视镜头时，构造函数需要传递的 4 个参数，就是上面前 4 个元素。</p>
+<p><strong>透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000</strong></p>
+<p><strong>补充说明：</strong></p>
+<p>在 Three.js 官方文档中对以上 4 个参数的解释是：</p>
+<ol>
+<li>fov：摄像机视椎体垂直视野角度</li>
+<li>aspect：摄像机视椎体长宽比(宽高比)</li>
+<li>near：摄像机视椎体近端面</li>
+<li>far：摄像机视椎体远端面</li>
+</ol>
+<blockquote>
+<p>虽然我的描述和官方描述文字上存在差异，但意思相同。我认为我的用词更加口语化，容易理解，所以在本系列文章中，我会继续使用我的描述语言。</p>
+<p>因为受到自己对 Three.js 的理解程度，或许偏个人化语言描述或许是不正确的。</p>
+</blockquote>
+<h2 id="关于镜头近截面与远截面的补充说明计算量与性能">关于镜头近截面与远截面的补充说明：计算量与性能<a hidden class="anchor" aria-hidden="true" href="#关于镜头近截面与远截面的补充说明计算量与性能">#</a></h2>
+<p>我们知道透视镜头默认参数值：fov=50、aspect=1、near=0.1、far=2000，而我们之前文章中的示例，通常镜头设置参数为：new Three.PerspectiveCamera(45,2,0.1,1000)</p>
+<blockquote>
+<p>也就是说，近截面(镜头最近可见距离)通常设置为 0.1、远截面(镜头最远可见距离)通常为 1000</p>
+</blockquote>
+<p>若超出这个范围内的物体或物体局部则都将不可见。</p>
+<h4 id="思考一下">思考一下<a hidden class="anchor" aria-hidden="true" href="#思考一下">#</a></h4>
+<p>假设我们直接将 near 由 0.1 修改为 0.0001、far 由 1000 修改为 1000000，那是不是场景最近可见度更加精细、可见范围变得更大，能够承载更多的物体呢？</p>
+<p>答案是肯定的，但场景越大，可见度越微观，渲染所需计算量也越大。</p>
+<p><strong>请记得：当计算量大到一定程度后，就会出现渲染异常，画面会出现一些意外的、不符合预期结果。</strong></p>
+<p><strong>通常表现为物体表面像素紊乱、破碎、闪烁、像素前后失调，这是因为 GPU 没有足够的精度来确认哪些像素应该在前，哪些在后。</strong></p>
+<blockquote>
+<p>我十分确信此刻我是在讲解 Three.js，而不是 大姨妈。</p>
+</blockquote>
+<h4 id="解决办法并不推荐将渲染器的logarithmicdepthbuffer设置为true">解决办法(并不推荐)：将渲染器的logarithmicDepthBuffer设置为true<a hidden class="anchor" aria-hidden="true" href="#解决办法并不推荐将渲染器的logarithmicdepthbuffer设置为true">#</a></h4>
+<p><strong>logarighmicDepthBuffer：对数深度缓存器</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const renderer = new Three.WebGLRenderer({
+</span></span><span style="display:flex;"><span>  canvas:xxxx,
+</span></span><span style="display:flex;"><span>  logarithmicDepthBuffer:true
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p><strong>注意事项：</strong></p>
+<ol>
+<li>通常电脑浏览器都已支持 logarithmicDepthBuffer 属性，但很多手机目前还不支持。</li>
+<li>logarithmicDepthBuffer 为 true 只是在一定程度上能够缓解问题，但若 near 足够小、far 足够大时，依然会出现 GPU 计算精度不够，造成画面渲染紊乱。</li>
+</ol>
+<h4 id="解决办法推荐做法不解决">解决办法(推荐做法)：不解决<a hidden class="anchor" aria-hidden="true" href="#解决办法推荐做法不解决">#</a></h4>
+<p><strong>请记得：你本就不应该把 near 设置过小、far 设置过大！</strong></p>
+<h4 id="near-和-far-正确的设定原则">near 和 far 正确的设定原则<a hidden class="anchor" aria-hidden="true" href="#near-和-far-正确的设定原则">#</a></h4>
+<p>尽可能让 near 和 far 更接近镜头不远的位置，当然前提是不让任何物体超出消失的范围内。</p>
+<p>注意，这里的 “更接近镜头不远的位置” 是指 “合适、适当的位置”，并不是指小数点后精确多少位。</p>
+<p>在保证精度的前提下，尽可能设置合适的 近截面和远截面，这样让 镜头与物体产生的视椎 “更小、更接近”，以节省渲染所需计算量和性能。</p>
+<p><strong>举一个例子：</strong></p>
+<p>假设你需要渲染出一个 足球 的特写，那么把足球放置在一个 比较小的平台或地面即可，而不是创建一个城市一样大小的场景，却只渲染出一个 足球的近距离特写。</p>
+<blockquote>
+<p>但是假设你的场景确确实实需要非常大，此时就需要多参考网上其他人是如何处理类似场景的。<br>
+或许后续文章中也会有讲解，此时此刻你只需知道 near 和 far 设置合适即可，没必要过于精细或巨大。</p>
+</blockquote>
+<h2 id="镜头示例1使用camerahelper来观察镜头">镜头示例1：使用CameraHelper来观察镜头<a hidden class="anchor" aria-hidden="true" href="#镜头示例1使用camerahelper来观察镜头">#</a></h2>
+<p>关于 透视镜头 PerspectiveCamera 我们之前示例中已经使用多次。</p>
+<p>本示例主要演示 通过 镜头辅助对象(CameraHelper) 来观察镜头。</p>
+<h4 id="思考一下-1">思考一下<a hidden class="anchor" aria-hidden="true" href="#思考一下-1">#</a></h4>
+<p>在正常情况下，一个镜头只能看到别的物体但无法看到自己。</p>
+<p>就好像我们的眼睛可以看到这个世界，但是眼睛本身自己没法看到自己(眼睛)。</p>
+<blockquote>
+<p>当然除非对着镜子，不过对着镜子的本质依然是眼睛去看别的物体。</p>
+</blockquote>
+<p>更加直白一点：就算你眼睛长得再大，你也做不到左眼直接看到自己右眼。</p>
+<blockquote>
+<p>我们人虽然是 2 个眼球，但是在 Three.js 的相关举例中，是将 左右两个眼睛当成 是 1 个镜头来阐述的。</p>
+</blockquote>
+<h3 id="hellocamera示例目标">HelloCamera示例目标<a hidden class="anchor" aria-hidden="true" href="#hellocamera示例目标">#</a></h3>
+<ol>
+<li>创建一个包含物体的场景</li>
+<li>创建 2 个镜头，镜头A和镜头B</li>
+<li>将网页画面一分为二</li>
+<li>左侧显示 镜头A 所看到的场景</li>
+<li>右侧使用使用 镜头B 来观察 镜头A</li>
+</ol>
+<p><strong>补充说明：</strong></p>
+<ol>
+<li>事实上是 镜头B 观察并显示 镜头A 对应的辅助对象 (CameraHelper)</li>
+<li>为了省事，我们直接使用前文讲解灯光时编写的 create-scene.ts 来创建场景</li>
+</ol>
+<h3 id="代码实现思路">代码实现思路<a hidden class="anchor" aria-hidden="true" href="#代码实现思路">#</a></h3>
+<h4 id="关键点-1同一个场景渲染出-2-个不同的画面">关键点 1：同一个场景渲染出 2 个不同的画面<a hidden class="anchor" aria-hidden="true" href="#关键点-1同一个场景渲染出-2-个不同的画面">#</a></h4>
+<p>**实现 2 个画面：**添加左右 2 个镜头，每个镜头设置不同，最终呈现出的场景不同</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
+</span></span><span style="display:flex;"><span>leftCamera.position.set(0, 10, 20)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200)
+</span></span><span style="display:flex;"><span>rightCamera.position.set(40, 10, 30)
+</span></span><span style="display:flex;"><span>rightCamera.lookAt(0, 5, 0)
+</span></span></code></pre></div><p>**实现 2 个交互：**添加 左右 2 个 div、2 个 OrbitControls，覆盖于canvas 之上</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const leftControls = new OrbitControls(leftCamera, leftViewRef.current)
+</span></span><span style="display:flex;"><span>leftControls.target.set(0, 5, 0)
+</span></span><span style="display:flex;"><span>leftControls.update()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>const rightControls = new OrbitControls(rightCamera, rightViewRef.current)
+</span></span><span style="display:flex;"><span>rightControls.target.set(0, 5, 0)
+</span></span><span style="display:flex;"><span>rightControls.update()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;div className=&#39;full-screen&#39;&gt;
+</span></span><span style="display:flex;"><span>    &lt;div className=&#39;split&#39;&gt;
+</span></span><span style="display:flex;"><span>        &lt;div ref={leftViewRef}&gt;&lt;/div&gt;
+</span></span><span style="display:flex;"><span>        &lt;div ref={rightViewRef}&gt;&lt;/div&gt;
+</span></span><span style="display:flex;"><span>    &lt;/div&gt;
+</span></span><span style="display:flex;"><span>    &lt;canvas ref={canvasRef} /&gt;
+</span></span><span style="display:flex;"><span>&lt;/div&gt;
+</span></span></code></pre></div><p>**渲染 2 个画面：**使用渲染器的 裁减 功能</p>
+<p>渲染器裁减功能，涉及到的方法有 setScissor()、setScissorTarget()、setViewport() 。</p>
+<blockquote>
+<p>我们之前示例中，为了适应浏览器窗口大小的改变，我们使用过 渲染器的 setSize()</p>
+</blockquote>
+<p><strong>setScissor ( x : Integer, y : Integer, width : Integer, height : Integer ) : null</strong>
+将剪裁区域设为(x, y)到(x + width, y + height) Sets the scissor area from</p>
+<p><strong>setScissorTest ( boolean : Boolean ) : null</strong>
+启用或禁用剪裁检测. 若启用，则只有在所定义的裁剪区域内的像素才会受之后的渲染器影响。</p>
+<p><strong>setViewport ( x : Integer, y : Integer, width : Integer, height : Integer ) : null</strong>
+将视口大小设置为(x, y)到 (x + width, y + height)</p>
+<p><strong>请额外留意在后面实际代码中，我们定义的 setScissorForElement() 函数。</strong></p>
+<blockquote>
+<p>多敲几遍，记住 setScissorForElement() 函数中获得裁减区域的代码套路</p>
+</blockquote>
+<h4 id="关键点-2镜头辅助对象">关键点 2：镜头辅助对象<a hidden class="anchor" aria-hidden="true" href="#关键点-2镜头辅助对象">#</a></h4>
+<p>镜头辅助对象为 Three.CameraHelper，他的用法很简单：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const helper = new THREE.CameraHelper( leftCamera )
+</span></span><span style="display:flex;"><span>scene.add( helper )
+</span></span></code></pre></div><h4 id="关键点-3如何渲染">关键点 3：如何渲染<a hidden class="anchor" aria-hidden="true" href="#关键点-3如何渲染">#</a></h4>
+<p>在之前所有的示例代码中，渲染代码都为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>renderer.render(scene, camera)
+</span></span></code></pre></div><p>但本示例中，我们是同一个 scene，但是 2 个不同的 camera，因此与之对应的渲染代码也要发生变化。</p>
+<p>需要依次分别渲染出 左侧镜头视角 和 右侧镜头视角。</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>//leftCamera一些更新操作
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>renderer.render(sceneRef.current, leftCamera)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>//rightCamera一些更新操作
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>renderer.render(sceneRef.current, rightCamera)
+</span></span></code></pre></div><h3 id="具体的代码">具体的代码<a hidden class="anchor" aria-hidden="true" href="#具体的代码">#</a></h3>
+<h4 id="create-scenets">create-scene.ts<a hidden class="anchor" aria-hidden="true" href="#create-scenets">#</a></h4>
+<p>我们直接使用之前 <strong>“11 Three.js基础之灯光.md”</strong> 中已写好的代码。</p>
+<h4 id="indexscss">index.scss<a hidden class="anchor" aria-hidden="true" href="#indexscss">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>.full-screen,canvas {
+</span></span><span style="display:flex;"><span>    display: block;
+</span></span><span style="display:flex;"><span>    height: inherit;
+</span></span><span style="display:flex;"><span>    width: inherit;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.split {
+</span></span><span style="display:flex;"><span>    position: fixed;
+</span></span><span style="display:flex;"><span>    display: flex;
+</span></span><span style="display:flex;"><span>    width: inherit;
+</span></span><span style="display:flex;"><span>    height: inherit;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.split div {
+</span></span><span style="display:flex;"><span>    width: inherit;
+</span></span><span style="display:flex;"><span>    height: inherit;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="indextsx">index.tsx<a hidden class="anchor" aria-hidden="true" href="#indextsx">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>import { useRef, useEffect } from &#39;react&#39;
+</span></span><span style="display:flex;"><span>import * as Three from &#39;three&#39;
+</span></span><span style="display:flex;"><span>import createScene from &#39;@/components/hello-light/create-scene&#39;
+</span></span><span style="display:flex;"><span>import { OrbitControls } from &#39;three/examples/jsm/controls/OrbitControls&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>import &#39;./index.scss&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>const HelloCamera = () =&gt; {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null)
+</span></span><span style="display:flex;"><span>    const sceneRef = useRef&lt;Three.Scene | null&gt;(null)
+</span></span><span style="display:flex;"><span>    const leftViewRef = useRef&lt;HTMLDivElement&gt;(null)
+</span></span><span style="display:flex;"><span>    const rightViewRef = useRef&lt;HTMLDivElement&gt;(null)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    useEffect(() =&gt; {
+</span></span><span style="display:flex;"><span>        if (canvasRef.current === null || leftViewRef.current === null || rightViewRef.current === null) {
+</span></span><span style="display:flex;"><span>            return
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current as HTMLCanvasElement })
+</span></span><span style="display:flex;"><span>        renderer.setScissorTest(true)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const scene = createScene()
+</span></span><span style="display:flex;"><span>        scene.background = new Three.Color(0x000000)
+</span></span><span style="display:flex;"><span>        sceneRef.current = scene
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const light = new Three.DirectionalLight(0xFFFFFF, 1)
+</span></span><span style="display:flex;"><span>        light.position.set(0, 10, 0)
+</span></span><span style="display:flex;"><span>        light.target.position.set(5, 0, 0)
+</span></span><span style="display:flex;"><span>        scene.add(light)
+</span></span><span style="display:flex;"><span>        scene.add(light.target)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
+</span></span><span style="display:flex;"><span>        leftCamera.position.set(0, 10, 20)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const helper = new Three.CameraHelper(leftCamera)
+</span></span><span style="display:flex;"><span>        scene.add(helper)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const leftControls = new OrbitControls(leftCamera, leftViewRef.current)
+</span></span><span style="display:flex;"><span>        leftControls.target.set(0, 5, 0)
+</span></span><span style="display:flex;"><span>        leftControls.update()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const rightCamera = new Three.PerspectiveCamera(60, 2, 0.1, 200)
+</span></span><span style="display:flex;"><span>        rightCamera.position.set(40, 10, 30) //为了能够看清、看全镜头，所以将右侧镜头的位置设置稍远一些
+</span></span><span style="display:flex;"><span>        rightCamera.lookAt(0, 5, 0)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const rightControls = new OrbitControls(rightCamera, rightViewRef.current)
+</span></span><span style="display:flex;"><span>        rightControls.target.set(0, 5, 0)
+</span></span><span style="display:flex;"><span>        rightControls.update()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const setScissorForElement = (div: HTMLDivElement) =&gt; {
+</span></span><span style="display:flex;"><span>            if (canvasRef.current === null) {
+</span></span><span style="display:flex;"><span>                return
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //获得 canvas 和 div 的矩形框尺寸和位置
+</span></span><span style="display:flex;"><span>            const canvasRect = canvasRef.current.getBoundingClientRect()
+</span></span><span style="display:flex;"><span>            const divRect = div.getBoundingClientRect()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //计算出裁切框的尺寸和位置
+</span></span><span style="display:flex;"><span>            const right = Math.min(divRect.right, canvasRect.right) - canvasRect.left
+</span></span><span style="display:flex;"><span>            const left = Math.max(0, divRect.left - canvasRect.left)
+</span></span><span style="display:flex;"><span>            const bottom = Math.min(divRect.bottom, canvasRect.bottom) - canvasRect.top
+</span></span><span style="display:flex;"><span>            const top = Math.max(0, divRect.top - canvasRect.top)
+</span></span><span style="display:flex;"><span>            const width = Math.min(canvasRect.width, right - left)
+</span></span><span style="display:flex;"><span>            const height = Math.min(canvasRect.height, bottom - top)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //将剪刀设置为仅渲染到画布的该部分
+</span></span><span style="display:flex;"><span>            const positiveYUpBottom = canvasRect.height - bottom
+</span></span><span style="display:flex;"><span>            renderer.setScissor(left, positiveYUpBottom, width, height)
+</span></span><span style="display:flex;"><span>            renderer.setViewport(left, positiveYUpBottom, width, height)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //返回外观
+</span></span><span style="display:flex;"><span>            return width / height
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const render = () =&gt; {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            if (leftCamera === null || rightCamera === null || sceneRef.current === null) {
+</span></span><span style="display:flex;"><span>                return
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>            const sceneBackground = sceneRef.current.background as Three.Color
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //渲染 左侧 镜头
+</span></span><span style="display:flex;"><span>            const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            leftCamera.aspect = leftAspect as number
+</span></span><span style="display:flex;"><span>            leftCamera.updateProjectionMatrix()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            helper.update()
+</span></span><span style="display:flex;"><span>            helper.visible = false
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            sceneBackground.set(0x000000)
+</span></span><span style="display:flex;"><span>            renderer.render(sceneRef.current, leftCamera)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            //渲染 右侧 个镜头
+</span></span><span style="display:flex;"><span>            const rightAspect = setScissorForElement(rightViewRef.current as HTMLDivElement)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            rightCamera.aspect = rightAspect as number
+</span></span><span style="display:flex;"><span>            rightCamera.updateProjectionMatrix()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            helper.visible = true
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            sceneBackground.set(0x000040)
+</span></span><span style="display:flex;"><span>            renderer.render(sceneRef.current, rightCamera)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            window.requestAnimationFrame(render)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        window.requestAnimationFrame(render)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const handleResize = () =&gt; {
+</span></span><span style="display:flex;"><span>            if (canvasRef.current === null) {
+</span></span><span style="display:flex;"><span>                return
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            const width = canvasRef.current.clientWidth
+</span></span><span style="display:flex;"><span>            const height = canvasRef.current.clientHeight
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            renderer.setSize(width, height, false)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        handleResize()
+</span></span><span style="display:flex;"><span>        window.addEventListener(&#39;resize&#39;, handleResize)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        return () =&gt; {
+</span></span><span style="display:flex;"><span>            window.removeEventListener(&#39;resize&#39;, handleResize)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }, [canvasRef])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    return (
+</span></span><span style="display:flex;"><span>        &lt;div className=&#39;full-screen&#39;&gt;
+</span></span><span style="display:flex;"><span>            &lt;div className=&#39;split&#39;&gt;
+</span></span><span style="display:flex;"><span>                &lt;div ref={leftViewRef}&gt;&lt;/div&gt;
+</span></span><span style="display:flex;"><span>                &lt;div ref={rightViewRef}&gt;&lt;/div&gt;
+</span></span><span style="display:flex;"><span>            &lt;/div&gt;
+</span></span><span style="display:flex;"><span>            &lt;canvas ref={canvasRef} /&gt;
+</span></span><span style="display:flex;"><span>        &lt;/div&gt;
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export default HelloCamera
+</span></span></code></pre></div><p>执行以后，就会看到浏览器中左右 2 个可交互的画面。其中右侧画面中包含左侧灯光辅助对象。</p>
+<h2 id="镜头示例2orthographiccamera">镜头示例2：OrthographicCamera<a hidden class="anchor" aria-hidden="true" href="#镜头示例2orthographiccamera">#</a></h2>
+<p>第二个比较经常用的镜头是 OrthographicCamera(正交镜头)。</p>
+<p>正交镜头与透视镜头最大的区别点在于：</p>
+<ol>
+<li>
+<p>正交镜头的视椎体不是 椎体，而是立方体</p>
+</li>
+<li>
+<p>正交镜头看到的都是一个“面”</p>
+</li>
+<li>
+<p>因此，正交镜头没有 “透视(近大远小)”这个概念</p>
+<blockquote>
+<p>我对于以上 2 点理解并不深，先记住以后再慢慢研究</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="orthographiccamera的用途">OrthographicCamera的用途<a hidden class="anchor" aria-hidden="true" href="#orthographiccamera的用途">#</a></h4>
+<ol>
+<li>用途1：作为 2D 画布</li>
+<li>作为 3D 建模程序 的 上、下、左、右、前、后 视图。</li>
+</ol>
+<h4 id="orthographiccamera基本用法">OrthographicCamera基本用法<a hidden class="anchor" aria-hidden="true" href="#orthographiccamera基本用法">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const camera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50)
+</span></span><span style="display:flex;"><span>camera.zoom = 0.2
+</span></span><span style="display:flex;"><span>camera.position.set(0,10,20)
+</span></span></code></pre></div><p>初始化时，构造函数内的参数依次是：</p>
+<p>OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )</p>
+<ol>
+<li>left：视椎体左侧面</li>
+<li>right：视椎体右侧面</li>
+<li>top：视椎体顶面</li>
+<li>bottom：视椎体底面</li>
+<li>near：视椎体近端面</li>
+<li>far：视椎体远端面</li>
+</ol>
+<p><strong>从实际的角度来看，一定要注意以下几点：</strong></p>
+<ol>
+<li>left 的值不能大于 right，同理 bottom 的值不能大于 top。 如果没有按照这个约定，例如 bottom 大于 top 相当于颠倒了相机。</li>
+<li>near 设置越小，投影的映像越大</li>
+<li>left 与 right 之间的距离、top 与 bottom 之间的距离的比例一定要和 canvas 比例相同，否则会导致投影的物体形状变形</li>
+</ol>
+<h4 id="正交镜头与透视镜头的几点不同地方">正交镜头与透视镜头的几点不同地方<a hidden class="anchor" aria-hidden="true" href="#正交镜头与透视镜头的几点不同地方">#</a></h4>
+<p><strong>渲染时，对应的设置不同。</strong></p>
+<p>透视镜头渲染时，需要修改的是 camera.aspect = newAspect</p>
+<p>正交镜头渲染时，需要修改的是 camera.left = - new Aspect、camera.right = new Aspect</p>
+<h3 id="假设我们在-hellocamera-示例中使用-orthographiccamera">假设我们在 HelloCamera 示例中使用 OrthographicCamera<a hidden class="anchor" aria-hidden="true" href="#假设我们在-hellocamera-示例中使用-orthographiccamera">#</a></h3>
+<p><strong>需要修改的地方为：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span><span style="color:#282828;background-color:#9d0006">- const leftCamera = new Three.PerspectiveCamera(45, 2, 5, 100)
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#9d0006">- leftCamera.position.set(0, 10, 20)
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#9d0006"></span><span style="color:#282828;background-color:#79740e">+ const leftCamera = new Three.OrthographicCamera(-1, 1, 1, -1, 5, 50)
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#79740e">+ leftCamera.zoom = 0.2
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#79740e"></span>  leftCamera.position.set(0,10,20)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  const leftAspect = setScissorForElement(leftViewRef.current as HTMLDivElement)
+</span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#9d0006">- leftCamera.aspect = leftAspect as number
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#9d0006"></span><span style="color:#282828;background-color:#79740e">+ leftCamera.left = -(leftAspect as number)
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#79740e">+ leftCamera.right = leftAspect as number
+</span></span></span><span style="display:flex;"><span><span style="color:#282828;background-color:#79740e"></span>  leftCamera.updateProjectionMatrix()
+</span></span></code></pre></div><p>其他代码无需修改，发布调试，即可看到正交镜头辅助对象，此时的视椎不再是椎体，而是一个立方体。</p>
+<p>关于其他镜头：ArrayCamera、CubeCamera、StereoCamera 本文不再讲解，以后用到的时候再深入研究。</p>
+<p>具体的用法，可查阅：<a href="https://threejs.org/docs/index.html#api/zh/cameras/Camera">https://threejs.org/docs/index.html#api/zh/cameras/Camera</a></p>
+<p>至此，关于镜头的基础知识讲解完毕。</p>
+<blockquote>
+<p>虽然本文是在讲镜头，但本文的核心知识点却是在讲 渲染器的裁切 功能。</p>
+<p>一定要多多复习，熟练掌握 渲染器的 setScissor()、setScissorTest()、setViewport() 方法。</p>
+</blockquote>
+<p>下一节，我们将讲解 Shardown(阴影)</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/three.js/">Three.js</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/threejs/11-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%81%AF%E5%85%89/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>11 Three.js基础之灯光</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/threejs/13-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E9%98%B4%E5%BD%B1/">
+    <span class="title">Next »</span>
+    <br>
+    <span>13 Three.js基础之阴影</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

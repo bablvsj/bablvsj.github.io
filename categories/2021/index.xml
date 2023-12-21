@@ -6,14 +6,14 @@
     <description>Recent content in 2021 on Bablvsj&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 25 Jul 2023 13:46:19 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2021/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 May 2021 17:11:35 +0800</lastBuildDate><atom:link href="https://bablvsj.github.io/categories/2021/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>async/await </title>
-      <link>https://bablvsj.github.io/posts/tech/es6/12-es7async%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</link>
-      <pubDate>Tue, 25 Jul 2023 13:46:19 +0800</pubDate>
+      <title>一些闲书</title>
+      <link>https://bablvsj.github.io/posts/life/thinks/20210501-%E4%B8%80%E4%BA%9B%E9%97%B2%E4%B9%A6/</link>
+      <pubDate>Sat, 01 May 2021 17:11:35 +0800</pubDate>
       
-      <guid>https://bablvsj.github.io/posts/tech/es6/12-es7async%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</guid>
-      <description>备注： async/await 的内容还有待完善。 async/await （异步函数）概述 async/await 是在 ES7 中引入的新语法，可以更加方便地进行异步操作。 本质： Generator 的语法糖。 async 的返回值是 Promise 实例对象。 await</description>
+      <guid>https://bablvsj.github.io/posts/life/thinks/20210501-%E4%B8%80%E4%BA%9B%E9%97%B2%E4%B9%A6/</guid>
+      <description>待看闲书，进入收藏夹。</description>
     </item>
     
   </channel>

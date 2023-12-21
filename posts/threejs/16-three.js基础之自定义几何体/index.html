@@ -1,188 +1,844 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>16 Three.js基础之自定义几何体 | Bablvsj's Blog</title><meta name=keywords content="Three.js"><meta name=description content="16 Three.js基础之自定义几何体 - Bablvsj's Blog"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/><link crossorigin=anonymous href=/assets/css/stylesheet.241265d51339977eb0f90d05780e286ec2789600ca4137f29552dec9dee06569.css integrity="sha256-JBJl1RM5l36w+Q0FeA4obsJ4lgDKQTfylVLeyd7gZWk=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=stylesheet href=/css/syntax.css><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="16 Three.js基础之自定义几何体"><meta property="og:description" content><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2023-12-19T17:11:35+08:00"><meta property="article:modified_time" content="2023-12-19T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="16 Three.js基础之自定义几何体"><meta name=twitter:description content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"16 Three.js基础之自定义几何体","item":"https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"16 Three.js基础之自定义几何体","name":"16 Three.js基础之自定义几何体","description":"","keywords":["Three.js"],"articleBody":"重要说明：本文部分内容已经过时\n.以下内容更新于2021年4月15日\n本文写的时候还使用的是 0.124.0版本，但是在 0.125.2 以后（目前最新的是 0.127.0 ），关于 几何体 官方做了重大调整：\n官方已经将 Geometry 从核心库中移除，新的位置改为：\nimport { Geometry } from 'three/examples/jsm/deprecated/Geometry' 请注意 目录名为 deprecated，这个单词的意思就是：已弃用、不建议使用。\n也就是说官方已经不再建议你使用 Geometry 这个类了，那它的替代者是谁呢？\n在 r124 版本的时候，几何体(例如 BoxGeometry) 他们都继承的是 Geometry，但是在新版本中它们继承的是 BufferGeometry。\n也就是说如果你想自定义几何体，现在应该使用的是 BufferGeometry\nThree.BufferGeometry\n换句话说，就是 BufferGeometry 替代了 Geometry\nThree.Mesh() 函数中的参数也发生了变化\n或许还有其他更多地方发生了变化…\n本文在编写的时候，还采用的是 Geometry，所以本文内容过时了。\n目前先暂且不做修改，等到以后有时间了再将本文中的代码 Geometry 修改为 BufferGeometry。\n你可以先跳过本章，继续后面章节的学习。\n以下内容更新于2021年4月15日\n接下来开始本文(已过时)的内容。\n本文说的 几何体(geometry)，也就是之前 “05 Three.js基础之图元.md” 中的 图元(primitives)。\n图元和几何体只是同一个对象(事物)的不同的叫法而已。\n自定义几何体也就相当于自定义图元。\n自定义几何体的这个过程，在传统 3D 软件中被称为 建模\n自定义几何体(custom geometry)概述 先来一个灵魂拷问。\n有必要在 Three.js 中自定义几何体吗？ 答：似乎没有必要，因为实际项目中，绝大多数情况下，我们都会通过专业的 3D 软件中来创建物体模型(建模)，而不是通过 Three.js 自定义建模。\n传统专业的 3D 转件包括：\nBlender：开源免费的 3D 软件 Maya：侧重动画渲染的 3D 软件 Cinema4D(C4D)：轻量级的 3D 软件 3D Sudio Max … 以上软件中，都有学习成本，相对而言 C4D 更加轻量、更加简单。\n当 3D 模型创建好后，我们将模型导出为 gLTF 或 .obj 的文件，然后在 Three.js 中加载并使用它们。\n尽管如此，但 Three.js 依然提供了自定义几何体(自定义建模)的方法。\n可以让我们在不导入 建模文件 的前提下，通过 Three.js 来自定义几何体。\n所有的传统 3D 软件建模过程都是可视化的，也就是说你可以时时看到物体，并且进行细微调整。而 Three.js 则是通过代码来建模的，整个建模过程是不可见的。\n尽管实际中我们可能会很少机会在 Three.js 中自定义几何体，但是学习这方面的知识还是非常有必要的。\nThree.js中如何自定义几何体？ 答：在 Three.js 中，一共可以有 2 种方式自定义几何体。\n第1种：继承于 Geometry\n优点：创建和使用的难度小\n缺点：渲染启动速度慢、占更多内存\n第2种：继承于 BufferGeometry\n优点：渲染启动速度快、占更少内存\n缺点：创建和使用的难度大\n补充说明：\n上面说的 渲染启动速度 慢，是指当场景第一次被渲染、后续修改后重新渲染的速度慢。\n并不是说 绘制速度慢。\n无论选择 Geometry 还是 BufferGeometry，绘制过程速度是相同的，他们的 “快慢” 主要体现在 第一次渲染启动速度 这方面。\n当然，你不需花太多精力去理解 慢 的细节，你只需知道 Geometry 相对而言 渲染速度更慢一些即可。\n如何选择？\n答：对于要创建的自定义几何体各个面的三角形总和小于 1000，则优先选择继承于 Geometry。三角形数量超过这个范围的则推荐继承于 BufferGeometry。\n事实上以上的选择仅供参考，重点是你实际项目中 是否觉得渲染启动速度、修改响应速度慢，如果慢则可进行优化改进。\n如果由于客户端硬件配置比较高，感知不到慢或卡顿，那么可以而继续使用 Geometry。\n自定义几何体示例：HelloCustomGeometry 示例目标 通过自定义几何体，来实现一个 立方体 自定义 立方体 6 个面的颜色 自定义 立方体 8 个顶点的颜色 给 立方体 添加 光照法线，让立方体可以反光 代码思路 如何自定义一个立方体？\n答：主要分为 3 步\n第1步：实例化一个 Three.Geometry\nconst geometry = new Three.Geometry() 第2步：按照立方体相应的坐标，添加 8 个顶点\ngeometry.vertices.push( new Three.Vector3(-1, -1, 1), // 1 new Three.Vector3(1, -1, 1), // 2 new Three.Vector3(-1, 1, 1), // 3 new Three.Vector3(1, 1, 1), // 4 new Three.Vector3(-1, -1, -1), // 5 new Three.Vector3(1, -1, -1), // 6 new Three.Vector3(-1, 1, -1), // 7 new Three.Vector3(1, 1, -1) // 8 ) 第3步：将相邻的 3 个顶点，依次按照逆时针顺序，构建成一个个三角形。\n立方体一共有 6 个面，每个面由 2 个三角形构成，因此一共需要构建 12 个三角形\n为什么必须是逆时针？这是 Three.js 规定的。\ngeometry.faces.push( //前面 new Three.Face3(0, 3, 2), new Three.Face3(0, 1, 3), //右面 new Three.Face3(1, 7, 3), new Three.Face3(1, 5, 7), //后面 new Three.Face3(5, 6, 7), new Three.Face3(5, 4, 6), //左面 new Three.Face3(4, 2, 6), new Three.Face3(4, 0, 2), //顶面 new Three.Face3(2, 7, 6), new Three.Face3(2, 3, 7), //底面 new Three.Face3(4, 1, 0), new Three.Face3(4, 5, 1) ) 至此，就以成功构建出一个立方体的基本骨架。\n如何自定义 6 个面的颜色额？\ngeometry.faces[0].color = geometry.faces[1].color = new Three.Color('red') geometry.faces[2].color = geometry.faces[3].color = new Three.Color('yello') geometry.faces[4].color = geometry.faces[5].color = new Three.Color('green') geometry.faces[6].color = geometry.faces[7].color = new Three.Color('cyan') geometry.faces[8].color = geometry.faces[9].color = new Three.Color('blue') geometry.faces[10].color = geometry.faces[11].color = new Three.Color('magenta') 如何自定义 8 个顶点的颜色？\ngeometry.faces.forEach((face, index) =\u003e { face.vertexColors = [ (new Three.Color()).setHSL(index / 12, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5) ] }) 如何开启顶点着色？\nconst material = new THREE.MeshBasicMaterial({vertexColors: true}) const material = new Three.MeshPhongMaterial({ vertexColors: true }) vertexColors 默认值为 false，即默认显示材质 color 的颜色。\n如果没有给材质设置 color 值，那么默认颜色值为 白色\n特别说明，在 Three.js 之前的版本中，vertexColors 的值并不是 Boolean，而是进行以下设置：\n//export enum Colors {} //export const NoColors: Colors; //export const FaceColors: Colors; //export const VertexColors: Colors; const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors}); 在目前比较新的版本中，vertexColors 的值改为 Boolean 类型。\n如何添加光照法线？\n答：一共有 3 种方式\n给每一个 face 设置 normal 属性值\nface.normal = new Three.Vector3(...) 通过 vertexNormals 属性来设置\nface.vertexNormals = { new Three.Vector3(...), new Three.Vector3(...), ... new Three.Vector3(...) } 通过 computeFaceNormals() 和 computeVertexNormals() 这 2 个方法自动帮我们计算出光照法线。\n但是对于立方体而言，只执行 computeFaceNormals() 方法即可。\ngeometry.computeFaceNormals() //geometry.computeVertexNormals() // 这个方法并不适用于立方体 第 3 种 方法最为简便，也比较常用。\n本示例就采用第 3 种方式。\n补充说明：computeVertexNormals() 为什么不适用于立方体？\n答：因为 computeVertexNormals() 会从每个顶点共享的所有面的法线中计算得出法线，这样的发现会让立方体的顶点看上去更像一个球体。\n如果你执行了 computeVertexNormals()，并不会报错，仅仅是立方体顶点处看似更加圆润，像球一样。\n代码示例 import { useEffect, useRef } from 'react' import * as Three from 'three' import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' import './index.scss' const HelloCustomGeometry = () =\u003e { const canvasRef = useRef(null) useEffect(() =\u003e { if (canvasRef.current === null) { return } const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current }) const scene = new Three.Scene() const camera = new Three.PerspectiveCamera(45, 2, 0.1, 100) camera.position.z = 8 const light = new Three.DirectionalLight(0xFFFFFF, 1) light.position.set(2, 2, 4) scene.add(light) const helper = new Three.DirectionalLightHelper(light) scene.add(helper) const controls = new OrbitControls(camera, canvasRef.current) controls.update() //自定义一个立方体几何体 const geometry = new Three.Geometry() geometry.vertices.push( new Three.Vector3(-1, -1, 1), // 1 new Three.Vector3(1, -1, 1), // 2 new Three.Vector3(-1, 1, 1), // 3 new Three.Vector3(1, 1, 1), // 4 new Three.Vector3(-1, -1, -1), // 5 new Three.Vector3(1, -1, -1), // 6 new Three.Vector3(-1, 1, -1), // 7 new Three.Vector3(1, 1, -1) // 8 ) geometry.faces.push( //前面 new Three.Face3(0, 3, 2), new Three.Face3(0, 1, 3), //右面 new Three.Face3(1, 7, 3), new Three.Face3(1, 5, 7), //后面 new Three.Face3(5, 6, 7), new Three.Face3(5, 4, 6), //左面 new Three.Face3(4, 2, 6), new Three.Face3(4, 0, 2), //顶面 new Three.Face3(2, 7, 6), new Three.Face3(2, 3, 7), //底面 new Three.Face3(4, 1, 0), new Three.Face3(4, 5, 1) ) geometry.faces[0].color = geometry.faces[1].color = new Three.Color('red') geometry.faces[2].color = geometry.faces[3].color = new Three.Color('yello') geometry.faces[4].color = geometry.faces[5].color = new Three.Color('green') geometry.faces[6].color = geometry.faces[7].color = new Three.Color('cyan') geometry.faces[8].color = geometry.faces[9].color = new Three.Color('blue') geometry.faces[10].color = geometry.faces[11].color = new Three.Color('magenta') geometry.faces.forEach((face, index) =\u003e { face.vertexColors = [ (new Three.Color()).setHSL(index / 12, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5) ] }) geometry.computeFaceNormals() //geometry.computeVertexNormals() //对于立方体而言，无需执行此方法 //const material = new Three.MeshBasicMaterial({ color: 'red' }) const material = new Three.MeshPhongMaterial({ vertexColors: true }) //const material = new Three.MeshPhongMaterial({ color: 'red' }) const cube = new Three.Mesh(geometry, material) scene.add(cube) const render = (time: number) =\u003e { cube.rotation.x = cube.rotation.y = time * 0.001 renderer.render(scene, camera) window.requestAnimationFrame(render) } window.requestAnimationFrame(render) const handleResize = () =\u003e { if (canvasRef.current === null) { return } const width = canvasRef.current.clientWidth const height = canvasRef.current.clientHeight camera.aspect = width / height camera.updateProjectionMatrix() renderer.setSize(width, height, false) } handleResize() window.addEventListener('resize', handleResize) return () =\u003e { window.removeEventListener('resize', handleResize) } }, [canvasRef]) return ( ) } export default HelloCustomGeometry 实际运行后，就会看到一个 炫彩的立方体。\n本文小结 通过自定义一个立方体的示例，可以看出，尽管是一个很简单的立方体，可我们都需要非常复杂的空间坐标计算配置，因此还是本文开头那段话：\n如非必要，不要在 Three.js 中自定义几何体。 使用传统的 3D 软件建模，更香。 补充说明 本系列教程，实际上是我一边学习 https://threejsfundamentals.org/threejs/lessons/ ，一边使用 React + TypeScript + 自己的语言和理解 重写一遍的。\n本文对应的英文教程为：https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html\n在原版的英文教程中，还有另外一个 通过一张图片来获得 纹理坐标(UV)，进而生成一张地图的例子。\n我个人感觉没有必要去这么深入学习自定义几何体，所以本文略过这个示例。\n除此之外，官方还有单独一篇，使用 BufferGeometry 来自定义几何体的教程：\nhttps://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html\n我认为现阶段，没有必要如此这般的深入去学习自定义几何体，因为暂停这部分的学习。\n如果你还有精力，可以去学习一下。\nThree.js基础知识总结 通过前面一系列的学习，我们终于将 Three.js 基础知识学习完成。\n回顾一下我们都学习了哪些知识点：\nThree.js 简介、项目初始化、入门示例 图元、3D文字、场景、材质、纹理、灯光、镜头、阴影、雾、离屏渲染、自定义几何体 辅助对象(灯光辅助对象 LightHelper 、镜头辅助对象 XxxxCameraHelper、坐标轴辅助对象 AxesHelper)、镜头轨道控制类(OrbitControls) 真心不容易，给自己一朵小红花！\n…\n我们本系列教程整体的规划是：\n基础篇 (✓) 技巧篇 (x) 优化篇 (x) 解决方案 (x) WebVR (x) 实例篇 (x) 目前我们已经学习了基础篇，对 Three.js 已经有了足够的基础知识掌握，后面的学习都是建立在这些基础知识之上的。\n接下来，进入技巧篇——按需渲染。\n稍等，再啰嗦几句 我们后续的讲解文章中，将加快进度，不再像 基础篇 这样如此细致，甚至是啰嗦。\n因此，我希望你不看教程示例代码，而是自己独立敲出示例代码。如果做不到，那么你先不要着急进入下一篇，而是应该再回过头，反复阅读，反复敲几遍代码。\n在做(动手敲代码)的过程中学习，而不是只看不动手。\n","wordCount":"3629","inLanguage":"en","datePublished":"2023-12-19T17:11:35+08:00","dateModified":"2023-12-19T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>16 Three.js基础之自定义几何体</h1><div class=post-meta><div class=post-tags-meta><a href=https://bablvsj.github.io/tags/three.js/>Three.js</a></div>8 min&nbsp;·&nbsp;<span title='2023-12-19 17:11:35 +0800 +0800'>2023/12/19</span></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93custom-geometry%e6%a6%82%e8%bf%b0 aria-label="自定义几何体(custom geometry)概述">自定义几何体(custom geometry)概述</a><ul><li><a href=#%e6%9c%89%e5%bf%85%e8%a6%81%e5%9c%a8-threejs-%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93%e5%90%97 aria-label="有必要在 Three.js 中自定义几何体吗？">有必要在 Three.js 中自定义几何体吗？</a></li><li><a href=#threejs%e4%b8%ad%e5%a6%82%e4%bd%95%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93 aria-label=Three.js中如何自定义几何体？>Three.js中如何自定义几何体？</a></li></ul></li><li><a href=#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93%e7%a4%ba%e4%be%8bhellocustomgeometry aria-label=自定义几何体示例：HelloCustomGeometry>自定义几何体示例：HelloCustomGeometry</a><ul><ul><li><a href=#%e7%a4%ba%e4%be%8b%e7%9b%ae%e6%a0%87 aria-label=示例目标>示例目标</a></li><li><a href=#%e4%bb%a3%e7%a0%81%e6%80%9d%e8%b7%af aria-label=代码思路>代码思路</a></li><li><a href=#%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b aria-label=代码示例>代码示例</a></li><li><a href=#%e6%9c%ac%e6%96%87%e5%b0%8f%e7%bb%93 aria-label=本文小结>本文小结</a></li><li><a href=#%e8%a1%a5%e5%85%85%e8%af%b4%e6%98%8e aria-label=补充说明>补充说明</a></li></ul></ul></li><li><a href=#threejs%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93 aria-label=Three.js基础知识总结>Three.js基础知识总结</a><ul><ul><li><a href=#%e7%a8%8d%e7%ad%89%e5%86%8d%e5%95%b0%e5%97%a6%e5%87%a0%e5%8f%a5 aria-label=稍等，再啰嗦几句>稍等，再啰嗦几句</a></li></ul></ul></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><p><strong>重要说明：本文部分内容已经过时</strong></p><blockquote><p>.以下内容更新于2021年4月15日</p></blockquote><p>本文写的时候还使用的是 0.124.0版本，但是在 0.125.2 以后（目前最新的是 0.127.0 ），关于 几何体 官方做了重大调整：</p><ol><li><p>官方已经将 Geometry 从核心库中移除，新的位置改为：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>import { Geometry } from &#39;three/examples/jsm/deprecated/Geometry&#39;
-</span></span></code></pre></div><p>请注意 目录名为 deprecated，这个单词的意思就是：已弃用、不建议使用。</p><p>也就是说官方已经不再建议你使用 Geometry 这个类了，那它的替代者是谁呢？</p></li><li><p>在 r124 版本的时候，几何体(例如 BoxGeometry) 他们都继承的是 Geometry，但是在新版本中它们继承的是 BufferGeometry。</p><p>也就是说如果你想自定义几何体，现在应该使用的是 BufferGeometry</p><blockquote><p>Three.BufferGeometry</p></blockquote><blockquote><p>换句话说，就是 BufferGeometry 替代了 Geometry</p></blockquote></li><li><p>Three.Mesh() 函数中的参数也发生了变化</p></li><li><p>或许还有其他更多地方发生了变化&mldr;</p></li></ol><br><p>本文在编写的时候，还采用的是 Geometry，所以本文内容过时了。</p><p>目前先暂且不做修改，等到以后有时间了再将本文中的代码 Geometry 修改为 BufferGeometry。</p><br><p>你可以先跳过本章，继续后面章节的学习。</p><blockquote><p>以下内容更新于2021年4月15日</p></blockquote><br><p>接下来开始本文(已过时)的内容。</p><hr><br><p>本文说的 几何体(geometry)，也就是之前 “05 Three.js基础之图元.md” 中的 图元(primitives)。</p><blockquote><p>图元和几何体只是同一个对象(事物)的不同的叫法而已。</p></blockquote><p>自定义几何体也就相当于自定义图元。</p><blockquote><p>自定义几何体的这个过程，在传统 3D 软件中被称为 建模</p></blockquote><h2 id=自定义几何体custom-geometry概述>自定义几何体(custom geometry)概述<a hidden class=anchor aria-hidden=true href=#自定义几何体custom-geometry概述>#</a></h2><p>先来一个灵魂拷问。</p><h3 id=有必要在-threejs-中自定义几何体吗>有必要在 Three.js 中自定义几何体吗？<a hidden class=anchor aria-hidden=true href=#有必要在-threejs-中自定义几何体吗>#</a></h3><p><strong>答：似乎没有必要，因为实际项目中，绝大多数情况下，我们都会通过专业的 3D 软件中来创建物体模型(建模)，而不是通过 Three.js 自定义建模。</strong></p><p>传统专业的 3D 转件包括：</p><ol><li>Blender：开源免费的 3D 软件</li><li>Maya：侧重动画渲染的 3D 软件</li><li>Cinema4D(C4D)：轻量级的 3D 软件</li><li>3D Sudio Max</li><li>&mldr;</li></ol><blockquote><p>以上软件中，都有学习成本，相对而言 C4D 更加轻量、更加简单。</p></blockquote><p>当 3D 模型创建好后，我们将模型导出为 gLTF 或 .obj 的文件，然后在 Three.js 中加载并使用它们。</p><p>尽管如此，但 Three.js 依然提供了自定义几何体(自定义建模)的方法。</p><blockquote><p>可以让我们在不导入 建模文件 的前提下，通过 Three.js 来自定义几何体。</p></blockquote><blockquote><p>所有的传统 3D 软件建模过程都是可视化的，也就是说你可以时时看到物体，并且进行细微调整。而 Three.js 则是通过代码来建模的，整个建模过程是不可见的。</p></blockquote><p>尽管实际中我们可能会很少机会在 Three.js 中自定义几何体，但是学习这方面的知识还是非常有必要的。</p><h3 id=threejs中如何自定义几何体>Three.js中如何自定义几何体？<a hidden class=anchor aria-hidden=true href=#threejs中如何自定义几何体>#</a></h3><p>答：在 Three.js 中，一共可以有 2 种方式自定义几何体。</p><p><strong>第1种：继承于 Geometry</strong></p><p>优点：创建和使用的难度小</p><p>缺点：渲染启动速度慢、占更多内存</p><p><strong>第2种：继承于 BufferGeometry</strong></p><p>优点：渲染启动速度快、占更少内存</p><p>缺点：创建和使用的难度大</p><p><strong>补充说明：</strong></p><p>上面说的 渲染启动速度 慢，是指当场景第一次被渲染、后续修改后重新渲染的速度慢。</p><p>并不是说 绘制速度慢。</p><blockquote><p>无论选择 Geometry 还是 BufferGeometry，绘制过程速度是相同的，他们的 “快慢” 主要体现在 第一次渲染启动速度 这方面。</p></blockquote><p>当然，你不需花太多精力去理解 慢 的细节，你只需知道 Geometry 相对而言 渲染速度更慢一些即可。</p><p><strong>如何选择？</strong></p><p>答：对于要创建的自定义几何体各个面的三角形总和小于 1000，则优先选择继承于 Geometry。三角形数量超过这个范围的则推荐继承于 BufferGeometry。</p><p>事实上以上的选择仅供参考，重点是你实际项目中 是否觉得渲染启动速度、修改响应速度慢，如果慢则可进行优化改进。</p><blockquote><p>如果由于客户端硬件配置比较高，感知不到慢或卡顿，那么可以而继续使用 Geometry。</p></blockquote><h2 id=自定义几何体示例hellocustomgeometry>自定义几何体示例：HelloCustomGeometry<a hidden class=anchor aria-hidden=true href=#自定义几何体示例hellocustomgeometry>#</a></h2><h4 id=示例目标>示例目标<a hidden class=anchor aria-hidden=true href=#示例目标>#</a></h4><ol><li>通过自定义几何体，来实现一个 立方体</li><li>自定义 立方体 6 个面的颜色</li><li>自定义 立方体 8 个顶点的颜色</li><li>给 立方体 添加 光照法线，让立方体可以反光</li></ol><h4 id=代码思路>代码思路<a hidden class=anchor aria-hidden=true href=#代码思路>#</a></h4><p><strong>如何自定义一个立方体？</strong></p><p>答：主要分为 3 步</p><ol><li><p>第1步：实例化一个 Three.Geometry</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const geometry = new Three.Geometry()
-</span></span></code></pre></div></li><li><p>第2步：按照立方体相应的坐标，添加 8 个顶点</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>geometry.vertices.push(
-</span></span><span style=display:flex><span>    new Three.Vector3(-1, -1, 1), // 1
-</span></span><span style=display:flex><span>    new Three.Vector3(1, -1, 1), // 2
-</span></span><span style=display:flex><span>    new Three.Vector3(-1, 1, 1), // 3
-</span></span><span style=display:flex><span>    new Three.Vector3(1, 1, 1), // 4
-</span></span><span style=display:flex><span>    new Three.Vector3(-1, -1, -1), // 5
-</span></span><span style=display:flex><span>    new Three.Vector3(1, -1, -1), // 6
-</span></span><span style=display:flex><span>    new Three.Vector3(-1, 1, -1), // 7
-</span></span><span style=display:flex><span>    new Three.Vector3(1, 1, -1) // 8
-</span></span><span style=display:flex><span>)
-</span></span></code></pre></div></li><li><p>第3步：将相邻的 3 个顶点，依次按照逆时针顺序，构建成一个个三角形。</p><blockquote><p>立方体一共有 6 个面，每个面由 2 个三角形构成，因此一共需要构建 12 个三角形</p></blockquote><blockquote><p>为什么必须是逆时针？这是 Three.js 规定的。</p></blockquote><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>geometry.faces.push(
-</span></span><span style=display:flex><span>    //前面
-</span></span><span style=display:flex><span>    new Three.Face3(0, 3, 2),
-</span></span><span style=display:flex><span>    new Three.Face3(0, 1, 3),
-</span></span><span style=display:flex><span>    //右面
-</span></span><span style=display:flex><span>    new Three.Face3(1, 7, 3),
-</span></span><span style=display:flex><span>    new Three.Face3(1, 5, 7),
-</span></span><span style=display:flex><span>    //后面
-</span></span><span style=display:flex><span>    new Three.Face3(5, 6, 7),
-</span></span><span style=display:flex><span>    new Three.Face3(5, 4, 6),
-</span></span><span style=display:flex><span>    //左面
-</span></span><span style=display:flex><span>    new Three.Face3(4, 2, 6),
-</span></span><span style=display:flex><span>    new Three.Face3(4, 0, 2),
-</span></span><span style=display:flex><span>    //顶面
-</span></span><span style=display:flex><span>    new Three.Face3(2, 7, 6),
-</span></span><span style=display:flex><span>    new Three.Face3(2, 3, 7),
-</span></span><span style=display:flex><span>    //底面
-</span></span><span style=display:flex><span>    new Three.Face3(4, 1, 0),
-</span></span><span style=display:flex><span>    new Three.Face3(4, 5, 1)
-</span></span><span style=display:flex><span>)
-</span></span></code></pre></div><p>至此，就以成功构建出一个立方体的基本骨架。</p></li></ol><p><strong>如何自定义 6 个面的颜色额？</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>geometry.faces[0].color = geometry.faces[1].color = new Three.Color(&#39;red&#39;)
-</span></span><span style=display:flex><span>geometry.faces[2].color = geometry.faces[3].color = new Three.Color(&#39;yello&#39;)
-</span></span><span style=display:flex><span>geometry.faces[4].color = geometry.faces[5].color = new Three.Color(&#39;green&#39;)
-</span></span><span style=display:flex><span>geometry.faces[6].color = geometry.faces[7].color = new Three.Color(&#39;cyan&#39;)
-</span></span><span style=display:flex><span>geometry.faces[8].color = geometry.faces[9].color = new Three.Color(&#39;blue&#39;)
-</span></span><span style=display:flex><span>geometry.faces[10].color = geometry.faces[11].color = new Three.Color(&#39;magenta&#39;)
-</span></span></code></pre></div><p><strong>如何自定义 8 个顶点的颜色？</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>geometry.faces.forEach((face, index) =&gt; {
-</span></span><span style=display:flex><span>    face.vertexColors = [
-</span></span><span style=display:flex><span>        (new Three.Color()).setHSL(index / 12, 1, 0.5),
-</span></span><span style=display:flex><span>        (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5),
-</span></span><span style=display:flex><span>        (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5)
-</span></span><span style=display:flex><span>    ]
-</span></span><span style=display:flex><span>})
-</span></span></code></pre></div><p><strong>如何开启顶点着色？</strong></p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const material = new THREE.MeshBasicMaterial({vertexColors: true})
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>const material = new Three.MeshPhongMaterial({ vertexColors: true })
-</span></span></code></pre></div><blockquote><p>vertexColors 默认值为 false，即默认显示材质 color 的颜色。</p><p>如果没有给材质设置 color 值，那么默认颜色值为 白色</p></blockquote><p>特别说明，在 Three.js 之前的版本中，vertexColors 的值并不是 Boolean，而是进行以下设置：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>//export enum Colors {}
-</span></span><span style=display:flex><span>//export const NoColors: Colors;
-</span></span><span style=display:flex><span>//export const FaceColors: Colors;
-</span></span><span style=display:flex><span>//export const VertexColors: Colors;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors});
-</span></span></code></pre></div><p>在目前比较新的版本中，vertexColors 的值改为 Boolean 类型。</p><p><strong>如何添加光照法线？</strong></p><p>答：一共有 3 种方式</p><ol><li><p>给每一个 face 设置 normal 属性值</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>face.normal = new Three.Vector3(...)
-</span></span></code></pre></div></li><li><p>通过 vertexNormals 属性来设置</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>face.vertexNormals = {
-</span></span><span style=display:flex><span>  new Three.Vector3(...),
-</span></span><span style=display:flex><span>  new Three.Vector3(...),
-</span></span><span style=display:flex><span>  ...
-</span></span><span style=display:flex><span>  new Three.Vector3(...)
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div></li><li><p>通过 computeFaceNormals() 和 computeVertexNormals() 这 2 个方法自动帮我们计算出光照法线。</p><p>但是对于立方体而言，只执行 computeFaceNormals() 方法即可。</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>geometry.computeFaceNormals()
-</span></span><span style=display:flex><span>//geometry.computeVertexNormals() // 这个方法并不适用于立方体
-</span></span></code></pre></div></li></ol><blockquote><p>第 3 种 方法最为简便，也比较常用。</p><p>本示例就采用第 3 种方式。</p></blockquote><p><strong>补充说明：computeVertexNormals() 为什么不适用于立方体？</strong></p><p>答：因为 computeVertexNormals() 会从每个顶点共享的所有面的法线中计算得出法线，这样的发现会让立方体的顶点看上去更像一个球体。</p><blockquote><p>如果你执行了 computeVertexNormals()，并不会报错，仅仅是立方体顶点处看似更加圆润，像球一样。</p></blockquote><h4 id=代码示例>代码示例<a hidden class=anchor aria-hidden=true href=#代码示例>#</a></h4><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>import { useEffect, useRef } from &#39;react&#39;
-</span></span><span style=display:flex><span>import * as Three from &#39;three&#39;
-</span></span><span style=display:flex><span>import { OrbitControls } from &#39;three/examples/jsm/controls/OrbitControls&#39;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>import &#39;./index.scss&#39;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>const HelloCustomGeometry = () =&gt; {
-</span></span><span style=display:flex><span>    const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    useEffect(() =&gt; {
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        if (canvasRef.current === null) {
-</span></span><span style=display:flex><span>            return
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current })
-</span></span><span style=display:flex><span>        const scene = new Three.Scene()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const camera = new Three.PerspectiveCamera(45, 2, 0.1, 100)
-</span></span><span style=display:flex><span>        camera.position.z = 8
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const light = new Three.DirectionalLight(0xFFFFFF, 1)
-</span></span><span style=display:flex><span>        light.position.set(2, 2, 4)
-</span></span><span style=display:flex><span>        scene.add(light)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const helper = new Three.DirectionalLightHelper(light)
-</span></span><span style=display:flex><span>        scene.add(helper)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const controls = new OrbitControls(camera, canvasRef.current)
-</span></span><span style=display:flex><span>        controls.update()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        //自定义一个立方体几何体
-</span></span><span style=display:flex><span>        const geometry = new Three.Geometry()
-</span></span><span style=display:flex><span>        geometry.vertices.push(
-</span></span><span style=display:flex><span>            new Three.Vector3(-1, -1, 1), // 1
-</span></span><span style=display:flex><span>            new Three.Vector3(1, -1, 1), // 2
-</span></span><span style=display:flex><span>            new Three.Vector3(-1, 1, 1), // 3
-</span></span><span style=display:flex><span>            new Three.Vector3(1, 1, 1), // 4
-</span></span><span style=display:flex><span>            new Three.Vector3(-1, -1, -1), // 5
-</span></span><span style=display:flex><span>            new Three.Vector3(1, -1, -1), // 6
-</span></span><span style=display:flex><span>            new Three.Vector3(-1, 1, -1), // 7
-</span></span><span style=display:flex><span>            new Three.Vector3(1, 1, -1) // 8
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>        geometry.faces.push(
-</span></span><span style=display:flex><span>            //前面
-</span></span><span style=display:flex><span>            new Three.Face3(0, 3, 2),
-</span></span><span style=display:flex><span>            new Three.Face3(0, 1, 3),
-</span></span><span style=display:flex><span>            //右面
-</span></span><span style=display:flex><span>            new Three.Face3(1, 7, 3),
-</span></span><span style=display:flex><span>            new Three.Face3(1, 5, 7),
-</span></span><span style=display:flex><span>            //后面
-</span></span><span style=display:flex><span>            new Three.Face3(5, 6, 7),
-</span></span><span style=display:flex><span>            new Three.Face3(5, 4, 6),
-</span></span><span style=display:flex><span>            //左面
-</span></span><span style=display:flex><span>            new Three.Face3(4, 2, 6),
-</span></span><span style=display:flex><span>            new Three.Face3(4, 0, 2),
-</span></span><span style=display:flex><span>            //顶面
-</span></span><span style=display:flex><span>            new Three.Face3(2, 7, 6),
-</span></span><span style=display:flex><span>            new Three.Face3(2, 3, 7),
-</span></span><span style=display:flex><span>            //底面
-</span></span><span style=display:flex><span>            new Three.Face3(4, 1, 0),
-</span></span><span style=display:flex><span>            new Three.Face3(4, 5, 1)
-</span></span><span style=display:flex><span>        )
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        geometry.faces[0].color = geometry.faces[1].color = new Three.Color(&#39;red&#39;)
-</span></span><span style=display:flex><span>        geometry.faces[2].color = geometry.faces[3].color = new Three.Color(&#39;yello&#39;)
-</span></span><span style=display:flex><span>        geometry.faces[4].color = geometry.faces[5].color = new Three.Color(&#39;green&#39;)
-</span></span><span style=display:flex><span>        geometry.faces[6].color = geometry.faces[7].color = new Three.Color(&#39;cyan&#39;)
-</span></span><span style=display:flex><span>        geometry.faces[8].color = geometry.faces[9].color = new Three.Color(&#39;blue&#39;)
-</span></span><span style=display:flex><span>        geometry.faces[10].color = geometry.faces[11].color = new Three.Color(&#39;magenta&#39;)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        geometry.faces.forEach((face, index) =&gt; {
-</span></span><span style=display:flex><span>            face.vertexColors = [
-</span></span><span style=display:flex><span>                (new Three.Color()).setHSL(index / 12, 1, 0.5),
-</span></span><span style=display:flex><span>                (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5),
-</span></span><span style=display:flex><span>                (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5)
-</span></span><span style=display:flex><span>            ]
-</span></span><span style=display:flex><span>        })
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        geometry.computeFaceNormals()
-</span></span><span style=display:flex><span>        //geometry.computeVertexNormals() //对于立方体而言，无需执行此方法
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        //const material = new Three.MeshBasicMaterial({ color: &#39;red&#39; })
-</span></span><span style=display:flex><span>        const material = new Three.MeshPhongMaterial({ vertexColors: true })
-</span></span><span style=display:flex><span>        //const material = new Three.MeshPhongMaterial({ color: &#39;red&#39; })
-</span></span><span style=display:flex><span>        const cube = new Three.Mesh(geometry, material)
-</span></span><span style=display:flex><span>        scene.add(cube)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const render = (time: number) =&gt; {
-</span></span><span style=display:flex><span>            cube.rotation.x = cube.rotation.y = time * 0.001
-</span></span><span style=display:flex><span>            renderer.render(scene, camera)
-</span></span><span style=display:flex><span>            window.requestAnimationFrame(render)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        window.requestAnimationFrame(render)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        const handleResize = () =&gt; {
-</span></span><span style=display:flex><span>            if (canvasRef.current === null) {
-</span></span><span style=display:flex><span>                return
-</span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            const width = canvasRef.current.clientWidth
-</span></span><span style=display:flex><span>            const height = canvasRef.current.clientHeight
-</span></span><span style=display:flex><span>            camera.aspect = width / height
-</span></span><span style=display:flex><span>            camera.updateProjectionMatrix()
-</span></span><span style=display:flex><span>            renderer.setSize(width, height, false)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>        handleResize()
-</span></span><span style=display:flex><span>        window.addEventListener(&#39;resize&#39;, handleResize)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        return () =&gt; {
-</span></span><span style=display:flex><span>            window.removeEventListener(&#39;resize&#39;, handleResize)
-</span></span><span style=display:flex><span>        }
-</span></span><span style=display:flex><span>    }, [canvasRef])
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    return (
-</span></span><span style=display:flex><span>        &lt;canvas ref={canvasRef} className=&#39;full-screen&#39; /&gt;
-</span></span><span style=display:flex><span>    )
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>export default HelloCustomGeometry
-</span></span></code></pre></div><p>实际运行后，就会看到一个 炫彩的立方体。</p><h4 id=本文小结>本文小结<a hidden class=anchor aria-hidden=true href=#本文小结>#</a></h4><p>通过自定义一个立方体的示例，可以看出，尽管是一个很简单的立方体，可我们都需要非常复杂的空间坐标计算配置，因此还是本文开头那段话：</p><ol><li>如非必要，不要在 Three.js 中自定义几何体。</li><li>使用传统的 3D 软件建模，更香。</li></ol><h4 id=补充说明>补充说明<a hidden class=anchor aria-hidden=true href=#补充说明>#</a></h4><p>本系列教程，实际上是我一边学习 <a href=https://threejsfundamentals.org/threejs/lessons/>https://threejsfundamentals.org/threejs/lessons/</a> ，一边使用 React + TypeScript + 自己的语言和理解 重写一遍的。</p><p>本文对应的英文教程为：<a href=https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html>https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html</a></p><p>在原版的英文教程中，还有另外一个 通过一张图片来获得 纹理坐标(UV)，进而生成一张地图的例子。</p><p>我个人感觉没有必要去这么深入学习自定义几何体，所以本文略过这个示例。</p><p>除此之外，官方还有单独一篇，使用 BufferGeometry 来自定义几何体的教程：</p><p><a href=https://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html>https://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html</a></p><p>我认为现阶段，没有必要如此这般的深入去学习自定义几何体，因为暂停这部分的学习。</p><blockquote><p>如果你还有精力，可以去学习一下。</p></blockquote><h2 id=threejs基础知识总结>Three.js基础知识总结<a hidden class=anchor aria-hidden=true href=#threejs基础知识总结>#</a></h2><p>通过前面一系列的学习，我们终于将 Three.js 基础知识学习完成。</p><p>回顾一下我们都学习了哪些知识点：</p><ol><li>Three.js 简介、项目初始化、入门示例</li><li>图元、3D文字、场景、材质、纹理、灯光、镜头、阴影、雾、离屏渲染、自定义几何体</li><li>辅助对象(灯光辅助对象 LightHelper 、镜头辅助对象 XxxxCameraHelper、坐标轴辅助对象 AxesHelper)、镜头轨道控制类(OrbitControls)</li></ol><p>真心不容易，给自己一朵小红花！</p><p>&mldr;</p><p>我们本系列教程整体的规划是：</p><ol><li>基础篇 (✓)</li><li>技巧篇 (x)</li><li>优化篇 (x)</li><li>解决方案 (x)</li><li>WebVR (x)</li><li>实例篇 (x)</li></ol><p>目前我们已经学习了基础篇，对 Three.js 已经有了足够的基础知识掌握，后面的学习都是建立在这些基础知识之上的。</p><p><strong>接下来，进入技巧篇——按需渲染。</strong></p><h4 id=稍等再啰嗦几句>稍等，再啰嗦几句<a hidden class=anchor aria-hidden=true href=#稍等再啰嗦几句>#</a></h4><p>我们后续的讲解文章中，将加快进度，不再像 基础篇 这样如此细致，甚至是啰嗦。</p><p>因此，我希望你不看教程示例代码，而是自己独立敲出示例代码。如果做不到，那么你先不要着急进入下一篇，而是应该再回过头，反复阅读，反复敲几遍代码。</p><blockquote><p>在做(动手敲代码)的过程中学习，而不是只看不动手。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/three.js/>Three.js</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/threejs/15-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/><span class=title>« Prev</span><br><span>15 Three.js基础之离屏渲染</span></a>
-<a class=next href=https://bablvsj.github.io/posts/threejs/17-three.js%E6%8A%80%E5%B7%A7%E4%B9%8B%E6%8C%89%E9%9C%80%E6%B8%B2%E6%9F%93/><span class=title>Next »</span><br><span>17 Three.js技巧之按需渲染</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>16 Three.js基础之自定义几何体 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="Three.js">
+<meta name="description" content="16 Three.js基础之自定义几何体 - Bablvsj&#39;s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5525cc669fcb4f094a55bfc3ebfc5a6e73445e090010c66ab49c2cad14735f57.css" integrity="sha256-VSXMZp/LTwlKVb/D6/xabnNEXgkAEMZqtJwsrRRzX1c=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="stylesheet" href="/css/syntax.css">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="16 Three.js基础之自定义几何体" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-19T17:11:35+08:00" />
+<meta property="article:modified_time" content="2023-12-19T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="16 Three.js基础之自定义几何体"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "16 Three.js基础之自定义几何体",
+      "item": "https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "16 Three.js基础之自定义几何体",
+  "name": "16 Three.js基础之自定义几何体",
+  "description": "",
+  "keywords": [
+    "Three.js"
+  ],
+  "articleBody": "重要说明：本文部分内容已经过时\n.以下内容更新于2021年4月15日\n本文写的时候还使用的是 0.124.0版本，但是在 0.125.2 以后（目前最新的是 0.127.0 ），关于 几何体 官方做了重大调整：\n官方已经将 Geometry 从核心库中移除，新的位置改为：\nimport { Geometry } from 'three/examples/jsm/deprecated/Geometry' 请注意 目录名为 deprecated，这个单词的意思就是：已弃用、不建议使用。\n也就是说官方已经不再建议你使用 Geometry 这个类了，那它的替代者是谁呢？\n在 r124 版本的时候，几何体(例如 BoxGeometry) 他们都继承的是 Geometry，但是在新版本中它们继承的是 BufferGeometry。\n也就是说如果你想自定义几何体，现在应该使用的是 BufferGeometry\nThree.BufferGeometry\n换句话说，就是 BufferGeometry 替代了 Geometry\nThree.Mesh() 函数中的参数也发生了变化\n或许还有其他更多地方发生了变化…\n本文在编写的时候，还采用的是 Geometry，所以本文内容过时了。\n目前先暂且不做修改，等到以后有时间了再将本文中的代码 Geometry 修改为 BufferGeometry。\n你可以先跳过本章，继续后面章节的学习。\n以下内容更新于2021年4月15日\n接下来开始本文(已过时)的内容。\n本文说的 几何体(geometry)，也就是之前 “05 Three.js基础之图元.md” 中的 图元(primitives)。\n图元和几何体只是同一个对象(事物)的不同的叫法而已。\n自定义几何体也就相当于自定义图元。\n自定义几何体的这个过程，在传统 3D 软件中被称为 建模\n自定义几何体(custom geometry)概述 先来一个灵魂拷问。\n有必要在 Three.js 中自定义几何体吗？ 答：似乎没有必要，因为实际项目中，绝大多数情况下，我们都会通过专业的 3D 软件中来创建物体模型(建模)，而不是通过 Three.js 自定义建模。\n传统专业的 3D 转件包括：\nBlender：开源免费的 3D 软件 Maya：侧重动画渲染的 3D 软件 Cinema4D(C4D)：轻量级的 3D 软件 3D Sudio Max … 以上软件中，都有学习成本，相对而言 C4D 更加轻量、更加简单。\n当 3D 模型创建好后，我们将模型导出为 gLTF 或 .obj 的文件，然后在 Three.js 中加载并使用它们。\n尽管如此，但 Three.js 依然提供了自定义几何体(自定义建模)的方法。\n可以让我们在不导入 建模文件 的前提下，通过 Three.js 来自定义几何体。\n所有的传统 3D 软件建模过程都是可视化的，也就是说你可以时时看到物体，并且进行细微调整。而 Three.js 则是通过代码来建模的，整个建模过程是不可见的。\n尽管实际中我们可能会很少机会在 Three.js 中自定义几何体，但是学习这方面的知识还是非常有必要的。\nThree.js中如何自定义几何体？ 答：在 Three.js 中，一共可以有 2 种方式自定义几何体。\n第1种：继承于 Geometry\n优点：创建和使用的难度小\n缺点：渲染启动速度慢、占更多内存\n第2种：继承于 BufferGeometry\n优点：渲染启动速度快、占更少内存\n缺点：创建和使用的难度大\n补充说明：\n上面说的 渲染启动速度 慢，是指当场景第一次被渲染、后续修改后重新渲染的速度慢。\n并不是说 绘制速度慢。\n无论选择 Geometry 还是 BufferGeometry，绘制过程速度是相同的，他们的 “快慢” 主要体现在 第一次渲染启动速度 这方面。\n当然，你不需花太多精力去理解 慢 的细节，你只需知道 Geometry 相对而言 渲染速度更慢一些即可。\n如何选择？\n答：对于要创建的自定义几何体各个面的三角形总和小于 1000，则优先选择继承于 Geometry。三角形数量超过这个范围的则推荐继承于 BufferGeometry。\n事实上以上的选择仅供参考，重点是你实际项目中 是否觉得渲染启动速度、修改响应速度慢，如果慢则可进行优化改进。\n如果由于客户端硬件配置比较高，感知不到慢或卡顿，那么可以而继续使用 Geometry。\n自定义几何体示例：HelloCustomGeometry 示例目标 通过自定义几何体，来实现一个 立方体 自定义 立方体 6 个面的颜色 自定义 立方体 8 个顶点的颜色 给 立方体 添加 光照法线，让立方体可以反光 代码思路 如何自定义一个立方体？\n答：主要分为 3 步\n第1步：实例化一个 Three.Geometry\nconst geometry = new Three.Geometry() 第2步：按照立方体相应的坐标，添加 8 个顶点\ngeometry.vertices.push( new Three.Vector3(-1, -1, 1), // 1 new Three.Vector3(1, -1, 1), // 2 new Three.Vector3(-1, 1, 1), // 3 new Three.Vector3(1, 1, 1), // 4 new Three.Vector3(-1, -1, -1), // 5 new Three.Vector3(1, -1, -1), // 6 new Three.Vector3(-1, 1, -1), // 7 new Three.Vector3(1, 1, -1) // 8 ) 第3步：将相邻的 3 个顶点，依次按照逆时针顺序，构建成一个个三角形。\n立方体一共有 6 个面，每个面由 2 个三角形构成，因此一共需要构建 12 个三角形\n为什么必须是逆时针？这是 Three.js 规定的。\ngeometry.faces.push( //前面 new Three.Face3(0, 3, 2), new Three.Face3(0, 1, 3), //右面 new Three.Face3(1, 7, 3), new Three.Face3(1, 5, 7), //后面 new Three.Face3(5, 6, 7), new Three.Face3(5, 4, 6), //左面 new Three.Face3(4, 2, 6), new Three.Face3(4, 0, 2), //顶面 new Three.Face3(2, 7, 6), new Three.Face3(2, 3, 7), //底面 new Three.Face3(4, 1, 0), new Three.Face3(4, 5, 1) ) 至此，就以成功构建出一个立方体的基本骨架。\n如何自定义 6 个面的颜色额？\ngeometry.faces[0].color = geometry.faces[1].color = new Three.Color('red') geometry.faces[2].color = geometry.faces[3].color = new Three.Color('yello') geometry.faces[4].color = geometry.faces[5].color = new Three.Color('green') geometry.faces[6].color = geometry.faces[7].color = new Three.Color('cyan') geometry.faces[8].color = geometry.faces[9].color = new Three.Color('blue') geometry.faces[10].color = geometry.faces[11].color = new Three.Color('magenta') 如何自定义 8 个顶点的颜色？\ngeometry.faces.forEach((face, index) =\u003e { face.vertexColors = [ (new Three.Color()).setHSL(index / 12, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5) ] }) 如何开启顶点着色？\nconst material = new THREE.MeshBasicMaterial({vertexColors: true}) const material = new Three.MeshPhongMaterial({ vertexColors: true }) vertexColors 默认值为 false，即默认显示材质 color 的颜色。\n如果没有给材质设置 color 值，那么默认颜色值为 白色\n特别说明，在 Three.js 之前的版本中，vertexColors 的值并不是 Boolean，而是进行以下设置：\n//export enum Colors {} //export const NoColors: Colors; //export const FaceColors: Colors; //export const VertexColors: Colors; const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors}); 在目前比较新的版本中，vertexColors 的值改为 Boolean 类型。\n如何添加光照法线？\n答：一共有 3 种方式\n给每一个 face 设置 normal 属性值\nface.normal = new Three.Vector3(...) 通过 vertexNormals 属性来设置\nface.vertexNormals = { new Three.Vector3(...), new Three.Vector3(...), ... new Three.Vector3(...) } 通过 computeFaceNormals() 和 computeVertexNormals() 这 2 个方法自动帮我们计算出光照法线。\n但是对于立方体而言，只执行 computeFaceNormals() 方法即可。\ngeometry.computeFaceNormals() //geometry.computeVertexNormals() // 这个方法并不适用于立方体 第 3 种 方法最为简便，也比较常用。\n本示例就采用第 3 种方式。\n补充说明：computeVertexNormals() 为什么不适用于立方体？\n答：因为 computeVertexNormals() 会从每个顶点共享的所有面的法线中计算得出法线，这样的发现会让立方体的顶点看上去更像一个球体。\n如果你执行了 computeVertexNormals()，并不会报错，仅仅是立方体顶点处看似更加圆润，像球一样。\n代码示例 import { useEffect, useRef } from 'react' import * as Three from 'three' import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' import './index.scss' const HelloCustomGeometry = () =\u003e { const canvasRef = useRef(null) useEffect(() =\u003e { if (canvasRef.current === null) { return } const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current }) const scene = new Three.Scene() const camera = new Three.PerspectiveCamera(45, 2, 0.1, 100) camera.position.z = 8 const light = new Three.DirectionalLight(0xFFFFFF, 1) light.position.set(2, 2, 4) scene.add(light) const helper = new Three.DirectionalLightHelper(light) scene.add(helper) const controls = new OrbitControls(camera, canvasRef.current) controls.update() //自定义一个立方体几何体 const geometry = new Three.Geometry() geometry.vertices.push( new Three.Vector3(-1, -1, 1), // 1 new Three.Vector3(1, -1, 1), // 2 new Three.Vector3(-1, 1, 1), // 3 new Three.Vector3(1, 1, 1), // 4 new Three.Vector3(-1, -1, -1), // 5 new Three.Vector3(1, -1, -1), // 6 new Three.Vector3(-1, 1, -1), // 7 new Three.Vector3(1, 1, -1) // 8 ) geometry.faces.push( //前面 new Three.Face3(0, 3, 2), new Three.Face3(0, 1, 3), //右面 new Three.Face3(1, 7, 3), new Three.Face3(1, 5, 7), //后面 new Three.Face3(5, 6, 7), new Three.Face3(5, 4, 6), //左面 new Three.Face3(4, 2, 6), new Three.Face3(4, 0, 2), //顶面 new Three.Face3(2, 7, 6), new Three.Face3(2, 3, 7), //底面 new Three.Face3(4, 1, 0), new Three.Face3(4, 5, 1) ) geometry.faces[0].color = geometry.faces[1].color = new Three.Color('red') geometry.faces[2].color = geometry.faces[3].color = new Three.Color('yello') geometry.faces[4].color = geometry.faces[5].color = new Three.Color('green') geometry.faces[6].color = geometry.faces[7].color = new Three.Color('cyan') geometry.faces[8].color = geometry.faces[9].color = new Three.Color('blue') geometry.faces[10].color = geometry.faces[11].color = new Three.Color('magenta') geometry.faces.forEach((face, index) =\u003e { face.vertexColors = [ (new Three.Color()).setHSL(index / 12, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5), (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5) ] }) geometry.computeFaceNormals() //geometry.computeVertexNormals() //对于立方体而言，无需执行此方法 //const material = new Three.MeshBasicMaterial({ color: 'red' }) const material = new Three.MeshPhongMaterial({ vertexColors: true }) //const material = new Three.MeshPhongMaterial({ color: 'red' }) const cube = new Three.Mesh(geometry, material) scene.add(cube) const render = (time: number) =\u003e { cube.rotation.x = cube.rotation.y = time * 0.001 renderer.render(scene, camera) window.requestAnimationFrame(render) } window.requestAnimationFrame(render) const handleResize = () =\u003e { if (canvasRef.current === null) { return } const width = canvasRef.current.clientWidth const height = canvasRef.current.clientHeight camera.aspect = width / height camera.updateProjectionMatrix() renderer.setSize(width, height, false) } handleResize() window.addEventListener('resize', handleResize) return () =\u003e { window.removeEventListener('resize', handleResize) } }, [canvasRef]) return ( ) } export default HelloCustomGeometry 实际运行后，就会看到一个 炫彩的立方体。\n本文小结 通过自定义一个立方体的示例，可以看出，尽管是一个很简单的立方体，可我们都需要非常复杂的空间坐标计算配置，因此还是本文开头那段话：\n如非必要，不要在 Three.js 中自定义几何体。 使用传统的 3D 软件建模，更香。 补充说明 本系列教程，实际上是我一边学习 https://threejsfundamentals.org/threejs/lessons/ ，一边使用 React + TypeScript + 自己的语言和理解 重写一遍的。\n本文对应的英文教程为：https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html\n在原版的英文教程中，还有另外一个 通过一张图片来获得 纹理坐标(UV)，进而生成一张地图的例子。\n我个人感觉没有必要去这么深入学习自定义几何体，所以本文略过这个示例。\n除此之外，官方还有单独一篇，使用 BufferGeometry 来自定义几何体的教程：\nhttps://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html\n我认为现阶段，没有必要如此这般的深入去学习自定义几何体，因为暂停这部分的学习。\n如果你还有精力，可以去学习一下。\nThree.js基础知识总结 通过前面一系列的学习，我们终于将 Three.js 基础知识学习完成。\n回顾一下我们都学习了哪些知识点：\nThree.js 简介、项目初始化、入门示例 图元、3D文字、场景、材质、纹理、灯光、镜头、阴影、雾、离屏渲染、自定义几何体 辅助对象(灯光辅助对象 LightHelper 、镜头辅助对象 XxxxCameraHelper、坐标轴辅助对象 AxesHelper)、镜头轨道控制类(OrbitControls) 真心不容易，给自己一朵小红花！\n…\n我们本系列教程整体的规划是：\n基础篇 (✓) 技巧篇 (x) 优化篇 (x) 解决方案 (x) WebVR (x) 实例篇 (x) 目前我们已经学习了基础篇，对 Three.js 已经有了足够的基础知识掌握，后面的学习都是建立在这些基础知识之上的。\n接下来，进入技巧篇——按需渲染。\n稍等，再啰嗦几句 我们后续的讲解文章中，将加快进度，不再像 基础篇 这样如此细致，甚至是啰嗦。\n因此，我希望你不看教程示例代码，而是自己独立敲出示例代码。如果做不到，那么你先不要着急进入下一篇，而是应该再回过头，反复阅读，反复敲几遍代码。\n在做(动手敲代码)的过程中学习，而不是只看不动手。\n",
+  "wordCount" : "3629",
+  "inLanguage": "en",
+  "datePublished": "2023-12-19T17:11:35+08:00",
+  "dateModified": "2023-12-19T17:11:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/threejs/16-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%A0%E4%BD%95%E4%BD%93/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      16 Three.js基础之自定义几何体
+    </h1>
+    <div class="post-meta">
+      
+<div class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/three.js/">Three.js</a>
+</div>
+
+8 min&nbsp;·&nbsp;<span title='2023-12-19 17:11:35 +0800 CST'>2023/12/19</span>
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93custom-geometry%e6%a6%82%e8%bf%b0" aria-label="自定义几何体(custom geometry)概述">自定义几何体(custom geometry)概述</a><ul>
+                        
+                <li>
+                    <a href="#%e6%9c%89%e5%bf%85%e8%a6%81%e5%9c%a8-threejs-%e4%b8%ad%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93%e5%90%97" aria-label="有必要在 Three.js 中自定义几何体吗？">有必要在 Three.js 中自定义几何体吗？</a></li>
+                <li>
+                    <a href="#threejs%e4%b8%ad%e5%a6%82%e4%bd%95%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93" aria-label="Three.js中如何自定义几何体？">Three.js中如何自定义几何体？</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e8%87%aa%e5%ae%9a%e4%b9%89%e5%87%a0%e4%bd%95%e4%bd%93%e7%a4%ba%e4%be%8bhellocustomgeometry" aria-label="自定义几何体示例：HelloCustomGeometry">自定义几何体示例：HelloCustomGeometry</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e7%a4%ba%e4%be%8b%e7%9b%ae%e6%a0%87" aria-label="示例目标">示例目标</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e6%80%9d%e8%b7%af" aria-label="代码思路">代码思路</a></li>
+                <li>
+                    <a href="#%e4%bb%a3%e7%a0%81%e7%a4%ba%e4%be%8b" aria-label="代码示例">代码示例</a></li>
+                <li>
+                    <a href="#%e6%9c%ac%e6%96%87%e5%b0%8f%e7%bb%93" aria-label="本文小结">本文小结</a></li>
+                <li>
+                    <a href="#%e8%a1%a5%e5%85%85%e8%af%b4%e6%98%8e" aria-label="补充说明">补充说明</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#threejs%e5%9f%ba%e7%a1%80%e7%9f%a5%e8%af%86%e6%80%bb%e7%bb%93" aria-label="Three.js基础知识总结">Three.js基础知识总结</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#%e7%a8%8d%e7%ad%89%e5%86%8d%e5%95%b0%e5%97%a6%e5%87%a0%e5%8f%a5" aria-label="稍等，再啰嗦几句">稍等，再啰嗦几句</a>
+                </li>
+            </ul>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p><strong>重要说明：本文部分内容已经过时</strong></p>
+<blockquote>
+<p>.以下内容更新于2021年4月15日</p>
+</blockquote>
+<p>本文写的时候还使用的是 0.124.0版本，但是在 0.125.2 以后（目前最新的是 0.127.0 ），关于 几何体 官方做了重大调整：</p>
+<ol>
+<li>
+<p>官方已经将 Geometry 从核心库中移除，新的位置改为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>import { Geometry } from &#39;three/examples/jsm/deprecated/Geometry&#39;
+</span></span></code></pre></div><p>请注意 目录名为 deprecated，这个单词的意思就是：已弃用、不建议使用。</p>
+<p>也就是说官方已经不再建议你使用 Geometry 这个类了，那它的替代者是谁呢？</p>
+</li>
+<li>
+<p>在 r124 版本的时候，几何体(例如 BoxGeometry) 他们都继承的是 Geometry，但是在新版本中它们继承的是 BufferGeometry。</p>
+<p>也就是说如果你想自定义几何体，现在应该使用的是 BufferGeometry</p>
+<blockquote>
+<p>Three.BufferGeometry</p>
+</blockquote>
+<blockquote>
+<p>换句话说，就是 BufferGeometry 替代了 Geometry</p>
+</blockquote>
+</li>
+<li>
+<p>Three.Mesh() 函数中的参数也发生了变化</p>
+</li>
+<li>
+<p>或许还有其他更多地方发生了变化&hellip;</p>
+</li>
+</ol>
+<br>
+<p>本文在编写的时候，还采用的是 Geometry，所以本文内容过时了。</p>
+<p>目前先暂且不做修改，等到以后有时间了再将本文中的代码 Geometry 修改为 BufferGeometry。</p>
+<br>
+<p>你可以先跳过本章，继续后面章节的学习。</p>
+<blockquote>
+<p>以下内容更新于2021年4月15日</p>
+</blockquote>
+<br>
+<p>接下来开始本文(已过时)的内容。</p>
+<hr>
+<br>
+<p>本文说的 几何体(geometry)，也就是之前 “05 Three.js基础之图元.md” 中的 图元(primitives)。</p>
+<blockquote>
+<p>图元和几何体只是同一个对象(事物)的不同的叫法而已。</p>
+</blockquote>
+<p>自定义几何体也就相当于自定义图元。</p>
+<blockquote>
+<p>自定义几何体的这个过程，在传统 3D 软件中被称为 建模</p>
+</blockquote>
+<h2 id="自定义几何体custom-geometry概述">自定义几何体(custom geometry)概述<a hidden class="anchor" aria-hidden="true" href="#自定义几何体custom-geometry概述">#</a></h2>
+<p>先来一个灵魂拷问。</p>
+<h3 id="有必要在-threejs-中自定义几何体吗">有必要在 Three.js 中自定义几何体吗？<a hidden class="anchor" aria-hidden="true" href="#有必要在-threejs-中自定义几何体吗">#</a></h3>
+<p><strong>答：似乎没有必要，因为实际项目中，绝大多数情况下，我们都会通过专业的 3D 软件中来创建物体模型(建模)，而不是通过 Three.js 自定义建模。</strong></p>
+<p>传统专业的 3D 转件包括：</p>
+<ol>
+<li>Blender：开源免费的 3D 软件</li>
+<li>Maya：侧重动画渲染的 3D 软件</li>
+<li>Cinema4D(C4D)：轻量级的 3D 软件</li>
+<li>3D Sudio Max</li>
+<li>&hellip;</li>
+</ol>
+<blockquote>
+<p>以上软件中，都有学习成本，相对而言 C4D 更加轻量、更加简单。</p>
+</blockquote>
+<p>当 3D 模型创建好后，我们将模型导出为 gLTF 或 .obj 的文件，然后在 Three.js 中加载并使用它们。</p>
+<p>尽管如此，但 Three.js 依然提供了自定义几何体(自定义建模)的方法。</p>
+<blockquote>
+<p>可以让我们在不导入 建模文件 的前提下，通过 Three.js 来自定义几何体。</p>
+</blockquote>
+<blockquote>
+<p>所有的传统 3D 软件建模过程都是可视化的，也就是说你可以时时看到物体，并且进行细微调整。而 Three.js 则是通过代码来建模的，整个建模过程是不可见的。</p>
+</blockquote>
+<p>尽管实际中我们可能会很少机会在 Three.js 中自定义几何体，但是学习这方面的知识还是非常有必要的。</p>
+<h3 id="threejs中如何自定义几何体">Three.js中如何自定义几何体？<a hidden class="anchor" aria-hidden="true" href="#threejs中如何自定义几何体">#</a></h3>
+<p>答：在 Three.js  中，一共可以有 2 种方式自定义几何体。</p>
+<p><strong>第1种：继承于 Geometry</strong></p>
+<p>优点：创建和使用的难度小</p>
+<p>缺点：渲染启动速度慢、占更多内存</p>
+<p><strong>第2种：继承于 BufferGeometry</strong></p>
+<p>优点：渲染启动速度快、占更少内存</p>
+<p>缺点：创建和使用的难度大</p>
+<p><strong>补充说明：</strong></p>
+<p>上面说的 渲染启动速度 慢，是指当场景第一次被渲染、后续修改后重新渲染的速度慢。</p>
+<p>并不是说 绘制速度慢。</p>
+<blockquote>
+<p>无论选择 Geometry 还是 BufferGeometry，绘制过程速度是相同的，他们的 “快慢” 主要体现在 第一次渲染启动速度 这方面。</p>
+</blockquote>
+<p>当然，你不需花太多精力去理解 慢 的细节，你只需知道 Geometry 相对而言 渲染速度更慢一些即可。</p>
+<p><strong>如何选择？</strong></p>
+<p>答：对于要创建的自定义几何体各个面的三角形总和小于 1000，则优先选择继承于 Geometry。三角形数量超过这个范围的则推荐继承于 BufferGeometry。</p>
+<p>事实上以上的选择仅供参考，重点是你实际项目中 是否觉得渲染启动速度、修改响应速度慢，如果慢则可进行优化改进。</p>
+<blockquote>
+<p>如果由于客户端硬件配置比较高，感知不到慢或卡顿，那么可以而继续使用 Geometry。</p>
+</blockquote>
+<h2 id="自定义几何体示例hellocustomgeometry">自定义几何体示例：HelloCustomGeometry<a hidden class="anchor" aria-hidden="true" href="#自定义几何体示例hellocustomgeometry">#</a></h2>
+<h4 id="示例目标">示例目标<a hidden class="anchor" aria-hidden="true" href="#示例目标">#</a></h4>
+<ol>
+<li>通过自定义几何体，来实现一个 立方体</li>
+<li>自定义 立方体 6 个面的颜色</li>
+<li>自定义 立方体 8 个顶点的颜色</li>
+<li>给 立方体 添加 光照法线，让立方体可以反光</li>
+</ol>
+<h4 id="代码思路">代码思路<a hidden class="anchor" aria-hidden="true" href="#代码思路">#</a></h4>
+<p><strong>如何自定义一个立方体？</strong></p>
+<p>答：主要分为 3 步</p>
+<ol>
+<li>
+<p>第1步：实例化一个 Three.Geometry</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const geometry = new Three.Geometry()
+</span></span></code></pre></div></li>
+<li>
+<p>第2步：按照立方体相应的坐标，添加 8 个顶点</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>geometry.vertices.push(
+</span></span><span style="display:flex;"><span>    new Three.Vector3(-1, -1, 1), // 1
+</span></span><span style="display:flex;"><span>    new Three.Vector3(1, -1, 1), // 2
+</span></span><span style="display:flex;"><span>    new Three.Vector3(-1, 1, 1), // 3
+</span></span><span style="display:flex;"><span>    new Three.Vector3(1, 1, 1), // 4
+</span></span><span style="display:flex;"><span>    new Three.Vector3(-1, -1, -1), // 5
+</span></span><span style="display:flex;"><span>    new Three.Vector3(1, -1, -1), // 6
+</span></span><span style="display:flex;"><span>    new Three.Vector3(-1, 1, -1), // 7
+</span></span><span style="display:flex;"><span>    new Three.Vector3(1, 1, -1) // 8
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div></li>
+<li>
+<p>第3步：将相邻的 3 个顶点，依次按照逆时针顺序，构建成一个个三角形。</p>
+<blockquote>
+<p>立方体一共有 6 个面，每个面由 2 个三角形构成，因此一共需要构建 12 个三角形</p>
+</blockquote>
+<blockquote>
+<p>为什么必须是逆时针？这是 Three.js 规定的。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>geometry.faces.push(
+</span></span><span style="display:flex;"><span>    //前面
+</span></span><span style="display:flex;"><span>    new Three.Face3(0, 3, 2),
+</span></span><span style="display:flex;"><span>    new Three.Face3(0, 1, 3),
+</span></span><span style="display:flex;"><span>    //右面
+</span></span><span style="display:flex;"><span>    new Three.Face3(1, 7, 3),
+</span></span><span style="display:flex;"><span>    new Three.Face3(1, 5, 7),
+</span></span><span style="display:flex;"><span>    //后面
+</span></span><span style="display:flex;"><span>    new Three.Face3(5, 6, 7),
+</span></span><span style="display:flex;"><span>    new Three.Face3(5, 4, 6),
+</span></span><span style="display:flex;"><span>    //左面
+</span></span><span style="display:flex;"><span>    new Three.Face3(4, 2, 6),
+</span></span><span style="display:flex;"><span>    new Three.Face3(4, 0, 2),
+</span></span><span style="display:flex;"><span>    //顶面
+</span></span><span style="display:flex;"><span>    new Three.Face3(2, 7, 6),
+</span></span><span style="display:flex;"><span>    new Three.Face3(2, 3, 7),
+</span></span><span style="display:flex;"><span>    //底面
+</span></span><span style="display:flex;"><span>    new Three.Face3(4, 1, 0),
+</span></span><span style="display:flex;"><span>    new Three.Face3(4, 5, 1)
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>至此，就以成功构建出一个立方体的基本骨架。</p>
+</li>
+</ol>
+<p><strong>如何自定义 6 个面的颜色额？</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>geometry.faces[0].color = geometry.faces[1].color = new Three.Color(&#39;red&#39;)
+</span></span><span style="display:flex;"><span>geometry.faces[2].color = geometry.faces[3].color = new Three.Color(&#39;yello&#39;)
+</span></span><span style="display:flex;"><span>geometry.faces[4].color = geometry.faces[5].color = new Three.Color(&#39;green&#39;)
+</span></span><span style="display:flex;"><span>geometry.faces[6].color = geometry.faces[7].color = new Three.Color(&#39;cyan&#39;)
+</span></span><span style="display:flex;"><span>geometry.faces[8].color = geometry.faces[9].color = new Three.Color(&#39;blue&#39;)
+</span></span><span style="display:flex;"><span>geometry.faces[10].color = geometry.faces[11].color = new Three.Color(&#39;magenta&#39;)
+</span></span></code></pre></div><p><strong>如何自定义 8 个顶点的颜色？</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>geometry.faces.forEach((face, index) =&gt; {
+</span></span><span style="display:flex;"><span>    face.vertexColors = [
+</span></span><span style="display:flex;"><span>        (new Three.Color()).setHSL(index / 12, 1, 0.5),
+</span></span><span style="display:flex;"><span>        (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5),
+</span></span><span style="display:flex;"><span>        (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p><strong>如何开启顶点着色？</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const material = new THREE.MeshBasicMaterial({vertexColors: true})
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>const material = new Three.MeshPhongMaterial({ vertexColors: true })
+</span></span></code></pre></div><blockquote>
+<p>vertexColors 默认值为 false，即默认显示材质 color 的颜色。</p>
+<p>如果没有给材质设置 color 值，那么默认颜色值为 白色</p>
+</blockquote>
+<p>特别说明，在 Three.js 之前的版本中，vertexColors 的值并不是 Boolean，而是进行以下设置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>//export enum Colors {}
+</span></span><span style="display:flex;"><span>//export const NoColors: Colors;
+</span></span><span style="display:flex;"><span>//export const FaceColors: Colors;
+</span></span><span style="display:flex;"><span>//export const VertexColors: Colors;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors});
+</span></span></code></pre></div><p>在目前比较新的版本中，vertexColors 的值改为 Boolean 类型。</p>
+<p><strong>如何添加光照法线？</strong></p>
+<p>答：一共有 3 种方式</p>
+<ol>
+<li>
+<p>给每一个 face 设置 normal 属性值</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>face.normal = new Three.Vector3(...)
+</span></span></code></pre></div></li>
+<li>
+<p>通过 vertexNormals 属性来设置</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>face.vertexNormals = {
+</span></span><span style="display:flex;"><span>  new Three.Vector3(...),
+</span></span><span style="display:flex;"><span>  new Three.Vector3(...),
+</span></span><span style="display:flex;"><span>  ...
+</span></span><span style="display:flex;"><span>  new Three.Vector3(...)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>通过 computeFaceNormals() 和 computeVertexNormals() 这 2 个方法自动帮我们计算出光照法线。</p>
+<p>但是对于立方体而言，只执行 computeFaceNormals() 方法即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>geometry.computeFaceNormals()
+</span></span><span style="display:flex;"><span>//geometry.computeVertexNormals() // 这个方法并不适用于立方体
+</span></span></code></pre></div></li>
+</ol>
+<blockquote>
+<p>第 3 种 方法最为简便，也比较常用。</p>
+<p>本示例就采用第 3 种方式。</p>
+</blockquote>
+<p><strong>补充说明：computeVertexNormals() 为什么不适用于立方体？</strong></p>
+<p>答：因为 computeVertexNormals() 会从每个顶点共享的所有面的法线中计算得出法线，这样的发现会让立方体的顶点看上去更像一个球体。</p>
+<blockquote>
+<p>如果你执行了 computeVertexNormals()，并不会报错，仅仅是立方体顶点处看似更加圆润，像球一样。</p>
+</blockquote>
+<h4 id="代码示例">代码示例<a hidden class="anchor" aria-hidden="true" href="#代码示例">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>import { useEffect, useRef } from &#39;react&#39;
+</span></span><span style="display:flex;"><span>import * as Three from &#39;three&#39;
+</span></span><span style="display:flex;"><span>import { OrbitControls } from &#39;three/examples/jsm/controls/OrbitControls&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>import &#39;./index.scss&#39;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>const HelloCustomGeometry = () =&gt; {
+</span></span><span style="display:flex;"><span>    const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    useEffect(() =&gt; {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        if (canvasRef.current === null) {
+</span></span><span style="display:flex;"><span>            return
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const renderer = new Three.WebGLRenderer({ canvas: canvasRef.current })
+</span></span><span style="display:flex;"><span>        const scene = new Three.Scene()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const camera = new Three.PerspectiveCamera(45, 2, 0.1, 100)
+</span></span><span style="display:flex;"><span>        camera.position.z = 8
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const light = new Three.DirectionalLight(0xFFFFFF, 1)
+</span></span><span style="display:flex;"><span>        light.position.set(2, 2, 4)
+</span></span><span style="display:flex;"><span>        scene.add(light)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const helper = new Three.DirectionalLightHelper(light)
+</span></span><span style="display:flex;"><span>        scene.add(helper)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const controls = new OrbitControls(camera, canvasRef.current)
+</span></span><span style="display:flex;"><span>        controls.update()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        //自定义一个立方体几何体
+</span></span><span style="display:flex;"><span>        const geometry = new Three.Geometry()
+</span></span><span style="display:flex;"><span>        geometry.vertices.push(
+</span></span><span style="display:flex;"><span>            new Three.Vector3(-1, -1, 1), // 1
+</span></span><span style="display:flex;"><span>            new Three.Vector3(1, -1, 1), // 2
+</span></span><span style="display:flex;"><span>            new Three.Vector3(-1, 1, 1), // 3
+</span></span><span style="display:flex;"><span>            new Three.Vector3(1, 1, 1), // 4
+</span></span><span style="display:flex;"><span>            new Three.Vector3(-1, -1, -1), // 5
+</span></span><span style="display:flex;"><span>            new Three.Vector3(1, -1, -1), // 6
+</span></span><span style="display:flex;"><span>            new Three.Vector3(-1, 1, -1), // 7
+</span></span><span style="display:flex;"><span>            new Three.Vector3(1, 1, -1) // 8
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        geometry.faces.push(
+</span></span><span style="display:flex;"><span>            //前面
+</span></span><span style="display:flex;"><span>            new Three.Face3(0, 3, 2),
+</span></span><span style="display:flex;"><span>            new Three.Face3(0, 1, 3),
+</span></span><span style="display:flex;"><span>            //右面
+</span></span><span style="display:flex;"><span>            new Three.Face3(1, 7, 3),
+</span></span><span style="display:flex;"><span>            new Three.Face3(1, 5, 7),
+</span></span><span style="display:flex;"><span>            //后面
+</span></span><span style="display:flex;"><span>            new Three.Face3(5, 6, 7),
+</span></span><span style="display:flex;"><span>            new Three.Face3(5, 4, 6),
+</span></span><span style="display:flex;"><span>            //左面
+</span></span><span style="display:flex;"><span>            new Three.Face3(4, 2, 6),
+</span></span><span style="display:flex;"><span>            new Three.Face3(4, 0, 2),
+</span></span><span style="display:flex;"><span>            //顶面
+</span></span><span style="display:flex;"><span>            new Three.Face3(2, 7, 6),
+</span></span><span style="display:flex;"><span>            new Three.Face3(2, 3, 7),
+</span></span><span style="display:flex;"><span>            //底面
+</span></span><span style="display:flex;"><span>            new Three.Face3(4, 1, 0),
+</span></span><span style="display:flex;"><span>            new Three.Face3(4, 5, 1)
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        geometry.faces[0].color = geometry.faces[1].color = new Three.Color(&#39;red&#39;)
+</span></span><span style="display:flex;"><span>        geometry.faces[2].color = geometry.faces[3].color = new Three.Color(&#39;yello&#39;)
+</span></span><span style="display:flex;"><span>        geometry.faces[4].color = geometry.faces[5].color = new Three.Color(&#39;green&#39;)
+</span></span><span style="display:flex;"><span>        geometry.faces[6].color = geometry.faces[7].color = new Three.Color(&#39;cyan&#39;)
+</span></span><span style="display:flex;"><span>        geometry.faces[8].color = geometry.faces[9].color = new Three.Color(&#39;blue&#39;)
+</span></span><span style="display:flex;"><span>        geometry.faces[10].color = geometry.faces[11].color = new Three.Color(&#39;magenta&#39;)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        geometry.faces.forEach((face, index) =&gt; {
+</span></span><span style="display:flex;"><span>            face.vertexColors = [
+</span></span><span style="display:flex;"><span>                (new Three.Color()).setHSL(index / 12, 1, 0.5),
+</span></span><span style="display:flex;"><span>                (new Three.Color()).setHSL(index / 12 + 0.1, 1, 0.5),
+</span></span><span style="display:flex;"><span>                (new Three.Color()).setHSL(index / 12 + 0.2, 1, 0.5)
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        geometry.computeFaceNormals()
+</span></span><span style="display:flex;"><span>        //geometry.computeVertexNormals() //对于立方体而言，无需执行此方法
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        //const material = new Three.MeshBasicMaterial({ color: &#39;red&#39; })
+</span></span><span style="display:flex;"><span>        const material = new Three.MeshPhongMaterial({ vertexColors: true })
+</span></span><span style="display:flex;"><span>        //const material = new Three.MeshPhongMaterial({ color: &#39;red&#39; })
+</span></span><span style="display:flex;"><span>        const cube = new Three.Mesh(geometry, material)
+</span></span><span style="display:flex;"><span>        scene.add(cube)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const render = (time: number) =&gt; {
+</span></span><span style="display:flex;"><span>            cube.rotation.x = cube.rotation.y = time * 0.001
+</span></span><span style="display:flex;"><span>            renderer.render(scene, camera)
+</span></span><span style="display:flex;"><span>            window.requestAnimationFrame(render)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        window.requestAnimationFrame(render)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        const handleResize = () =&gt; {
+</span></span><span style="display:flex;"><span>            if (canvasRef.current === null) {
+</span></span><span style="display:flex;"><span>                return
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            const width = canvasRef.current.clientWidth
+</span></span><span style="display:flex;"><span>            const height = canvasRef.current.clientHeight
+</span></span><span style="display:flex;"><span>            camera.aspect = width / height
+</span></span><span style="display:flex;"><span>            camera.updateProjectionMatrix()
+</span></span><span style="display:flex;"><span>            renderer.setSize(width, height, false)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        handleResize()
+</span></span><span style="display:flex;"><span>        window.addEventListener(&#39;resize&#39;, handleResize)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        return () =&gt; {
+</span></span><span style="display:flex;"><span>            window.removeEventListener(&#39;resize&#39;, handleResize)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }, [canvasRef])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    return (
+</span></span><span style="display:flex;"><span>        &lt;canvas ref={canvasRef} className=&#39;full-screen&#39; /&gt;
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>export default HelloCustomGeometry
+</span></span></code></pre></div><p>实际运行后，就会看到一个 炫彩的立方体。</p>
+<h4 id="本文小结">本文小结<a hidden class="anchor" aria-hidden="true" href="#本文小结">#</a></h4>
+<p>通过自定义一个立方体的示例，可以看出，尽管是一个很简单的立方体，可我们都需要非常复杂的空间坐标计算配置，因此还是本文开头那段话：</p>
+<ol>
+<li>如非必要，不要在 Three.js 中自定义几何体。</li>
+<li>使用传统的 3D 软件建模，更香。</li>
+</ol>
+<h4 id="补充说明">补充说明<a hidden class="anchor" aria-hidden="true" href="#补充说明">#</a></h4>
+<p>本系列教程，实际上是我一边学习 <a href="https://threejsfundamentals.org/threejs/lessons/">https://threejsfundamentals.org/threejs/lessons/</a> ，一边使用 React + TypeScript + 自己的语言和理解 重写一遍的。</p>
+<p>本文对应的英文教程为：<a href="https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html">https://threejsfundamentals.org/threejs/lessons/threejs-custom-geometry.html</a></p>
+<p>在原版的英文教程中，还有另外一个 通过一张图片来获得 纹理坐标(UV)，进而生成一张地图的例子。</p>
+<p>我个人感觉没有必要去这么深入学习自定义几何体，所以本文略过这个示例。</p>
+<p>除此之外，官方还有单独一篇，使用 BufferGeometry 来自定义几何体的教程：</p>
+<p><a href="https://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html">https://threejsfundamentals.org/threejs/lessons/threejs-custom-buffergeometry.html</a></p>
+<p>我认为现阶段，没有必要如此这般的深入去学习自定义几何体，因为暂停这部分的学习。</p>
+<blockquote>
+<p>如果你还有精力，可以去学习一下。</p>
+</blockquote>
+<h2 id="threejs基础知识总结">Three.js基础知识总结<a hidden class="anchor" aria-hidden="true" href="#threejs基础知识总结">#</a></h2>
+<p>通过前面一系列的学习，我们终于将 Three.js 基础知识学习完成。</p>
+<p>回顾一下我们都学习了哪些知识点：</p>
+<ol>
+<li>Three.js 简介、项目初始化、入门示例</li>
+<li>图元、3D文字、场景、材质、纹理、灯光、镜头、阴影、雾、离屏渲染、自定义几何体</li>
+<li>辅助对象(灯光辅助对象 LightHelper 、镜头辅助对象 XxxxCameraHelper、坐标轴辅助对象 AxesHelper)、镜头轨道控制类(OrbitControls)</li>
+</ol>
+<p>真心不容易，给自己一朵小红花！</p>
+<p>&hellip;</p>
+<p>我们本系列教程整体的规划是：</p>
+<ol>
+<li>基础篇 (✓)</li>
+<li>技巧篇 (x)</li>
+<li>优化篇 (x)</li>
+<li>解决方案 (x)</li>
+<li>WebVR (x)</li>
+<li>实例篇 (x)</li>
+</ol>
+<p>目前我们已经学习了基础篇，对 Three.js 已经有了足够的基础知识掌握，后面的学习都是建立在这些基础知识之上的。</p>
+<p><strong>接下来，进入技巧篇——按需渲染。</strong></p>
+<h4 id="稍等再啰嗦几句">稍等，再啰嗦几句<a hidden class="anchor" aria-hidden="true" href="#稍等再啰嗦几句">#</a></h4>
+<p>我们后续的讲解文章中，将加快进度，不再像 基础篇 这样如此细致，甚至是啰嗦。</p>
+<p>因此，我希望你不看教程示例代码，而是自己独立敲出示例代码。如果做不到，那么你先不要着急进入下一篇，而是应该再回过头，反复阅读，反复敲几遍代码。</p>
+<blockquote>
+<p>在做(动手敲代码)的过程中学习，而不是只看不动手。</p>
+</blockquote>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/three.js/">Three.js</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/threejs/15-three.js%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%A6%BB%E5%B1%8F%E6%B8%B2%E6%9F%93/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>15 Three.js基础之离屏渲染</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/threejs/17-three.js%E6%8A%80%E5%B7%A7%E4%B9%8B%E6%8C%89%E9%9C%80%E6%B8%B2%E6%9F%93/">
+    <span class="title">Next »</span>
+    <br>
+    <span>17 Three.js技巧之按需渲染</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

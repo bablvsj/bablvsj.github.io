@@ -1,111 +1,660 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>JavaScript模块化：ES6 | Bablvsj's Blog</title><meta name=keywords content="Node"><meta name=description content="JavaScript模块化：ES6 - Bablvsj's Blog"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/><link crossorigin=anonymous href=/assets/css/stylesheet.241265d51339977eb0f90d05780e286ec2789600ca4137f29552dec9dee06569.css integrity="sha256-JBJl1RM5l36w+Q0FeA4obsJ4lgDKQTfylVLeyd7gZWk=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=stylesheet href=/css/syntax.css><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="JavaScript模块化：ES6"><meta property="og:description" content><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-01-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="JavaScript模块化：ES6"><meta name=twitter:description content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"JavaScript模块化：ES6","item":"https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"JavaScript模块化：ES6","name":"JavaScript模块化：ES6","description":"","keywords":["Node"],"articleBody":"模块化开发的引入 JS开发的弊端 JS 在使用时存在两大问题，而 Node.js 可以很好地避免这两个问题：\n文件依赖。比如 a 文件依赖 b 文件，b 文件依赖 c 文件。而 Node.js 中的文件依赖，不需要人工维护和人为分析。\n命名冲突。js 的各个文件是相互开放的，容易导致命名冲突。而 Node.js 是属于半封闭的状态，可以指定哪些内容是开放的，哪些内容是封闭的。\nNode.js 在解决这两个问题时，用到的就是模块化开发。\n软件开发中的模块化开发 一个功能就是一个模块，多个模块可以组成完整的应用，抽离一个模块不会影响其他功能的运行。\n效果如下：\nNode.js 中的模块化开发 Node.js 规定，一个 JS 文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法访问。\n模块内部可以使用 exports 对象进行成员导出， 使用 require 方法导入其他模块。效果如下：\nES6模块化的基本语法 ES6模块化的说明 依赖模块需要编译打包处理。原因如下：\n（1）有些浏览器不支持 ES6 的语法，写完 ES6 的代码后，需要通过Babel将 ES6 转化为 ES5。\n（2）生成了ES5之后，里面仍然有require语法，而浏览器并不认识require这个关键字。此时，可以用 Browserify编译打包 js，进行再次转换。\n推荐学习链接：\nhttp://es6.ruanyifeng.com/#docs/module 基本语法： 导出模块：\nexport 引入模块：\nimport xxx from '路径' ES6模块化的使用举例（自定义模块） 1、初始化项目 （1）在工程文件中新建如下目录：\njs | src | module1.js | module2.js | module3.js | main.js index.html （2）在工程的根目录下，新建文件package.json，内容如下：\n{ \"name\": \"es6-babel-browserify\", \"version\": \"1.0.0\" } 2、环境配置：安装babel 和 browserify等 （1）安装babel 和 browserify：\nnpm install babel-cli -g npm install babel-preset-es2015 --save-dev npm install browserify -g 安装 babel 的详细解释，可以参考本人的另外一篇文章：ES6的介绍和环境配置\n（2）新建.babelrc：\n在根目录下新建文件.babelrc，输入如下内容：\n{ \"presets\":[ \"es2015\" ], \"plugins\":[] } 3、编写代码 （1）module1.js：\n//暴露模块：采用分别暴露的方式 export function foo1() { console.log('我是 module1 中的 foo1'); } export function foo2() { console.log('我是 module2 中的 foo2'); } export let arr = [1, 2, 3, 4, 5]; （2）module2.js：\n//暴露模块：采用统一暴露的方式 function fn1() { console.log('我是 module2 中的 fn1'); } function fn2() { console.log('我是 module2 中的 fn2'); } //统一暴露 export { fn1, fn2 }; （3）module3.js：\n//暴露模块：采用默认暴露的方式。 //默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据 //语法格式：export default value; export default () =\u003e { console.log('我是 module3 中 default 方式暴露的函数'); }; 这里，我们采取了一种新的暴露方式（默认暴露），在暴露时，加上了default这个关键字。代码里暴露了一个箭头函数，稍后，我们注意在main.js里是怎么引入module3.js的。\n注意，我们只能写一次 default，也就是说，只能进行一次默认暴露。\n（4）module4.js：（default方式暴露多个属性）\n//暴露模块：采用默认暴露的方式。 //默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据 //语法格式：export default value; export default { name: '我是 module4 中 default 方式暴露的属性 name', foo() { console.log('我是 module4 中 default 方式暴露的函数 foo'); } } 这里，我们依旧采取了默认暴露的方式，只能写一次 default。代码里暴露了一个对象（对象里存放了一个属性、一个方法）。稍后，我们注意在main.js里是怎么引入module4.js的。\n如果我想暴露多个属性、多个对象怎呢？很简单，把你想要暴露的所有内容，都放在default里，包成一个对象。你看module4.js就是如此， 同时暴露了多个属性\u0026方法。\n（5）main.js：\n这个是主模块。现在，我们来看一下，它如何引入上面的四个模块。\n//主模块。引入其他的模块 import { foo1, foo2 } from './module1'; //采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module1 中的对象名一致。 import { fn1, fn2 } from './module2'; //采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module2 中的对象名一致。 import myModule3 from './module3'; //module3 模块是采用 default 方式进行暴露的，myModule3 这个名字是我随便起的 import myModule4 from './module4'; //module4 模块是采用 default 方式进行暴露的，myModule4 这个名字是我随便起的 //调用module1、module2中的内容 foo1(); foo2(); fn1(); fn2(); //调用module3中的内容 myModule3(); //调用module4中的内容 console.log(myModule4.name); //module4中的属性 myModule4.foo(); //module4中的方法 我们可以看出：（具体请看注释，非常重要）\nmodule1和module2是采用常规暴露的形式，在引入它们时，模块名要一致。而且，要求用对象解构赋值的形式，而不是用 import myModule from ...这种形式（否则会报错 undefined）。\nmodule2和module3是采用默认暴露的形式，在引入它们时，模块名随便起。\n（6）index.html：\n在这里引入main.js即可。\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\"\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e \u003cmeta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"\u003e \u003ctitle\u003eDocument\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cscript src=\"dist/main.js\"\u003e\u003c/script\u003e \u003c/body\u003e \u003c/html\u003e 4、编译转换 如果我们不进行转换，而是直接在 index.html 中加载 js/src/main.js，是会报错的：\n接下来，我们就进行转换。\n（1）利用 babel 将 ES6 转换为 ES5：\nbabel src -d build //build目录会自动生成 上方命令的意思是，将src目录下的所有ES6文件转化为ES5文件，并放在build目录下（build目录会被自动创建）。\n转化成ES5之后，我们发现，如果直接在 index.html 中加载build目录下的ES5文件，也是会报错的，因为浏览器不认识main.js里的require关键字：\n于是，我们还要进行一次转换。\n（2）利用Browserify编译打包 build目录下的 ES5 文件：\nbrowserify build/main.js -o dist/main.js //dist目录需要手动创建 dist/main.js就是我们需要引入到 index.html 里的文件。\n以后，我们每次修改完ES6的代码，就要执行上面的两个命令，重新生成新的js文件。\n运行效果：\n工程文件：\n2018-04-13-ES6Demo.rar ES6模块化的使用举例（引入第三方模块） 下载 jQuery 包：\nnpm install jquery@1 //下载jQuery 1.X 的版本里最新的 在main.js 中引入上面的 jQuery：\nimport $ from 'jQuery'; 然后我们就可以通过$这个符号去写jQuery的代码了。\n","wordCount":"2496","inLanguage":"en","datePublished":"2020-01-01T17:11:35+08:00","dateModified":"2020-01-01T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>JavaScript模块化：ES6</h1><div class=post-meta><div class=post-tags-meta><a href=https://bablvsj.github.io/tags/node/>Node</a></div>5 min&nbsp;·&nbsp;<span title='2020-01-01 17:11:35 +0800 +0800'>2020/01/01</span></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91%e7%9a%84%e5%bc%95%e5%85%a5 aria-label=模块化开发的引入>模块化开发的引入</a><ul><li><a href=#js%e5%bc%80%e5%8f%91%e7%9a%84%e5%bc%8a%e7%ab%af aria-label=JS开发的弊端>JS开发的弊端</a></li><li><a href=#%e8%bd%af%e4%bb%b6%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91 aria-label=软件开发中的模块化开发>软件开发中的模块化开发</a></li><li><a href=#nodejs-%e4%b8%ad%e7%9a%84%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91 aria-label="Node.js 中的模块化开发">Node.js 中的模块化开发</a></li></ul></li><li><a href=#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95 aria-label=ES6模块化的基本语法>ES6模块化的基本语法</a><ul><li><a href=#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e8%af%b4%e6%98%8e aria-label=ES6模块化的说明>ES6模块化的说明</a></li><li><a href=#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95 aria-label=基本语法：>基本语法：</a></li></ul></li><li><a href=#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e4%bd%bf%e7%94%a8%e4%b8%be%e4%be%8b%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e5%9d%97 aria-label=ES6模块化的使用举例（自定义模块）>ES6模块化的使用举例（自定义模块）</a><ul><li><a href=#1%e5%88%9d%e5%a7%8b%e5%8c%96%e9%a1%b9%e7%9b%ae aria-label=1、初始化项目>1、初始化项目</a></li><li><a href=#2%e7%8e%af%e5%a2%83%e9%85%8d%e7%bd%ae%e5%ae%89%e8%a3%85babel-%e5%92%8c-browserify%e7%ad%89 aria-label="2、环境配置：安装babel 和 browserify等">2、环境配置：安装babel 和 browserify等</a></li><li><a href=#3%e7%bc%96%e5%86%99%e4%bb%a3%e7%a0%81 aria-label=3、编写代码>3、编写代码</a></li><li><a href=#4%e7%bc%96%e8%af%91%e8%bd%ac%e6%8d%a2 aria-label=4、编译转换>4、编译转换</a></li></ul></li><li><a href=#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e4%bd%bf%e7%94%a8%e4%b8%be%e4%be%8b%e5%bc%95%e5%85%a5%e7%ac%ac%e4%b8%89%e6%96%b9%e6%a8%a1%e5%9d%97 aria-label=ES6模块化的使用举例（引入第三方模块）>ES6模块化的使用举例（引入第三方模块）</a></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><h2 id=模块化开发的引入>模块化开发的引入<a hidden class=anchor aria-hidden=true href=#模块化开发的引入>#</a></h2><h3 id=js开发的弊端>JS开发的弊端<a hidden class=anchor aria-hidden=true href=#js开发的弊端>#</a></h3><p>JS 在使用时存在两大问题，而 Node.js 可以很好地避免这两个问题：</p><ul><li><p>文件依赖。比如 a 文件依赖 b 文件，b 文件依赖 c 文件。而 Node.js 中的文件依赖，不需要人工维护和人为分析。</p></li><li><p>命名冲突。js 的各个文件是相互开放的，容易导致命名冲突。而 Node.js 是属于半封闭的状态，可以指定哪些内容是开放的，哪些内容是封闭的。</p></li></ul><p>Node.js 在解决这两个问题时，用到的就是模块化开发。</p><h3 id=软件开发中的模块化开发>软件开发中的模块化开发<a hidden class=anchor aria-hidden=true href=#软件开发中的模块化开发>#</a></h3><p>一个功能就是一个模块，多个模块可以组成完整的应用，抽离一个模块不会影响其他功能的运行。</p><p>效果如下：</p><p><img loading=lazy src=http://img.smyhvae.com/20200409_1934.png alt></p><h3 id=nodejs-中的模块化开发>Node.js 中的模块化开发<a hidden class=anchor aria-hidden=true href=#nodejs-中的模块化开发>#</a></h3><p>Node.js 规定，一个 JS 文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法访问。</p><p>模块内部可以使用 <code>exports</code> 对象进行成员导出， 使用 <code>require</code> 方法导入其他模块。效果如下：</p><p><img loading=lazy src=http://img.smyhvae.com/20200409_1932.png alt></p><h2 id=es6模块化的基本语法>ES6模块化的基本语法<a hidden class=anchor aria-hidden=true href=#es6模块化的基本语法>#</a></h2><h3 id=es6模块化的说明>ES6模块化的说明<a hidden class=anchor aria-hidden=true href=#es6模块化的说明>#</a></h3><p><strong>依赖模块需要编译打包处理</strong>。原因如下：</p><ul><li><p>（1）有些浏览器不支持 ES6 的语法，写完 ES6 的代码后，需要通过<code>Babel</code>将 ES6 转化为 ES5。</p></li><li><p>（2）生成了ES5之后，里面仍然有<code>require</code>语法，而浏览器并不认识<code>require</code>这个关键字。此时，可以用 <code>Browserify</code>编译打包 js，进行再次转换。</p></li></ul><p>推荐学习链接：</p><ul><li><a href=http://es6.ruanyifeng.com/#docs/module>http://es6.ruanyifeng.com/#docs/module</a></li></ul><h3 id=基本语法>基本语法：<a hidden class=anchor aria-hidden=true href=#基本语法>#</a></h3><p><strong>导出模块</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>	export
-</span></span></code></pre></div><p><strong>引入模块</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>	import xxx from &#39;路径&#39;
-</span></span></code></pre></div><h2 id=es6模块化的使用举例自定义模块>ES6模块化的使用举例（自定义模块）<a hidden class=anchor aria-hidden=true href=#es6模块化的使用举例自定义模块>#</a></h2><h3 id=1初始化项目>1、初始化项目<a hidden class=anchor aria-hidden=true href=#1初始化项目>#</a></h3><p>（1）在工程文件中新建如下目录：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>js
-</span></span><span style=display:flex><span>    | src
-</span></span><span style=display:flex><span>    	| module1.js
-</span></span><span style=display:flex><span>    	| module2.js
-</span></span><span style=display:flex><span>    	| module3.js
-</span></span><span style=display:flex><span>    	| main.js
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>index.html
-</span></span></code></pre></div><p>（2）在工程的根目录下，新建文件<code>package.json</code>，内容如下：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=color:#9d0006>&#34;name&#34;</span>: <span style=color:#79740e>&#34;es6-babel-browserify&#34;</span>,
-</span></span><span style=display:flex><span>    <span style=color:#9d0006>&#34;version&#34;</span>: <span style=color:#79740e>&#34;1.0.0&#34;</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=2环境配置安装babel-和-browserify等>2、环境配置：安装babel 和 browserify等<a hidden class=anchor aria-hidden=true href=#2环境配置安装babel-和-browserify等>#</a></h3><p>（1）安装babel 和 browserify：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>	npm install babel-cli -g
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	npm install babel-preset-es2015 --save-dev
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>	npm install browserify -g
-</span></span></code></pre></div><p>安装 babel 的详细解释，可以参考本人的另外一篇文章：<a href=https://github.com/smyhvae/Web/blob/master/10-ES6/03-ES6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md>ES6的介绍和环境配置</a></p><p>（2）新建.babelrc：</p><p>在根目录下新建文件<code>.babelrc</code>，输入如下内容：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    &#34;presets&#34;:[
-</span></span><span style=display:flex><span>        &#34;es2015&#34;
-</span></span><span style=display:flex><span>    ],
-</span></span><span style=display:flex><span>    &#34;plugins&#34;:[]
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=3编写代码>3、编写代码<a hidden class=anchor aria-hidden=true href=#3编写代码>#</a></h3><p>（1）module1.js：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#928374;font-style:italic>//暴露模块：采用分别暴露的方式
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>export</span> <span style=color:#af3a03>function</span> foo1() {
-</span></span><span style=display:flex><span>    console.log(<span style=color:#79740e>&#39;我是 module1 中的 foo1&#39;</span>);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>export</span> <span style=color:#af3a03>function</span> foo2() {
-</span></span><span style=display:flex><span>    console.log(<span style=color:#79740e>&#39;我是 module2 中的 foo2&#39;</span>);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>export</span> <span style=color:#af3a03>let</span> arr <span style=color:#af3a03>=</span> [<span style=color:#8f3f71>1</span>, <span style=color:#8f3f71>2</span>, <span style=color:#8f3f71>3</span>, <span style=color:#8f3f71>4</span>, <span style=color:#8f3f71>5</span>];
-</span></span></code></pre></div><p>（2）module2.js：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#928374;font-style:italic>//暴露模块：采用统一暴露的方式
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> fn1() {
-</span></span><span style=display:flex><span>    console.log(<span style=color:#79740e>&#39;我是 module2 中的 fn1&#39;</span>);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>function</span> fn2() {
-</span></span><span style=display:flex><span>    console.log(<span style=color:#79740e>&#39;我是 module2 中的 fn2&#39;</span>);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//统一暴露
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>export</span> { fn1, fn2 };
-</span></span></code></pre></div><p>（3）module3.js：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#928374;font-style:italic>//暴露模块：采用默认暴露的方式。
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//语法格式：export default value;
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>export</span> <span style=color:#af3a03>default</span> () =&gt; {
-</span></span><span style=display:flex><span>    console.log(<span style=color:#79740e>&#39;我是 module3 中 default 方式暴露的函数&#39;</span>);
-</span></span><span style=display:flex><span>};
-</span></span></code></pre></div><p>这里，我们采取了一种新的暴露方式（默认暴露），在暴露时，加上了<code>default</code>这个关键字。代码里暴露了一个箭头函数，稍后，我们注意在main.js里是怎么引入module3.js的。</p><p>注意，我们只能写一次 default，也就是说，只能进行一次默认暴露。</p><p>（4）module4.js：（default方式暴露多个属性）</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#928374;font-style:italic>//暴露模块：采用默认暴露的方式。
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//语法格式：export default value;
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>export</span> <span style=color:#af3a03>default</span> {
-</span></span><span style=display:flex><span>    name<span style=color:#af3a03>:</span> <span style=color:#79740e>&#39;我是 module4 中 default 方式暴露的属性 name&#39;</span>,
-</span></span><span style=display:flex><span>    foo() {
-</span></span><span style=display:flex><span>        console.log(<span style=color:#79740e>&#39;我是 module4 中 default 方式暴露的函数 foo&#39;</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>这里，我们依旧采取了默认暴露的方式，只能写一次 default。代码里暴露了一个对象（对象里存放了一个属性、一个方法）。稍后，我们注意在main.js里是怎么引入module4.js的。</p><p>如果我想暴露多个属性、多个对象怎呢？很简单，把你想要暴露的所有内容，都放在default里，包成一个对象。你看module4.js就是如此， 同时暴露了多个属性&方法。</p><p>（5）main.js：</p><p>这个是主模块。现在，我们来看一下，它如何引入上面的四个模块。</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//主模块。引入其他的模块
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#af3a03>import</span> { foo1, foo2 } from <span style=color:#79740e>&#39;./module1&#39;</span>; <span style=color:#928374;font-style:italic>//采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module1 中的对象名一致。
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>import</span> { fn1, fn2 } from <span style=color:#79740e>&#39;./module2&#39;</span>;   <span style=color:#928374;font-style:italic>//采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module2 中的对象名一致。
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>import</span> myModule3 from <span style=color:#79740e>&#39;./module3&#39;</span>;   <span style=color:#928374;font-style:italic>//module3 模块是采用 default 方式进行暴露的，myModule3 这个名字是我随便起的
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span><span style=color:#af3a03>import</span> myModule4 from <span style=color:#79740e>&#39;./module4&#39;</span>;   <span style=color:#928374;font-style:italic>//module4 模块是采用 default 方式进行暴露的，myModule4 这个名字是我随便起的
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//调用module1、module2中的内容
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>foo1();
-</span></span><span style=display:flex><span>foo2();
-</span></span><span style=display:flex><span>fn1();
-</span></span><span style=display:flex><span>fn2();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//调用module3中的内容
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>myModule3();
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>//调用module4中的内容
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>console.log(myModule4.name);  <span style=color:#928374;font-style:italic>//module4中的属性
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>myModule4.foo();              <span style=color:#928374;font-style:italic>//module4中的方法
-</span></span></span></code></pre></div><p>我们可以看出：（具体请看注释，非常重要）</p><ul><li><p>module1和module2是采用<strong>常规暴露</strong>的形式，在引入它们时，模块名要一致。而且，要求用<strong>对象解构赋值</strong>的形式，而不是用 <code>import myModule from ...</code>这种形式（否则会报错 undefined）。</p></li><li><p>module2和module3是采用<strong>默认暴露</strong>的形式，在引入它们时，模块名随便起。</p></li></ul><p>（6）index.html：</p><p>在这里引入main.js即可。</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#427b58>&lt;!DOCTYPE html&gt;</span>
-</span></span><span style=display:flex><span>&lt;<span style=color:#9d0006>html</span> <span style=color:#79740e;font-weight:700>lang</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;en&#34;</span>&gt;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>&lt;<span style=color:#9d0006>head</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>meta</span> <span style=color:#79740e;font-weight:700>charset</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;UTF-8&#34;</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>meta</span> <span style=color:#79740e;font-weight:700>name</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;viewport&#34;</span> <span style=color:#79740e;font-weight:700>content</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>meta</span> <span style=color:#79740e;font-weight:700>http-equiv</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;X-UA-Compatible&#34;</span> <span style=color:#79740e;font-weight:700>content</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;ie=edge&#34;</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>title</span>&gt;Document&lt;/<span style=color:#9d0006>title</span>&gt;
-</span></span><span style=display:flex><span>&lt;/<span style=color:#9d0006>head</span>&gt;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>&lt;<span style=color:#9d0006>body</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>script</span> <span style=color:#79740e;font-weight:700>src</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;dist/main.js&#34;</span>&gt;&lt;/<span style=color:#9d0006>script</span>&gt;
-</span></span><span style=display:flex><span>&lt;/<span style=color:#9d0006>body</span>&gt;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>&lt;/<span style=color:#9d0006>html</span>&gt;
-</span></span></code></pre></div><h3 id=4编译转换>4、编译转换<a hidden class=anchor aria-hidden=true href=#4编译转换>#</a></h3><p>如果我们不进行转换，而是直接在 index.html 中加载 js/src/main.js，是会报错的：</p><p>接下来，我们就进行转换。</p><p>（1）利用 babel 将 ES6 转换为 ES5：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>babel src -d build      //build目录会自动生成
-</span></span></code></pre></div><p>上方命令的意思是，将<code>src</code>目录下的所有ES6文件转化为ES5文件，并放在<code>build</code>目录下（<code>build</code>目录会被自动创建）。</p><p>转化成ES5之后，我们发现，如果直接在 index.html 中加载<code>build</code>目录下的ES5文件，也是会报错的，因为浏览器不认识<code>main.js</code>里的<code>require</code>关键字：</p><p><img loading=lazy src=http://img.smyhvae.com/20180414_1410.png alt></p><p>于是，我们还要进行一次转换。</p><p>（2）利用<code>Browserify</code>编译打包 <code>build</code>目录下的 ES5 文件：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>browserify build/main.js -o dist/main.js     //dist目录需要手动创建
-</span></span></code></pre></div><p>dist/main.js就是我们需要引入到 index.html 里的文件。</p><p>以后，我们每次修改完ES6的代码，就要执行上面的两个命令，重新生成新的js文件。</p><p>运行效果：</p><p><img loading=lazy src=http://img.smyhvae.com/20180414_1615.png alt></p><p>工程文件：</p><ul><li><a href=https://download.csdn.net/download/smyhvae/10348940>2018-04-13-ES6Demo.rar</a></li></ul><h2 id=es6模块化的使用举例引入第三方模块>ES6模块化的使用举例（引入第三方模块）<a hidden class=anchor aria-hidden=true href=#es6模块化的使用举例引入第三方模块>#</a></h2><p>下载 jQuery 包：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>npm install jquery@1      //下载jQuery 1.X 的版本里最新的
-</span></span></code></pre></div><p>在main.js 中引入上面的 jQuery：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>import $ from &#39;jQuery&#39;;
-</span></span></code></pre></div><p>然后我们就可以通过<code>$</code>这个符号去写jQuery的代码了。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/node/>Node</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96cmd/><span class=title>« Prev</span><br><span>JavaScript模块化：CMD</span></a>
-<a class=next href=https://bablvsj.github.io/posts/interview/css/03-less%E8%AF%A6%E8%A7%A3/><span class=title>Next »</span><br><span>Less详解</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>JavaScript模块化：ES6 | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="Node">
+<meta name="description" content="JavaScript模块化：ES6 - Bablvsj&#39;s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5525cc669fcb4f094a55bfc3ebfc5a6e73445e090010c66ab49c2cad14735f57.css" integrity="sha256-VSXMZp/LTwlKVb/D6/xabnNEXgkAEMZqtJwsrRRzX1c=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="stylesheet" href="/css/syntax.css">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="JavaScript模块化：ES6" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-01-01T17:11:35+08:00" />
+<meta property="article:modified_time" content="2020-01-01T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="JavaScript模块化：ES6"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "JavaScript模块化：ES6",
+      "item": "https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JavaScript模块化：ES6",
+  "name": "JavaScript模块化：ES6",
+  "description": "",
+  "keywords": [
+    "Node"
+  ],
+  "articleBody": "模块化开发的引入 JS开发的弊端 JS 在使用时存在两大问题，而 Node.js 可以很好地避免这两个问题：\n文件依赖。比如 a 文件依赖 b 文件，b 文件依赖 c 文件。而 Node.js 中的文件依赖，不需要人工维护和人为分析。\n命名冲突。js 的各个文件是相互开放的，容易导致命名冲突。而 Node.js 是属于半封闭的状态，可以指定哪些内容是开放的，哪些内容是封闭的。\nNode.js 在解决这两个问题时，用到的就是模块化开发。\n软件开发中的模块化开发 一个功能就是一个模块，多个模块可以组成完整的应用，抽离一个模块不会影响其他功能的运行。\n效果如下：\nNode.js 中的模块化开发 Node.js 规定，一个 JS 文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法访问。\n模块内部可以使用 exports 对象进行成员导出， 使用 require 方法导入其他模块。效果如下：\nES6模块化的基本语法 ES6模块化的说明 依赖模块需要编译打包处理。原因如下：\n（1）有些浏览器不支持 ES6 的语法，写完 ES6 的代码后，需要通过Babel将 ES6 转化为 ES5。\n（2）生成了ES5之后，里面仍然有require语法，而浏览器并不认识require这个关键字。此时，可以用 Browserify编译打包 js，进行再次转换。\n推荐学习链接：\nhttp://es6.ruanyifeng.com/#docs/module 基本语法： 导出模块：\nexport 引入模块：\nimport xxx from '路径' ES6模块化的使用举例（自定义模块） 1、初始化项目 （1）在工程文件中新建如下目录：\njs | src | module1.js | module2.js | module3.js | main.js index.html （2）在工程的根目录下，新建文件package.json，内容如下：\n{ \"name\": \"es6-babel-browserify\", \"version\": \"1.0.0\" } 2、环境配置：安装babel 和 browserify等 （1）安装babel 和 browserify：\nnpm install babel-cli -g npm install babel-preset-es2015 --save-dev npm install browserify -g 安装 babel 的详细解释，可以参考本人的另外一篇文章：ES6的介绍和环境配置\n（2）新建.babelrc：\n在根目录下新建文件.babelrc，输入如下内容：\n{ \"presets\":[ \"es2015\" ], \"plugins\":[] } 3、编写代码 （1）module1.js：\n//暴露模块：采用分别暴露的方式 export function foo1() { console.log('我是 module1 中的 foo1'); } export function foo2() { console.log('我是 module2 中的 foo2'); } export let arr = [1, 2, 3, 4, 5]; （2）module2.js：\n//暴露模块：采用统一暴露的方式 function fn1() { console.log('我是 module2 中的 fn1'); } function fn2() { console.log('我是 module2 中的 fn2'); } //统一暴露 export { fn1, fn2 }; （3）module3.js：\n//暴露模块：采用默认暴露的方式。 //默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据 //语法格式：export default value; export default () =\u003e { console.log('我是 module3 中 default 方式暴露的函数'); }; 这里，我们采取了一种新的暴露方式（默认暴露），在暴露时，加上了default这个关键字。代码里暴露了一个箭头函数，稍后，我们注意在main.js里是怎么引入module3.js的。\n注意，我们只能写一次 default，也就是说，只能进行一次默认暴露。\n（4）module4.js：（default方式暴露多个属性）\n//暴露模块：采用默认暴露的方式。 //默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据 //语法格式：export default value; export default { name: '我是 module4 中 default 方式暴露的属性 name', foo() { console.log('我是 module4 中 default 方式暴露的函数 foo'); } } 这里，我们依旧采取了默认暴露的方式，只能写一次 default。代码里暴露了一个对象（对象里存放了一个属性、一个方法）。稍后，我们注意在main.js里是怎么引入module4.js的。\n如果我想暴露多个属性、多个对象怎呢？很简单，把你想要暴露的所有内容，都放在default里，包成一个对象。你看module4.js就是如此， 同时暴露了多个属性\u0026方法。\n（5）main.js：\n这个是主模块。现在，我们来看一下，它如何引入上面的四个模块。\n//主模块。引入其他的模块 import { foo1, foo2 } from './module1'; //采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module1 中的对象名一致。 import { fn1, fn2 } from './module2'; //采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module2 中的对象名一致。 import myModule3 from './module3'; //module3 模块是采用 default 方式进行暴露的，myModule3 这个名字是我随便起的 import myModule4 from './module4'; //module4 模块是采用 default 方式进行暴露的，myModule4 这个名字是我随便起的 //调用module1、module2中的内容 foo1(); foo2(); fn1(); fn2(); //调用module3中的内容 myModule3(); //调用module4中的内容 console.log(myModule4.name); //module4中的属性 myModule4.foo(); //module4中的方法 我们可以看出：（具体请看注释，非常重要）\nmodule1和module2是采用常规暴露的形式，在引入它们时，模块名要一致。而且，要求用对象解构赋值的形式，而不是用 import myModule from ...这种形式（否则会报错 undefined）。\nmodule2和module3是采用默认暴露的形式，在引入它们时，模块名随便起。\n（6）index.html：\n在这里引入main.js即可。\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\"\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e \u003cmeta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"\u003e \u003ctitle\u003eDocument\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cscript src=\"dist/main.js\"\u003e\u003c/script\u003e \u003c/body\u003e \u003c/html\u003e 4、编译转换 如果我们不进行转换，而是直接在 index.html 中加载 js/src/main.js，是会报错的：\n接下来，我们就进行转换。\n（1）利用 babel 将 ES6 转换为 ES5：\nbabel src -d build //build目录会自动生成 上方命令的意思是，将src目录下的所有ES6文件转化为ES5文件，并放在build目录下（build目录会被自动创建）。\n转化成ES5之后，我们发现，如果直接在 index.html 中加载build目录下的ES5文件，也是会报错的，因为浏览器不认识main.js里的require关键字：\n于是，我们还要进行一次转换。\n（2）利用Browserify编译打包 build目录下的 ES5 文件：\nbrowserify build/main.js -o dist/main.js //dist目录需要手动创建 dist/main.js就是我们需要引入到 index.html 里的文件。\n以后，我们每次修改完ES6的代码，就要执行上面的两个命令，重新生成新的js文件。\n运行效果：\n工程文件：\n2018-04-13-ES6Demo.rar ES6模块化的使用举例（引入第三方模块） 下载 jQuery 包：\nnpm install jquery@1 //下载jQuery 1.X 的版本里最新的 在main.js 中引入上面的 jQuery：\nimport $ from 'jQuery'; 然后我们就可以通过$这个符号去写jQuery的代码了。\n",
+  "wordCount" : "2496",
+  "inLanguage": "en",
+  "datePublished": "2020-01-01T17:11:35+08:00",
+  "dateModified": "2020-01-01T17:11:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96es6/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      JavaScript模块化：ES6
+    </h1>
+    <div class="post-meta">
+      
+<div class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/node/">Node</a>
+</div>
+
+5 min&nbsp;·&nbsp;<span title='2020-01-01 17:11:35 +0800 CST'>2020/01/01</span>
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91%e7%9a%84%e5%bc%95%e5%85%a5" aria-label="模块化开发的引入">模块化开发的引入</a><ul>
+                        
+                <li>
+                    <a href="#js%e5%bc%80%e5%8f%91%e7%9a%84%e5%bc%8a%e7%ab%af" aria-label="JS开发的弊端">JS开发的弊端</a></li>
+                <li>
+                    <a href="#%e8%bd%af%e4%bb%b6%e5%bc%80%e5%8f%91%e4%b8%ad%e7%9a%84%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91" aria-label="软件开发中的模块化开发">软件开发中的模块化开发</a></li>
+                <li>
+                    <a href="#nodejs-%e4%b8%ad%e7%9a%84%e6%a8%a1%e5%9d%97%e5%8c%96%e5%bc%80%e5%8f%91" aria-label="Node.js 中的模块化开发">Node.js 中的模块化开发</a></li></ul>
+                </li>
+                <li>
+                    <a href="#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95" aria-label="ES6模块化的基本语法">ES6模块化的基本语法</a><ul>
+                        
+                <li>
+                    <a href="#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e8%af%b4%e6%98%8e" aria-label="ES6模块化的说明">ES6模块化的说明</a></li>
+                <li>
+                    <a href="#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95" aria-label="基本语法：">基本语法：</a></li></ul>
+                </li>
+                <li>
+                    <a href="#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e4%bd%bf%e7%94%a8%e4%b8%be%e4%be%8b%e8%87%aa%e5%ae%9a%e4%b9%89%e6%a8%a1%e5%9d%97" aria-label="ES6模块化的使用举例（自定义模块）">ES6模块化的使用举例（自定义模块）</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%88%9d%e5%a7%8b%e5%8c%96%e9%a1%b9%e7%9b%ae" aria-label="1、初始化项目">1、初始化项目</a></li>
+                <li>
+                    <a href="#2%e7%8e%af%e5%a2%83%e9%85%8d%e7%bd%ae%e5%ae%89%e8%a3%85babel-%e5%92%8c-browserify%e7%ad%89" aria-label="2、环境配置：安装babel 和 browserify等">2、环境配置：安装babel 和 browserify等</a></li>
+                <li>
+                    <a href="#3%e7%bc%96%e5%86%99%e4%bb%a3%e7%a0%81" aria-label="3、编写代码">3、编写代码</a></li>
+                <li>
+                    <a href="#4%e7%bc%96%e8%af%91%e8%bd%ac%e6%8d%a2" aria-label="4、编译转换">4、编译转换</a></li></ul>
+                </li>
+                <li>
+                    <a href="#es6%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e4%bd%bf%e7%94%a8%e4%b8%be%e4%be%8b%e5%bc%95%e5%85%a5%e7%ac%ac%e4%b8%89%e6%96%b9%e6%a8%a1%e5%9d%97" aria-label="ES6模块化的使用举例（引入第三方模块）">ES6模块化的使用举例（引入第三方模块）</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="模块化开发的引入">模块化开发的引入<a hidden class="anchor" aria-hidden="true" href="#模块化开发的引入">#</a></h2>
+<h3 id="js开发的弊端">JS开发的弊端<a hidden class="anchor" aria-hidden="true" href="#js开发的弊端">#</a></h3>
+<p>JS 在使用时存在两大问题，而 Node.js 可以很好地避免这两个问题：</p>
+<ul>
+<li>
+<p>文件依赖。比如 a 文件依赖 b 文件，b 文件依赖 c 文件。而 Node.js 中的文件依赖，不需要人工维护和人为分析。</p>
+</li>
+<li>
+<p>命名冲突。js 的各个文件是相互开放的，容易导致命名冲突。而 Node.js 是属于半封闭的状态，可以指定哪些内容是开放的，哪些内容是封闭的。</p>
+</li>
+</ul>
+<p>Node.js 在解决这两个问题时，用到的就是模块化开发。</p>
+<h3 id="软件开发中的模块化开发">软件开发中的模块化开发<a hidden class="anchor" aria-hidden="true" href="#软件开发中的模块化开发">#</a></h3>
+<p>一个功能就是一个模块，多个模块可以组成完整的应用，抽离一个模块不会影响其他功能的运行。</p>
+<p>效果如下：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20200409_1934.png" alt=""  />
+</p>
+<h3 id="nodejs-中的模块化开发">Node.js 中的模块化开发<a hidden class="anchor" aria-hidden="true" href="#nodejs-中的模块化开发">#</a></h3>
+<p>Node.js 规定，一个 JS 文件就是一个模块，模块内部定义的变量和函数默认情况下在外部无法访问。</p>
+<p>模块内部可以使用 <code>exports</code> 对象进行成员导出， 使用 <code>require</code> 方法导入其他模块。效果如下：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20200409_1932.png" alt=""  />
+</p>
+<h2 id="es6模块化的基本语法">ES6模块化的基本语法<a hidden class="anchor" aria-hidden="true" href="#es6模块化的基本语法">#</a></h2>
+<h3 id="es6模块化的说明">ES6模块化的说明<a hidden class="anchor" aria-hidden="true" href="#es6模块化的说明">#</a></h3>
+<p><strong>依赖模块需要编译打包处理</strong>。原因如下：</p>
+<ul>
+<li>
+<p>（1）有些浏览器不支持 ES6 的语法，写完 ES6 的代码后，需要通过<code>Babel</code>将 ES6 转化为 ES5。</p>
+</li>
+<li>
+<p>（2）生成了ES5之后，里面仍然有<code>require</code>语法，而浏览器并不认识<code>require</code>这个关键字。此时，可以用 <code>Browserify</code>编译打包 js，进行再次转换。</p>
+</li>
+</ul>
+<p>推荐学习链接：</p>
+<ul>
+<li><a href="http://es6.ruanyifeng.com/#docs/module">http://es6.ruanyifeng.com/#docs/module</a></li>
+</ul>
+<h3 id="基本语法">基本语法：<a hidden class="anchor" aria-hidden="true" href="#基本语法">#</a></h3>
+<p><strong>导出模块</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>	export
+</span></span></code></pre></div><p><strong>引入模块</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>	import xxx from &#39;路径&#39;
+</span></span></code></pre></div><h2 id="es6模块化的使用举例自定义模块">ES6模块化的使用举例（自定义模块）<a hidden class="anchor" aria-hidden="true" href="#es6模块化的使用举例自定义模块">#</a></h2>
+<h3 id="1初始化项目">1、初始化项目<a hidden class="anchor" aria-hidden="true" href="#1初始化项目">#</a></h3>
+<p>（1）在工程文件中新建如下目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>js
+</span></span><span style="display:flex;"><span>    | src
+</span></span><span style="display:flex;"><span>    	| module1.js
+</span></span><span style="display:flex;"><span>    	| module2.js
+</span></span><span style="display:flex;"><span>    	| module3.js
+</span></span><span style="display:flex;"><span>    	| main.js
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>index.html
+</span></span></code></pre></div><p>（2）在工程的根目录下，新建文件<code>package.json</code>，内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#9d0006">&#34;name&#34;</span>: <span style="color:#79740e">&#34;es6-babel-browserify&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#9d0006">&#34;version&#34;</span>: <span style="color:#79740e">&#34;1.0.0&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="2环境配置安装babel-和-browserify等">2、环境配置：安装babel 和 browserify等<a hidden class="anchor" aria-hidden="true" href="#2环境配置安装babel-和-browserify等">#</a></h3>
+<p>（1）安装babel 和 browserify：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>	npm install babel-cli -g
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	npm install babel-preset-es2015 --save-dev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	npm install browserify -g
+</span></span></code></pre></div><p>安装 babel 的详细解释，可以参考本人的另外一篇文章：<a href="https://github.com/smyhvae/Web/blob/master/10-ES6/03-ES6%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE.md">ES6的介绍和环境配置</a></p>
+<p>（2）新建.babelrc：</p>
+<p>在根目录下新建文件<code>.babelrc</code>，输入如下内容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    &#34;presets&#34;:[
+</span></span><span style="display:flex;"><span>        &#34;es2015&#34;
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    &#34;plugins&#34;:[]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="3编写代码">3、编写代码<a hidden class="anchor" aria-hidden="true" href="#3编写代码">#</a></h3>
+<p>（1）module1.js：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//暴露模块：采用分别暴露的方式
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">export</span> <span style="color:#af3a03">function</span> foo1() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#79740e">&#39;我是 module1 中的 foo1&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">export</span> <span style="color:#af3a03">function</span> foo2() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#79740e">&#39;我是 module2 中的 foo2&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">export</span> <span style="color:#af3a03">let</span> arr <span style="color:#af3a03">=</span> [<span style="color:#8f3f71">1</span>, <span style="color:#8f3f71">2</span>, <span style="color:#8f3f71">3</span>, <span style="color:#8f3f71">4</span>, <span style="color:#8f3f71">5</span>];
+</span></span></code></pre></div><p>（2）module2.js：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//暴露模块：采用统一暴露的方式
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">function</span> fn1() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#79740e">&#39;我是 module2 中的 fn1&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">function</span> fn2() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#79740e">&#39;我是 module2 中的 fn2&#39;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//统一暴露
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">export</span> { fn1, fn2 };
+</span></span></code></pre></div><p>（3）module3.js：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//暴露模块：采用默认暴露的方式。
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//语法格式：export default value;
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">export</span> <span style="color:#af3a03">default</span> () =&gt; {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#79740e">&#39;我是 module3 中 default 方式暴露的函数&#39;</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>这里，我们采取了一种新的暴露方式（默认暴露），在暴露时，加上了<code>default</code>这个关键字。代码里暴露了一个箭头函数，稍后，我们注意在main.js里是怎么引入module3.js的。</p>
+<p>注意，我们只能写一次 default，也就是说，只能进行一次默认暴露。</p>
+<p>（4）module4.js：（default方式暴露多个属性）</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//暴露模块：采用默认暴露的方式。
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//默认暴露的方式可以暴露任意数据类型，暴露的是什么数据，接收到的就是什么数据
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//语法格式：export default value;
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">export</span> <span style="color:#af3a03">default</span> {
+</span></span><span style="display:flex;"><span>    name<span style="color:#af3a03">:</span> <span style="color:#79740e">&#39;我是 module4 中 default 方式暴露的属性 name&#39;</span>,
+</span></span><span style="display:flex;"><span>    foo() {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#79740e">&#39;我是 module4 中 default 方式暴露的函数 foo&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里，我们依旧采取了默认暴露的方式，只能写一次 default。代码里暴露了一个对象（对象里存放了一个属性、一个方法）。稍后，我们注意在main.js里是怎么引入module4.js的。</p>
+<p>如果我想暴露多个属性、多个对象怎呢？很简单，把你想要暴露的所有内容，都放在default里，包成一个对象。你看module4.js就是如此， 同时暴露了多个属性&amp;方法。</p>
+<p>（5）main.js：</p>
+<p>这个是主模块。现在，我们来看一下，它如何引入上面的四个模块。</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//主模块。引入其他的模块
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#af3a03">import</span> { foo1, foo2 } from <span style="color:#79740e">&#39;./module1&#39;</span>; <span style="color:#928374;font-style:italic">//采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module1 中的对象名一致。
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">import</span> { fn1, fn2 } from <span style="color:#79740e">&#39;./module2&#39;</span>;   <span style="color:#928374;font-style:italic">//采用解构赋值的形式进行导入。注意，括号里的对象名，要和 module2 中的对象名一致。
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">import</span> myModule3 from <span style="color:#79740e">&#39;./module3&#39;</span>;   <span style="color:#928374;font-style:italic">//module3 模块是采用 default 方式进行暴露的，myModule3 这个名字是我随便起的
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span><span style="color:#af3a03">import</span> myModule4 from <span style="color:#79740e">&#39;./module4&#39;</span>;   <span style="color:#928374;font-style:italic">//module4 模块是采用 default 方式进行暴露的，myModule4 这个名字是我随便起的
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//调用module1、module2中的内容
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>foo1();
+</span></span><span style="display:flex;"><span>foo2();
+</span></span><span style="display:flex;"><span>fn1();
+</span></span><span style="display:flex;"><span>fn2();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//调用module3中的内容
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>myModule3();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">//调用module4中的内容
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>console.log(myModule4.name);  <span style="color:#928374;font-style:italic">//module4中的属性
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>myModule4.foo();              <span style="color:#928374;font-style:italic">//module4中的方法
+</span></span></span></code></pre></div><p>我们可以看出：（具体请看注释，非常重要）</p>
+<ul>
+<li>
+<p>module1和module2是采用<strong>常规暴露</strong>的形式，在引入它们时，模块名要一致。而且，要求用<strong>对象解构赋值</strong>的形式，而不是用 <code>import myModule from ...</code>这种形式（否则会报错 undefined）。</p>
+</li>
+<li>
+<p>module2和module3是采用<strong>默认暴露</strong>的形式，在引入它们时，模块名随便起。</p>
+</li>
+</ul>
+<p>（6）index.html：</p>
+<p>在这里引入main.js即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#427b58">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#9d0006">html</span> <span style="color:#79740e;font-weight:bold">lang</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#9d0006">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">meta</span> <span style="color:#79740e;font-weight:bold">charset</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">meta</span> <span style="color:#79740e;font-weight:bold">name</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;viewport&#34;</span> <span style="color:#79740e;font-weight:bold">content</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">meta</span> <span style="color:#79740e;font-weight:bold">http-equiv</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;X-UA-Compatible&#34;</span> <span style="color:#79740e;font-weight:bold">content</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;ie=edge&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">title</span>&gt;Document&lt;/<span style="color:#9d0006">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#9d0006">head</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#9d0006">body</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">script</span> <span style="color:#79740e;font-weight:bold">src</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;dist/main.js&#34;</span>&gt;&lt;/<span style="color:#9d0006">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#9d0006">body</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#9d0006">html</span>&gt;
+</span></span></code></pre></div><h3 id="4编译转换">4、编译转换<a hidden class="anchor" aria-hidden="true" href="#4编译转换">#</a></h3>
+<p>如果我们不进行转换，而是直接在 index.html 中加载 js/src/main.js，是会报错的：</p>
+<p>接下来，我们就进行转换。</p>
+<p>（1）利用  babel 将 ES6 转换为 ES5：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>babel src -d build      //build目录会自动生成
+</span></span></code></pre></div><p>上方命令的意思是，将<code>src</code>目录下的所有ES6文件转化为ES5文件，并放在<code>build</code>目录下（<code>build</code>目录会被自动创建）。</p>
+<p>转化成ES5之后，我们发现，如果直接在 index.html 中加载<code>build</code>目录下的ES5文件，也是会报错的，因为浏览器不认识<code>main.js</code>里的<code>require</code>关键字：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180414_1410.png" alt=""  />
+</p>
+<p>于是，我们还要进行一次转换。</p>
+<p>（2）利用<code>Browserify</code>编译打包 <code>build</code>目录下的 ES5 文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>browserify build/main.js -o dist/main.js     //dist目录需要手动创建
+</span></span></code></pre></div><p>dist/main.js就是我们需要引入到 index.html 里的文件。</p>
+<p>以后，我们每次修改完ES6的代码，就要执行上面的两个命令，重新生成新的js文件。</p>
+<p>运行效果：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180414_1615.png" alt=""  />
+</p>
+<p>工程文件：</p>
+<ul>
+<li><a href="https://download.csdn.net/download/smyhvae/10348940">2018-04-13-ES6Demo.rar</a></li>
+</ul>
+<h2 id="es6模块化的使用举例引入第三方模块">ES6模块化的使用举例（引入第三方模块）<a hidden class="anchor" aria-hidden="true" href="#es6模块化的使用举例引入第三方模块">#</a></h2>
+<p>下载 jQuery 包：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>npm install jquery@1      //下载jQuery 1.X 的版本里最新的
+</span></span></code></pre></div><p>在main.js 中引入上面的 jQuery：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>import $ from &#39;jQuery&#39;;
+</span></span></code></pre></div><p>然后我们就可以通过<code>$</code>这个符号去写jQuery的代码了。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/node/">Node</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/tech/wait/10-node.js%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93/javascript%E6%A8%A1%E5%9D%97%E5%8C%96cmd/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>JavaScript模块化：CMD</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/interview/css/03-less%E8%AF%A6%E8%A7%A3/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Less详解</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>

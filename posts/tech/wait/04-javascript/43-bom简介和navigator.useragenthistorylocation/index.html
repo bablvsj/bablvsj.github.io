@@ -1,62 +1,622 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>43-BOM简介和navigator.userAgent&History&Location | Bablvsj's Blog</title><meta name=keywords content="JavaScript"><meta name=description content="43-BOM简介和navigator.userAgent&History&Location - Bablvsj's Blog"><meta name=author content><link rel=canonical href=https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/><link crossorigin=anonymous href=/assets/css/stylesheet.241265d51339977eb0f90d05780e286ec2789600ca4137f29552dec9dee06569.css integrity="sha256-JBJl1RM5l36w+Q0FeA4obsJ4lgDKQTfylVLeyd7gZWk=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=16x16 href=https://bablvsj.github.io/img/Q.gif><link rel=icon type=image/png sizes=32x32 href=https://bablvsj.github.io/img/Q.gif><link rel=apple-touch-icon href=https://bablvsj.github.io/Q.gif><link rel=mask-icon href=https://bablvsj.github.io/Q.gif><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=stylesheet href=/css/syntax.css><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:title" content="43-BOM简介和navigator.userAgent&History&Location"><meta property="og:description" content><meta property="og:type" content="article"><meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-01T17:11:35+08:00"><meta property="article:modified_time" content="2020-01-01T17:11:35+08:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="43-BOM简介和navigator.userAgent&History&Location"><meta name=twitter:description content><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"文章","item":"https://bablvsj.github.io/posts/"},{"@type":"ListItem","position":3,"name":"43-BOM简介和navigator.userAgent\u0026History\u0026Location","item":"https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"43-BOM简介和navigator.userAgent\u0026History\u0026Location","name":"43-BOM简介和navigator.userAgent\u0026History\u0026Location","description":"","keywords":["JavaScript"],"articleBody":"常见概念 JavaScript的组成 JavaScript基础分为三个部分：\nECMAScript：JavaScript的语法标准。包括变量、表达式、运算符、函数、if语句、for语句等。\nDOM：文档对象模型（Document object Model），操作网页上的元素的API。比如让盒子移动、变色、轮播图等。\nBOM：浏览器对象模型（Browser Object Model），操作浏览器部分功能的API。比如让浏览器自动滚动。\n常见的 BOM 对象 BOM可以让我们通过JS来操作浏览器。BOM中为我们提供了一些对象，来完成对浏览器相关的操作。\n常见的 BOM对象有：\nWindow：代表整个浏览器的窗口，同时 window 也是网页中的全局对象。\nNavigator：代表当前浏览器的信息，通过该对象可以识别不同的浏览器。\nLocation：代表当前浏览器的地址栏信息，通过 Location 可以获取地址栏信息，或者操作浏览器跳转页面。\nHistory：代表浏览器的历史记录，通过该对象可以操作浏览器的历史记录。由于隐私原因，该对象不能获取到具体的历史记录，只能操作浏览器向前或向后翻页，而且该操作只在当次访问时有效。\nScreen：代表用户的屏幕信息，通过该对象可以获取用户的显示器的相关信息。\n备注：这些 BOM 对象都是作为 window 对象的属性保存的，可以通过window对象来使用，也可以直接使用。比如说，我可以使用 window.location.href，也可以直接使用 location.href，二者是等价的。\n备注2：不要忘了，之前学习过的document也是在window中保存的。\n这篇文章，我们先来讲一下 几个常见的 BOM 对象。\nNavigator 和 navigator.userAgent Navigator代表当前浏览器的信息，通过该对象可以识别不同的浏览器。\n由于历史原因，Navigator对象中的大部分属性都已经不能帮助我们识别浏览器了。\n一般我们只会使用navigator.userAgent来获取浏览器的信息。\nuserAgent 的值是一个字符串，简称 UA，这个字符串中包含了用来描述浏览器信息的内容，不同的浏览器会有不同的userAgent。\n代码举例：（获取当前浏览器的UA）\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /\u003e \u003ctitle\u003eDocument\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cscript\u003e var ua = navigator.userAgent; // 获取当前浏览器的 userAgent console.log('qianguyihao 当前浏览器的UA是：' + ua); if (/firefox/i.test(ua)) { alert('是火狐浏览器'); } else if (/chrome/i.test(ua)) { alert('是Chrome浏览器'); } else if (/msie/i.test(ua)) { alert('是IE浏览器'); } else if ('ActiveXObject' in window) { alert('是 IE11 浏览器'); } \u003c/script\u003e \u003c/body\u003e \u003c/html\u003e 在电脑上模拟移动端浏览器 不同浏览器（包括微信内置的浏览器）的 userAgent 信息，是不一样的，我们可以根据 navigator.userAgent属性来获取。\n比如说，我们在电脑浏览器上，按F12，然后在控制台输入navigator.userAgent，如下：\n上图显示，MacOS上的Chrome浏览器的 userAgent 是：\n\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36\" 我们还可以在电脑浏览器的控制台里可以添加很多设备，通过这种方式，可以模拟移动端浏览器的场景，非常有用，请务必掌握。操作如下：\n（1）需要点击 edit，手动添加：\n（2）添加时，根据 User agent 来识别不同的浏览器：\n不同浏览器的 userAgent iOS 版微信浏览器：\nMozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E233 MicroMessenger/6.3.15 NetType/WIFI Language/zh_CN Android 版微信浏览器：\nMozilla/5.0 (Linux; Android 5.0.1; GT-I9502 Build/LRX22C; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.121 Mobile Safari/537.36 MicroMessenger/6.1.0.78_r1129455.543 NetType/WIFI iOS 版本QQ浏览器：\nMozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 QQ/7.3.5.473 V1_IPH_SQ_7.3.5_1_APP_A Pixel/1125 Core/UIWebView Device/Apple(iPhone X) NetType/WIFI QBWebViewType/1 Android 版 QQ浏览器：\nMozilla/5.0 (Linux; Android 4.4.2; PE-TL20 Build/HuaweiPE-TL20; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 V1_AND_SQ_7.3.2_762_YYB_D QQ/7.3.2.3350 NetType/WIFI WebP/0.3.0 Pixel/1080 参考链接：\n微信、QQ在Android和iOS的UserAgent\n判断微信内置浏览器的UserAgent\n微信内置浏览器UserAgent的判断\nHistory 对象 History对象：可以用来操作浏览器的向前或向后翻页。\nHistory对象的属性 history.length 解释：获取浏览器历史列表中的 url 数量。注意，只是统计当次的数量，如果浏览器关了，数量会重置为1。\nHistory对象的方法 方法1：\nhistory.back(); 解释：用来回退到上一个页面，作用和浏览器的「回退按钮」一样。\n方法2：\nhistory.forward(); 解释：用来跳转下一个页面，作用和浏览器的「前进按钮」一样。\n方法3：\nhistory.go( int n); // 需要整数作为参数 // 代码举例： history.go( 1 ); // 向前跳转一个页面，相当于 history.forward() history.go( 2 ); // 表示向前跳转两个页面 history.go( 0 ); // 刷新当前页面 history.go( -1 ); // 向后跳转一个页面，相当于 history.back() history.go( -2 ); // 向后跳转两个页面 解释：向前/向后跳转 n 个页面。\n备注：浏览器的前进按钮、后退按钮，在这个位置：\nLocation 对象 Location 对象：封装了浏览器地址栏的 URL 信息。\n下面介绍一些常见的属性和方法。\nLocation 对象的属性 属性1：\nlocation.href location.href = 'https://xxx'; 解释：获取当前页面的 url 路径（或者设置 url 路径）。\n代码举例1：\nconsole.log(location.href); // 获取当前页面的url 路径 代码举例2：\nlocation.href = 'www.baidu.com'; // 跳转到指定的页面链接。通俗理解就是：跳转到其他的页面 从上方的举例2中可以看出：如果直接将location.href属性修改为一个绝对路径（或相对路径），则页面会自动跳转到该路径，并生成相应的历史记录。\nLocation 对象的方法 方法1：\nlocation.assign(str); 解释：用来跳转到其他的页面，作用和直接修改location.href一样。\n方法2：\nlocation.reload(); 解释：用于重新加载当前页面，作用和刷新按钮一样。\n代码举例：\nlocation.reload(); // 重新加载当前页面。 location.reload(true); // 在方法的参数中传递一个true，则会强制清空缓存刷新页面。 方法3：\nlocation.replace(); 解释：使用一个新的页面替换当前页面，调用完毕也会跳转页面。但不会生成历史记录，不能使用「后退按钮」后退。\n","wordCount":"2168","inLanguage":"en","datePublished":"2020-01-01T17:11:35+08:00","dateModified":"2020-01-01T17:11:35+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/"},"publisher":{"@type":"Organization","name":"Bablvsj's Blog","logo":{"@type":"ImageObject","url":"https://bablvsj.github.io/img/Q.gif"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://bablvsj.github.io accesskey=h title="Bablvsj's Blog (Alt + H)">Bablvsj's Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://bablvsj.github.io/ title=主页><span>主页</span></a></li><li><a href=https://bablvsj.github.io/archives/ title=时间轴><span>时间轴</span></a></li><li><a href=https://bablvsj.github.io/tags title=标签><span>标签</span></a></li><li><a href=https://bablvsj.github.io/about title=关于><span>关于</span></a></li><li><a href=https://bablvsj.github.io/search title="🔍 (Alt + /)" accesskey=/><span>🔍</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>43-BOM简介和navigator.userAgent&History&Location</h1><div class=post-meta><div class=post-tags-meta><a href=https://bablvsj.github.io/tags/javascript/>JavaScript</a></div>5 min&nbsp;·&nbsp;<span title='2020-01-01 17:11:35 +0800 +0800'>2020/01/01</span></div></header><aside id=toc-container class="toc-container wide"><div class=toc><div class=inner><ul><li><a href=#%e5%b8%b8%e8%a7%81%e6%a6%82%e5%bf%b5 aria-label=常见概念>常见概念</a><ul><li><a href=#javascript%e7%9a%84%e7%bb%84%e6%88%90 aria-label=JavaScript的组成>JavaScript的组成</a></li><li><a href=#%e5%b8%b8%e8%a7%81%e7%9a%84-bom-%e5%af%b9%e8%b1%a1 aria-label="常见的 BOM 对象">常见的 BOM 对象</a></li></ul></li><li><a href=#navigator-%e5%92%8c-navigatoruseragent aria-label="Navigator 和 navigator.userAgent">Navigator 和 <code>navigator.userAgent</code></a><ul><li><a href=#%e5%9c%a8%e7%94%b5%e8%84%91%e4%b8%8a%e6%a8%a1%e6%8b%9f%e7%a7%bb%e5%8a%a8%e7%ab%af%e6%b5%8f%e8%a7%88%e5%99%a8 aria-label=在电脑上模拟移动端浏览器>在电脑上模拟移动端浏览器</a></li><li><a href=#%e4%b8%8d%e5%90%8c%e6%b5%8f%e8%a7%88%e5%99%a8%e7%9a%84-useragent aria-label="不同浏览器的 userAgent">不同浏览器的 userAgent</a></li></ul></li><li><a href=#history-%e5%af%b9%e8%b1%a1 aria-label="History 对象">History 对象</a><ul><li><a href=#history%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7 aria-label=History对象的属性>History对象的属性</a></li><li><a href=#history%e5%af%b9%e8%b1%a1%e7%9a%84%e6%96%b9%e6%b3%95 aria-label=History对象的方法>History对象的方法</a></li></ul></li><li><a href=#location-%e5%af%b9%e8%b1%a1 aria-label="Location 对象">Location 对象</a><ul><li><a href=#location-%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7 aria-label="Location 对象的属性">Location 对象的属性</a></li><li><a href=#location-%e5%af%b9%e8%b1%a1%e7%9a%84%e6%96%b9%e6%b3%95 aria-label="Location 对象的方法">Location 对象的方法</a></li></ul></li></ul></div></div></aside><script>let activeElement,elements;window.addEventListener("DOMContentLoaded",function(){checkTocPosition(),elements=document.querySelectorAll("h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]"),activeElement=elements[0];const t=encodeURI(activeElement.getAttribute("id")).toLowerCase();document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active")},!1),window.addEventListener("resize",function(){checkTocPosition()},!1),window.addEventListener("scroll",()=>{activeElement=Array.from(elements).find(e=>{if(getOffsetTop(e)-window.pageYOffset>0&&getOffsetTop(e)-window.pageYOffset<window.innerHeight/2)return e})||activeElement,elements.forEach(e=>{const t=encodeURI(e.getAttribute("id")).toLowerCase();e===activeElement?document.querySelector(`.inner ul li a[href="#${t}"]`).classList.add("active"):document.querySelector(`.inner ul li a[href="#${t}"]`).classList.remove("active")})},!1);const main=parseInt(getComputedStyle(document.body).getPropertyValue("--article-width"),10),toc=parseInt(getComputedStyle(document.body).getPropertyValue("--toc-width"),10),gap=parseInt(getComputedStyle(document.body).getPropertyValue("--gap"),10);function checkTocPosition(){const e=document.body.scrollWidth;e-main-toc*2-gap*4>0?document.getElementById("toc-container").classList.add("wide"):document.getElementById("toc-container").classList.remove("wide")}function getOffsetTop(e){if(!e.getClientRects().length)return 0;let t=e.getBoundingClientRect(),n=e.ownerDocument.defaultView;return t.top+n.pageYOffset}</script><div class=post-content><h2 id=常见概念>常见概念<a hidden class=anchor aria-hidden=true href=#常见概念>#</a></h2><h3 id=javascript的组成>JavaScript的组成<a hidden class=anchor aria-hidden=true href=#javascript的组成>#</a></h3><p>JavaScript基础分为三个部分：</p><ul><li><p>ECMAScript：JavaScript的语法标准。包括变量、表达式、运算符、函数、if语句、for语句等。</p></li><li><p><strong>DOM</strong>：文档对象模型（Document object Model），操作<strong>网页上的元素</strong>的API。比如让盒子移动、变色、轮播图等。</p></li><li><p><strong>BOM</strong>：浏览器对象模型（Browser Object Model），操作<strong>浏览器部分功能</strong>的API。比如让浏览器自动滚动。</p></li></ul><h3 id=常见的-bom-对象>常见的 BOM 对象<a hidden class=anchor aria-hidden=true href=#常见的-bom-对象>#</a></h3><p>BOM可以让我们通过JS来操作浏览器。BOM中为我们提供了一些对象，来完成对浏览器相关的操作。</p><p>常见的 BOM对象有：</p><ul><li><p>Window：代表整个浏览器的窗口，同时 window 也是网页中的全局对象。</p></li><li><p>Navigator：代表当前浏览器的信息，通过该对象可以识别不同的浏览器。</p></li><li><p>Location：代表当前浏览器的地址栏信息，通过 Location 可以获取地址栏信息，或者操作浏览器跳转页面。</p></li><li><p>History：代表浏览器的历史记录，通过该对象可以操作浏览器的历史记录。由于隐私原因，该对象不能获取到具体的历史记录，只能操作浏览器向前或向后翻页，而且该操作只在当次访问时有效。</p></li><li><p>Screen：代表用户的屏幕信息，通过该对象可以获取用户的显示器的相关信息。</p></li></ul><p>备注：这些 BOM 对象都是作为 window 对象的属性保存的，可以通过window对象来使用，也可以直接使用。比如说，我可以使用 <code>window.location.href</code>，也可以直接使用 <code>location.href</code>，二者是等价的。</p><p>备注2：不要忘了，之前学习过的<code>document</code>也是在<code>window</code>中保存的。</p><p>这篇文章，我们先来讲一下 几个常见的 BOM 对象。</p><h2 id=navigator-和-navigatoruseragent>Navigator 和 <code>navigator.userAgent</code><a hidden class=anchor aria-hidden=true href=#navigator-和-navigatoruseragent>#</a></h2><p><code>Navigator</code>代表当前浏览器的信息，通过该对象可以识别不同的浏览器。</p><p>由于历史原因，Navigator对象中的大部分属性都已经不能帮助我们识别浏览器了。</p><p><strong>一般我们只会使用<code>navigator.userAgent</code>来获取浏览器的信息</strong>。</p><p>userAgent 的值是一个字符串，简称 <strong>UA</strong>，这个字符串中包含了用来描述浏览器信息的内容，不同的浏览器会有不同的userAgent。</p><p><strong>代码举例</strong>：（获取当前浏览器的UA）</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#427b58>&lt;!DOCTYPE html&gt;</span>
-</span></span><span style=display:flex><span>&lt;<span style=color:#9d0006>html</span> <span style=color:#79740e;font-weight:700>lang</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;en&#34;</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>head</span>&gt;
-</span></span><span style=display:flex><span>        &lt;<span style=color:#9d0006>meta</span> <span style=color:#79740e;font-weight:700>charset</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;UTF-8&#34;</span> /&gt;
-</span></span><span style=display:flex><span>        &lt;<span style=color:#9d0006>meta</span> <span style=color:#79740e;font-weight:700>name</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;viewport&#34;</span> <span style=color:#79740e;font-weight:700>content</span><span style=color:#af3a03>=</span><span style=color:#79740e>&#34;width=device-width, initial-scale=1.0&#34;</span> /&gt;
-</span></span><span style=display:flex><span>        &lt;<span style=color:#9d0006>title</span>&gt;Document&lt;/<span style=color:#9d0006>title</span>&gt;
-</span></span><span style=display:flex><span>    &lt;/<span style=color:#9d0006>head</span>&gt;
-</span></span><span style=display:flex><span>    &lt;<span style=color:#9d0006>body</span>&gt;
-</span></span><span style=display:flex><span>        &lt;<span style=color:#9d0006>script</span>&gt;
-</span></span><span style=display:flex><span>            <span style=color:#af3a03>var</span> ua <span style=color:#af3a03>=</span> navigator.userAgent; <span style=color:#928374;font-style:italic>// 获取当前浏览器的 userAgent
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span>            console.log(<span style=color:#79740e>&#39;qianguyihao 当前浏览器的UA是：&#39;</span> <span style=color:#af3a03>+</span> ua);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>            <span style=color:#af3a03>if</span> (<span style=color:#79740e>/firefox/i</span>.test(ua)) {
-</span></span><span style=display:flex><span>                alert(<span style=color:#79740e>&#39;是火狐浏览器&#39;</span>);
-</span></span><span style=display:flex><span>            } <span style=color:#af3a03>else</span> <span style=color:#af3a03>if</span> (<span style=color:#79740e>/chrome/i</span>.test(ua)) {
-</span></span><span style=display:flex><span>                alert(<span style=color:#79740e>&#39;是Chrome浏览器&#39;</span>);
-</span></span><span style=display:flex><span>            } <span style=color:#af3a03>else</span> <span style=color:#af3a03>if</span> (<span style=color:#79740e>/msie/i</span>.test(ua)) {
-</span></span><span style=display:flex><span>                alert(<span style=color:#79740e>&#39;是IE浏览器&#39;</span>);
-</span></span><span style=display:flex><span>            } <span style=color:#af3a03>else</span> <span style=color:#af3a03>if</span> (<span style=color:#79740e>&#39;ActiveXObject&#39;</span> <span style=color:#af3a03>in</span> <span style=color:#b57614>window</span>) {
-</span></span><span style=display:flex><span>                alert(<span style=color:#79740e>&#39;是 IE11 浏览器&#39;</span>);
-</span></span><span style=display:flex><span>            }
-</span></span><span style=display:flex><span>        &lt;/<span style=color:#9d0006>script</span>&gt;
-</span></span><span style=display:flex><span>    &lt;/<span style=color:#9d0006>body</span>&gt;
-</span></span><span style=display:flex><span>&lt;/<span style=color:#9d0006>html</span>&gt;
-</span></span></code></pre></div><h3 id=在电脑上模拟移动端浏览器>在电脑上模拟移动端浏览器<a hidden class=anchor aria-hidden=true href=#在电脑上模拟移动端浏览器>#</a></h3><p>不同浏览器（包括微信内置的浏览器）的 userAgent 信息，是不一样的，我们可以根据 <code>navigator.userAgent</code>属性来获取。</p><p>比如说，我们在电脑浏览器上，按F12，然后在控制台输入<code>navigator.userAgent</code>，如下：</p><p><img loading=lazy src=http://img.smyhvae.com/20180425_1656.png alt></p><p>上图显示，MacOS上的Chrome浏览器的 userAgent 是：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36&#34;
-</span></span></code></pre></div><p>我们还可以在电脑浏览器的控制台里可以添加很多设备，通过这种方式，可以模拟移动端浏览器的场景，非常有用，请务必掌握。操作如下：</p><p>（1）需要点击 edit，手动添加：</p><p><img loading=lazy src=http://img.smyhvae.com/20191127_1903.png alt></p><p>（2）添加时，根据 User agent 来识别不同的浏览器：</p><p><img loading=lazy src=http://img.smyhvae.com/20191127_1918.png alt></p><h3 id=不同浏览器的-useragent>不同浏览器的 userAgent<a hidden class=anchor aria-hidden=true href=#不同浏览器的-useragent>#</a></h3><p>iOS 版微信浏览器：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E233 MicroMessenger/6.3.15 NetType/WIFI Language/zh_CN
-</span></span></code></pre></div><p>Android 版微信浏览器：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Mozilla/5.0 (Linux; Android 5.0.1; GT-I9502 Build/LRX22C; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.121 Mobile Safari/537.36 MicroMessenger/6.1.0.78_r1129455.543 NetType/WIFI
-</span></span></code></pre></div><p>iOS 版本QQ浏览器：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 QQ/7.3.5.473 V1_IPH_SQ_7.3.5_1_APP_A Pixel/1125 Core/UIWebView Device/Apple(iPhone X) NetType/WIFI QBWebViewType/1
-</span></span></code></pre></div><p>Android 版 QQ浏览器：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>Mozilla/5.0 (Linux; Android 4.4.2; PE-TL20 Build/HuaweiPE-TL20; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 V1_AND_SQ_7.3.2_762_YYB_D QQ/7.3.2.3350 NetType/WIFI WebP/0.3.0 Pixel/1080
-</span></span></code></pre></div><p><strong>参考链接</strong>：</p><ul><li><p><a href=https://blog.csdn.net/taambernk520/article/details/80801574>微信、QQ在Android和iOS的UserAgent</a></p></li><li><p><a href=http://www.cnblogs.com/7z7chn/p/5370352.html>判断微信内置浏览器的UserAgent</a></p></li><li><p><a href=https://gist.github.com/wjp2013/fff34c063cf0cf227d65>微信内置浏览器UserAgent的判断</a></p></li></ul><h2 id=history-对象>History 对象<a hidden class=anchor aria-hidden=true href=#history-对象>#</a></h2><p>History对象：可以用来操作浏览器的向前或向后翻页。</p><h3 id=history对象的属性>History对象的属性<a hidden class=anchor aria-hidden=true href=#history对象的属性>#</a></h3><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>history.length
-</span></span></code></pre></div><p>解释：获取浏览器历史列表中的 url 数量。注意，只是统计当次的数量，如果浏览器关了，数量会重置为1。</p><h3 id=history对象的方法>History对象的方法<a hidden class=anchor aria-hidden=true href=#history对象的方法>#</a></h3><p><strong>方法1</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>history.back();
-</span></span></code></pre></div><p>解释：用来回退到上一个页面，作用和浏览器的「回退按钮」一样。</p><p><strong>方法2</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>history.forward();
-</span></span></code></pre></div><p>解释：用来跳转下一个页面，作用和浏览器的「前进按钮」一样。</p><p><strong>方法3</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>history.go( <span style=color:#af3a03>int</span> n);  <span style=color:#928374;font-style:italic>// 需要整数作为参数
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span><span style=color:#928374;font-style:italic>// 代码举例：
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>history.go( <span style=color:#8f3f71>1</span> ); <span style=color:#928374;font-style:italic>// 向前跳转一个页面，相当于 history.forward()
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span>history.go( <span style=color:#8f3f71>2</span> ); <span style=color:#928374;font-style:italic>// 表示向前跳转两个页面
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span>history.go( <span style=color:#8f3f71>0</span> ); <span style=color:#928374;font-style:italic>// 刷新当前页面
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span>history.go( <span style=color:#af3a03>-</span><span style=color:#8f3f71>1</span> ); <span style=color:#928374;font-style:italic>// 向后跳转一个页面，相当于 history.back()
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>
-</span></span><span style=display:flex><span>history.go( <span style=color:#af3a03>-</span><span style=color:#8f3f71>2</span> ); <span style=color:#928374;font-style:italic>// 向后跳转两个页面
-</span></span></span></code></pre></div><p>解释：向前/向后跳转 n 个页面。</p><p>备注：浏览器的前进按钮、后退按钮，在这个位置：</p><p><img loading=lazy src=http://img.smyhvae.com/20180201_2146.png alt></p><h2 id=location-对象>Location 对象<a hidden class=anchor aria-hidden=true href=#location-对象>#</a></h2><p>Location 对象：封装了浏览器地址栏的 URL 信息。</p><p>下面介绍一些常见的属性和方法。</p><h3 id=location-对象的属性>Location 对象的属性<a hidden class=anchor aria-hidden=true href=#location-对象的属性>#</a></h3><p><strong>属性1</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span>location.href
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>location.href = &#39;https://xxx&#39;;
-</span></span></code></pre></div><p>解释：获取当前页面的 url 路径（或者设置 url 路径）。</p><p>代码举例1：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>console.log(location.href); <span style=color:#928374;font-style:italic>// 获取当前页面的url 路径
-</span></span></span></code></pre></div><p>代码举例2：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>    location.href <span style=color:#af3a03>=</span> <span style=color:#79740e>&#39;www.baidu.com&#39;</span>; <span style=color:#928374;font-style:italic>// 跳转到指定的页面链接。通俗理解就是：跳转到其他的页面
-</span></span></span></code></pre></div><p>从上方的<strong>举例2</strong>中可以看出：如果直接将<code>location.href</code>属性修改为一个绝对路径（或相对路径），则页面会自动跳转到该路径，并生成相应的历史记录。</p><h3 id=location-对象的方法>Location 对象的方法<a hidden class=anchor aria-hidden=true href=#location-对象的方法>#</a></h3><p><strong>方法1</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>    location.assign(str);
-</span></span></code></pre></div><p>解释：用来跳转到其他的页面，作用和直接修改<code>location.href</code>一样。</p><p><strong>方法2</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>    location.reload();
-</span></span></code></pre></div><p>解释：用于重新加载当前页面，作用和刷新按钮一样。</p><p>代码举例：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>    location.reload(); <span style=color:#928374;font-style:italic>// 重新加载当前页面。
-</span></span></span><span style=display:flex><span><span style=color:#928374;font-style:italic></span>    location.reload(<span style=color:#af3a03>true</span>); <span style=color:#928374;font-style:italic>// 在方法的参数中传递一个true，则会强制清空缓存刷新页面。
-</span></span></span></code></pre></div><p><strong>方法3</strong>：</p><div class=highlight><pre tabindex=0 style=color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-javascript data-lang=javascript><span style=display:flex><span>
-</span></span><span style=display:flex><span>    location.replace();
-</span></span></code></pre></div><p>解释：使用一个新的页面替换当前页面，调用完毕也会跳转页面。但不会生成历史记录，不能使用「后退按钮」后退。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://bablvsj.github.io/tags/javascript/>JavaScript</a></li></ul><nav class=paginav><a class=prev href=https://bablvsj.github.io/posts/tech/wait/04-javascript/42-%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6/><span class=title>« Prev</span><br><span>42-键盘事件</span></a>
-<a class=next href=https://bablvsj.github.io/posts/tech/wait/04-javascript/44-%E5%AE%9A%E6%97%B6%E5%99%A8/><span class=title>Next »</span><br><span>44-定时器</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2023 <a href=https://bablvsj.github.io>Bablvsj's Blog</a></span>
-<span>Powered by
-<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span><div class=flex-c-d><a class=flex-d-c href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target=_blank><span>本站由</span><img width=60 src=/images/upyun.png>提供CDN加速/云存储服务</a></div></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>43-BOM简介和navigator.userAgent&amp;History&amp;Location | Bablvsj&#39;s Blog</title>
+<meta name="keywords" content="JavaScript">
+<meta name="description" content="43-BOM简介和navigator.userAgent&amp;History&amp;Location - Bablvsj&#39;s Blog">
+<meta name="author" content="">
+<link rel="canonical" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.5525cc669fcb4f094a55bfc3ebfc5a6e73445e090010c66ab49c2cad14735f57.css" integrity="sha256-VSXMZp/LTwlKVb/D6/xabnNEXgkAEMZqtJwsrRRzX1c=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="16x16" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="icon" type="image/png" sizes="32x32" href="https://bablvsj.github.io/img/Q.gif">
+<link rel="apple-touch-icon" href="https://bablvsj.github.io/Q.gif">
+<link rel="mask-icon" href="https://bablvsj.github.io/Q.gif">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="stylesheet" href="/css/syntax.css">
+
+
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="43-BOM简介和navigator.userAgent&amp;History&amp;Location" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-01-01T17:11:35+08:00" />
+<meta property="article:modified_time" content="2020-01-01T17:11:35+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="43-BOM简介和navigator.userAgent&amp;History&amp;Location"/>
+<meta name="twitter:description" content=""/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "文章",
+      "item": "https://bablvsj.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "43-BOM简介和navigator.userAgent\u0026History\u0026Location",
+      "item": "https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "43-BOM简介和navigator.userAgent\u0026History\u0026Location",
+  "name": "43-BOM简介和navigator.userAgent\u0026History\u0026Location",
+  "description": "",
+  "keywords": [
+    "JavaScript"
+  ],
+  "articleBody": "常见概念 JavaScript的组成 JavaScript基础分为三个部分：\nECMAScript：JavaScript的语法标准。包括变量、表达式、运算符、函数、if语句、for语句等。\nDOM：文档对象模型（Document object Model），操作网页上的元素的API。比如让盒子移动、变色、轮播图等。\nBOM：浏览器对象模型（Browser Object Model），操作浏览器部分功能的API。比如让浏览器自动滚动。\n常见的 BOM 对象 BOM可以让我们通过JS来操作浏览器。BOM中为我们提供了一些对象，来完成对浏览器相关的操作。\n常见的 BOM对象有：\nWindow：代表整个浏览器的窗口，同时 window 也是网页中的全局对象。\nNavigator：代表当前浏览器的信息，通过该对象可以识别不同的浏览器。\nLocation：代表当前浏览器的地址栏信息，通过 Location 可以获取地址栏信息，或者操作浏览器跳转页面。\nHistory：代表浏览器的历史记录，通过该对象可以操作浏览器的历史记录。由于隐私原因，该对象不能获取到具体的历史记录，只能操作浏览器向前或向后翻页，而且该操作只在当次访问时有效。\nScreen：代表用户的屏幕信息，通过该对象可以获取用户的显示器的相关信息。\n备注：这些 BOM 对象都是作为 window 对象的属性保存的，可以通过window对象来使用，也可以直接使用。比如说，我可以使用 window.location.href，也可以直接使用 location.href，二者是等价的。\n备注2：不要忘了，之前学习过的document也是在window中保存的。\n这篇文章，我们先来讲一下 几个常见的 BOM 对象。\nNavigator 和 navigator.userAgent Navigator代表当前浏览器的信息，通过该对象可以识别不同的浏览器。\n由于历史原因，Navigator对象中的大部分属性都已经不能帮助我们识别浏览器了。\n一般我们只会使用navigator.userAgent来获取浏览器的信息。\nuserAgent 的值是一个字符串，简称 UA，这个字符串中包含了用来描述浏览器信息的内容，不同的浏览器会有不同的userAgent。\n代码举例：（获取当前浏览器的UA）\n\u003c!DOCTYPE html\u003e \u003chtml lang=\"en\"\u003e \u003chead\u003e \u003cmeta charset=\"UTF-8\" /\u003e \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /\u003e \u003ctitle\u003eDocument\u003c/title\u003e \u003c/head\u003e \u003cbody\u003e \u003cscript\u003e var ua = navigator.userAgent; // 获取当前浏览器的 userAgent console.log('qianguyihao 当前浏览器的UA是：' + ua); if (/firefox/i.test(ua)) { alert('是火狐浏览器'); } else if (/chrome/i.test(ua)) { alert('是Chrome浏览器'); } else if (/msie/i.test(ua)) { alert('是IE浏览器'); } else if ('ActiveXObject' in window) { alert('是 IE11 浏览器'); } \u003c/script\u003e \u003c/body\u003e \u003c/html\u003e 在电脑上模拟移动端浏览器 不同浏览器（包括微信内置的浏览器）的 userAgent 信息，是不一样的，我们可以根据 navigator.userAgent属性来获取。\n比如说，我们在电脑浏览器上，按F12，然后在控制台输入navigator.userAgent，如下：\n上图显示，MacOS上的Chrome浏览器的 userAgent 是：\n\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36\" 我们还可以在电脑浏览器的控制台里可以添加很多设备，通过这种方式，可以模拟移动端浏览器的场景，非常有用，请务必掌握。操作如下：\n（1）需要点击 edit，手动添加：\n（2）添加时，根据 User agent 来识别不同的浏览器：\n不同浏览器的 userAgent iOS 版微信浏览器：\nMozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E233 MicroMessenger/6.3.15 NetType/WIFI Language/zh_CN Android 版微信浏览器：\nMozilla/5.0 (Linux; Android 5.0.1; GT-I9502 Build/LRX22C; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.121 Mobile Safari/537.36 MicroMessenger/6.1.0.78_r1129455.543 NetType/WIFI iOS 版本QQ浏览器：\nMozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 QQ/7.3.5.473 V1_IPH_SQ_7.3.5_1_APP_A Pixel/1125 Core/UIWebView Device/Apple(iPhone X) NetType/WIFI QBWebViewType/1 Android 版 QQ浏览器：\nMozilla/5.0 (Linux; Android 4.4.2; PE-TL20 Build/HuaweiPE-TL20; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 V1_AND_SQ_7.3.2_762_YYB_D QQ/7.3.2.3350 NetType/WIFI WebP/0.3.0 Pixel/1080 参考链接：\n微信、QQ在Android和iOS的UserAgent\n判断微信内置浏览器的UserAgent\n微信内置浏览器UserAgent的判断\nHistory 对象 History对象：可以用来操作浏览器的向前或向后翻页。\nHistory对象的属性 history.length 解释：获取浏览器历史列表中的 url 数量。注意，只是统计当次的数量，如果浏览器关了，数量会重置为1。\nHistory对象的方法 方法1：\nhistory.back(); 解释：用来回退到上一个页面，作用和浏览器的「回退按钮」一样。\n方法2：\nhistory.forward(); 解释：用来跳转下一个页面，作用和浏览器的「前进按钮」一样。\n方法3：\nhistory.go( int n); // 需要整数作为参数 // 代码举例： history.go( 1 ); // 向前跳转一个页面，相当于 history.forward() history.go( 2 ); // 表示向前跳转两个页面 history.go( 0 ); // 刷新当前页面 history.go( -1 ); // 向后跳转一个页面，相当于 history.back() history.go( -2 ); // 向后跳转两个页面 解释：向前/向后跳转 n 个页面。\n备注：浏览器的前进按钮、后退按钮，在这个位置：\nLocation 对象 Location 对象：封装了浏览器地址栏的 URL 信息。\n下面介绍一些常见的属性和方法。\nLocation 对象的属性 属性1：\nlocation.href location.href = 'https://xxx'; 解释：获取当前页面的 url 路径（或者设置 url 路径）。\n代码举例1：\nconsole.log(location.href); // 获取当前页面的url 路径 代码举例2：\nlocation.href = 'www.baidu.com'; // 跳转到指定的页面链接。通俗理解就是：跳转到其他的页面 从上方的举例2中可以看出：如果直接将location.href属性修改为一个绝对路径（或相对路径），则页面会自动跳转到该路径，并生成相应的历史记录。\nLocation 对象的方法 方法1：\nlocation.assign(str); 解释：用来跳转到其他的页面，作用和直接修改location.href一样。\n方法2：\nlocation.reload(); 解释：用于重新加载当前页面，作用和刷新按钮一样。\n代码举例：\nlocation.reload(); // 重新加载当前页面。 location.reload(true); // 在方法的参数中传递一个true，则会强制清空缓存刷新页面。 方法3：\nlocation.replace(); 解释：使用一个新的页面替换当前页面，调用完毕也会跳转页面。但不会生成历史记录，不能使用「后退按钮」后退。\n",
+  "wordCount" : "2168",
+  "inLanguage": "en",
+  "datePublished": "2020-01-01T17:11:35+08:00",
+  "dateModified": "2020-01-01T17:11:35+08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://bablvsj.github.io/posts/tech/wait/04-javascript/43-bom%E7%AE%80%E4%BB%8B%E5%92%8Cnavigator.useragenthistorylocation/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Bablvsj's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://bablvsj.github.io/img/Q.gif"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://bablvsj.github.io" accesskey="h" title="Bablvsj&#39;s Blog (Alt + H)">Bablvsj&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://bablvsj.github.io/" title="主页">
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/archives/" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/tags" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/about" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://bablvsj.github.io/search" title="🔍 (Alt &#43; /)" accesskey=/>
+                    <span>🔍</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      43-BOM简介和navigator.userAgent&amp;History&amp;Location
+    </h1>
+    <div class="post-meta">
+      
+<div class="post-tags-meta">
+    <a href="https://bablvsj.github.io/tags/javascript/">JavaScript</a>
+</div>
+
+5 min&nbsp;·&nbsp;<span title='2020-01-01 17:11:35 +0800 CST'>2020/01/01</span>
+
+
+      
+    </div>
+    
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%b8%b8%e8%a7%81%e6%a6%82%e5%bf%b5" aria-label="常见概念">常见概念</a><ul>
+                        
+                <li>
+                    <a href="#javascript%e7%9a%84%e7%bb%84%e6%88%90" aria-label="JavaScript的组成">JavaScript的组成</a></li>
+                <li>
+                    <a href="#%e5%b8%b8%e8%a7%81%e7%9a%84-bom-%e5%af%b9%e8%b1%a1" aria-label="常见的 BOM 对象">常见的 BOM 对象</a></li></ul>
+                </li>
+                <li>
+                    <a href="#navigator-%e5%92%8c-navigatoruseragent" aria-label="Navigator 和 navigator.userAgent">Navigator 和 <code>navigator.userAgent</code></a><ul>
+                        
+                <li>
+                    <a href="#%e5%9c%a8%e7%94%b5%e8%84%91%e4%b8%8a%e6%a8%a1%e6%8b%9f%e7%a7%bb%e5%8a%a8%e7%ab%af%e6%b5%8f%e8%a7%88%e5%99%a8" aria-label="在电脑上模拟移动端浏览器">在电脑上模拟移动端浏览器</a></li>
+                <li>
+                    <a href="#%e4%b8%8d%e5%90%8c%e6%b5%8f%e8%a7%88%e5%99%a8%e7%9a%84-useragent" aria-label="不同浏览器的 userAgent">不同浏览器的 userAgent</a></li></ul>
+                </li>
+                <li>
+                    <a href="#history-%e5%af%b9%e8%b1%a1" aria-label="History 对象">History 对象</a><ul>
+                        
+                <li>
+                    <a href="#history%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7" aria-label="History对象的属性">History对象的属性</a></li>
+                <li>
+                    <a href="#history%e5%af%b9%e8%b1%a1%e7%9a%84%e6%96%b9%e6%b3%95" aria-label="History对象的方法">History对象的方法</a></li></ul>
+                </li>
+                <li>
+                    <a href="#location-%e5%af%b9%e8%b1%a1" aria-label="Location 对象">Location 对象</a><ul>
+                        
+                <li>
+                    <a href="#location-%e5%af%b9%e8%b1%a1%e7%9a%84%e5%b1%9e%e6%80%a7" aria-label="Location 对象的属性">Location 对象的属性</a></li>
+                <li>
+                    <a href="#location-%e5%af%b9%e8%b1%a1%e7%9a%84%e6%96%b9%e6%b3%95" aria-label="Location 对象的方法">Location 对象的方法</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="常见概念">常见概念<a hidden class="anchor" aria-hidden="true" href="#常见概念">#</a></h2>
+<h3 id="javascript的组成">JavaScript的组成<a hidden class="anchor" aria-hidden="true" href="#javascript的组成">#</a></h3>
+<p>JavaScript基础分为三个部分：</p>
+<ul>
+<li>
+<p>ECMAScript：JavaScript的语法标准。包括变量、表达式、运算符、函数、if语句、for语句等。</p>
+</li>
+<li>
+<p><strong>DOM</strong>：文档对象模型（Document object Model），操作<strong>网页上的元素</strong>的API。比如让盒子移动、变色、轮播图等。</p>
+</li>
+<li>
+<p><strong>BOM</strong>：浏览器对象模型（Browser Object Model），操作<strong>浏览器部分功能</strong>的API。比如让浏览器自动滚动。</p>
+</li>
+</ul>
+<h3 id="常见的-bom-对象">常见的 BOM 对象<a hidden class="anchor" aria-hidden="true" href="#常见的-bom-对象">#</a></h3>
+<p>BOM可以让我们通过JS来操作浏览器。BOM中为我们提供了一些对象，来完成对浏览器相关的操作。</p>
+<p>常见的 BOM对象有：</p>
+<ul>
+<li>
+<p>Window：代表整个浏览器的窗口，同时 window 也是网页中的全局对象。</p>
+</li>
+<li>
+<p>Navigator：代表当前浏览器的信息，通过该对象可以识别不同的浏览器。</p>
+</li>
+<li>
+<p>Location：代表当前浏览器的地址栏信息，通过 Location 可以获取地址栏信息，或者操作浏览器跳转页面。</p>
+</li>
+<li>
+<p>History：代表浏览器的历史记录，通过该对象可以操作浏览器的历史记录。由于隐私原因，该对象不能获取到具体的历史记录，只能操作浏览器向前或向后翻页，而且该操作只在当次访问时有效。</p>
+</li>
+<li>
+<p>Screen：代表用户的屏幕信息，通过该对象可以获取用户的显示器的相关信息。</p>
+</li>
+</ul>
+<p>备注：这些 BOM 对象都是作为 window 对象的属性保存的，可以通过window对象来使用，也可以直接使用。比如说，我可以使用 <code>window.location.href</code>，也可以直接使用 <code>location.href</code>，二者是等价的。</p>
+<p>备注2：不要忘了，之前学习过的<code>document</code>也是在<code>window</code>中保存的。</p>
+<p>这篇文章，我们先来讲一下 几个常见的 BOM 对象。</p>
+<h2 id="navigator-和-navigatoruseragent">Navigator 和 <code>navigator.userAgent</code><a hidden class="anchor" aria-hidden="true" href="#navigator-和-navigatoruseragent">#</a></h2>
+<p><code>Navigator</code>代表当前浏览器的信息，通过该对象可以识别不同的浏览器。</p>
+<p>由于历史原因，Navigator对象中的大部分属性都已经不能帮助我们识别浏览器了。</p>
+<p><strong>一般我们只会使用<code>navigator.userAgent</code>来获取浏览器的信息</strong>。</p>
+<p>userAgent 的值是一个字符串，简称 <strong>UA</strong>，这个字符串中包含了用来描述浏览器信息的内容，不同的浏览器会有不同的userAgent。</p>
+<p><strong>代码举例</strong>：（获取当前浏览器的UA）</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#427b58">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#9d0006">html</span> <span style="color:#79740e;font-weight:bold">lang</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">head</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#9d0006">meta</span> <span style="color:#79740e;font-weight:bold">charset</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;UTF-8&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#9d0006">meta</span> <span style="color:#79740e;font-weight:bold">name</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;viewport&#34;</span> <span style="color:#79740e;font-weight:bold">content</span><span style="color:#af3a03">=</span><span style="color:#79740e">&#34;width=device-width, initial-scale=1.0&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#9d0006">title</span>&gt;Document&lt;/<span style="color:#9d0006">title</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#9d0006">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#9d0006">body</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#9d0006">script</span>&gt;
+</span></span><span style="display:flex;"><span>            <span style="color:#af3a03">var</span> ua <span style="color:#af3a03">=</span> navigator.userAgent; <span style="color:#928374;font-style:italic">// 获取当前浏览器的 userAgent
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#79740e">&#39;qianguyihao 当前浏览器的UA是：&#39;</span> <span style="color:#af3a03">+</span> ua);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#af3a03">if</span> (<span style="color:#79740e">/firefox/i</span>.test(ua)) {
+</span></span><span style="display:flex;"><span>                alert(<span style="color:#79740e">&#39;是火狐浏览器&#39;</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#af3a03">else</span> <span style="color:#af3a03">if</span> (<span style="color:#79740e">/chrome/i</span>.test(ua)) {
+</span></span><span style="display:flex;"><span>                alert(<span style="color:#79740e">&#39;是Chrome浏览器&#39;</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#af3a03">else</span> <span style="color:#af3a03">if</span> (<span style="color:#79740e">/msie/i</span>.test(ua)) {
+</span></span><span style="display:flex;"><span>                alert(<span style="color:#79740e">&#39;是IE浏览器&#39;</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#af3a03">else</span> <span style="color:#af3a03">if</span> (<span style="color:#79740e">&#39;ActiveXObject&#39;</span> <span style="color:#af3a03">in</span> <span style="color:#b57614">window</span>) {
+</span></span><span style="display:flex;"><span>                alert(<span style="color:#79740e">&#39;是 IE11 浏览器&#39;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#9d0006">script</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#9d0006">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#9d0006">html</span>&gt;
+</span></span></code></pre></div><h3 id="在电脑上模拟移动端浏览器">在电脑上模拟移动端浏览器<a hidden class="anchor" aria-hidden="true" href="#在电脑上模拟移动端浏览器">#</a></h3>
+<p>不同浏览器（包括微信内置的浏览器）的 userAgent 信息，是不一样的，我们可以根据 <code>navigator.userAgent</code>属性来获取。</p>
+<p>比如说，我们在电脑浏览器上，按F12，然后在控制台输入<code>navigator.userAgent</code>，如下：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180425_1656.png" alt=""  />
+</p>
+<p>上图显示，MacOS上的Chrome浏览器的 userAgent 是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36&#34;
+</span></span></code></pre></div><p>我们还可以在电脑浏览器的控制台里可以添加很多设备，通过这种方式，可以模拟移动端浏览器的场景，非常有用，请务必掌握。操作如下：</p>
+<p>（1）需要点击 edit，手动添加：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20191127_1903.png" alt=""  />
+</p>
+<p>（2）添加时，根据 User agent 来识别不同的浏览器：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20191127_1918.png" alt=""  />
+</p>
+<h3 id="不同浏览器的-useragent">不同浏览器的 userAgent<a hidden class="anchor" aria-hidden="true" href="#不同浏览器的-useragent">#</a></h3>
+<p>iOS 版微信浏览器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Mozilla/5.0 (iPhone; CPU iPhone OS 9_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13E233 MicroMessenger/6.3.15 NetType/WIFI Language/zh_CN
+</span></span></code></pre></div><p>Android 版微信浏览器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Mozilla/5.0 (Linux; Android 5.0.1; GT-I9502 Build/LRX22C; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.121 Mobile Safari/537.36 MicroMessenger/6.1.0.78_r1129455.543 NetType/WIFI
+</span></span></code></pre></div><p>iOS 版本QQ浏览器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Mozilla/5.0 (iPhone; CPU iPhone OS 11_2_2 like Mac OS X) AppleWebKit/604.4.7 (KHTML, like Gecko) Mobile/15C202 QQ/7.3.5.473 V1_IPH_SQ_7.3.5_1_APP_A Pixel/1125 Core/UIWebView Device/Apple(iPhone X) NetType/WIFI QBWebViewType/1
+</span></span></code></pre></div><p>Android 版 QQ浏览器：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>Mozilla/5.0 (Linux; Android 4.4.2; PE-TL20 Build/HuaweiPE-TL20; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.132 MQQBrowser/6.2 TBS/043807 Mobile Safari/537.36 V1_AND_SQ_7.3.2_762_YYB_D QQ/7.3.2.3350 NetType/WIFI WebP/0.3.0 Pixel/1080
+</span></span></code></pre></div><p><strong>参考链接</strong>：</p>
+<ul>
+<li>
+<p><a href="https://blog.csdn.net/taambernk520/article/details/80801574">微信、QQ在Android和iOS的UserAgent</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/7z7chn/p/5370352.html">判断微信内置浏览器的UserAgent</a></p>
+</li>
+<li>
+<p><a href="https://gist.github.com/wjp2013/fff34c063cf0cf227d65">微信内置浏览器UserAgent的判断</a></p>
+</li>
+</ul>
+<h2 id="history-对象">History 对象<a hidden class="anchor" aria-hidden="true" href="#history-对象">#</a></h2>
+<p>History对象：可以用来操作浏览器的向前或向后翻页。</p>
+<h3 id="history对象的属性">History对象的属性<a hidden class="anchor" aria-hidden="true" href="#history对象的属性">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>history.length
+</span></span></code></pre></div><p>解释：获取浏览器历史列表中的 url 数量。注意，只是统计当次的数量，如果浏览器关了，数量会重置为1。</p>
+<h3 id="history对象的方法">History对象的方法<a hidden class="anchor" aria-hidden="true" href="#history对象的方法">#</a></h3>
+<p><strong>方法1</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>history.back();
+</span></span></code></pre></div><p>解释：用来回退到上一个页面，作用和浏览器的「回退按钮」一样。</p>
+<p><strong>方法2</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>history.forward();
+</span></span></code></pre></div><p>解释：用来跳转下一个页面，作用和浏览器的「前进按钮」一样。</p>
+<p><strong>方法3</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>history.go( <span style="color:#af3a03">int</span> n);  <span style="color:#928374;font-style:italic">// 需要整数作为参数
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic">// 代码举例：
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>history.go( <span style="color:#8f3f71">1</span> ); <span style="color:#928374;font-style:italic">// 向前跳转一个页面，相当于 history.forward()
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>history.go( <span style="color:#8f3f71">2</span> ); <span style="color:#928374;font-style:italic">// 表示向前跳转两个页面
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>history.go( <span style="color:#8f3f71">0</span> ); <span style="color:#928374;font-style:italic">// 刷新当前页面
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>history.go( <span style="color:#af3a03">-</span><span style="color:#8f3f71">1</span> ); <span style="color:#928374;font-style:italic">// 向后跳转一个页面，相当于 history.back()
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>history.go( <span style="color:#af3a03">-</span><span style="color:#8f3f71">2</span> ); <span style="color:#928374;font-style:italic">// 向后跳转两个页面
+</span></span></span></code></pre></div><p>解释：向前/向后跳转 n 个页面。</p>
+<p>备注：浏览器的前进按钮、后退按钮，在这个位置：</p>
+<p><img loading="lazy" src="http://img.smyhvae.com/20180201_2146.png" alt=""  />
+</p>
+<h2 id="location-对象">Location 对象<a hidden class="anchor" aria-hidden="true" href="#location-对象">#</a></h2>
+<p>Location 对象：封装了浏览器地址栏的 URL 信息。</p>
+<p>下面介绍一些常见的属性和方法。</p>
+<h3 id="location-对象的属性">Location 对象的属性<a hidden class="anchor" aria-hidden="true" href="#location-对象的属性">#</a></h3>
+<p><strong>属性1</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>location.href
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>location.href = &#39;https://xxx&#39;;
+</span></span></code></pre></div><p>解释：获取当前页面的 url 路径（或者设置 url 路径）。</p>
+<p>代码举例1：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(location.href); <span style="color:#928374;font-style:italic">// 获取当前页面的url 路径
+</span></span></span></code></pre></div><p>代码举例2：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>    location.href <span style="color:#af3a03">=</span> <span style="color:#79740e">&#39;www.baidu.com&#39;</span>; <span style="color:#928374;font-style:italic">// 跳转到指定的页面链接。通俗理解就是：跳转到其他的页面
+</span></span></span></code></pre></div><p>从上方的<strong>举例2</strong>中可以看出：如果直接将<code>location.href</code>属性修改为一个绝对路径（或相对路径），则页面会自动跳转到该路径，并生成相应的历史记录。</p>
+<h3 id="location-对象的方法">Location 对象的方法<a hidden class="anchor" aria-hidden="true" href="#location-对象的方法">#</a></h3>
+<p><strong>方法1</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>    location.assign(str);
+</span></span></code></pre></div><p>解释：用来跳转到其他的页面，作用和直接修改<code>location.href</code>一样。</p>
+<p><strong>方法2</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>    location.reload();
+</span></span></code></pre></div><p>解释：用于重新加载当前页面，作用和刷新按钮一样。</p>
+<p>代码举例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>    location.reload(); <span style="color:#928374;font-style:italic">// 重新加载当前页面。
+</span></span></span><span style="display:flex;"><span><span style="color:#928374;font-style:italic"></span>    location.reload(<span style="color:#af3a03">true</span>); <span style="color:#928374;font-style:italic">// 在方法的参数中传递一个true，则会强制清空缓存刷新页面。
+</span></span></span></code></pre></div><p><strong>方法3</strong>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#3c3836;background-color:#fbf1c7;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    location.replace();
+</span></span></code></pre></div><p>解释：使用一个新的页面替换当前页面，调用完毕也会跳转页面。但不会生成历史记录，不能使用「后退按钮」后退。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://bablvsj.github.io/tags/javascript/">JavaScript</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/42-%E9%94%AE%E7%9B%98%E4%BA%8B%E4%BB%B6/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>42-键盘事件</span>
+  </a>
+  <a class="next" href="https://bablvsj.github.io/posts/tech/wait/04-javascript/44-%E5%AE%9A%E6%97%B6%E5%99%A8/">
+    <span class="title">Next »</span>
+    <br>
+    <span>44-定时器</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://bablvsj.github.io">Bablvsj&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+    <div class="flex-c-d">
+        <a class="flex-d-c" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"
+            target="_blank"> <span>本站由</span><img width="60" src="/images/upyun.png">提供CDN加速/云存储服务</a>
+    </div>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script></body>
+
+</html>
