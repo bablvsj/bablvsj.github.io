@@ -16,5 +16,14 @@
       <description>SQL从入门到入门</description>
     </item>
     
+    <item>
+      <title>TypeScript</title>
+      <link>https://bablvsj.github.io/posts/work/tech/codelanguage/20230815-typescript/</link>
+      <pubDate>Fri, 11 Aug 2023 17:11:35 +0800</pubDate>
+      
+      <guid>https://bablvsj.github.io/posts/work/tech/codelanguage/20230815-typescript/</guid>
+      <description>快速学习Ts</description>
+    </item>
+    
   </channel>
 </rss>
